@@ -24,8 +24,6 @@ football_net_lineup$group <- rep(c("Data", "Null1", "Null2"), each = nrow(footba
 ggplot(data = football_net_lineup, aes(from_id = from, to_id = to)) + 
   geom_net(ealpha = .5, fiteach = TRUE, colour = 'black') + theme_net() + facet_wrap(~group, nrow=1)
 
-
-library(plyr)
 create_net_lineup <- function(net_data, to_id, m){
   N <- nrow(net_data)
   nullplots <- NULL
@@ -39,7 +37,6 @@ create_net_lineup <- function(net_data, to_id, m){
   return(list(lineup_data = lineup_data, data_plot = lineup_data$group[1]))
 }
 
-library(magrittr)
 footballm3 <- create_net_lineup(football_net, to_id = "to", m = 3)
 ggplot(data = footballm3$lineup_data, aes(from_id = from, to_id = to)) + 
   geom_net(ealpha = .5, fiteach = TRUE, colour = 'black') + theme_net() + facet_wrap(~group)
