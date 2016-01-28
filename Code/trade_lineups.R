@@ -1,6 +1,6 @@
 # Olga's data. 
 
-trade_net <- readRDS("trade_net.rds")
+trade_net <- readRDS("Data/trade_net.rds")
 
 library(geomnet)
 
