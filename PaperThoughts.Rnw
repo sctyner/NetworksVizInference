@@ -1,0 +1,46 @@
+\documentclass[a4paper]{report}
+\usepackage[margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,array}
+\usepackage{booktabs}
+
+%% load any required packages here
+
+\usepackage{adjustbox}            %% to align tops of minipages
+\usepackage[font=small,skip=5pt]{caption}
+\usepackage{subcaption}
+\usepackage{afterpage}
+
+\usepackage{color}
+\definecolor{purple}{rgb}{.4,0,.8}
+\newcommand{\hh}[1]{{\color{magenta} #1}}
+\newcommand{\st}[1]{{\color{purple} #1}}
+
+\begin{document}
+
+\LARGE{\bf Thoughts about Network Visual Inference Paper}
+
+\begin{enumerate}
+\item Need to complete lineups in 2-3 weeks
+\item Lineups: 
+  \begin{enumerate}
+  \item What sizes? 3, 6, 9, 12
+  \item What data? Football, olga's data, teenage friends data?
+  \item Other things to consider: coloring of nodes? 
+  \end{enumerate}
+\item Get simulated networds from models from RSiena
+\item Figure out another way to fit a model and then simulate from it? 
+\end{enumerate}
+
+Possible section outline for paper:
+\begin{enumerate}
+\item Introduction - visual inference, networks
+\item Data and Model fitting & simulation
+\item Lineup methods
+\item Results
+\item Conclusions and Discussion
+\end{enumerate}
+
+
+\end{document}
