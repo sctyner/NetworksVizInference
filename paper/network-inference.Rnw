@@ -65,12 +65,12 @@
 
 %% Paper title.
 
-\title{Variations of boxplots}
+\title{Visual inference for networks}
 
 %% This is how authors are specified in the journal style
 
 %% indicate IEEE Member or Student Member in form indicated below
-\author{Susan VanderPlas, Eric Hare, Heike Hofmann \textit{Member, IEEE}, and Marie Vendettuoli}
+\author{Samantha Tyner, Heike Hofmann \textit{Member, IEEE}}
 \authorfooter{
 %% insert punctuation at end of each item
 \item
@@ -83,15 +83,15 @@
 }
 
 %other entries to be set up for journal
-\shortauthortitle{VanderPlas \MakeLowercase{\textit{et al.}}: Boxplot variations}
+\shortauthortitle{Tyner \MakeLowercase{\textit{et al.}}: Visual inference for networks}
 %\shortauthortitle{Firstauthor \MakeLowercase{\textit{et al.}}: Paper Title}
 
 %% Abstract section.
-\abstract{Boxplots have been around for quite a while now. There are a ton of variations but are those improvements? We find out using the visual inference protocol.} % end of abstract
+\abstract{abstract is here} % end of abstract
 
 %% Keywords that describe your work. Will show as 'Index Terms' in journal
 %% please capitalize first letter and insert punctuation after last keyword
-\keywords{Human subject testing, visual inference, comparison of designs}
+\keywords{Human subject testing, visual inference, Siena models, network model diagnostics}
 
 %% ACM Computing Classification System (CCS). 
 %% See <http://www.acm.org/class/1998/> for details.
@@ -107,7 +107,7 @@
 %% Uncomment below to include a teaser figure.
   \teaser{
  \centering
- \includegraphics[width=16cm]{CypressView}
+ Teaser picture goes here
   \caption{In the Clouds: Vancouver from Cypress Mountain.}
   }
 
@@ -165,7 +165,7 @@ Notice the caption at the top of Table~\ref{vis_accept}.
 
 \subsection{Mezcal Head}
 
-Citing happens only with cite - like this~\cite{Lorensen:1987:MCA}. Footnotes are ok%
+Citing happens only with cite - like this~\cite{buja:2009}. Footnotes are ok%
 \footnote{Footnotes appear at the bottom of the column}.
 
 
@@ -181,5 +181,5 @@ a grant from XYZ.}
 \bibliographystyle{abbrv}
 %%use following if all content of bibtex file should be shown
 %\nocite{*}
-\bibliography{template}
+\bibliography{references}
 \end{document}
