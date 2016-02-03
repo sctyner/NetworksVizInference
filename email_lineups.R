@@ -1,11 +1,19 @@
 # email lineups
+# do some stratified scrambling.
+# sramble only WITHIN department. 
+# H_0: within a department, all emails are random
+# H_1: "", there is a strucutre. 
+
+
+
 
 library(geomnet)
 data("email")
 
 head(email$nodes)
 
-email_net <- merge(email$edges, email$nodes, by.x = "From", by.y = "label", all = T)
+email_net <- merge(subset(email$edges, nrecipients < 54), email$nodes, by.x = "From", by.y = "label", all = T)
+
 
 emailm3 <- create_net_lineup(email_net, to_id = "to", m =3)
 ggplot(data = emailm3$lineup_data, aes(from_id = From, to_id = to)) + 
@@ -32,3 +40,4 @@ create_net_lineup <- function(net_data, to_id, m){
   lineup_data$group <- rep(sample.int(m), each=N)
   return(list(lineup_data = lineup_data, data_plot = lineup_data$group[1]))
 }
+

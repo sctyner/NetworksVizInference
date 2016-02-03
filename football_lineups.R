@@ -7,6 +7,13 @@ head(football$edges)
 football_net <- merge(football$edges, football$vertices, by.x = "from", by.y = "label", all = T)
 head(football_net)
 
+# IS there a way to cluster the points in the shuffled graph using the x,y coordinates
+# of the points after they are on the graph
+
+# find random graph model with structure of clusters. 
+# params - number of clusters, between cluster connectedness, within cluster connectivity,
+# number of nodes, degree of connectectedness should be the same for every node
+
 #ggplot(data = football_net, aes(from_id = from, to_id = to)) + 
 #  geom_net() + theme_net()
 
