@@ -134,6 +134,27 @@
 
 %% \section{Introduction} %for journal use above \firstsection{..} instead
 
+\begin{enumerate}
+\item Need to complete lineups in 2-3 weeks
+\item Lineups: 
+  \begin{enumerate}
+  \item What sizes? 3, 6, 9, 12
+  \item What data? Football, olga's data, teenage friends data?
+  \item Other things to consider: coloring of nodes? 
+  \end{enumerate}
+\item Get simulated networds from models from RSiena
+\item Figure out another way to fit a model and then simulate from it? 
+\end{enumerate}
+
+Possible section outline for paper:
+\begin{enumerate}
+\item Introduction - visual inference, networks
+\item Data and Model fitting \& simulation
+\item Lineup methods
+\item Results
+\item Conclusions and Discussion
+\end{enumerate}
+
 
 
 \section{Exposition}
