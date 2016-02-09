@@ -1,0 +1,1109 @@
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 08/02/2016 14:09:15
+New results follow.
+-----------------------------------
+
+Siena version 1.1-232 (18 Jun 13)
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 782732.
+Effects object used: InitEff0 
+Model Type 1: Standard actor-oriented model
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Initial value of gain parameter is  0.2000000.
+Number of subphases in Phase 2 is 0.
+
+Initial parameter values are 
+  1. rate:  basic rate parameter X                         20.0000
+  2. eval:  outdegree (density)                            -1.9000
+  3. eval:  reciprocity                                     2.0000
+  4. eval:  transitive triplets                             0.3000
+  5. eval:  3-cycles                                       -0.3000
+  6. eval:  Va alter                                        0.0000
+  7. eval:  Va ego                                          0.0000
+  8. eval:  Va similarity                                   0.6000
+  9. eval:  Vb alter                                       -0.5000
+ 10. eval:  Vb ego                                          0.5000
+ 11. eval:  Vb similarity                                   0.5000
+
+
+Observed values of target statistics are
+  1. Amount of network change                                             2.0000
+  2. Number of ties                                                      65.0000
+  3. Number of reciprocated ties                                         12.0000
+  4. Number of transitive triplets                                       35.0000
+  5. 3-cycles                                                            12.0000
+  6. Sum of indegrees x Va                                                0.5000
+  7. Sum of outdegrees x Va                                               3.5000
+  8. Similarity on Va                                                     1.2105
+  9. Sum of indegrees x Vb                                               -6.0221
+ 10. Sum of outdegrees x Vb                                              12.8209
+ 11. Similarity on Vb                                                     0.2048
+
+ 11 parameters, 11 statistics
+
+Number of subphases is specified as 0.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 16 iterations.
+Parameter estimates based on 0 iterations,
+convergence diagnostics, covariance and derivative matrices based on 16 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  93.9375   8.5360  11.0049 
+  2.  -7.9375  11.0542  -0.7181 
+  3.  21.5000   9.5079   2.2613 
+  4.   6.0000  27.9118   0.2150 
+  5.  -2.0000   8.3347  -0.2400 
+  6.  -0.2812   4.2189  -0.0667 
+  7.  -2.1562   4.4110  -0.4888 
+  8.  15.9474   5.6176   2.8388 
+  9.  -0.9513   4.9014  -0.1941 
+ 10.  -4.5385   5.4102  -0.8389 
+ 11.   1.4443   2.3390   0.6175 
+
+Good convergence is indicated by the t-ratios being close to zero.
+(Since the diagnostic checks now are based only on 16 iterations,
+they are not reliable.)
+One or more of the t-statistics are rather large.
+Convergence of the algorithm is doubtful.
+Note that the standard deviations are based on few simulations.
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 16 iteration steps.
+
+@3
+Parameter values
+                
+ 1. rate:  basic rate parameter X                       20.0000           
+ 2. eval:  outdegree (density)                          -1.9000           
+ 3. eval:  reciprocity                                   2.0000           
+ 4. eval:  transitive triplets                           0.3000           
+ 5. eval:  3-cycles                                     -0.3000           
+ 6. eval:  Va alter                                      0.0000           
+ 7. eval:  Va ego                                        0.0000           
+ 8. eval:  Va similarity                                 0.6000           
+ 9. eval:  Vb alter                                     -0.5000           
+10. eval:  Vb ego                                        0.5000           
+11. eval:  Vb similarity                                 0.5000           
+
+Total computation time 0.33 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 08/02/2016 14:09:15
+New results follow.
+-----------------------------------
+
+Siena version 1.1-232 (18 Jun 13)
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 272071.
+Effects object used: InitEff 
+Model Type 1: Standard actor-oriented model
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Initial value of gain parameter is  0.2000000.
+Number of subphases in Phase 2 is 0.
+
+Initial parameter values are 
+  1. rate:  basic rate parameter X                          2.0000
+  2. eval:  outdegree (density)                            -1.9000
+  3. eval:  reciprocity                                     2.0000
+  4. eval:  transitive triplets                             0.3000
+  5. eval:  3-cycles                                       -0.3000
+  6. eval:  Va alter                                        0.0000
+  7. eval:  Va ego                                          0.0000
+  8. eval:  Va similarity                                   0.6000
+  9. eval:  Vb alter                                       -0.5000
+ 10. eval:  Vb ego                                          0.5000
+ 11. eval:  Vb similarity                                   0.5000
+
+
+Observed values of target statistics are
+  1. Amount of network change                                            89.0000
+  2. Number of ties                                                      65.0000
+  3. Number of reciprocated ties                                         12.0000
+  4. Number of transitive triplets                                       35.0000
+  5. 3-cycles                                                            12.0000
+  6. Sum of indegrees x Va                                               -0.5000
+  7. Sum of outdegrees x Va                                               4.5000
+  8. Similarity on Va                                                     1.2105
+  9. Sum of indegrees x Vb                                               -5.4951
+ 10. Sum of outdegrees x Vb                                              12.2939
+ 11. Similarity on Vb                                                     0.2048
+
+ 11 parameters, 11 statistics
+
+Number of subphases is specified as 0.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 16 iterations.
+Parameter estimates based on 0 iterations,
+convergence diagnostics, covariance and derivative matrices based on 16 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1. -63.2500   6.0828 -10.3982 
+  2. -11.3750   4.7170  -2.4115 
+  3.  17.0000   3.5024   4.8538 
+  4.  -7.6250  10.0789  -0.7565 
+  5.  -5.8125   2.9937  -1.9415 
+  6.   0.4375   2.6323   0.1662 
+  7.  -2.8125   2.1975  -1.2798 
+  8.  17.1382   2.2391   7.6541 
+  9.  -1.0027   3.6652  -0.2736 
+ 10.  -4.8021   3.9892  -1.2038 
+ 11.   3.4113   1.0164   3.3564 
+
+Good convergence is indicated by the t-ratios being close to zero.
+(Since the diagnostic checks now are based only on 16 iterations,
+they are not reliable.)
+One or more of the t-statistics are rather large.
+Convergence of the algorithm is doubtful.
+Note that the standard deviations are based on few simulations.
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 16 iteration steps.
+
+@3
+Parameter values
+                
+ 1. rate:  basic rate parameter X                        2.0000           
+ 2. eval:  outdegree (density)                          -1.9000           
+ 3. eval:  reciprocity                                   2.0000           
+ 4. eval:  transitive triplets                           0.3000           
+ 5. eval:  3-cycles                                     -0.3000           
+ 6. eval:  Va alter                                      0.0000           
+ 7. eval:  Va ego                                        0.0000           
+ 8. eval:  Va similarity                                 0.6000           
+ 9. eval:  Vb alter                                     -0.5000           
+10. eval:  Vb ego                                        0.5000           
+11. eval:  Vb similarity                                 0.5000           
+
+Total computation time 0.14 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 08/02/2016 14:09:15
+New results follow.
+-----------------------------------
+
+Siena version 1.1-232 (18 Jun 13)
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 230947.
+Effects object used: InitEff 
+Model Type 1: Standard actor-oriented model
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Initial value of gain parameter is  0.2000000.
+Number of subphases in Phase 2 is 0.
+
+Initial parameter values are 
+  1. rate:  basic rate parameter X                          2.0000
+  2. eval:  outdegree (density)                            -1.9000
+  3. eval:  reciprocity                                     2.0000
+  4. eval:  transitive triplets                             0.3000
+  5. eval:  3-cycles                                       -0.3000
+  6. eval:  Va alter                                        0.0000
+  7. eval:  Va ego                                          0.0000
+  8. eval:  Va similarity                                   0.6000
+  9. eval:  Vb alter                                       -0.5000
+ 10. eval:  Vb ego                                          0.5000
+ 11. eval:  Vb similarity                                   0.5000
+
+
+Observed values of target statistics are
+  1. Amount of network change                                            20.0000
+  2. Number of ties                                                      52.0000
+  3. Number of reciprocated ties                                         28.0000
+  4. Number of transitive triplets                                       16.0000
+  5. 3-cycles                                                             3.0000
+  6. Sum of indegrees x Va                                                1.0000
+  7. Sum of outdegrees x Va                                               2.0000
+  8. Similarity on Va                                                    18.3684
+  9. Sum of indegrees x Vb                                               -4.5217
+ 10. Sum of outdegrees x Vb                                               5.3585
+ 11. Similarity on Vb                                                     4.0697
+
+ 11 parameters, 11 statistics
+
+Number of subphases is specified as 0.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 16 iterations.
+Parameter estimates based on 0 iterations,
+convergence diagnostics, covariance and derivative matrices based on 16 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   8.0625   4.1708   1.9331 
+  2.   3.6875   4.6435   0.7941 
+  3.   3.8750   3.3838   1.1452 
+  4.  11.1250   9.5350   1.1668 
+  5.   3.3750   2.7049   1.2477 
+  6.  -1.7188   2.8750  -0.5978 
+  7.  -1.5938   3.0942  -0.5151 
+  8.   0.5658   2.6292   0.2152 
+  9.  -2.9293   3.5424  -0.8269 
+ 10.   2.4235   3.1515   0.7690 
+ 11.  -0.6826   1.3723  -0.4974 
+
+Good convergence is indicated by the t-ratios being close to zero.
+(Since the diagnostic checks now are based only on 16 iterations,
+they are not reliable.)
+One or more of the t-statistics are rather large.
+Convergence of the algorithm is doubtful.
+Note that the standard deviations are based on few simulations.
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 16 iteration steps.
+
+@3
+Parameter values
+                
+ 1. rate:  basic rate parameter X                        2.0000           
+ 2. eval:  outdegree (density)                          -1.9000           
+ 3. eval:  reciprocity                                   2.0000           
+ 4. eval:  transitive triplets                           0.3000           
+ 5. eval:  3-cycles                                     -0.3000           
+ 6. eval:  Va alter                                      0.0000           
+ 7. eval:  Va ego                                        0.0000           
+ 8. eval:  Va similarity                                 0.6000           
+ 9. eval:  Vb alter                                     -0.5000           
+10. eval:  Vb ego                                        0.5000           
+11. eval:  Vb similarity                                 0.5000           
+
+Total computation time 0.12 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 08/02/2016 14:09:16
+New results follow.
+-----------------------------------
+
+Siena version 1.1-232 (18 Jun 13)
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 883301.
+Effects object used: InitEff 
+Model Type 1: Standard actor-oriented model
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Initial value of gain parameter is  0.2000000.
+Number of subphases in Phase 2 is 0.
+
+Initial parameter values are 
+  1. rate:  basic rate parameter X                          2.0000
+  2. eval:  outdegree (density)                            -1.9000
+  3. eval:  reciprocity                                     2.0000
+  4. eval:  transitive triplets                             0.3000
+  5. eval:  3-cycles                                       -0.3000
+  6. eval:  Va alter                                        0.0000
+  7. eval:  Va ego                                          0.0000
+  8. eval:  Va similarity                                   0.6000
+  9. eval:  Vb alter                                       -0.5000
+ 10. eval:  Vb ego                                          0.5000
+ 11. eval:  Vb similarity                                   0.5000
+
+
+Observed values of target statistics are
+  1. Amount of network change                                            27.0000
+  2. Number of ties                                                      56.0000
+  3. Number of reciprocated ties                                         30.0000
+  4. Number of transitive triplets                                       22.0000
+  5. 3-cycles                                                             6.0000
+  6. Sum of indegrees x Va                                                1.0000
+  7. Sum of outdegrees x Va                                               1.0000
+  8. Similarity on Va                                                    19.4737
+  9. Sum of indegrees x Vb                                               -6.9142
+ 10. Sum of outdegrees x Vb                                               7.4384
+ 11. Similarity on Vb                                                     3.7678
+
+ 11 parameters, 11 statistics
+
+Number of subphases is specified as 0.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 16 iterations.
+Parameter estimates based on 0 iterations,
+convergence diagnostics, covariance and derivative matrices based on 16 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   0.0625   4.3584   0.0143 
+  2.  -1.5625   5.9885  -0.2609 
+  3.   1.2500   5.9273   0.2109 
+  4.   6.8750   8.3497   0.8234 
+  5.   0.9375   2.3514   0.3987 
+  6.  -1.5312   2.5656  -0.5968 
+  7.   1.3438   2.7852   0.4825 
+  8.  -0.9474   2.6371  -0.3592 
+  9.   2.8203   3.3870   0.8327 
+ 10.   3.6868   2.5494   1.4462 
+ 11.  -1.3041   1.6500  -0.7904 
+
+Good convergence is indicated by the t-ratios being close to zero.
+(Since the diagnostic checks now are based only on 16 iterations,
+they are not reliable.)
+One or more of the t-statistics are rather large.
+Convergence of the algorithm is doubtful.
+Note that the standard deviations are based on few simulations.
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 16 iteration steps.
+
+@3
+Parameter values
+                
+ 1. rate:  basic rate parameter X                        2.0000           
+ 2. eval:  outdegree (density)                          -1.9000           
+ 3. eval:  reciprocity                                   2.0000           
+ 4. eval:  transitive triplets                           0.3000           
+ 5. eval:  3-cycles                                     -0.3000           
+ 6. eval:  Va alter                                      0.0000           
+ 7. eval:  Va ego                                        0.0000           
+ 8. eval:  Va similarity                                 0.6000           
+ 9. eval:  Vb alter                                     -0.5000           
+10. eval:  Vb ego                                        0.5000           
+11. eval:  Vb similarity                                 0.5000           
+
+Total computation time 0.12 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 09/02/2016 11:45:06
+New results follow.
+-----------------------------------
+
+Siena version 1.1-232 (18 Jun 13)
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 526237.
+Effects object used: InitEff0 
+Model Type 1: Standard actor-oriented model
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Initial value of gain parameter is  0.2000000.
+Number of subphases in Phase 2 is 0.
+
+Initial parameter values are 
+  1. rate:  basic rate parameter X                         20.0000
+  2. eval:  outdegree (density)                            -1.9000
+  3. eval:  reciprocity                                     2.0000
+  4. eval:  transitive triplets                             0.3000
+  5. eval:  3-cycles                                       -0.3000
+  6. eval:  Va alter                                        0.0000
+  7. eval:  Va ego                                          0.0000
+  8. eval:  Va similarity                                   0.6000
+  9. eval:  Vb alter                                       -0.5000
+ 10. eval:  Vb ego                                          0.5000
+ 11. eval:  Vb similarity                                   0.5000
+ 12. rate:  rate Z period 1                                10.0000
+ 13. eval:  behavior Z linear shape                         0.1000
+ 14. eval:  behavior Z quadratic shape                     -0.3000
+ 15. eval:  behavior Z average alter                        0.5000
+
+
+Observed values of target statistics are
+  1. Amount of network change                                             2.0000
+  2. Number of ties                                                      59.0000
+  3. Number of reciprocated ties                                          8.0000
+  4. Number of transitive triplets                                       26.0000
+  5. 3-cycles                                                             5.0000
+  6. Sum of indegrees x Va                                               -0.5000
+  7. Sum of outdegrees x Va                                              -1.5000
+  8. Similarity on Va                                                     0.0526
+  9. Sum of indegrees x Vb                                                3.8437
+ 10. Sum of outdegrees x Vb                                               5.3181
+ 11. Similarity on Vb                                                     1.8770
+ 12. Amount of behavioral change                                         23.0000
+ 13. beh. Z cent. sum                                                    -2.5000
+ 14. beh. Z sum of cent. squares                                         13.2625
+ 15. beh. Z average alters                                               -1.9792
+
+ 15 parameters, 15 statistics
+
+Number of subphases is specified as 0.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 20 iterations.
+Parameter estimates based on 0 iterations,
+convergence diagnostics, covariance and derivative matrices based on 20 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  94.2500   9.0430  10.4224 
+  2.   0.6500  13.0959   0.0496 
+  3.  24.6000  10.2001   2.4117 
+  4.  24.7000  33.6782   0.7334 
+  5.   6.7500   9.6238   0.7014 
+  6.  -1.5250   4.7586  -0.3205 
+  7.   0.2750   3.9685   0.0693 
+  8.  17.3421   5.0648   3.4241 
+  9.  -9.6825   6.3623  -1.5219 
+ 10.  11.8884   5.1029   2.3298 
+ 11.  -1.0119   1.9924  -0.5079 
+ 12.  -2.8000   4.6066  -0.6078 
+ 13.   5.0000   6.8977   0.7249 
+ 14.   4.2500   4.1747   1.0180 
+ 15.   3.1150   3.5419   0.8795 
+
+Good convergence is indicated by the t-ratios being close to zero.
+(Since the diagnostic checks now are based only on 20 iterations,
+they are not reliable.)
+One or more of the t-statistics are rather large.
+Convergence of the algorithm is doubtful.
+Note that the standard deviations are based on few simulations.
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 20 iteration steps.
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter X                       20.0000           
+ 2. eval:  outdegree (density)                          -1.9000           
+ 3. eval:  reciprocity                                   2.0000           
+ 4. eval:  transitive triplets                           0.3000           
+ 5. eval:  3-cycles                                     -0.3000           
+ 6. eval:  Va alter                                      0.0000           
+ 7. eval:  Va ego                                        0.0000           
+ 8. eval:  Va similarity                                 0.6000           
+ 9. eval:  Vb alter                                     -0.5000           
+10. eval:  Vb ego                                        0.5000           
+11. eval:  Vb similarity                                 0.5000           
+Behavior Dynamics
+
+12. rate:  rate Z period 1                              10.0000           
+13. eval:  behavior Z linear shape                       0.1000           
+14. eval:  behavior Z quadratic shape                   -0.3000           
+15. eval:  behavior Z average alter                      0.5000           
+
+Total computation time 0.31 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 09/02/2016 11:45:51
+New results follow.
+-----------------------------------
+
+Siena version 1.1-232 (18 Jun 13)
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 770321.
+Effects object used: InitEff 
+Model Type 1: Standard actor-oriented model
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Initial value of gain parameter is  0.2000000.
+Number of subphases in Phase 2 is 0.
+
+Initial parameter values are 
+  1. rate:  basic rate parameter X                          2.0000
+  2. eval:  outdegree (density)                            -1.9000
+  3. eval:  reciprocity                                     2.0000
+  4. eval:  transitive triplets                             0.3000
+  5. eval:  3-cycles                                       -0.3000
+  6. eval:  Va alter                                        0.0000
+  7. eval:  Va ego                                          0.0000
+  8. eval:  Va similarity                                   0.6000
+  9. eval:  Vb alter                                       -0.5000
+ 10. eval:  Vb ego                                          0.5000
+ 11. eval:  Vb similarity                                   0.5000
+ 12. rate:  rate Z period 1                                 1.0000
+ 13. eval:  behavior Z linear shape                         0.1000
+ 14. eval:  behavior Z quadratic shape                     -0.3000
+ 15. eval:  behavior Z average alter                        0.5000
+
+
+Observed values of target statistics are
+  1. Amount of network change                                            92.0000
+  2. Number of ties                                                      59.0000
+  3. Number of reciprocated ties                                          8.0000
+  4. Number of transitive triplets                                       25.0000
+  5. 3-cycles                                                             6.0000
+  6. Sum of indegrees x Va                                               -1.5000
+  7. Sum of outdegrees x Va                                              -0.5000
+  8. Similarity on Va                                                     0.0526
+  9. Sum of indegrees x Vb                                                4.0423
+ 10. Sum of outdegrees x Vb                                               5.1195
+ 11. Similarity on Vb                                                     1.8770
+ 12. Amount of behavioral change                                         18.0000
+ 13. beh. Z cent. sum                                                     4.0000
+ 14. beh. Z sum of cent. squares                                         23.0000
+ 15. beh. Z average alters                                               -1.3833
+
+ 15 parameters, 15 statistics
+
+Number of subphases is specified as 0.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 20 iterations.
+Parameter estimates based on 0 iterations,
+convergence diagnostics, covariance and derivative matrices based on 20 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1. -66.7500   4.7890 -13.9383 
+  2.  -5.4500   5.4336  -1.0030 
+  3.  19.9000   6.5042   3.0595 
+  4.   5.7500  13.3845   0.4296 
+  5.   0.2500   3.3853   0.0738 
+  6.   5.6750   2.3015   2.4658 
+  7.   5.3750   3.0774   1.7466 
+  8.  17.1316   3.0781   5.5656 
+  9. -10.6716   3.6243  -2.9445 
+ 10.  11.8696   4.7385   2.5049 
+ 11.  -2.9828   1.1797  -2.5285 
+ 12.  -9.7500   2.3592  -4.1328 
+ 13.  -5.7500   2.7697  -2.0761 
+ 14.  -8.1000   2.5526  -3.1732 
+ 15.   1.2125   2.3293   0.5205 
+
+Good convergence is indicated by the t-ratios being close to zero.
+(Since the diagnostic checks now are based only on 20 iterations,
+they are not reliable.)
+One or more of the t-statistics are rather large.
+Convergence of the algorithm is doubtful.
+Note that the standard deviations are based on few simulations.
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 20 iteration steps.
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter X                        2.0000           
+ 2. eval:  outdegree (density)                          -1.9000           
+ 3. eval:  reciprocity                                   2.0000           
+ 4. eval:  transitive triplets                           0.3000           
+ 5. eval:  3-cycles                                     -0.3000           
+ 6. eval:  Va alter                                      0.0000           
+ 7. eval:  Va ego                                        0.0000           
+ 8. eval:  Va similarity                                 0.6000           
+ 9. eval:  Vb alter                                     -0.5000           
+10. eval:  Vb ego                                        0.5000           
+11. eval:  Vb similarity                                 0.5000           
+Behavior Dynamics
+
+12. rate:  rate Z period 1                               1.0000           
+13. eval:  behavior Z linear shape                       0.1000           
+14. eval:  behavior Z quadratic shape                   -0.3000           
+15. eval:  behavior Z average alter                      0.5000           
+
+Total computation time 0.22 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 09/02/2016 11:45:51
+New results follow.
+-----------------------------------
+
+Siena version 1.1-232 (18 Jun 13)
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 230645.
+Effects object used: InitEff 
+Model Type 1: Standard actor-oriented model
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Initial value of gain parameter is  0.2000000.
+Number of subphases in Phase 2 is 0.
+
+Initial parameter values are 
+  1. rate:  basic rate parameter X                          2.0000
+  2. eval:  outdegree (density)                            -1.9000
+  3. eval:  reciprocity                                     2.0000
+  4. eval:  transitive triplets                             0.3000
+  5. eval:  3-cycles                                       -0.3000
+  6. eval:  Va alter                                        0.0000
+  7. eval:  Va ego                                          0.0000
+  8. eval:  Va similarity                                   0.6000
+  9. eval:  Vb alter                                       -0.5000
+ 10. eval:  Vb ego                                          0.5000
+ 11. eval:  Vb similarity                                   0.5000
+ 12. rate:  rate Z period 1                                 1.0000
+ 13. eval:  behavior Z linear shape                         0.1000
+ 14. eval:  behavior Z quadratic shape                     -0.3000
+ 15. eval:  behavior Z average alter                        0.5000
+
+
+Observed values of target statistics are
+  1. Amount of network change                                            33.0000
+  2. Number of ties                                                      51.0000
+  3. Number of reciprocated ties                                         24.0000
+  4. Number of transitive triplets                                       31.0000
+  5. 3-cycles                                                             4.0000
+  6. Sum of indegrees x Va                                                5.5000
+  7. Sum of outdegrees x Va                                               4.5000
+  8. Similarity on Va                                                    15.8421
+  9. Sum of indegrees x Vb                                               -5.4255
+ 10. Sum of outdegrees x Vb                                              19.4926
+ 11. Similarity on Vb                                                    -2.1491
+ 12. Amount of behavioral change                                          8.0000
+ 13. beh. Z cent. sum                                                    -3.0000
+ 14. beh. Z sum of cent. squares                                         14.6500
+ 15. beh. Z average alters                                               -2.5842
+
+ 15 parameters, 15 statistics
+
+Number of subphases is specified as 0.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 20 iterations.
+Parameter estimates based on 0 iterations,
+convergence diagnostics, covariance and derivative matrices based on 20 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  -7.5000   3.8865  -1.9297 
+  2.   4.0000   3.6707   1.0897 
+  3.   3.2000   3.8058   0.8408 
+  4.  -5.6500   8.0215  -0.7044 
+  5.   1.2000   2.7453   0.4371 
+  6.  -0.7000   2.6278  -0.2664 
+  7.   2.0000   2.0131   0.9935 
+  8.   2.6053   2.5592   1.0180 
+  9.  -3.0605   3.9502  -0.7748 
+ 10.  -1.9394   3.2441  -0.5978 
+ 11.   1.2787   1.3046   0.9801 
+ 12.   0.5000   2.4815   0.2015 
+ 13.   5.5000   2.2595   2.4342 
+ 14.  -2.5500   2.5233  -1.0106 
+ 15.   2.1724   1.8846   1.1527 
+
+Good convergence is indicated by the t-ratios being close to zero.
+(Since the diagnostic checks now are based only on 20 iterations,
+they are not reliable.)
+One or more of the t-statistics are rather large.
+Convergence of the algorithm is doubtful.
+Note that the standard deviations are based on few simulations.
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 20 iteration steps.
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter X                        2.0000           
+ 2. eval:  outdegree (density)                          -1.9000           
+ 3. eval:  reciprocity                                   2.0000           
+ 4. eval:  transitive triplets                           0.3000           
+ 5. eval:  3-cycles                                     -0.3000           
+ 6. eval:  Va alter                                      0.0000           
+ 7. eval:  Va ego                                        0.0000           
+ 8. eval:  Va similarity                                 0.6000           
+ 9. eval:  Vb alter                                     -0.5000           
+10. eval:  Vb ego                                        0.5000           
+11. eval:  Vb similarity                                 0.5000           
+Behavior Dynamics
+
+12. rate:  rate Z period 1                               1.0000           
+13. eval:  behavior Z linear shape                       0.1000           
+14. eval:  behavior Z quadratic shape                   -0.3000           
+15. eval:  behavior Z average alter                      0.5000           
+
+Total computation time 0.2 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 09/02/2016 11:45:51
+New results follow.
+-----------------------------------
+
+Siena version 1.1-232 (18 Jun 13)
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 236954.
+Effects object used: InitEff 
+Model Type 1: Standard actor-oriented model
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Initial value of gain parameter is  0.2000000.
+Number of subphases in Phase 2 is 0.
+
+Initial parameter values are 
+  1. rate:  basic rate parameter X                          2.0000
+  2. eval:  outdegree (density)                            -1.9000
+  3. eval:  reciprocity                                     2.0000
+  4. eval:  transitive triplets                             0.3000
+  5. eval:  3-cycles                                       -0.3000
+  6. eval:  Va alter                                        0.0000
+  7. eval:  Va ego                                          0.0000
+  8. eval:  Va similarity                                   0.6000
+  9. eval:  Vb alter                                       -0.5000
+ 10. eval:  Vb ego                                          0.5000
+ 11. eval:  Vb similarity                                   0.5000
+ 12. rate:  rate Z period 1                                 1.0000
+ 13. eval:  behavior Z linear shape                         0.1000
+ 14. eval:  behavior Z quadratic shape                     -0.3000
+ 15. eval:  behavior Z average alter                        0.5000
+
+
+Observed values of target statistics are
+  1. Amount of network change                                            29.0000
+  2. Number of ties                                                      54.0000
+  3. Number of reciprocated ties                                         26.0000
+  4. Number of transitive triplets                                       22.0000
+  5. 3-cycles                                                             4.0000
+  6. Sum of indegrees x Va                                                5.0000
+  7. Sum of outdegrees x Va                                               8.0000
+  8. Similarity on Va                                                    19.4211
+  9. Sum of indegrees x Vb                                               -9.6171
+ 10. Sum of outdegrees x Vb                                              18.4593
+ 11. Similarity on Vb                                                    -1.1367
+ 12. Amount of behavioral change                                          7.0000
+ 13. beh. Z cent. sum                                                     0.5000
+ 14. beh. Z sum of cent. squares                                         10.8125
+ 15. beh. Z average alters                                                0.6185
+
+ 15 parameters, 15 statistics
+
+Number of subphases is specified as 0.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 20 iterations.
+Parameter estimates based on 0 iterations,
+convergence diagnostics, covariance and derivative matrices based on 20 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   0.2000   4.1751   0.0479 
+  2.   2.8000   4.3722   0.6404 
+  3.   3.6000   4.0315   0.8930 
+  4.  13.0500  12.4962   1.0443 
+  5.   3.2000   3.1888   1.0035 
+  6.  -3.4000   1.7442  -1.9494 
+  7.  -4.9000   2.1497  -2.2794 
+  8.  -0.0263   2.6984  -0.0098 
+  9.   1.6704   3.8492   0.4340 
+ 10.   0.0324   2.6401   0.0123 
+ 11.   0.5172   1.0977   0.4712 
+ 12.   2.1500   2.5808   0.8331 
+ 13.   0.7500   3.8096   0.1969 
+ 14.   2.1875   3.2473   0.6736 
+ 15.  -0.6587   1.8028  -0.3654 
+
+Good convergence is indicated by the t-ratios being close to zero.
+(Since the diagnostic checks now are based only on 20 iterations,
+they are not reliable.)
+One or more of the t-statistics are rather large.
+Convergence of the algorithm is doubtful.
+Note that the standard deviations are based on few simulations.
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 20 iteration steps.
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter X                        2.0000           
+ 2. eval:  outdegree (density)                          -1.9000           
+ 3. eval:  reciprocity                                   2.0000           
+ 4. eval:  transitive triplets                           0.3000           
+ 5. eval:  3-cycles                                     -0.3000           
+ 6. eval:  Va alter                                      0.0000           
+ 7. eval:  Va ego                                        0.0000           
+ 8. eval:  Va similarity                                 0.6000           
+ 9. eval:  Vb alter                                     -0.5000           
+10. eval:  Vb ego                                        0.5000           
+11. eval:  Vb similarity                                 0.5000           
+Behavior Dynamics
+
+12. rate:  rate Z period 1                               1.0000           
+13. eval:  behavior Z linear shape                       0.1000           
+14. eval:  behavior Z quadratic shape                   -0.3000           
+15. eval:  behavior Z average alter                      0.5000           
+
+Total computation time 0.19 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 09/02/2016 11:52:15
+New results follow.
+-----------------------------------
+
+Siena version 1.1-232 (18 Jun 13)
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 481034.
+Effects object used: InitEff0 
+Model Type 1: Standard actor-oriented model
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Initial value of gain parameter is  0.2000000.
+Number of subphases in Phase 2 is 0.
+
+Initial parameter values are 
+  1. rate:  basic rate parameter X                         20.0000
+  2. eval:  outdegree (density)                            -1.9000
+  3. eval:  reciprocity                                     2.0000
+  4. eval:  transitive triplets                             0.3000
+  5. eval:  3-cycles                                       -0.3000
+  6. eval:  Va alter                                        0.0000
+  7. eval:  Va ego                                          0.0000
+  8. eval:  Va similarity                                   0.6000
+  9. eval:  Vb alter                                       -0.5000
+ 10. eval:  Vb ego                                          0.5000
+ 11. eval:  Vb similarity                                   0.5000
+ 12. rate:  rate Z period 1                                10.0000
+ 13. eval:  behavior Z linear shape                         0.1000
+ 14. eval:  behavior Z quadratic shape                     -0.3000
+ 15. eval:  behavior Z average alter                        0.5000
+
+
+Observed values of target statistics are
+  1. Amount of network change                                            29.0000
+  2. Number of ties                                                      54.0000
+  3. Number of reciprocated ties                                         26.0000
+  4. Number of transitive triplets                                       22.0000
+  5. 3-cycles                                                             4.0000
+  6. Sum of indegrees x Va                                                5.0000
+  7. Sum of outdegrees x Va                                               8.0000
+  8. Similarity on Va                                                    19.4211
+  9. Sum of indegrees x Vb                                               -9.6171
+ 10. Sum of outdegrees x Vb                                              18.4593
+ 11. Similarity on Vb                                                    -1.1367
+ 12. Amount of behavioral change                                          7.0000
+ 13. beh. Z cent. sum                                                     0.5000
+ 14. beh. Z sum of cent. squares                                         10.8125
+ 15. beh. Z average alters                                                0.6185
+
+ 15 parameters, 15 statistics
+
+Number of subphases is specified as 0.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 1000 iterations.
+Parameter estimates based on 0 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  52.9270   9.1126   5.8081 
+  2.  14.1050  14.4502   0.9761 
+  3.  14.0440  11.3634   1.2359 
+  4.  62.6510  58.2918   1.0748 
+  5.  15.8620  14.8598   1.0674 
+  6.  -3.5325   6.2521  -0.5650 
+  7.  -5.0345   6.2193  -0.8095 
+  8.   2.5897   6.4666   0.4005 
+  9.   2.5306   6.4964   0.3895 
+ 10.   1.5661   7.9487   0.1970 
+ 11.   2.1833   1.8465   1.1824 
+ 12.  10.0100   3.2000   3.1281 
+ 13.   2.6680   5.5138   0.4839 
+ 14.   5.2938   4.1612   1.2722 
+ 15.   0.9218   3.4861   0.2644 
+
+Good convergence is indicated by the t-ratios being close to zero.
+One or more of the t-statistics are rather large.
+Convergence of the algorithm is doubtful.
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 1000 iteration steps.
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter X                       20.0000           
+ 2. eval:  outdegree (density)                          -1.9000           
+ 3. eval:  reciprocity                                   2.0000           
+ 4. eval:  transitive triplets                           0.3000           
+ 5. eval:  3-cycles                                     -0.3000           
+ 6. eval:  Va alter                                      0.0000           
+ 7. eval:  Va ego                                        0.0000           
+ 8. eval:  Va similarity                                 0.6000           
+ 9. eval:  Vb alter                                     -0.5000           
+10. eval:  Vb ego                                        0.5000           
+11. eval:  Vb similarity                                 0.5000           
+Behavior Dynamics
+
+12. rate:  rate Z period 1                              10.0000           
+13. eval:  behavior Z linear shape                       0.1000           
+14. eval:  behavior Z quadratic shape                   -0.3000           
+15. eval:  behavior Z average alter                      0.5000           
+
+Total computation time 5.12 seconds.
