@@ -74,12 +74,9 @@
 \authorfooter{
 %% insert punctuation at end of each item
 \item
- Roy G. Biv is with Starbucks Research. E-mail: roy.g.biv@aol.com.
+ Samantha Tyner is with the Department of Statistics, Iowa State University. E-mail: sctyner@iastate.edu.
 \item
- Ed Grimley is with Grimley Widgets, Inc.. E-mail: ed.grimley@aol.com.
-\item
- Martha Stewart is with Martha Stewart Enterprises at Microsoft
- Research. E-mail: martha.stewart@marthastewart.com.
+ Heike Hofmann is with the Department of Statistics, Iowa State University. E-mail: hofmann@iastate.edu.
 }
 
 %other entries to be set up for journal
@@ -141,6 +138,8 @@
   \item What sizes? 3, 6, 9, 12
   \item What data? Football, olga's data, teenage friends data?
   \item Other things to consider: coloring of nodes? 
+  \item use replicates: different seeds for the same data produces different layouts -
+  different draws from the model
   \end{enumerate}
 \item Get simulated networds from models from RSiena
 \item Figure out another way to fit a model and then simulate from it? 
