@@ -62,5 +62,5 @@ SimulateNextWave <- function(init.waves, V0,
   # Simulate the first wave.
   InitSim   <- siena07(InitAlg, data=InitData, eff=InitEff0,
                        returnDeps=TRUE, batch=TRUE, silent=TRUE)
-  return(InitSim) 
-}  
+  return(data.frame(InitSim$sims[[1000]][[1]][[1]][[1]]))
+}   

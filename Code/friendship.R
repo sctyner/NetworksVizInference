@@ -47,4 +47,8 @@ sim1 <- SimulateNextWave(init.waves = friendshipData, V0 = drink,
                  eval.params.val = eval.params$eval.param.val,
                  eval.int.params.names = eval.int.params$eval.int.param,
                  eval.int.params.vals = eval.int.params$eval.int.param.val)
+sim1_net <- merge(sim1, data.frame(id =1:50), by.x = "X1", by.y = "id", all = T)
+
+ggplot(sim1_net, aes(from_id = X1, to_id = X2)) + 
+  geom_net(label = T)
   
