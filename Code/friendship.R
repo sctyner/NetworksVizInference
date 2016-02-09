@@ -50,5 +50,57 @@ sim1 <- SimulateNextWave(init.waves = friendshipData, V0 = drink,
 sim1_net <- merge(sim1, data.frame(id =1:50), by.x = "X1", by.y = "id", all = T)
 
 ggplot(sim1_net, aes(from_id = X1, to_id = X2)) + 
-  geom_net(label = T)
-  
+  geom_net(label = T, size = .1)
+
+sim2 <- SimulateNextWave(init.waves = friendshipData, V0 = drink, 
+                         rate.params.names = rate.params$rate.param, 
+                         rate.params.vals = rate.params$rate.param.val,
+                         eval.params.names = eval.params$eval.param,
+                         eval.params.val = eval.params$eval.param.val,
+                         eval.int.params.names = eval.int.params$eval.int.param,
+                         eval.int.params.vals = eval.int.params$eval.int.param.val)
+sim2_net <- merge(sim2, data.frame(id =1:50), by.x = "X1", by.y = "id", all = T)
+ggplot(sim2_net, aes(from_id = X1, to_id = X2)) + 
+  geom_net(label = T, size = .1)
+
+#### Using the different model (ans2) #######
+rate.params2 <- data.frame(rate.param = c("Rate", "Rate"),
+                          rate.param.val = ans2$rate)
+eval.params2 <- data.frame(eval.param = c("density", "recip"), eval.param.val = ans2$theta[1:2])
+eval.int.params2 <- data.frame(eval.int.param = "simX", 
+                              eval.int.param.val = ans2$theta[3])
+
+sim1.2 <- SimulateNextWave(init.waves = friendshipData, V0 = drink, 
+                         rate.params.names = rate.params2$rate.param, 
+                         rate.params.vals = rate.params2$rate.param.val,
+                         eval.params.names = eval.params2$eval.param,
+                         eval.params.val = eval.params2$eval.param.val,
+                         eval.int.params.names = eval.int.params2$eval.int.param,
+                         eval.int.params.vals = eval.int.params2$eval.int.param.val)
+sim1.2_net <- merge(sim1.2, data.frame(id =1:50), by.x = "X1", by.y = "id", all = T)
+
+ggplot(sim1.2_net, aes(from_id = X1, to_id = X2)) + 
+  geom_net(label = T, size = .1)
+
+sim2.2 <- SimulateNextWave(init.waves = friendshipData, V0 = drink, 
+                           rate.params.names = rate.params2$rate.param, 
+                           rate.params.vals = rate.params2$rate.param.val,
+                           eval.params.names = eval.params2$eval.param,
+                           eval.params.val = eval.params2$eval.param.val,
+                           eval.int.params.names = eval.int.params2$eval.int.param,
+                           eval.int.params.vals = eval.int.params2$eval.int.param.val)
+sim2.2_net <- merge(sim2.2, data.frame(id =1:50), by.x = "X1", by.y = "id", all = T)
+
+ggplot(sim2.2_net, aes(from_id = X1, to_id = X2)) + 
+  geom_net(label = T, size = .1)
+
+# create lineup with m=3 plots
+
+# null is smaller model
+small_lu <- rbind(sim1_net, sim1.2_net, sim2.2_net)
+small_lu$group <- rep(sample.int(3), c(nrow(sim1_net), nrow(sim1.2_net), nrow(sim2.2_net)))
+
+ggplot(small_lu, aes(from_id = X1, to_id = X2)) + 
+  geom_net(ealpha = .7, fiteach = T) + 
+  theme_net() + 
+  facet_wrap(~group, nrow=1)
