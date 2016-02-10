@@ -28,6 +28,10 @@
 \usepackage{mathptmx}
 \usepackage{graphicx}
 \usepackage{times}
+\usepackage{color}
+\definecolor{purple}{rgb}{.4,0,.8}
+\newcommand{\hh}[1]{{\color{magenta} #1}}
+\newcommand{\st}[1]{{\color{purple} #1}}
 
 %% We encourage the use of mathptmx for consistent usage of times font
 %% throughout the proceedings. However, if you encounter conflicts
@@ -129,6 +133,12 @@
 
 \maketitle
 
+<<packages, echo=FALSE, warning=FALSE, message=FALSE>>=
+library(RSiena)
+library(network)
+library(ggplot2)
+library(geomnet)
+@
 %% \section{Introduction} %for journal use above \firstsection{..} instead
 
 \begin{enumerate}
@@ -156,14 +166,178 @@ Possible section outline for paper:
 
 
 
-\section{Exposition}
+\section{Examples \st{??}}
 
-Equations are cool.
+\st{
+One of the data sets provided with RSiena is a subset of 50 female respondants from the \emph{Teenage Friends and Lifestyle Study} XXX citation??? XXX. There are three friendship networks provided at three timepoints representing the relationships between the 50 teenage girls in the data. There are also actor-level variables observed at each time period, such as a girl's drinking and smoking behavior. These networks are shown in \autoref{fig:friendship_waves}
+XX autoref not working?? XX
+<<friendship_waves, echo=FALSE, message=FALSE, warning=FALSE>>=
+friend.data.w1 <- as.matrix(read.table("../Data/s50_data/s50-network1.dat"))
+friend.data.w2 <- as.matrix(read.table("../Data/s50_data/s50-network2.dat"))
+friend.data.w3 <- as.matrix(read.table("../Data/s50_data/s50-network3.dat"))
+drink <- as.matrix(read.table("../Data/s50_data/s50-alcohol.dat"))
 
-\begin{equation}
-\sum_{j=1}^{z} j = \frac{z(z+1)}{2}
-\end{equation}
+friend.data.edges <- data.frame(as.edgelist(as.network(friend.data.w1)))
+friend.data.nodes <- data.frame(ids = 1:50, drink = drink[,1])
+friend.data.net1 <- merge(friend.data.edges, friend.data.nodes, by.x="X1", by.y = "ids", all = T)
+friend.data.edges <- data.frame(as.edgelist(as.network(friend.data.w2)))
+friend.data.nodes <- data.frame(ids = 1:50, drink = drink[,2])
+friend.data.net2 <- merge(friend.data.edges, friend.data.nodes, by.x="X1", by.y = "ids", all = T)
+friend.data.edges <- data.frame(as.edgelist(as.network(friend.data.w3)))
+friend.data.nodes <- data.frame(ids = 1:50, drink = drink[,3])
+friend.data.net3 <- merge(friend.data.edges, friend.data.nodes, by.x="X1", by.y = "ids", all = T)
 
+friend.data.net.all <- rbind(friend.data.net1, friend.data.net2, friend.data.net3)
+names(friend.data.net.all)[1:2] <- c('from', 'to')
+friend.data.net.all$period <- rep(1:3, c(nrow(friend.data.net1),
+                                  nrow(friend.data.net2),
+                                  nrow(friend.data.net3)))
+
+ggplot(data=friend.data.net.all, aes(from_id = from, to_id = to)) +
+  geom_net(aes(colour = as.factor(drink)), size = .75, vjust = .5,
+           fontsize = 6, curvature = .25, ealpha = .6, directed = T,
+           arrowsize = .5, arrowgap = .01) + theme_net() + 
+  scale_color_brewer(palette = "YlOrRd", name = "Drinking Frequency", labels = c("never", "about 2x/year", "about 1x/month", "about 1x/week", "More than 1x/week")) + 
+  facet_wrap(~period, nrow = 1)
+@
+
+Several actor-oriented longitudinal network models can be fit to this data in RSiena. In order to determine the importance of certain actor-level variable effects included in the models, we simulated networks from different fitted models in Siena, and placed them in lineups to determine if there is any difference between the models.
+}
+
+<<fit_models>>=
+# First create a 50 * 50 * 3 array composed of the 3 adjacency matrices
+friendshipData <- array( c( friend.data.w1, friend.data.w2, friend.data.w3 ),
+                         dim = c( 50, 50, 3 ) )
+# and next give this the role of the dependent variable:
+friendship <- sienaDependent(friendshipData)
+alcohol <- varCovar( as.matrix(drink[,1:2]) )
+# create siena data object
+mydata <- sienaDataCreate( friendship, alcohol)
+
+myeff <- getEffects( mydata )
+# 3 actor effects
+myeff1 <- includeEffects( myeff, egoX, altX, egoXaltX, interaction1 = "alcohol" )
+# 1 actor effect 
+myeff2 <- includeEffects( myeff, egoX, interaction1 = "alcohol")
+# Create object with algorithm settings
+myalgorithm <- sienaAlgorithmCreate( projname = 's50' )
+#Estimate parameters
+ans1 <- siena07( myalgorithm, data = mydata, effects = myeff1)
+ans2 <- siena07( myalgorithm, data = mydata, effects = myeff2)
+
+# create data frames with fitted parameters to use later (need to find a more automated way to do this.)
+rate.params <- data.frame(rate.param = c("Rate", "Rate"),
+           rate.param.val = ans1$rate)
+eval.params <- data.frame(eval.param = c("density", "recip"), eval.param.val = ans1$theta[1:2])
+eval.int.params <- data.frame(eval.int.param = c("altX", "egoX", "egoXaltX"), 
+                              eval.int.param.val = ans1$theta[3:5])
+rate.params2 <- data.frame(rate.param = c("Rate", "Rate"),
+                          rate.param.val = ans2$rate)
+eval.params2 <- data.frame(eval.param = c("density", "recip"), eval.param.val = ans2$theta[1:2])
+eval.int.params2 <- data.frame(eval.int.param = "egoX", 
+                              eval.int.param.val = ans2$theta[3])
+@
+
+<<simulation_fn, echo=FALSE>>=
+SimulateNextWave <- function(init.waves, V0, 
+                                     rate.params.names, rate.params.vals,
+                                     eval.params.names, eval.params.vals,
+                                     eval.int.params.names, eval.int.params.vals){
+  if (ncol(init.waves[,,1]) != nrow(init.waves[,,1])){
+    return("Error: Non-square adjacency matrix provided")
+  } 
+  if (length(eval.params.vals) != length(eval.params.names)){
+    return("Error: Number of eval parameters to include in model does not
+           match number of eval parameter values provided.")
+  }
+  if (length(rate.params.vals) != length(rate.params.names)){
+    return("Error: Number of rate parameters to include in model does not
+           match number of rate parameter values provided.")
+  }
+  if (length(eval.int.params.vals) != length(eval.int.params.names)){
+    return("Error: Number of interaction eval parameters to include in model does not
+           match number of interaction eval parameter values provided.")
+  }
+  init.waves <- friendshipData
+  n <- ncol(init.waves[,,1])
+  V0 <- drink
+  c <- length(unique(V0[,1]))
+  p.e <- length(eval.params.names)
+  p.r <- length(rate.params.names)
+  p.e.i <- length(eval.int.params.names)
+  # Simulates M consecutive network and behavior waves, with n actors,
+  # with c categories of the behavior variable, from initial network init.net.adj
+  # according to a stochastic actor-oriented model with actor covariate V0
+  # with parameter values params.values for the parameters of interest params.names
+  Va <- varCovar(V0)
+  X   <- sienaDependent(init.waves)
+  InitData <- sienaDataCreate(X, Va)
+  InitEff0 <- getEffects(InitData)
+  # sink to avoid printing to the screen
+  #sink("eff.txt")
+  # Specify the parameters.
+  # The rate parameters are first multiplied by 10,
+  # which will be used only to get from the totally random network XX[,,1] = X0
+  # to the network that will be the simulated first wave.
+  
+  for (i in 1:p.r){
+    InitEff0 <- setEffect(InitEff0, rate.params.names[i], type = 'rate', initialValue = rate.params.vals[i], period = i, character = T)
+  }
+  for (i in 1:p.e){
+    InitEff0 <- setEffect(InitEff0, eval.params.names[i], type = 'eval', initialValue = eval.params.vals[i], character = T)
+  }
+  for (i in 1:p.e.i){
+    InitEff0 <- setEffect(InitEff0, eval.int.params.names[i], type = 'eval', interaction1 = "Va", initialValue = eval.int.params.vals[i], character = T)
+  }
+  
+  ## The parameter given for n3 should be larger than sum(InitEff0$include)
+  InitAlg <- sienaAlgorithmCreate(projname="Init", nsub=0,
+                                  cond=FALSE, simOnly=TRUE)
+  # Simulate the first wave.
+  InitSim   <- siena07(InitAlg, data=InitData, eff=InitEff0,
+                       returnDeps=TRUE, batch=TRUE, silent=TRUE)
+  return(data.frame(InitSim$sims[[1000]][[1]][[1]][[1]]))
+}  
+@
+
+<<simulate_network>>=
+# one from 3-effect model (the "data" model)
+sim_dat <- SimulateNextWave(init.waves = friendshipData, V0 = drink, 
+                 rate.params.names = rate.params$rate.param, 
+                 rate.params.vals = rate.params$rate.param.val,
+                 eval.params.names = eval.params$eval.param,
+                 eval.params.val = eval.params$eval.param.val,
+                 eval.int.params.names = eval.int.params$eval.int.param,
+                 eval.int.params.vals = eval.int.params$eval.int.param.val)
+sim_dat_net <- merge(sim_dat, data.frame(id =1:50), by.x = "X1", by.y = "id", all = T)
+
+# two from the 1-effect model (the "null" model)
+sim_null1 <- SimulateNextWave(init.waves = friendshipData, V0 = drink,                         rate.params.names = rate.params2$rate.param,
+                    rate.params.vals = rate.params2$rate.param.val,
+                      eval.params.names = eval.params2$eval.param,
+                     eval.params.val = eval.params2$eval.param.val,
+           eval.int.params.names = eval.int.params2$eval.int.param,
+        eval.int.params.vals = eval.int.params2$eval.int.param.val)
+sim_null1_net <- merge(sim_null1, data.frame(id =1:50), by.x = "X1", by.y = "id", all = T)
+sim_null2 <- SimulateNextWave(init.waves = friendshipData, V0 = drink, 
+                       rate.params.names = rate.params2$rate.param, 
+                     rate.params.vals = rate.params2$rate.param.val,
+                       eval.params.names = eval.params2$eval.param,
+                     eval.params.val = eval.params2$eval.param.val,             eval.int.params.names = eval.int.params2$eval.int.param,         eval.int.params.vals = eval.int.params2$eval.int.param.val)
+sim_null2_net <- merge(sim_null2, data.frame(id =1:50), by.x = "X1", by.y = "id", all = T)
+
+# null is smaller model
+small_lu <- rbind(sim_dat_net, sim_null1_net,sim_null2_net)
+small_lu$group <- rep(sample.int(3), c(nrow(sim_dat_net), nrow(sim_null1_net), nrow(sim_null2_net)))
+
+ggplot(small_lu, aes(from_id = X1, to_id = X2)) + 
+  geom_net(ealpha = .7, fiteach = T, directed = T, size = 1, arrowsize = .5) + 
+  theme_net() + 
+  facet_wrap(~group, nrow=1)
+@
+
+
+The ``data" model is facet \Sexpr{small_lu$group[1]}.
 Notice the caption at the top of Table~\ref{vis_accept}.
 
 \begin{table}
