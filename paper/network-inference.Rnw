@@ -178,7 +178,7 @@ Possible section outline for paper:
 One of the data sets provided with RSiena is a subset of 50 female respondents from the \emph{Teenage Friends and Lifestyle Study} XXX citation??? from \url{https://www.stats.ox.ac.uk/~snijders/siena/s50_data.htm} XXX. There are three friendship networks provided at three timepoints representing the relationships between the 50 teenage girls in the data. There are also actor-level variables observed at each time period, such as a girl's drinking and smoking behavior. These networks are shown in Figure~\ref{fig:friendship_waves}.
 
 \begin{figure}
-<<friendship_waves, echo=FALSE, message=FALSE, warning=FALSE, fig.width=7, fig.height=3.5, out.width='\\linewidth'>>=
+<<friendship_waves, echo=FALSE, message=FALSE, warning=FALSE, fig.width=7, fig.height=3.35, out.width='\\linewidth'>>=
 friend.data.w1 <- as.matrix(read.table("../Data/s50_data/s50-network1.dat"))
 friend.data.w2 <- as.matrix(read.table("../Data/s50_data/s50-network2.dat"))
 friend.data.w3 <- as.matrix(read.table("../Data/s50_data/s50-network3.dat"))
@@ -249,6 +249,7 @@ eval.int.params2 <- data.frame(eval.int.param = "egoX",
                               eval.int.param.val = ans2$theta[3])
 @
 
+
 <<simulation_fn, echo=FALSE, message=FALSE>>=
 SimulateNextWave <- function(init.waves, V0, 
                                      rate.params.names, rate.params.vals,
@@ -311,6 +312,8 @@ SimulateNextWave <- function(init.waves, V0,
 }  
 @
 
+
+
 <<simulate_network, echo=FALSE, message=FALSE, results='hide'>>=
 # one from 3-effect model (the "data" model)
 sim_dat <- SimulateNextWave(init.waves = friendshipData, V0 = drink, 
@@ -340,15 +343,20 @@ sim_null2_net <- merge(sim_null2, data.frame(id =1:50), by.x = "X1", by.y = "id"
 # null is smaller model
 small_lu <- rbind(sim_dat_net, sim_null1_net,sim_null2_net)
 small_lu$group <- rep(sample.int(3), c(nrow(sim_dat_net), nrow(sim_null1_net), nrow(sim_null2_net)))
+@
 
+\begin{figure}
+<<friendship_simulated, dependson='simulate_network', echo=FALSE, message=FALSE, warning=FALSE, fig.width=7, fig.height=3.35, out.width='\\linewidth'>>=
 ggplot(small_lu, aes(from_id = X1, to_id = X2)) + 
   geom_net(ealpha = .7, fiteach = T, directed = T, size = 1, arrowsize = .5) + 
   theme_net() + 
   facet_wrap(~group, nrow=1)
 @
-
+\caption{\label{fig:simulated}}
+\end{figure}
 
 The ``data" model is facet \Sexpr{small_lu$group[1]}.
+
 Notice the caption at the top of Table~\ref{vis_accept}.
 
 \begin{table}
