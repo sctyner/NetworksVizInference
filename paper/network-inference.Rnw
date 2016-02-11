@@ -147,6 +147,8 @@ library(geomnet)
 @
 %% \section{Introduction} %for journal use above \firstsection{..} instead
 
+References for the intro: lineup protocol~\cite{buja:2009}, RSiena~\cite{RSiena}. 
+
 \begin{enumerate}
 \item Need to complete lineups in 2-3 weeks
 \item Lineups: 
@@ -161,21 +163,21 @@ library(geomnet)
 \item Figure out another way to fit a model and then simulate from it? 
 \end{enumerate}
 
-Possible section outline for paper:
+Possible section outline for paper: \hh{XXX the  outline looks good XXX }
 \begin{enumerate}
 \item Introduction - visual inference, networks
 \item Data and Model fitting \& simulation
-\item Lineup methods
+\item Lineup methods \hh{XXX what do you mean by `methods' here? Do you mean the Experimental Design?}
 \item Results
 \item Conclusions and Discussion
 \end{enumerate}
 
 
 
-\section{Examples \st{??}}
+\section{Examples \st{??} \hh{this might be able to go into the data and model fitting section. We need both a theoretical bit on the models (at the beginning of the section), and then a discussion of the examples used in the paper. }}
 
 \st{
-One of the data sets provided with RSiena is a subset of 50 female respondents from the \emph{Teenage Friends and Lifestyle Study} XXX citation??? from \url{https://www.stats.ox.ac.uk/~snijders/siena/s50_data.htm} XXX. There are three friendship networks provided at three timepoints representing the relationships between the 50 teenage girls in the data. There are also actor-level variables observed at each time period, such as a girl's drinking and smoking behavior. These networks are shown in Figure~\ref{fig:friendship_waves}.
+One of the data sets provided with RSiena is a subset of 50 female respondents from the \emph{Teenage Friends and Lifestyle Study} \cite{michell:1997, pearson:2000, pearson:2003}. There are three friendship networks provided  \hh{are the networks really provided? I thought RSiena estimated the networks based on the girls' drinking and smoking behaviour?} at three timepoints representing the relationships between the 50 teenage girls in the data. There are also actor-level variables observed at each time period, such as a girls' drinking and smoking behavior. These networks are shown in Figure~\ref{fig:friendship_waves}.
 
 \begin{figure}
 <<friendship_waves, echo=FALSE, message=FALSE, warning=FALSE, fig.width=7, fig.height=3.35, out.width='\\linewidth'>>=
@@ -355,30 +357,13 @@ ggplot(small_lu, aes(from_id = X1, to_id = X2)) +
 \caption{\label{fig:simulated}}
 \end{figure}
 
-The ``data" model is facet \Sexpr{small_lu$group[1]}.
+The ``data" model is in panel \#\Sexpr{small_lu$group[1]}.
 
-Notice the caption at the top of Table~\ref{vis_accept}.
-
-\begin{table}
-%% Table captions on top in journal version
- \caption{SciVis Paper Acceptance Rate: 1994-2006}
- \label{vis_accept}
- \scriptsize
- \begin{center}
-   \begin{tabular}{cccc}
-     Year & Submitted & Accepted & Accepted (\%)\\
-   \hline
-     2004 & 167 & 46 & 27.6\\
-     2005 & 268 & 88 & 32.8\\
-     2006 & 228 & 63 & 27.6
-   \end{tabular}
- \end{center}
-\end{table}
 
 
 \subsection{Mezcal Head}
 
-Citing happens only with cite - like this for the lineup protocol~\cite{buja:2009}, and for RSiena~\cite{RSiena}. Footnotes are ok%
+Footnotes are ok%
 \footnote{Footnotes appear at the bottom of the column}.
 
 
