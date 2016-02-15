@@ -7,32 +7,58 @@
 setwd("s50_data")
 library(RSiena) # or RSienaTest
 # read in network data
-friend.data.w1 <- as.matrix(read.table("s50-network1.dat"))
-friend.data.w2 <- as.matrix(read.table("s50-network2.dat"))
-friend.data.w3 <- as.matrix(read.table("s50-network3.dat"))
+friend.data.w1 <- as.matrix(read.table("Data/s50_data/s50-network1.dat"))
+friend.data.w2 <- as.matrix(read.table("Data/s50_data/s50-network2.dat"))
+friend.data.w3 <- as.matrix(read.table("Data/s50_data/s50-network3.dat"))
 # read in covariate data
-drink <- as.matrix(read.table("s50-alcohol.dat"))
-smoke <- as.matrix(read.table("s50-smoke.dat"))
+drink <- as.matrix(read.table("Data/s50_data/s50-alcohol.dat"))
+smoke <- as.matrix(read.table("Data/s50_data/s50-smoke.dat"))
 # First create a 50 * 50 * 3 array composed of the 3 adjacency matrices
 friendshipData <- array( c( friend.data.w1, friend.data.w2, friend.data.w3 ),
                          dim = c( 50, 50, 3 ) )
 # and next give this the role of the dependent variable:
 friendship <- sienaDependent(friendshipData)
-alcohol <- varCovar( as.matrix(drink[,1:2]) )
+alcohol <- varCovar( as.matrix(drink) )
 # create siena data object
 mydata <- sienaDataCreate( friendship, alcohol)
 
-myeff <- getEffects( mydata )
-myeff1 <- includeEffects( myeff, egoX, altX, egoXaltX, interaction1 = "alcohol" )
-myeff2 <- includeEffects( myeff, simX, interaction1 = "alcohol")
+null_model_eff <- getEffects(mydata)
+test_model_eff <- includeEffects( null_model_eff, egoXaltX, interaction1 = "alcohol")
+
 # Create object with algorithm settings
 myalgorithm <- sienaAlgorithmCreate( projname = 's50' )
 #Estimate parameters
-ans1 <- siena07( myalgorithm, data = mydata, effects = myeff1)
-ans2 <- siena07( myalgorithm, data = mydata, effects = myeff2)
+ests_null <- siena07( myalgorithm, data = mydata, effects = null_model_eff)
+ests_test <- siena07( myalgorithm, data = mydata, effects = test_model_eff)
 # view estimates
-ans1$rate
-ans1$theta
+ests_null$rate
+ests_null$theta
+
+ests_test$rate
+ests_test$theta
+
+ests_test$oneStep
+
+# significance testing
+
+A1.1 <- c(1, rep(0,4))
+A1.2 <- c(0,1, rep(0,3))
+A1.3 <- c(0,0, 1,0,0)
+A1.4 <- c(rep(0,3), 1, 0)
+A1.5 <- c(rep(0,4), 1)
+
+library(RSienaTest)
+Wald.RSiena(A1.1, ans1) # density significant
+Wald.RSiena(A1.2, ans1) # reciprocity significant
+Wald.RSiena(A1.3, ans1) # alcohol alter not significant
+Wald.RSiena(A1.4, ans1) # alcohol ego not significan
+Wald.RSiena(A1.5, ans1) # alcohol ego x alchohol alter IS significant
+# test 
+
+Wald.RSiena(rbind(A1.1,A1.2), ans1)
+Wald.RSiena(rbind(A1.1,A1.3), ans1)
+Wald.RSiena(rbind(A1.3,A1.4), ans1)
+Wald.RSiena(rbind(A1.3,A1.5), ans1)
 
 rate.params <- data.frame(rate.param = c("Rate", "Rate"),
            rate.param.val = ans1$rate)
@@ -47,6 +73,24 @@ sim1 <- SimulateNextWave(init.waves = friendshipData, V0 = drink,
                  eval.params.val = eval.params$eval.param.val,
                  eval.int.params.names = eval.int.params$eval.int.param,
                  eval.int.params.vals = eval.int.params$eval.int.param.val)
+
+sim1[[1]][[1]][[1]][[1]]
+
+plot_net_RSiena <- function(sims){ 
+  N <- length(sims)
+  i <- 1
+  for (i in 1:N){
+    edges <- data.frame(sims[[i]][[1]][[1]]) 
+    vertices <- data.frame(id = unique(c(edges[,1], edges[,2])))
+    net <- merge(edges, vertices, by.x = "X1", by.y="id", all = T)
+    print(ggplot(net, aes(from_id = X1, to_id = X2)) +
+      geom_net(directed = T, label = T, size = .5, ealpha = .5, labelcolour = 'blue') +
+      theme_net())
+  }  
+}
+sims <- sim1[[1000]]
+plot_net_RSiena(sims)
+
 sim1_net <- merge(sim1, data.frame(id =1:50), by.x = "X1", by.y = "id", all = T)
 
 ggplot(sim1_net, aes(from_id = X1, to_id = X2)) + 
