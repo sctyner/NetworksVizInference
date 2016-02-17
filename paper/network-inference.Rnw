@@ -167,16 +167,30 @@ Possible section outline for paper: \hh{XXX the  outline looks good XXX }
 \begin{enumerate}
 \item Introduction - visual inference, networks
 \item Data and Model fitting \& simulation
-\item Lineup methods \hh{XXX what do you mean by `methods' here? Do you mean the Experimental Design?}
+\item Lineup methods \hh{XXX what do you mean by `methods' here? Do you mean the Experimental Design?} \st{XXX I think that's what I mean.}
 \item Results
 \item Conclusions and Discussion
 \end{enumerate}
 
 
 
-\section{Examples \st{??} \hh{this might be able to go into the data and model fitting section. We need both a theoretical bit on the models (at the beginning of the section), and then a discussion of the examples used in the paper. }}
+\section{Data, Model Fit, and Simulation}
+
+\hh{We need both a theoretical bit on the models (at the beginning of the section), and then a discussion of the examples used in the paper. }
 
 \st{
+\subsection{Network Models}
+
+XXX should we just focus on the stochastic, actor oriented ones? or should we add additional ones? XXX 
+
+\par One network model we examine is the stochastic actor-oriented models introduced by Snijders~\cite{Snijders:1996}. Social networks are generally not static: they evolve over time and this evolution is influenced by the actors and the network structure. Estimation and implementation of these models can be done in the RSIENA software~\cite{RSiena}.  The software allows many possible effects to be included in this type of model, given below. XX insert math after I read the Snijders papers XX  Some of the network effects and actor effects we look at are XXX insert list of effects XXX. 
+
+
+
+
+
+
+\subsection{Data}
 One of the data sets provided with RSiena is a subset of 50 female respondents from the \emph{Teenage Friends and Lifestyle Study} \cite{michell:1997, pearson:2000, pearson:2003}. There are three friendship networks provided  \hh{are the networks really provided? I thought RSiena estimated the networks based on the girls' drinking and smoking behaviour?} at three timepoints representing the relationships between the 50 teenage girls in the data. There are also actor-level variables observed at each time period, such as a girls' drinking and smoking behavior. These networks are shown in Figure~\ref{fig:friendship_waves}.
 
 \begin{figure}
