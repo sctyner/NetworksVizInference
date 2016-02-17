@@ -26,10 +26,60 @@ null_model_eff <- getEffects(mydata)
 test_model_eff <- includeEffects( null_model_eff, egoXaltX, interaction1 = "alcohol")
 
 # Create object with algorithm settings
-myalgorithm <- sienaAlgorithmCreate( projname = 's50' )
+myalgorithm <- sienaAlgorithmCreate( projname = 's50' , n3 = 1500)
 #Estimate parameters
-ests_null <- siena07( myalgorithm, data = mydata, effects = null_model_eff)
-ests_test <- siena07( myalgorithm, data = mydata, effects = test_model_eff)
+ests_null <- siena07( myalgorithm, data = mydata, returnDeps = TRUE, effects = null_model_eff, batch=TRUE, verbose = FALSE)
+ests_test <- siena07( myalgorithm, data = mydata, returnDeps = TRUE, effects = test_model_eff, batch=TRUE, verbose = FALSE)
+
+# How do the simulations look compared to each other? 
+# i.e. how much does the network evolve in simulation
+
+# pull out the last 10 networks for periods 1 (wave 1->2) and 2 (wave 2->3)
+period1 <- NULL
+for (i in 1191:1200){
+  getnet <- merge(data.frame(ests_null$sims[[i]][[1]][[1]][[1]])[,-3], 
+                  data.frame(id = 1:50), by.x = "X1", by.y = "id",
+                  all = T)
+  getnet$count <- paste(i, "wave2") 
+  period1 <- rbind(period1, getnet)
+}
+
+period2 <- NULL
+for (i in 1191:1200){
+  getnet <- merge(data.frame(ests_null$sims[[i]][[1]][[1]][[2]])[,-3], 
+                  data.frame(id = 1:50), by.x = "X1", by.y = "id",
+                  all = T)
+  getnet$count <- paste(i, "wave3") 
+  period2 <- rbind(period2, getnet)
+}
+
+library(geomnet)
+
+# scroll down for actual2, actual3
+period1 <- rbind(period1, actual2)
+ggplot(data = period1, aes(from_id = X1, to_id = X2)) +
+  geom_net(fiteach = TRUE) + theme_net() +
+  facet_wrap(~count)
+
+period2 <- rbind(period2, actual3)
+ggplot(data = period2, aes(from_id = X1, to_id = X2)) +
+  geom_net(fiteach = FALSE) + theme_net() +
+  facet_wrap(~count)
+
+ggplot(data = rbind(period1[1011:1388,],period2[1013:1380,]), aes(from_id = X1, to_id = X2)) +
+  geom_net(fiteach = FALSE) + theme_net() +
+  facet_wrap(~count, ncol = 2) 
+
+library(network)
+actual2 <- merge(data.frame(as.edgelist(as.network(friend.data.w2))), 
+                 data.frame(id = 1:50), 
+                 by.x = "X1", by.y = "id", all = T)
+actual2$count <- "true_wave2"
+actual3 <- merge(data.frame(as.edgelist(as.network(friend.data.w3))), data.frame(id = 1:50), 
+                 by.x = "X1", by.y = "id", all = T)
+actual3$count <- "true_wave3"
+
+head(actual2)
 # view estimates
 ests_null$rate
 ests_null$theta
@@ -59,6 +109,14 @@ Wald.RSiena(rbind(A1.1,A1.2), ans1)
 Wald.RSiena(rbind(A1.1,A1.3), ans1)
 Wald.RSiena(rbind(A1.3,A1.4), ans1)
 Wald.RSiena(rbind(A1.3,A1.5), ans1)
+
+get_ests_RSiena <- function(RSobj){
+  rates <- RSobj$rate
+  evals <- RSobj$theta
+  effnames <- c(rep("Rate", length(rates)), RSobj$effects$effectName)
+  periods <- RSobj$periodNos
+
+}
 
 rate.params <- data.frame(rate.param = c("Rate", "Rate"),
            rate.param.val = ans1$rate)
