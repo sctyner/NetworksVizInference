@@ -21,6 +21,7 @@ names(view_rs)[3:5] <- c('w1', 'w2','w3')
 
 view_rs %>% gather(wave, value, w1:w3) -> view_rs2
 
+# look at adjacency matrices
 ggplot(data= view_rs2, aes(x = x, y=y)) + 
   geom_tile(aes(fill = as.factor(value))) + facet_wrap(~wave) +
   theme(aspect.ratio=1)
@@ -44,7 +45,8 @@ alcohol2 <- varCovar( as.matrix(drink2) )
 # create siena data object
 mysmalldata <- sienaDataCreate( friend2, alcohol2)
 null_model_eff2 <- getEffects(mysmalldata)
-test_model_eff2 <- includeEffects( null_model_eff2, egoX, altX, egoXaltX, interaction1 = "alcohol2")
+#test_model_eff2 <- includeEffects( null_model_eff2, egoX, altX, egoXaltX, interaction1 = "alcohol2")
+test_model_eff2 <- includeEffects( null_model_eff2, sameXTransTrip, interaction1 = "alcohol2")
 myalgorithm2 <- sienaAlgorithmCreate( projname = 's50' , n3 = 1000)
 ests_null <- siena07( myalgorithm2, data = mysmalldata, returnDeps = TRUE, effects = null_model_eff2, batch=TRUE, verbose = FALSE)
 ests_test <- siena07( myalgorithm2, data = mysmalldata, returnDeps = TRUE, effects = test_model_eff2, batch=TRUE, verbose = FALSE)
@@ -84,13 +86,13 @@ actual3$count <- "true_wave3"
 period1.null <- rbind(period1.null, actual2)
 period1.null$cat <- 'null'
 ggplot(data = period1.null, aes(from_id = X1, to_id = X2)) +
-  geom_net(fiteach = FALSE) + theme_net() +
+  geom_net(fiteach = FALSE, directed=TRUE) + theme_net() +
   facet_wrap(~count)
 
 period2.null <- rbind(period2.null, actual3)
 period2.null$cat <- "null"
 ggplot(data = period2.null, aes(from_id = X1, to_id = X2)) +
-  geom_net(fiteach = FALSE) + theme_net() +
+  geom_net(fiteach = FALSE, directed=TRUE) + theme_net() +
   facet_wrap(~count)
 
 
@@ -128,8 +130,28 @@ ggplot(data = period2.test, aes(from_id = X1, to_id = X2)) +
 grep(996, x = period2.test$count)
 grep(996, x = period2.null$count)
 
-ggplot(data = data.frame(rbind(period2.test[102:nrow(period2.test),], period2.null[113:nrow(period2.null),])), aes(from_id = X1, to_id = X2)) +
-  geom_net(fiteach = FALSE) + theme_net() +
+ggplot(data = data.frame(rbind(period2.test[102:nrow(period2.test),], period2.null[105:nrow(period2.null),])), aes(from_id = X1, to_id = X2)) +
+  geom_net(fiteach = FALSE,directed=TRUE) + theme_net() +
   facet_grid(cat~count)
 
+#check significance
 
+A1.1 <- c(1, rep(0,4))
+A1.2 <- c(0,1, rep(0,3))
+A1.3 <- c(0,0, 1,0,0)
+A1.4 <- c(rep(0,3), 1, 0)
+A1.5 <- c(rep(0,4), 1)
+
+Wald.RSiena(A1.1, ests_test)
+Wald.RSiena(A1.2, ests_test)
+Wald.RSiena(A1.3, ests_test)
+Wald.RSiena(A1.4, ests_test)
+Wald.RSiena(A1.5, ests_test)
+
+# find a significant effect! 
+test_model_eff2 <- includeEffects( null_model_eff2, sameXTransTrip, interaction1 = "alcohol2")
+ests_test2 <- siena07( myalgorithm2, data = mysmalldata, returnDeps = TRUE, effects = test_model_eff2, batch=TRUE, verbose = FALSE)
+Wald.RSiena(A1.3[1:3], ests_test2)
+summary(ests_test)
+
+# VICTORY! sameXTransTrip is significant! 
