@@ -3,6 +3,13 @@
 library(ggplot2)
 library(tidyr)
 library(dplyr)
+
+library(RSiena) # or RSienaTest
+# read in network data
+friend.data.w1 <- as.matrix(read.table("Data/s50_data/s50-network1.dat"))
+friend.data.w2 <- as.matrix(read.table("Data/s50_data/s50-network2.dat"))
+friend.data.w3 <- as.matrix(read.table("Data/s50_data/s50-network3.dat"))
+
 val1 <- data.frame(friend.data.w1) %>% gather(x,y, V1:V50) %>% select(y)
 val2 <- data.frame(friend.data.w2) %>% gather(x,y, V1:V50) %>% select(y)
 val3 <- data.frame(friend.data.w3) %>% gather(x,y, V1:V50) %>% select(y)
@@ -22,7 +29,10 @@ ggplot(data= view_rs2, aes(x = x, y=y)) +
 fd2.w1 <- friend.data.w1[20:35,20:35]
 fd2.w2 <- friend.data.w2[20:35,20:35]
 fd2.w3 <- friend.data.w3[20:35,20:35]
+# read in covariate data
+drink <- as.matrix(read.table("Data/s50_data/s50-alcohol.dat"))
 drink2 <- drink[20:35,]
+
 
 # siena data
 library(RSiena)
