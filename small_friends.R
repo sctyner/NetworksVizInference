@@ -127,12 +127,22 @@ ggplot(data = period2.test, aes(from_id = X1, to_id = X2)) +
   geom_net(fiteach = FALSE) + theme_net() +
   facet_wrap(~count)
 
-grep(996, x = period2.test$count)
-grep(996, x = period2.null$count)
+grep(996, x = period2.test$count)[1]
+grep(996, x = period2.null$count)[1]
 
-ggplot(data = data.frame(rbind(period2.test[102:nrow(period2.test),], period2.null[105:nrow(period2.null),])), aes(from_id = X1, to_id = X2)) +
+ggplot(data = data.frame(rbind(period2.test[grep(996, x = period2.test$count)[1]:nrow(period2.test),], period2.null[grep(996, x = period2.null$count)[1]:nrow(period2.null),])), aes(from_id = X1, to_id = X2)) +
   geom_net(fiteach = FALSE,directed=TRUE) + theme_net() +
   facet_grid(cat~count)
+
+#create a lineup: 
+testidx <- grep(1000, x = period2.test$count)
+nullidx <- grep(1000, x = period2.null$count)
+lu1_dat <- data.frame(rbind(period2.test[testidx[1]:testidx[length(testidx)],], period2.null[grep(996, x = period2.null$count)[1]:nullidx[length(nullidx)],]))
+head(lu1_dat)
+
+ggplot(data = lu1_dat, aes(from_id = X1, to_id = X2)) +
+  geom_net(fiteach = FALSE,directed=TRUE) + theme_net() +
+  facet_wrap(~cat+count, nrow=2)
 
 #check significance
 
