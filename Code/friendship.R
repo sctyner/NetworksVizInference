@@ -63,7 +63,7 @@ ggplot(data = period1, aes(from_id = X1, to_id = X2)) +
 
 period2 <- rbind(period2, actual3)
 ggplot(data = period2, aes(from_id = X1, to_id = X2)) +
-  geom_net(fiteach = FALSE) + theme_net() +
+  geom_net(fiteach = TRUE) + theme_net() +
   facet_wrap(~count)
 
 ggplot(data = rbind(period1[1011:1388,],period2[1013:1380,]), aes(from_id = X1, to_id = X2)) +
