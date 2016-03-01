@@ -34,7 +34,7 @@ alcohol2 <- varCovar( as.matrix(drink2) )
 # create siena data object
 mysmalldata <- sienaDataCreate( friend2, alcohol2)
 null_model_eff2 <- getEffects(mysmalldata)
-test_model_eff2 <- includeEffects( null_model_eff2, egoXaltX, interaction1 = "alcohol2")
+test_model_eff2 <- includeEffects( null_model_eff2, egoX, altX, egoXaltX, interaction1 = "alcohol2")
 myalgorithm2 <- sienaAlgorithmCreate( projname = 's50' , n3 = 1000)
 ests_null <- siena07( myalgorithm2, data = mysmalldata, returnDeps = TRUE, effects = null_model_eff2, batch=TRUE, verbose = FALSE)
 ests_test <- siena07( myalgorithm2, data = mysmalldata, returnDeps = TRUE, effects = test_model_eff2, batch=TRUE, verbose = FALSE)
@@ -121,3 +121,5 @@ grep(996, x = period2.null$count)
 ggplot(data = data.frame(rbind(period2.test[102:nrow(period2.test),], period2.null[113:nrow(period2.null),])), aes(from_id = X1, to_id = X2)) +
   geom_net(fiteach = FALSE) + theme_net() +
   facet_grid(cat~count)
+
+
