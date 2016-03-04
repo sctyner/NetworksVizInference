@@ -57,8 +57,12 @@ for (i in 1:n){
                         ests_test$se[3],
                         pval) 
   }
+test_results[,4:6] = apply(test_results[,4:6], 2, function(x) as.numeric(as.character(x)))
 
-write.csv(test_results, file = "effects_significance_smallFriends.csv")
+
+write.csv(test_results, file = "effects_significance_smallFriends.csv") 
+
+
 
 includeEffects( null_model_eff2, RSeffects$shortName[i], type = RSeffects$type[i], 
                 interaction1 = RSeffects$inter1[i], character = TRUE)
