@@ -141,7 +141,7 @@ lu1_dat <- data.frame(rbind(period2.test[testidx[1]:testidx[length(testidx)],], 
 head(lu1_dat)
 
 ggplot(data = lu1_dat, aes(from_id = X1, to_id = X2)) +
-  geom_net(fiteach = FALSE,directed=TRUE) + theme_net() +
+  geom_net(fiteach = TRUE,directed=TRUE, label = TRUE) + theme_net() +
   facet_wrap(~cat+count, nrow=2)
 
 #check significance
