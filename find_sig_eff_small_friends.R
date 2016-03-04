@@ -58,10 +58,14 @@ for (i in 1:n){
                         pval) 
   }
 test_results[,4:6] = apply(test_results[,4:6], 2, function(x) as.numeric(as.character(x)))
-
-
 write.csv(test_results, file = "effects_significance_smallFriends.csv") 
 
+test_results %>% filter(Waldpval<.05)
+
+library(ggplot2)
+ggplot(test_results) +
+  geom_point(aes(x = estimate, y = -Waldpval, color = inter1)) +
+  geom_hline(yintercept = -0.05)
 
 
 includeEffects( null_model_eff2, RSeffects$shortName[i], type = RSeffects$type[i], 
