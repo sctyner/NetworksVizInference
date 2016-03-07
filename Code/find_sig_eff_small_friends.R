@@ -70,7 +70,7 @@ ggplot(test_results %>% filter(Waldpval <.05)) +
 
 null_model_smallFriends <- getEffects(mysmalldata)
 
-as.vector(test_results %>% filter(Waldpval < .05) %>% select(shortName, type, inter1)) -> sig_eff_names
+as.vector(test_results %>% filter(Waldpval < .05) %>% select(shortName, type, inter1, Waldpval)) -> sig_eff_names
 
 eff_models_smallFriends <- NULL
 for (i in 1:nrow(sig_eff_names)){
@@ -88,11 +88,7 @@ for (i in 1:nrow(sig_eff_names)){
 runs_models_smallFriends[[40]]
 
 
-  
-
-
-
-create_small_lineup <- function(RSienaRes, num_plots){
+create_small_lineup <- function(RSienaRes, num_plots, fiteach, pval){
   nets <- NULL
   n <- num_plots
   N <- length(RSienaRes$sims)
@@ -109,9 +105,11 @@ create_small_lineup <- function(RSienaRes, num_plots){
   actual2$count <- "true_wave2"
   nets <-rbind(nets,actual2)
   ggplot(data = nets, aes(from_id = X1, to_id = X2)) +
-    geom_net(fiteach = FALSE, directed=TRUE) + theme_net() +
+    geom_net(fiteach = fiteach, directed=TRUE, label = TRUE, labelcolour = 'red') + theme_net() +
+    labs(title = paste(RSienaRes$requestedEffects[3,2], ", p-value = ", pval, sep = "")) + 
     facet_wrap(~count)
 }
 for (i in 1:40){
-  print(create_small_lineup(runs_models_smallFriends[[i]], 5))
-}
+  print(create_small_lineup(runs_models_smallFriends[[i]], 5, fiteach = TRUE, pval = sig_eff_names$Waldpval[i]))
+  ggsave(paste("Code/Plots/", runs_models_smallFriends[[i]]$requestedEffects[3,2], ".pdf",sep=""))
+  }
