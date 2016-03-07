@@ -92,13 +92,26 @@ runs_models_smallFriends[[40]]
 
 
 
-function(RSienaRes){
+create_small_lineup <- function(RSienaRes, num_plots){
   nets <- NULL
-  for (i in 991:1000){
+  n <- num_plots
+  N <- length(RSienaRes$sims)
+  for (i in (N-n+1):N){
     getnet <- merge(data.frame(RSienaRes$sims[[i]][[1]][[1]][[1]])[,-3], 
                     data.frame(id = 1:16), by.x = "X1", by.y = "id",
                     all = T)
-    getnet$count <- paste(i, "wave2") 
+    getnet$count <- i 
     nets <- rbind(nets, getnet)
   }
+  actual2 <- merge(data.frame(as.edgelist(as.network(fd2.w2))), 
+                   data.frame(id = 1:16), 
+                   by.x = "X1", by.y = "id", all = T)
+  actual2$count <- "true_wave2"
+  nets <-rbind(nets,actual2)
+  ggplot(data = nets, aes(from_id = X1, to_id = X2)) +
+    geom_net(fiteach = FALSE, directed=TRUE) + theme_net() +
+    facet_wrap(~count)
+}
+for (i in 1:40){
+  print(create_small_lineup(runs_models_smallFriends[[i]], 5))
 }
