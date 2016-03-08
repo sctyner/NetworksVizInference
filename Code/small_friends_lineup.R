@@ -35,3 +35,15 @@ create_smfriend_lu <- function(null_eff_struct, test_eff_struct, M, my_dat=mysma
 lu1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct = eff_models_smallFriends[[39]], M = 9)
 lu1$lineup
 lu1$test_id
+
+eff_models_smallFriends[[39]]
+# the added significant effect above is of type "eval" and defined as the transitive triplets jumping on the covariate.
+# s_{i77}(x) = \sum_{j neq h} x_{ij}x_{ih}x_{hj} * I(v_h = v_i \neq v_j)
+# this refers to transitive closure, restricted to “jump outside of
+# V -groups” in the sense that the focal actor and the mediating
+# actor have the same value of V , but the target actor has a
+# different value;
+
+# Here are the results from the model with these added
+runs_models_smallFriends[[39]]
+test_results[175,]
