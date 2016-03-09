@@ -96,22 +96,26 @@ p1 <- ggplot(data = footballm3$lineup_data, aes(from_id = from, to_id = to)) +
 
 footballdata <- footballm3$lineup_data
 footballdata$data_plot <- footballm3$data_plot
-write.csv(footballdata, "lineupdata/football-m-3-rep-1.csv", row.names=FALSE)
+#dir.create(path = "Data/lineupdata")
+write.csv(footballdata, "Data/lineupdata/football-m-3-rep-1.csv", row.names=FALSE)
 file <- 1
+#dir.create(path = "lineups")
+#dir.create(path = "lineups/pdfs")
 ggsave(p1, file=sprintf("lineups/pdfs/football-m-3-rep-%s.pdf",file))
+#dir.create(path = "lineups/svgs")
 tmpfile <- sprintf("%s.svg",tempfile(tmpdir="lineups/svgs"))
 print(p1)
 make_interactive(filename= tmpfile, script=scriptURL,  
                  high="#d5d5d5",  background="#ffffff")
 add_data("lineup-details.csv",
          sample_size=nrow(footballdata),
-         test_param=sprintf("football-m-3-rep-%d", file),
-         param_value=sprintf("football-m-3-rep-%d", file),
+         test_param=sprintf("football-m-3-rep-%d", file), 
+         param_value=sprintf("football-m-3-rep-%d", file), 
          p_value=NA,
          obs_plot_location=footballm3$data_plot,
          pic_name=tmpfile,
-         data_name="lineupdata/football-m-3-rep-1.csv",
-         experiment="turk21",
+         data_name="lineupdata/football-m-3-rep-1.csv", 
+         experiment="turk21", 
          difficulty="football-m-3-rep-1"
 )
 
