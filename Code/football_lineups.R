@@ -1,3 +1,48 @@
+# interactive lineups with gridSVG
+library(grid)
+library(gridSVG)
+scriptURL = "http://www.hofroe.net/examples/lineup/action-back.js"
+
+add_data <- function(filename="lineup-details.csv", sample_size, test_param, param_value, p_value, obs_plot_location, pic_name, experiment="turk21", difficulty, data_name,
+                     question="Which graph looks the most different?") {
+  write.table(data.frame(
+    sample_size=sample_size,
+    test_param=test_param,
+    param_value=param_value,
+    p_value=p_value,
+    obs_plot_location=obs_plot_location, 
+    pic_name=pic_name,
+    experiment=experiment,
+    difficulty=difficulty,
+    data_name=data_name,
+    question=question
+  ), 
+  file=filename, row.names=FALSE, sep=",",
+  col.names=!file.exists(filename), append=TRUE)
+}
+
+make_interactive <- function(filename, script, toggle="toggle", high = "#c5c5c5", background="#ffffff") {
+  require(gridSVG)
+  grid.force()  
+  grobs <- grid.ls()
+  
+  idx <- grep("panel-", grobs$name)
+  for (i in idx) { 
+    grid.garnish(grobs$name[i],
+                 onmouseover=paste("frame('",grobs$name[i+2], ".1.1')", sep=""),
+                 onmouseout=paste("deframe('",grobs$name[i+2], ".1.1')", sep=""), 
+                 onmousedown=sprintf("%shigh(evt, '%s.1.1', '%s', '%s')", toggle, grobs$name[i+2], high, background)
+    )
+  }
+  
+  # use script on server to get locally executable javascript code
+  # or use inline option (default)
+  grid.script(filename=script)
+  grid.export(filename)
+}
+
+
+
 # data scrambling
 
 library(geomnet)
@@ -45,8 +90,32 @@ create_net_lineup <- function(net_data, to_id, m){
 }
 
 footballm3 <- create_net_lineup(football_net, to_id = "to", m = 3)
-ggplot(data = footballm3$lineup_data, aes(from_id = from, to_id = to)) + 
-  geom_net(ealpha = .5, fiteach = TRUE, colour = 'black') + theme_net() + facet_wrap(~group)
+p1 <- ggplot(data = footballm3$lineup_data, aes(from_id = from, to_id = to)) + 
+  geom_net(ealpha = .5, fiteach = TRUE, colour = 'black') + theme_net() + facet_wrap(~group) +
+  theme(panel.background = element_rect(fill="white"))
+
+footballdata <- footballm3$lineup_data
+footballdata$data_plot <- footballm3$data_plot
+write.csv(footballdata, "lineupdata/football-m-3-rep-1.csv", row.names=FALSE)
+file <- 1
+ggsave(p1, file=sprintf("lineups/pdfs/football-m-3-rep-%s.pdf",file))
+tmpfile <- sprintf("%s.svg",tempfile(tmpdir="lineups/svgs"))
+print(p1)
+make_interactive(filename= tmpfile, script=scriptURL,  
+                 high="#d5d5d5",  background="#ffffff")
+add_data("lineup-details.csv",
+         sample_size=nrow(footballdata),
+         test_param=sprintf("football-m-3-rep-%d", file),
+         param_value=sprintf("football-m-3-rep-%d", file),
+         p_value=NA,
+         obs_plot_location=footballm3$data_plot,
+         pic_name=tmpfile,
+         data_name="lineupdata/football-m-3-rep-1.csv",
+         experiment="turk21",
+         difficulty="football-m-3-rep-1"
+)
+
+
 
 footballm6 <- create_net_lineup(football_net, to_id = "to", m = 6)
 ggplot(data = footballm6$lineup_data, aes(from_id = from, to_id = to)) + 
