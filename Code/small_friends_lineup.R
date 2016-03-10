@@ -26,13 +26,13 @@ create_smfriend_lu <- function(null_eff_struct, test_eff_struct, M, my_dat=mysma
   to_plot <- rbind(null_data, test_data)
   to_plot$plot_order <- rep(sample(M), as.vector(table(to_plot$count)))
   plot <- ggplot(data = to_plot, aes(from_id = X1, to_id = X2)) + 
-            geom_net(fiteach = TRUE, directed = T, size = 1, arrowsize = .5) +
-            facet_wrap(~plot_order) + theme_net()
+            geom_net(fiteach = TRUE, directed = F, size = 1, arrowsize = .5) +
+            facet_wrap(~plot_order) + theme_net() + theme(panel.background = element_rect(fill = "white", color = 'white'))
   data_plot_id <- unique(to_plot$plot_order[which(to_plot$count == M)])
   return(list(data = to_plot, lineup = plot, test_id = data_plot_id))
 }
 
-lu1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct = eff_models_smallFriends[[39]], M = 9)
+lu1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct = eff_models_smallFriends[[39]], M = 6)
 lu1$data
 lu1$lineup
 lu1$test_id
