@@ -150,24 +150,17 @@ library(geomnet)
 References for the intro: lineup protocol~\cite{buja:2009}, RSiena~\cite{RSiena}. 
 
 \begin{enumerate}
-\item Need to complete lineups in 2-3 weeks
-\item Lineups: 
-  \begin{enumerate}
+\item Lineups to test
   \item What sizes? 3, 6, 9, 12
-  \item What data? Football, olga's data, teenage friends data?
-  \item Other things to consider: coloring of nodes? 
-  \item use replicates: different seeds for the same data produces different layouts -
-  different draws from the model
-  \end{enumerate}
-\item Get simulated networds from models from RSiena
-\item Figure out another way to fit a model and then simulate from it? 
+  \item Maybe one other really significant effect
+  \item facetting - same layout for all or different layouts in each? 
 \end{enumerate}
-
-Possible section outline for paper: \hh{XXX the  outline looks good XXX }
+ 
+Outline for paper:
 \begin{enumerate}
 \item Introduction - visual inference, networks
 \item Data and Model fitting \& simulation
-\item Lineup methods \hh{XXX what do you mean by `methods' here? Do you mean the Experimental Design?} \st{XXX I think that's what I mean.}
+\item Experiment / Experimental Design
 \item Results
 \item Conclusions and Discussion
 \end{enumerate}
@@ -179,18 +172,23 @@ Possible section outline for paper: \hh{XXX the  outline looks good XXX }
 \hh{We need both a theoretical bit on the models (at the beginning of the section), and then a discussion of the examples used in the paper. }
 
 \st{
-\subsection{Network Models}
+\subsection{Stochastic Actor-Oriented Models}
 
-XXX should we just focus on the stochastic, actor oriented ones? or should we add additional ones? XXX 
-
-\par One network model we examine is the stochastic actor-oriented models (SAOM) introduced by Snijders~\cite{Snijders:1996}. Social networks are generally not static: they evolve over time and this evolution is influenced by the actors and the network structure. In SAOMs, each node, or actor, has its own objective function, $f_i(\beta, x)$ where $i$ is the node index, and $\beta$ is a vector of $p$ coefficients for the $p$ effects in a model, $s_{ki}(x)$ for a given network state $x$, effect $k = 1, ..., p$ and node $i$. The values of each $\beta_k$ are estimated with all nodes and ties in consideration and are applied to all nodes' objective functions.
-\par At random moments (occurring with rate $\rho$), a single actor $i$ is permitted to change one of its ties, $x_{ij}$. Or, the actor can do nothing. These single edge change moments are unobserved. They are only observed in aggregate when the network is observed at discrete time points. 
+\par Stochastic actor-oriented models (SAOMs) were introduced in Snijders~\cite{Snijders:1996}. Social networks are generally not static: they evolve over time. This evolution is influenced by both the actors' behaviors and the network structure. In SAOMs, each actor, or node, has its own objective function, $f_i(\beta, x)$ where $i$ is the node index, and $\beta$ is a vector of $p$ coefficients for the $p$ effects in a model, $s_{ki}(x)$ for a given network state $x$, effect $k = 1, ..., p$ and node $i$. The full form of the objective function is $$ f_i(\beta, x) = \sum_k \beta_k s_{ik}(x). $$ The values of each $\beta_k$ are estimated with all nodes and ties in consideration and are applied to all nodes' objective functions.
+\par At random moments occurring with rate $\rho_m$, $m = 1, \dots, M-1$ where $M$ is the number of observed waves of a network, a single actor $i$ is permitted to change one of its ties, $x_{ij}$. Or, the actor can do nothing. These single edge change moments are unobserved. They are only observed in aggregate when the network is observed at discrete time points. So, multiple actors may change their ties between wave $m-1$ and wave $m$.   
 \par When given the opportunity to change or not, each actor tries to optimize its own objective function $f_i(\beta,x)$ under the current configuration of the network (denoted by $x$) in the observed time point.  The probability that node $i$ will change a tie $x_ij$ when given the opportunity to act is $$ p_{ij} = \frac{\exp(f(\beta,x| x_{ij}=x'_{ij}) - f(\beta, x |x_{ij}=x_{ij}))}{\sum_{h=1}^n \exp(f(\beta, x |x_{ih}=x'_{ih}) - f(\beta, x|x_{ih}=x_{ih}))}$$ 
+where $x'_{ij}$ is the opposite of the current state of $x_{ij} ~\cite{Snijders:1996}$.    
 
-where $x'_{ij}$ is the opposite of the current state of $x_{ij}$.
-
-\par Estimation and implementation of these models can be done in the RSIENA software~\cite{RSiena}.  The software allows many possible effects to be included in this type of model, given below. XX insert math after I read the Snijders papers XX  Some of the network effects and actor effects we look at are XXX insert list of effects XXX. 
-
+\par Estimation and implementation of these models can be done in the RSIENA software~\cite{RSiena}.  The software allows many possible effects to be included in this type of model. Some of the network effects and actor effects we look at are: 
+\begin{table}  
+  \begin{tabular}{llc}
+  Name & Type & Formula \\ 
+  \hline
+  period 1 rate & Rate & $\rho_1$ \\
+  outdegree & Structural & $s_{i1}(x) = \sum_j x_{ij}$ \\
+  reciprocity & Structural & $s_{i2}(x) = \sum_j x_{ij}x_{ji} $
+  \end{tabular}
+\end{table}
 
 
 
