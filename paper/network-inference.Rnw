@@ -174,7 +174,7 @@ Outline for paper:
 \st{
 \subsection{Stochastic Actor-Oriented Models}
 
-\par Stochastic actor-oriented models (SAOMs) were introduced in Snijders~\cite{Snijders:1996}. Social networks are generally not static: they evolve over time. This evolution is influenced by both the actors' behaviors and the network structure. In SAOMs, each actor, or node, has its own objective function, $f_i(\beta, x)$ where $i$ is the node index, and $\beta$ is a vector of $p$ coefficients for the $p$ effects in a model, $s_{ki}(x)$ for a given network state $x$, effect $k = 1, ..., p$ and node $i$. The full form of the objective function is $$ f_i(\beta, x) = \sum_k \beta_k s_{ik}(x). $$ The values of each $\beta_k$ are estimated with all nodes and ties in consideration and are applied to all nodes' objective functions.
+\par Stochastic actor-oriented models (SAOMs) were introduced in Snijders~\cite{Snijders:1996}. Social networks are generally not static: they evolve over time. This evolution is influenced by both the actors' behaviors and the network structure. In SAOMs, each actor, or node, has its own objective function, $f_i(\beta, x)$ where $i$ is the node index, and $\beta$ is a vector of $p$ coefficients for the $p$ effects in a model, $s_{ik}(x)$ for a given network state $x$, effect $k = 1, ..., p$ and node $i$. The full form of the objective function is $$ f_i(\beta, x) = \sum_k \beta_k s_{ik}(x). $$ The values of each $\beta_k$ are estimated with all nodes and ties in consideration and are applied to all nodes' objective functions.
 \par At random moments occurring with rate $\rho_{m-1}$, $m = 2, \dots, M$ where $M \geq 2$ is the number of observed waves of a network, a single actor $i$ is permitted to change one of its ties, $x_{ij}$. Or, the actor can do nothing. These single edge change moments are unobserved. They are only observed in aggregate when the network is observed at discrete time points. So, multiple actors may change their ties between wave $m-1$ and wave $m$.   
 \par When given the opportunity to change or not, each actor tries to optimize its own objective function $f_i(\beta,x)$ under the current configuration of the network (denoted by $x$) in the observed time point.  The probability that node $i$ will change a tie $x_ij$ when given the opportunity to act is $$ p_{ij} = \frac{\exp(f(\beta,x| x_{ij}=x'_{ij}) - f(\beta, x |x_{ij}=x_{ij}))}{\sum_{h=1}^n \exp(f(\beta, x |x_{ih}=x'_{ih}) - f(\beta, x|x_{ih}=x_{ih}))}$$ 
 where $x'_{ij}$ is the opposite of the current state of $x_{ij} ~\cite{Snijders:1996}$.    
@@ -196,6 +196,7 @@ where $x'_{ij}$ is the opposite of the current state of $x_{ij} ~\cite{Snijders:
   \caption{\label{tab:effects} Some of the possible effects to be included in the stochastic actor-oriented models in RSiena. There are many more possible effects, but we only consider a select few here. For a complete list, see the RSiena manual ~\cite{RSiena}.}  
 \end{table}
 
+\par To estimate the parameter values, $\beta_k$, $k = 1, \dots, p$, the relevant statistics are 
 
 
 
