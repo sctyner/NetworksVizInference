@@ -25,7 +25,7 @@
 %% typefaces, ``graphicx'' for inclusion of EPS figures. and ``times''
 %% for proper handling of the times font family.
 
-\usepackage{mathptmx}
+\usepackage{mathptmx, amsmath, amssymb}
 \usepackage{graphicx}
 \usepackage{times}
 \usepackage{color}
@@ -175,7 +175,7 @@ Outline for paper:
 \subsection{Stochastic Actor-Oriented Models}
 
 \par Stochastic actor-oriented models (SAOMs) were introduced in Snijders~\cite{Snijders:1996}. Social networks are generally not static: they evolve over time. This evolution is influenced by both the actors' behaviors and the network structure. In SAOMs, each actor, or node, has its own objective function, $f_i(\beta, x)$ where $i$ is the node index, and $\beta$ is a vector of $p$ coefficients for the $p$ effects in a model, $s_{ki}(x)$ for a given network state $x$, effect $k = 1, ..., p$ and node $i$. The full form of the objective function is $$ f_i(\beta, x) = \sum_k \beta_k s_{ik}(x). $$ The values of each $\beta_k$ are estimated with all nodes and ties in consideration and are applied to all nodes' objective functions.
-\par At random moments occurring with rate $\rho_m$, $m = 1, \dots, M-1$ where $M$ is the number of observed waves of a network, a single actor $i$ is permitted to change one of its ties, $x_{ij}$. Or, the actor can do nothing. These single edge change moments are unobserved. They are only observed in aggregate when the network is observed at discrete time points. So, multiple actors may change their ties between wave $m-1$ and wave $m$.   
+\par At random moments occurring with rate $\rho_{m-1}$, $m = 2, \dots, M$ where $M \geq 2$ is the number of observed waves of a network, a single actor $i$ is permitted to change one of its ties, $x_{ij}$. Or, the actor can do nothing. These single edge change moments are unobserved. They are only observed in aggregate when the network is observed at discrete time points. So, multiple actors may change their ties between wave $m-1$ and wave $m$.   
 \par When given the opportunity to change or not, each actor tries to optimize its own objective function $f_i(\beta,x)$ under the current configuration of the network (denoted by $x$) in the observed time point.  The probability that node $i$ will change a tie $x_ij$ when given the opportunity to act is $$ p_{ij} = \frac{\exp(f(\beta,x| x_{ij}=x'_{ij}) - f(\beta, x |x_{ij}=x_{ij}))}{\sum_{h=1}^n \exp(f(\beta, x |x_{ih}=x'_{ih}) - f(\beta, x|x_{ih}=x_{ih}))}$$ 
 where $x'_{ij}$ is the opposite of the current state of $x_{ij} ~\cite{Snijders:1996}$.    
 
@@ -187,10 +187,13 @@ where $x'_{ij}$ is the opposite of the current state of $x_{ij} ~\cite{Snijders:
   period $m$ rate & Rate & $\rho_{m-1}$ \\
   outdegree & Structural & $s_{i1}(x) = \sum_j x_{ij}$ \\
   reciprocity & Structural & $s_{i2}(x) = \sum_j x_{ij}x_{ji} $ \\
-  transitive triplets & Structural & $s_{i3}(x) = \sum_{j,h} x_{ij}x_{jh}x_{ih}$
-  
-  \end{tabular}
-  \caption{\label{tab:effects}}
+  transitive triplets & Structural & $s_{i3}(x) = \sum_{j,h} x_{ij}x_{jh}x_{ih}$ \\
+  covariate-alter & Covariate & $s_{i4}(x) = \sum_j x_{ij}v_j $ \\
+  covariate-ego & Covariate & $ s_{i5}(x) = v_i\sum_j x_{ij}$ \\
+  same covariate & Covariate & $ s_{i6}(x) = \sum_j x_{ij} \mathbb{I}(v_i = v_j)$ \\
+  jumping $V$ transitive triplets & Covariate & $ s_{i7}(x) = \sum_{j \neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$
+  \end{tabular} 
+  \caption{\label{tab:effects} Some of the possible effects to be included in the stochastic actor-oriented models in RSiena. There are many more possible effects, but we only consider a select few here. For a complete list, see the RSiena manual ~\cite{RSiena}.}  
 \end{table}
 
 
