@@ -176,7 +176,7 @@ Outline for paper:
 
 \par Social networks are generally not static: they evolve over time. This evolution is influenced by both the actors' behaviors and the network structure. To deal with this continuous evolution, 
 stochastic actor-oriented models (SAOMs) were introduced by Snijders in~\cite{Snijders:1996}. 
-In a SAOM each actor, represented by a node, has its own objective function, $f_i(\beta, x)$ where $i$ is the node index, and $\beta$ is a vector of $p$ coefficients for the $p$ effects in a model. The full form of the objective function is 
+In a SAOM each actor is represented by a node. Each node has its own objective function, $f_i(\beta, x)$ where $i$ is the node index, and $\beta$ is a vector of $p$ coefficients for the $p$ effects in a model. The full form of the objective function is 
 \begin{equation}\label{eq:SAOM}
 f_i(\beta, x) = \sum_k \beta_k s_{ik}(x),
 \end{equation}
@@ -186,8 +186,11 @@ The values of each $\beta_k$ are estimated with all nodes and ties in considerat
 \par
 \hh{XXX describe what happens to each individual actor first, then talk about the aggregate. Refer to the table to make the $s_{ik}$ more concrete.}
 \st{At random moments occurring with rate $\rho_{m-1}$, $m = 2, \dots, M$ where $M \geq 2$ is the number of observed waves of a network, a single actor $i$ is permitted to change one of its ties, $x_{ij}$. Alternatively, the actor can do nothing. These single edge change moments are unobserved. They are only observed in aggregate when the network is observed at discrete time points. So, multiple actors may change their ties between wave $m-1$ and wave $m$.   
-\par When given the opportunity to change or not, each actor tries to optimize its own objective function $f_i(\beta,x)$ under the current configuration of the network (denoted by $x$) in the observed time point.  The probability that node $i$ will change a tie $x_ij$ when given the opportunity to act is $$ p_{ij} = \frac{\exp(f(\beta,x| x_{ij}=x'_{ij}) - f(\beta, x |x_{ij}=x_{ij}))}{\sum_{h=1}^n \exp(f(\beta, x |x_{ih}=x'_{ih}) - f(\beta, x|x_{ih}=x_{ih}))}$$ 
-where $x'_{ij}$ is the opposite of the current state of $x_{ij} ~\cite{Snijders:1996}$. }
+\par When given the opportunity to change or not, each actor tries to optimize its own objective function $f_i(\beta,x)$ under the current configuration of the network (denoted by $x$) in the observed time point.  The probability that actor $i$  changes a tie $x_{ij}$ \hh{to its opposite $x'_{ij}$ }  when given the opportunity to act is~\cite{Snijders:1996} \hh{could you first describe this function in words and then give the formula? It looks like a comparison of odds similar to a conditional logit model or a discrete choice model~\cite{benatkiva:1985}}
+$$ 
+p_{ij} = \frac{\exp(f(\beta,x| x_{ij}=x'_{ij}) - f(\beta, x |x_{ij}=x_{ij}))}{\sum_{h=1}^n \exp(f(\beta, x |x_{ih}=x'_{ih}) - f(\beta, x|x_{ih}=x_{ih}))}.
+$$ 
+\hh{Sam, could you check in the Snijder paper again about the actual form of the denominator? could it be two sums rather than the one?} }
 
 \par Estimation and implementation of these models can be done in the RSIENA software~\cite{RSiena}.  The software allows many possible effects to be included in this type of model.  Some of the network effects and actor effects that are possible to include in SAOMs are given in Table ~\ref{tab:effects}. 
 %
@@ -198,14 +201,14 @@ where $x'_{ij}$ is the opposite of the current state of $x_{ij} ~\cite{Snijders:
 %  \multicolumn{2}{l}{\bf Rate parameter}\\
 %  period $m$ rate & $\rho_{m-1}$ \\[3pt]
   \multicolumn{2}{l}{\bf Structural Effects}\\
-  outdegree  & $s_{i1}(x) = \sum_j x_{ij}$ \\
-  reciprocity  & $s_{i2}(x) = \sum_j x_{ij}x_{ji} $ \\
-  transitive triplets  & $s_{i3}(x) = \sum_{j,h} x_{ij}x_{jh}x_{ih}$ \\[3pt]
+ \ outdegree  & $s_{i1}(x) = \sum_j x_{ij}$ \\
+\   reciprocity  & $s_{i2}(x) = \sum_j x_{ij}x_{ji} $ \\
+ \  transitive triplets  & $s_{i3}(x) = \sum_{j,h} x_{ij}x_{jh}x_{ih}$ \\[3pt]
   \multicolumn{2}{l}{\bf Covariate Effects}\\
-  covariate-alter  & $s_{i4}(x) = \sum_j x_{ij}v_j $ \\
-  covariate-ego  & $ s_{i5}(x) = v_i\sum_j x_{ij}$ \\
-  same covariate & $ s_{i6}(x) = \sum_j x_{ij} \mathbb{I}(v_i = v_j)$ \\
-  jumping $V$ transitive triplets  & $ s_{i7}(x) = \sum_{j \neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$
+ \ covariate-alter  & $s_{i4}(x) = \sum_j x_{ij}v_j $ \\
+\  covariate-ego  & $ s_{i5}(x) = v_i\sum_j x_{ij}$ \\
+\  same covariate & $ s_{i6}(x) = \sum_j x_{ij} \mathbb{I}(v_i = v_j)$ \\
+ \ jumping $V$ transitive triplets  & $ s_{i7}(x) = \sum_{j \neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$
   \end{tabular} 
   \caption{\label{tab:effects} Some of the possible effects to be included in the stochastic actor-oriented models in RSiena. There are many more possible effects, but we only consider a select few here. For a complete list, see the RSiena manual ~\cite{RSiena}.}  
 \end{table}
