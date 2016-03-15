@@ -190,22 +190,26 @@ The values of each $\beta_k$ are estimated with all nodes and ties in considerat
 where $x'_{ij}$ is the opposite of the current state of $x_{ij} ~\cite{Snijders:1996}$. }
 
 \par Estimation and implementation of these models can be done in the RSIENA software~\cite{RSiena}.  The software allows many possible effects to be included in this type of model.  Some of the network effects and actor effects that are possible to include in SAOMs are given in Table ~\ref{tab:effects}. 
+%
 \begin{table}  
-  \begin{tabular}{llc}
-  Name & Type & Formula \\ 
-  \hline
-  period $m$ rate & Rate & $\rho_{m-1}$ \\
-  outdegree & Structural & $s_{i1}(x) = \sum_j x_{ij}$ \\
-  reciprocity & Structural & $s_{i2}(x) = \sum_j x_{ij}x_{ji} $ \\
-  transitive triplets & Structural & $s_{i3}(x) = \sum_{j,h} x_{ij}x_{jh}x_{ih}$ \\
-  covariate-alter & Covariate & $s_{i4}(x) = \sum_j x_{ij}v_j $ \\
-  covariate-ego & Covariate & $ s_{i5}(x) = v_i\sum_j x_{ij}$ \\
-  same covariate & Covariate & $ s_{i6}(x) = \sum_j x_{ij} \mathbb{I}(v_i = v_j)$ \\
-  jumping $V$ transitive triplets & Covariate & $ s_{i7}(x) = \sum_{j \neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$
+  \begin{tabular}{ll}
+%\bf  Name  & \bf Formula \\ 
+%  \hline
+%  \multicolumn{2}{l}{\bf Rate parameter}\\
+%  period $m$ rate & $\rho_{m-1}$ \\[3pt]
+  \multicolumn{2}{l}{\bf Structural Effects}\\
+  outdegree  & $s_{i1}(x) = \sum_j x_{ij}$ \\
+  reciprocity  & $s_{i2}(x) = \sum_j x_{ij}x_{ji} $ \\
+  transitive triplets  & $s_{i3}(x) = \sum_{j,h} x_{ij}x_{jh}x_{ih}$ \\[3pt]
+  \multicolumn{2}{l}{\bf Covariate Effects}\\
+  covariate-alter  & $s_{i4}(x) = \sum_j x_{ij}v_j $ \\
+  covariate-ego  & $ s_{i5}(x) = v_i\sum_j x_{ij}$ \\
+  same covariate & $ s_{i6}(x) = \sum_j x_{ij} \mathbb{I}(v_i = v_j)$ \\
+  jumping $V$ transitive triplets  & $ s_{i7}(x) = \sum_{j \neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$
   \end{tabular} 
   \caption{\label{tab:effects} Some of the possible effects to be included in the stochastic actor-oriented models in RSiena. There are many more possible effects, but we only consider a select few here. For a complete list, see the RSiena manual ~\cite{RSiena}.}  
 \end{table}
-
+%
 \par To estimate the parameter values, $\beta_k$, $k = 1, \dots, p$, the relevant statistics are 
 
 
