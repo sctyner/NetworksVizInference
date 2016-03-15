@@ -194,7 +194,7 @@ $$
 }
 \hh{XXX Sam, could you check in the Snijder paper again about the actual form of the denominator? could it be two sums rather than the one?} 
 
-\st{Alternatively, the actor can do nothing. \hh{XXX how is that decided? somehow the probabilities $p_ij$, $j=1, ..., ?$ have to be evaluated and a decision in favor of acting or not is made. from the description it's not clear yet how that happens.} These single edge change moments are unobserved. They are only observed in aggregate when the network is observed at discrete time points. So, multiple actors may change (multiple of) their ties between wave $m-1$ and wave $m$.   
+\st{Alternatively, the actor can do nothing. \hh{XXX how is that decided? somehow the probabilities $p_ij$, $j=1, ..., ?$ have to be aggregated and a decision in favor of acting or not must be made. from the description it's not clear yet how that happens.} These single edge change moments are unobserved. They are only observed in aggregate when the network is observed at discrete time points. So, multiple actors may change (multiple of) their ties between wave $m-1$ and wave $m$.   
 \par 
 
 \par Estimation and implementation of these models can be done in the RSIENA software~\cite{RSiena}.  The software allows many possible effects to be included in this type of model.  Some of the network effects and actor effects that are possible to include in SAOMs are given in Table ~\ref{tab:effects}. 
