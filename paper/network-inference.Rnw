@@ -185,12 +185,16 @@ where $s_{ik}(x)$ \hh{is a structural function ... ??? XXX do these functions ha
 The values of each $\beta_k$ are estimated with all nodes and ties in consideration and are applied to all nodes' objective functions.
 \par
 \hh{XXX describe what happens to each individual actor first, then talk about the aggregate. Refer to the table to make the $s_{ik}$ more concrete.}
-\st{At random moments occurring with rate $\rho_{m-1}$, $m = 2, \dots, M$ where $M \geq 2$ is the number of observed waves of a network, a single actor $i$ is permitted to change one of its ties, $x_{ij}$. Alternatively, the actor can do nothing. These single edge change moments are unobserved. They are only observed in aggregate when the network is observed at discrete time points. So, multiple actors may change their ties between wave $m-1$ and wave $m$.   
-\par When given the opportunity to change or not, each actor tries to optimize its own objective function $f_i(\beta,x)$ under the current configuration of the network (denoted by $x$) in the observed time point.  The probability that actor $i$  changes a tie $x_{ij}$ \hh{to its opposite $x'_{ij}$ }  when given the opportunity to act is~\cite{Snijders:1996} \hh{could you first describe this function in words and then give the formula? It looks like a comparison of odds similar to a conditional logit model or a discrete choice model~\cite{benatkiva:1985}}
+\st{At random moments occurring with rate $\rho_{m-1}$, $m = 2, \dots, M$ where $M \geq 2$ is the number of observed waves of a network, a single actor $i$ is permitted to act:  
+when given the opportunity to act, an actor tries to optimize its own objective function $f_i(\beta,x)$ under the current configuration of the network (denoted by $x$) in the observed time point.  The probability that actor $i$  changes a tie $x_{ij}$ \hh{to its opposite $x'_{ij}$} is~\cite{Snijders:1996} \hh{XXX could you first describe this function in words and then give the formula? It looks like a comparison of odds similar to a conditional logit model or a discrete choice model~\cite{benatkiva:1985}}
 $$ 
 p_{ij} = \frac{\exp(f(\beta,x| x_{ij}=x'_{ij}) - f(\beta, x |x_{ij}=x_{ij}))}{\sum_{h=1}^n \exp(f(\beta, x |x_{ih}=x'_{ih}) - f(\beta, x|x_{ih}=x_{ih}))}.
 $$ 
-\hh{Sam, could you check in the Snijder paper again about the actual form of the denominator? could it be two sums rather than the one?} }
+}
+\hh{XXX Sam, could you check in the Snijder paper again about the actual form of the denominator? could it be two sums rather than the one?} 
+
+\st{Alternatively, the actor can do nothing. \hh{XXX how is that decided? somehow the probabilities have to be evaluated and a decision in favor of acting or not is made. from the description it's not clear yet how that happens.} These single edge change moments are unobserved. They are only observed in aggregate when the network is observed at discrete time points. So, multiple actors may change their ties between wave $m-1$ and wave $m$.   
+\par 
 
 \par Estimation and implementation of these models can be done in the RSIENA software~\cite{RSiena}.  The software allows many possible effects to be included in this type of model.  Some of the network effects and actor effects that are possible to include in SAOMs are given in Table ~\ref{tab:effects}. 
 %
