@@ -4,6 +4,8 @@
 # the function will break if used on other models
 
 library(RSiena)
+library(ggplot2)
+library(geomnet)
 # run line to get the effects structures and data. 
 # source("Code/find_sig_eff_small_friends.R")
 
@@ -103,7 +105,21 @@ ggsave(lu1$lineup, file=sprintf("lineups/pdfs/smallfriends-m-9-rep-%s.pdf",file)
 tmpfile <- sprintf("%s.svg",tempfile(tmpdir="lineups/svgs"))
 print(lu1$lineup)
 # isn't working. keeps throwing the same 2 errors
+# to do: fix arrows! 
 make_interactive(filename= tmpfile, script=scriptURL,  
                  high="#d5d5d5",  background="#ffffff")
 
+# function to create the lineups and linup data
 
+make_interactive_lineups <- function(m, reps, model.effects, null.effects){
+  for (i in 1:reps){
+    lineup <- create_smfriend_lu(null_eff_struct = null.effects, test_eff_struct = model.effects, M = m)
+    filename <- paste0("Data/lineupdata/smallfriends-m-", m, '-rep-', i, ".csv")
+    write.csv(lineup$data, sprintf("Data/lineupdata/smallfriends-m-%s-rep-%s.csv",m,i), row.names=FALSE)
+    ggsave(lineup$lineup, file=sprintf("lineups/pdfs/smallfriends-m-%s-rep-%s.pdf",m,i), width = 7.2, height = 4.5, units = "in")
+    print(lineup$lineup)
+    tmpfile <- sprintf("%s.svg",tempfile(tmpdir="lineups/svgs"))
+    make_interactive(filename= tmpfile, script=scriptURL,  
+                     high="#d5d5d5",  background="#ffffff")
+  }
+}
