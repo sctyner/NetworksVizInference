@@ -70,7 +70,7 @@ Thus, each network observation, $x(t_m)$ represents the concatenation of (usuall
       0 & \text{if } x^z \notin \mathcal{A}_i(x^y) \text{ for any i } \in \mathcal{N}
    \end{cases}
 \]
-Properties of intensity matrices dictate that the diagonal entry, where the state doesn't change, is defined as $q(x^y,x^y) = -\sum_{z\neq y} q(x^y, x^z)$ so that the row sum is 0. Thus, the rate of change between any two states that differ by only one tie from $i \to j$ is the product of the rate at which actor $i$ gets to change a tie and the probability that the tie that will change is the tie to node $j$.\footnote{Just to be clear, the change is from $x^y_{ij}$ to $x^z_{ij} = 1 - x^y_{ij}$.} 
+Properties of intensity matrices dictate that the diagonal entry, where the state doesn't change, is defined as $q(x^y,x^y) = -\sum_{z\neq y} q(x^y, x^z)$ so that the row sum is 0. Thus, the rate of change between any two states that differ by only one tie from $i \to j$ is the product of the rate at which actor $i$ gets to change a tie and the probability that the tie that will change is the tie to node $j$.\footnote{Just to be clear, the change is from $x^y_{ij}$ to $x^z_{ij} = 1 - x^y_{ij}$.} Furthermore, the theory of continuous time Markov chains gives that the matrix of transition probabilities between observation times $t_{m-1}$ and $t_{m}$ is dependent only on the difference between timepoints, $t_m - t_{m-1}$ and is equal to $e^{(t_m - t_{m-1})Q}$, where $Q$ is the matrix defined above and $e^X$ for a real or complex square matrix $X$ is equal to $\sum_{k=0}^{\infty} \frac{1}{k!} X^k$. There is a package in \texttt{R} to do this, but I can't imagine doing this for any $n > 5$.  
 \end{itemize}
 
 
