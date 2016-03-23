@@ -4,7 +4,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb,array}
 \usepackage{booktabs}
-
+\usepackage{tikz}
 %% load any required packages here
 
 \usepackage{adjustbox}            %% to align tops of minipages
@@ -19,28 +19,61 @@
 
 \begin{document}
 
-\LARGE{\bf Thoughts about Network Visual Inference Paper}
+{\Large \textbf Stochastic Actor-Oriented Models for Social Networks}
 
-\begin{enumerate}
-\item Need to complete lineups in 2-3 weeks
-\item Lineups: 
-  \begin{enumerate}
-  \item What sizes? 3, 6, 9, 12
-  \item What data? Football, olga's data, teenage friends data?
-  \item Other things to consider: coloring of nodes? 
-  \end{enumerate}
-\item Get simulated networds from models from RSiena
-\item Figure out another way to fit a model and then simulate from it? 
-\end{enumerate}
+\section{Terminology \& Notation}
+ 
+\begin{itemize}
+\item \textbf{Network} - A collection of actors and ties between them. A whole network (all of the nodes and the ties between them) is denoted $x$. In SAOMs, the networks are observed in waves for time points $m = 1, \dots, M$. Sometimes, the networks observed are denoted as $x(t_m)$.  
+\item \textbf{Node} or \textbf{Actor} - The entities that form ties in a network.  The number of nodes in a network is denoted $n$. The set of nodes, $\{i : i = 1, \dots n\}$ is denoted $\mathcal{N}$. 
+\item \textbf{Edge} or \textbf{Tie} - The connections between actors in a network. A tie from actor $i$ to actor $j$ is denoted by $x_{ij}$. In SAOMs, ties are almost always directed, so $x_{ij}$ does not necessarily equal $x_{ji}$. $x_{ij} = 1$ if there is a tie from actor $i$ to actor $j$ and $x_{ij} = 0 $ if there is not a tie from actor $i$ to actor $j$. Ties from an actor to itself, $x_{ii}$, are structurally zero, meaning that self-ties are not allowed. In a network of $n$ nodes, there are $n(n-1)$ possible ties. 
+\item \textbf{Adjacency matrix} - The adjacency matrix of a network is a numerical representation of it. The adjaceny matrix of $x$ is denoted $\mathcal{A}(x)$, is of dimension $n \times n$ and has $ij^{th}$ entry equal to the value of $x_{ij}$ for all $i \neq j \in \mathcal{N}$. The diagonal entries of $\mathcal{A}(x)$, $ii$ for $i = 1, \dots, n$, are all structurally 0.  
+\item $\mathbf{X(t)}$ - A continuous time Markov process \emph{in which} the observed panel of $M$ networks of size $n$ is embedded. For each $t = 1, 2, 3, \dots$, there is one tie change. In other words, the network $X(t+1)$ only differs from $X(t)$ by one tie, $x_{ij}$. Call this tie $x_{ij}(t)$ in network $X(t)$ and $x_{ij}(t+1)$ in network $X(t+1)$. Then, $x_{ij}(t+1) = 1-x_{ij}(t)$. Note that $t$ is different from $t_m$. Here is an illustrated example: \\
 
-Possible section outline for paper:
-\begin{enumerate}
-\item Introduction - visual inference, networks
-\item Data and Model fitting & simulation
-\item Lineup methods
-\item Results
-\item Conclusions and Discussion
-\end{enumerate}
+\begin{centering}
+\textbf{\emph{$X(t)$, the continuous time Markov process}} \\
+\begin{tikzpicture}
+\draw (0,0) -- (12.5,0);
+\foreach \x in {0,1,2,3,4,5,6,7,8,9,10,11,12}
+\draw[shift={(\x,0)},color=black] (0pt,3pt) -- (0pt,0pt);
+\foreach \x in {0,1,2,3,4,5,6,7,8,9,10,11,12}
+\draw[shift={(\x,.05)},color=black] (0pt,0pt) -- (0pt,-3pt) node[above]
+{$\x$};
+\foreach \x in {0,1,2,3,4,5,6,7,8,9,10,11,12}
+\draw[shift={(\x,.5)},color=black] (0pt,0pt) -- (0pt,-3pt) node[above]
+{$X(\x)$};
+\draw (0,0) node[below]{$t_1$};
+\draw (4,0) node[below]{$t_2$};
+\draw (7,0) node[below]{$t_3$};
+\draw (10,0) node[below]{$t_4$};
+\draw (12,0) node[below]{$t_5$};
+\draw (0,-.5) node[below]{$x(t_1)$};
+\draw (4,-.5) node[below]{$x(t_2)$};
+\draw (7,-.5) node[below]{$x(t_3)$};
+\draw (10,-.5) node[below]{$x(t_4)$};
+\draw (12,-.5) node[below]{$x(t_5)$};
+\end{tikzpicture} \\
+
+\textbf{\emph{$x(t_m)$, the observed networks}} \\
+
+\end{centering}
+
+Thus, each network observation, $x(t_m)$ represents the concatenation of (usually) multiple consecutive steps in the Markov chain in SAOMs. The state space for the the Markov chain is $\mathcal{S}$, the large but finite set of all possible adjacency matrices for $n$ nodes with zeroes on the diagonal. Note that $|\mathcal{S}| = 2^{n(n-1)}$.\footnote{See http://oeis.org/A053763.} Also note that the time points $t$ are not strictly 1 unit of time apart. The space between them is dictated by the distribution of the waiting times in the Markov process. 
+\item \textbf{Rate of Change} - One of the defining elements of SAOMs is the function for the rate of change of a network and of the actors in that network.  For actor $i$, the rate function is commonly denoted $\lambda_i(\alpha, x)$, which dictates how quickly actor $i$ gets opportunities to change one of its ties, $x_{ij}$. In this function, $\alpha$ is a parameter and $x$ is the current network state. The rate function for the whole network is $\lambda(\alpha, x) = \sum_i \lambda_i(\alpha, x)$. For any time point, $t$, where $X(t) \equiv x$, the waiting time to the next change opportunity by \emph{any} actor has distribution \emph{Exponential}$(\lambda(\alpha, x))$. This is because the chain of network evolutions is Markovian. There are many possibilities for the rate function. The simplest is that it is constant between observations $x(t_m)$. The rate function can also depend on covariate values of the actors or structural network elements such as outdegree. For instance, $\lambda_i(\alpha, x) = \exp\{\sum_k \alpha_k r_{ik}(x)\}$, where $r_{ik}(x)$ is a function of the current network state and the node $i$ (one of the aforementioned possible dependencies), and $k = 1, \dots K$ could be any number of functions as chosen by the researcher from previous subject matter knowledge or otherwise.  
+\item \textbf{Probability of Change (nodes)} - Given that a change, call it $X(t) \equiv x \rightarrow X(t+1)$ occurs, each node has its own probability of changing. Recall that from time $t$ to time $t+1$, only one tie is changing (call it $x_ij$), so that only one node, $i$, is given the power to change one of its $n-1$ available ties from $x_ij$ to $1-x_{ij}$. The probability that node $i$ will be the one to change a tie, given $x \rightarrow X(t+1)$ is $\pi_i(\alpha, x) \equiv \pi_i(\alpha, x|x\rightarrow X(t+1)) = \frac{\lambda_i(\alpha, x)}{\lambda(\alpha, x)}$.
+\item \textbf{Permitted Changes} - First note a slight abuse of notation. The current state of the network, which was previously denoted $X(t)$ and $x$, will now be denoted $x^0$. Then, let $x$ instead represent the new, as yet undetermined network $X(t+1)$. So, given that a change, $x^0 \rightarrow x$ will occur, and that node $i$ has been selected to change a tie, there is a set of permitted changes, $\mathcal{A}_i(x^0) = \{\mathcal{A}(x^0) \cup \mathcal{A}_i^r(x^0)\}$, where $\mathcal{A}(x^0)$ is the current network's adjacency matrix, and $ \mathcal{A}_i^r(x^0) = \{x | x_{ij} = 1 - x_{ij}^0 \text{for only one } j \in \mathcal{N},  j \neq i, \}$.  So, the set of permitted changes includes the set of all adjacency matrices with all entries equivalent to the current adjacency matrix with the exception of one of the non-fixed, $n-1$ entries of the $i^{th}$ row and the current adjacency matrix, meaning that $|\mathcal{A}_i(x^0)| = n$. 
+\item \textbf{Objective function} - So, once a change in node $i$ is given, \emph{how} does that node determine which of the $n$ permitted changes it will make? Its choice is determined in large part by its objective function, $f_i(\beta, x^0, x)$, where $\beta$ is a parameter. This function can be interpreted as the ``relative attractiveness" for node $i$ associated with making a change from the current network state, $x^0$ to a new network state, $x$, where $x \in \mathcal{A}_i(x^0)$. It is assumed that actors want to maximize this function when given an opportunity for change. For example, if changing from $x^0$ to $x$ will decrease the value of $f_i$ for all $x \in \mathcal{A}_i(x^0)$, the node will be very likely to \emph{not} change any ties. Many models don't include the current state, $x^0$, in the objective function, but instead only consider $x$, the future state, and just attempt to get closer to their optimum state regardless of where they currently are. The objective function is usually defined linearly as $f_i(\beta, x^0, x) = \sum_k \beta_k s_{ik}(x^0, x)$, where the functions $s_{ik}$ are determined from subject matter knowledge. These, like the $r_{ik}$ in the rate function, can be actor covariates or structural variables like outdegree or reciprocated ties. 
+\item \textbf{Probability of Change (tie given node)} - Given the change of a tie from node $i$, the probability of the change $x^0 \rightarrow x$, where $x \in \mathcal{A}_i(x^0)$ is $p_i(\beta, x^0, x) \equiv p_i(\beta, x^0, x | x^0\rightarrow x, x \in \mathcal{A}_i(x^0)) = \frac{\exp \{f_i(\beta, x^0, x)\}}{\sum_{\tilde{x}} \exp \{f_i(\beta, x^0, \tilde{x})}$, where $\tilde{x} \in \mathcal{A}_i(x^0)$. For a specific tie, $x_{ij}$, with $j \neq i$, this expression can be re-written as $p_{ij}(\beta, x^0) = \frac{\exp \{f_i(\beta, x^0, x^j)\}}{f_i(\beta, x^0, x^0) + \sum_{j \neq i} \exp \{f_i(\beta, x^0, x^j)} $, where $x^j$ has ties $x^j_{ih} = x^0_{ih}$ for all $h \neq j$ and $x^j_{ih} = 1- x^0_{ih}$ for $h = j$. Using this new expression, we can write the probability of no change for node $i$ ($p_i(\beta, x^0, x^0)$ in the original notation) as $p_{i0} \equiv p_i(\beta, x^0, x^0) = 1 - \sum_{j \neq i} p_{ij}(\beta, x^0)$. 
+\item \textbf{Intensity Matrix} - The intensity matrix, $Q$, of a continuous time Markov process describes the rate of change between states of the chain. For networks, there are a very large number of possible states: $2^{n(n-1)}$. But, due to the properties of continuous-time Markov processes, there are only $n$ possible states given the current state, $n-1$ of which are uniquely determined by the node $i$ that is given the opportunity to change. Thus, the intensity matrix $Q$ is a very sparse $2^{n(n-1)} \times 2^{n(n-1)}$ matrix, with only $n(n-1) + 1$ non-zero entries in each row. Note that $n(n-1)$ of these represent the possible states that are one edge different from a given state, and the additional non-zero entry is for the state to remain the same. All other entries in a row are zero because those column states cannot be reached from the row state by just one change. The entries of $Q$ are defined as follows: let $y \neq z \in \{1, 2, \dots, 2^{n(n-1)} \}$ be indices of two different possible states of the network, $x^y, x^z \in \mathcal{S}$. For a timepoint $t$ define $x^y = X(t)$ and let $x^z \in \mathcal{A}_i(x^y)$ for each $i \in \mathcal{N}$. Then the $yz^{th}$ entry of $Q$ is:
+\[ q(x^y, x^z) = \begin{cases} 
+      \lambda_i(\alpha, x^y)p_i(\beta, x^y, x^z) & \text{if } x^z \in \mathcal{A}_i(x^y), \forall i \in \mathcal{N} \\
+      0 & \text{if } x^z \notin \mathcal{A}_i(x^y) \text{ for any i } \in \mathcal{N}
+   \end{cases}
+\]
+Properties of intensity matrices dictate that the diagonal entry, where the state doesn't change, is defined as $q(x^y,x^y) = -\sum_{z\neq y} q(x^y, x^z)$ so that the row sum is 0. Thus, the rate of change between any two states that differ by only one tie from $i \to j$ is the product of the rate at which actor $i$ gets to change a tie and the probability that the tie that will change is the tie to node $j$.\footnote{Just to be clear, the change is from $x^y_{ij}$ to $x^z_{ij} = 1 - x^y_{ij}$.} 
+\end{itemize}
+
+
 
 
 \end{document}
