@@ -10,6 +10,7 @@ library(geomnet)
 # source("Code/find_sig_eff_small_friends.R")
 
 create_smfriend_lu <- function(null_eff_struct, test_eff_struct, M, my_dat=mysmalldata, ...){
+  #browser()
   null_data <- NULL
   n <- M-1
   for (i in 1:n){
@@ -17,6 +18,11 @@ create_smfriend_lu <- function(null_eff_struct, test_eff_struct, M, my_dat=mysma
     net_df <- merge(data.frame(null_net$sims[[1000]][[1]][[1]][[1]])[,-3], 
                      data.frame(id = 1:16), by.x = "X1", by.y = "id",
                      all = T)
+    for (i in 1:nrow(net_df)){
+      if (!(net_df$X1[i] %in% net_df$X2) & is.na(net_df$X2[i])){
+        net_df$X2[i] <- net_df$X1[i]
+      } else {net_df$X2[i] <- net_df$X2[i]}
+      }
     net_df$count <- i 
     null_data <- rbind(null_data, net_df)
   }
@@ -24,9 +30,16 @@ create_smfriend_lu <- function(null_eff_struct, test_eff_struct, M, my_dat=mysma
   test_data <- merge(data.frame(test_net$sims[[1000]][[1]][[1]][[1]])[,-3], 
                      data.frame(id = 1:16), by.x = "X1", by.y = "id",
                      all = T)
+  for (i in 1:nrow(test_data)){
+  if (!(test_data$X1[i] %in% test_data$X2) & is.na(test_data$X2[i])){
+    test_data$X2[i] <- test_data$X1[i]
+  } else {test_data$X2[i] <- test_data$X2[i]}
+}
   test_data$count <- M  # test data is always indexed by M
   to_plot <- rbind(null_data, test_data)
   to_plot$plot_order <- rep(sample(M), as.vector(table(to_plot$count)))
+  to_plot$X1 <- as.factor(to_plot$X1)
+  to_plot$X2 <- as.factor(to_plot$X2)
   plot <- ggplot(data = to_plot, aes(from_id = X1, to_id = X2)) + 
             geom_net(fiteach = TRUE, directed = F, size = 1, arrowsize = .5) +
             facet_wrap(~plot_order) + theme_net() + theme(panel.background = element_rect(fill = "white", color = 'white'))
