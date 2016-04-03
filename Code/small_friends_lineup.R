@@ -113,9 +113,9 @@ write.csv(lu1$data, "Data/lineupdata/smallfriends-m-9-rep-1.csv", row.names=FALS
 file <- 1
 #dir.create(path = "lineups")
 #dir.create(path = "lineups/pdfs")
-ggsave(lu1$lineup, file=sprintf("lineups/pdfs/smallfriends-m-9-rep-%s.pdf",file), width = 7.2, height = 4.5, units = "in")
+ggsave(lu1$lineup, file=sprintf("Lineup-Images/pdfs/smallfriends-m-9-rep-%s.pdf",file), width = 7.2, height = 4.5, units = "in")
 #dir.create(path = "lineups/svgs")
-tmpfile <- sprintf("%s.svg",tempfile(tmpdir="lineups/svgs"))
+tmpfile <- sprintf("%s.svg",tempfile(tmpdir="Lineup-Images/svgs"))
 print(lu1$lineup)
 # isn't working. keeps throwing the same 2 errors
 # to do: fix arrows! 
