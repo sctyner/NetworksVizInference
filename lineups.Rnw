@@ -1,0 +1,36 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,mathrsfs,fancyhdr,syntonly,lastpage,hyperref,enumitem,graphicx, lscape, forloop}
+
+\hypersetup{colorlinks=true,urlcolor=black}
+
+\topmargin      -1.5cm   % read Lamport p.163
+\oddsidemargin  -0.04cm  % read Lamport p.163
+\evensidemargin -0.04cm  % same as oddsidemargin but for left-hand pages
+\textwidth      16.59cm
+\textheight     23.94cm
+\parskip         7.2pt   % sets spacing between paragraphs
+\parindent         0pt   % sets leading space for paragraphs
+\pagestyle{empty}        % Uncomment if don't want page numbers
+\pagestyle{fancyplain}
+
+
+\begin{document}
+\lhead{Graph Lineups}
+\chead{}
+\rhead{Samantha Tyner}
+
+\newcounter{k}
+\forloop{k}{1}{\value{k} < 21}{\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-3-rep-\arabic{k}} \\ }
+
+\newcounter{k1}
+\forloop{k1}{1}{\value{k1} < 21}{\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-6-rep-\arabic{k1}} \\ }
+
+\newcounter{k2}
+\forloop{k2}{1}{\value{k2} < 21}{\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-9-rep-\arabic{k2}} \\ }
+
+\newcounter{k3}
+\forloop{k3}{1}{\value{k3} < 21}{\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-12-rep-\arabic{k3}} \\ }
+
+
+
+\end{document}
