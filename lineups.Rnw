@@ -20,22 +20,36 @@
 \chead{}
 \rhead{Samantha Tyner}
 \hh{Cool, you got all the singletons to display! Nice work!}
-\hh{Could you add a bit more information on the lineups? Maybe we could have a list of models/hypothesis at the beginning and then sections that summarize things a bit more. Right now I am not quite sure about how to refer to each individual lineup. - OK, fixed that for the first batch by including the names of the files.}
+\hh{Could you add a bit more information on the lineups? Maybe we could have a list of models/hypothesis at the beginning and then sections that summarize things a bit more. Right now I am not quite sure about how to refer to each individual lineup. - OK, fixed that by including the names of the files.}
 
-\hh{Could you crop the white space from the lineup before saving it? - maybe this blog post helps: \url{http://robjhyndman.com/hyndsight/crop-r-figures/}}
+\hh{Could you crop the white space from the lineup before saving it? - maybe this blog post helps: {http://robjhyndman.com/hyndsight/crop-r-figures/}}
 
+\hh{Please add frames around the panels - it helps with separating the graphs from one another}
+
+
+\tableofcontents
+
+
+\section{Model X versus Y lineup size 3}
 \newcounter{k}
 \forloop{k}{1}{\value{k} < 21}{smallfriends-m-3-rep-\arabic{k}\newline
 \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-3-rep-\arabic{k}} \\ }
 
+\section{Model X versus Y lineup size 6}
 \newcounter{k1}
-\forloop{k1}{1}{\value{k1} < 21}{\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-6-rep-\arabic{k1}} \\ }
+\forloop{k1}{1}{\value{k1} < 21}{
+Lineup-Images/pdfs/smallfriends-m-6-rep-\arabic{k1}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-6-rep-\arabic{k1}} \\ }
 
+\section{Model X versus Y lineup size 9}
 \newcounter{k2}
-\forloop{k2}{1}{\value{k2} < 21}{\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-9-rep-\arabic{k2}} \\ }
+\forloop{k2}{1}{\value{k2} < 21}{Lineup-Images/pdfs/smallfriends-m-9-rep-\arabic{k2}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-9-rep-\arabic{k2}} \\ }
 
+\section{Model X versus Y lineup size 12}
 \newcounter{k3}
-\forloop{k3}{1}{\value{k3} < 21}{\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-12-rep-\arabic{k3}} \\ }
+\forloop{k3}{1}{\value{k3} < 21}{Lineup-Images/pdfs/smallfriends-m-12-rep-\arabic{k3}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-12-rep-\arabic{k3}} \\ }
 
 
 
