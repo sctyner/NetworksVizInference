@@ -66,11 +66,14 @@ create_smfriend_lu <- function(null_eff_struct, test_eff_struct, M, my_dat=mysma
   to_plot$X2 <- as.factor(to_plot$X2)
   plot <- ggplot(data = to_plot, aes(from_id = X1, to_id = X2)) + 
     geom_net(fiteach = TRUE, directed = F, size = 1, arrowsize = .5) +
-    facet_wrap(~plot_order) + theme_net() + theme(panel.background = element_rect(fill = "white", color = 'white'))
+    facet_wrap(~plot_order) + theme_net() + theme(panel.background = element_rect(fill = "white", color = 'black'))
   data_plot_id <- unique(to_plot$plot_order[which(to_plot$count == M)])
   return(list(data = to_plot, lineup = plot, test_id = data_plot_id))
 }
 lu1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct = eff_models_smallFriends[[39]], M = 6)
+savepdf(file = "Lineup-Images/pdfs/testcropping", width = 7.2*2.54, height = 4.5*2.54)
+print(lu1$lineup)
+dev.off()
 
 scriptURL = "http://www.hofroe.net/examples/lineup/action-back.js"
 
@@ -111,6 +114,15 @@ make_interactive <- function(filename2, script, toggle="toggle", high = "#c5c5c5
   grid.export(filename2)
 }
 
+# trim white space function {http://robjhyndman.com/hyndsight/crop-r-figures/}
+savepdf <- function(file, width=16, height=10)
+{
+  fname <- paste(file,".pdf",sep="")
+  pdf(fname, width=width/2.54, height=height/2.54,
+      pointsize=10)
+  par(mgp=c(2.2,0.45,0), tcl=-0.4, mar=c(3.3,3.5,1.1,1))
+}
+  
 # function to create the lineups and linup data
 
 make_interactive_lineups <- function(M, reps, model.effects, null.effects){
@@ -118,8 +130,10 @@ make_interactive_lineups <- function(M, reps, model.effects, null.effects){
     lineup <- create_smfriend_lu(null_eff_struct = null.effects, test_eff_struct = model.effects, M = M)
     filename <- paste0("Data/lineupdata/smallfriends-m-", M, '-rep-', r, ".csv")
     write.csv(lineup$data, sprintf("Data/lineupdata/smallfriends-m-%s-rep-%s.csv",M,r), row.names=FALSE)
-    ggsave(lineup$lineup, file=sprintf("Lineup-Images/pdfs/smallfriends-m-%s-rep-%s.pdf",M,r), width = 7.2, height = 4.5, units = "in")
+    #ggsave(lineup$lineup, file=sprintf("Lineup-Images/pdfs/smallfriends-m-%s-rep-%s.pdf",M,r), width = 7.2, height = 4.5, units = "in")
+    savepdf(file = sprintf("Lineup-Images/pdfs/smallfriends-m-%s-rep-%s",M,r), width = 7.2*2.54, height = 4.5*2.54)
     print(lineup$lineup)
+    dev.off()
     tmpfile <- sprintf("%s.svg",tempfile(tmpdir="Lineup-Images/svgs"))
     make_interactive(filename2 = tmpfile, script=scriptURL,  
                      high="#d5d5d5",  background="#ffffff")

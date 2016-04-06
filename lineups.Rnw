@@ -14,6 +14,7 @@
 \pagestyle{fancyplain}
 
 \newcommand{\hh}[1]{{\color{magenta} #1}}
+\newcommand{\st}[1]{{\color{purple} #1}}
 
 \begin{document}
 \lhead{Graph Lineups}
@@ -22,9 +23,9 @@
 \hh{Cool, you got all the singletons to display! Nice work!}
 \hh{Could you add a bit more information on the lineups? Maybe we could have a list of models/hypothesis at the beginning and then sections that summarize things a bit more. Right now I am not quite sure about how to refer to each individual lineup. - OK, fixed that by including the names of the files.}
 
-\hh{Could you crop the white space from the lineup before saving it? - maybe this blog post helps: {http://robjhyndman.com/hyndsight/crop-r-figures/}}
+\hh{Could you crop the white space from the lineup before saving it? - maybe this blog post helps: {http://robjhyndman.com/hyndsight/crop-r-figures/}} \st{I cropped them using pdfcrop for now. I'll add the rest to the function.}
 
-\hh{Please add frames around the panels - it helps with separating the graphs from one another}
+\hh{Please add frames around the panels - it helps with separating the graphs from one another} \st{Okay - easy fix!}
 
 
 \tableofcontents
