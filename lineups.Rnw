@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,mathrsfs,fancyhdr,syntonly,lastpage,hyperref,enumitem,graphicx, lscape, forloop}
+\usepackage{amsmath,amssymb,amsfonts, mathrsfs,fancyhdr,syntonly,lastpage,hyperref,enumitem,graphicx, lscape, forloop, url}
 
 \hypersetup{colorlinks=true,urlcolor=black}
 
@@ -14,21 +14,90 @@
 \pagestyle{fancyplain}
 
 \newcommand{\hh}[1]{{\color{magenta} #1}}
-\newcommand{\st}[1]{{\color{purple} #1}}
+\newcommand{\st}[1]{{\color{red} #1}}
 
 \begin{document}
 \lhead{Graph Lineups}
 \chead{}
 \rhead{Samantha Tyner}
-\hh{Cool, you got all the singletons to display! Nice work!}
-\hh{Could you add a bit more information on the lineups? Maybe we could have a list of models/hypothesis at the beginning and then sections that summarize things a bit more. Right now I am not quite sure about how to refer to each individual lineup. - OK, fixed that by including the names of the files.}
-
-\hh{Could you crop the white space from the lineup before saving it? - maybe this blog post helps: {http://robjhyndman.com/hyndsight/crop-r-figures/}} \st{I cropped them using pdfcrop for now. I'll add the rest to the function.}
-
-\hh{Please add frames around the panels - it helps with separating the graphs from one another} \st{Okay - easy fix!}
-
 
 \tableofcontents
+
+\section{Models}
+
+We fit two different stochastic actor-oriented models to a subset of the 50 actor dataset from the ``Teenage Friends and Lifestyle Study" that is provided on the RSiena webpage.\footnote{\url{http://www.stats.ox.ac.uk/~snijders/siena/s50_data.htm}} The subset contained actors 20 through 35 and the ties between them, as well as the drinking behavior of each actor at each of the three waves. This specific subset was chosen because it showed somewhat higher connectivity than other subsets, as we've emphasized in the visualizations of the three network adjacency matrices below. For model fitting, we condition on wave 1 and estimate the parameters of our models from the second and third waves.
+
+<<get_sm_friends, echo=FALSE, fig.width=8, fig.height=3, message = FALSE, warning = FALSE>>=
+source("Code/small_friends.R")
+ggplot(data= view_rs2, aes(x = x, y=y)) + 
+  geom_tile(aes(fill = as.factor(value))) + scale_fill_manual(values = c('white', 'black')) +
+  geom_rect(data= NULL, inherit.aes = FALSE, 
+            aes(xmin = 20, xmax = 35, ymin = 20, ymax = 35, fill =NA), color = 'red') + 
+  facet_wrap(~wave) + theme_bw() + 
+  theme(aspect.ratio=1)
+
+@
+
+The first wave of the network, which is conditioned on in estimation, is given below. 
+
+<<wave1, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3>>=
+library(sna)
+library(network)
+actual1 <- merge(data.frame(as.edgelist(as.network(fd2.w1))), 
+                 data.frame(id = 1:16, drink = drink2[,1]), 
+                 by.x = "X1", by.y = "id", all = T)
+for (j in 1:nrow(actual1)){
+      if (!(actual1$X1[j] %in% actual1$X2) & is.na(actual1$X2[j])){
+        actual1$X2[j] <- actual1$X1[j]
+      } else {actual1$X2[j] <- actual1$X2[j]}
+}
+actual2 <- merge(data.frame(as.edgelist(as.network(fd2.w2))), 
+                 data.frame(id = 1:16, drink = drink2[,2]), 
+                 by.x = "X1", by.y = "id", all = T)
+for (j in 1:nrow(actual2)){
+      if (!(actual2$X1[j] %in% actual2$X2) & is.na(actual2$X2[j])){
+        actual2$X2[j] <- actual2$X1[j]
+      } else {actual2$X2[j] <- actual2$X2[j]}
+    }
+actual1$wave <- 1
+actual2$wave <- 2
+
+waves <- rbind(actual1, actual2)
+library(geomnet)
+ggplot(data = actual1, aes(from_id = X1, to_id = X2)) + 
+  geom_net(label = TRUE, hjust = -.5, labelcolour = 'black', fiteach = T,
+           aes(color = as.factor(drink))) + 
+  theme_net() 
+#ggplot(data = waves, aes(from_id = X1, to_id = X2)) + 
+#  geom_net(label = TRUE, hjust = -.5, labelcolour = 'black', fiteach = T,
+#           aes(color = as.factor(drink))) + 
+#  theme_net() + theme(panel.background = element_rect(fill = "white", color = 'black')) + facet_wrap(~wave)
+@
+
+The two models we fit are a ``null model" (model X) and a ``data model" (model Y). The null model only includes the default parameters that are included in the RSiena R package. The data model includes one additional parameter that was determined to be significant by the Wald test in the RSienaTest package.  Details on these effects are given in the table below.
+
+\begin{table}[h]
+\centering
+\tiny
+\begin{tabular}{lcccc}
+Effect name & Symbol & Corresponding Statistic & Model X Estimate & Model Y Estimate\\
+\hline
+\hline
+Rate 1 (wave 1 $\rightarrow$ 2) & $\alpha_1$ & ? \\
+Rate 2 (wave 2 $\rightarrow$ 3) & $\alpha_2$ & ? \\
+Outdegree & $\beta_1$ & $s_{i1}(x) = \sum\limits_{j=1}^n x_{ij}$ \\
+Reciprocity & $\beta_2$ & $s_{i2}(x) = \sum\limits_{j=1}^n x_{ij}x_{ji}$ \\
+Jumping Transitive Triplets & $\beta_3$ & $s_{i3}(x) = \sum\limits_{\forall j\neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j) $
+\end{tabular}
+\end{table}
+
+After estimating the parameters in each of these models, we simulated from them to obtain realizations of each of the models. The objective function for each actor in each model is given below. 
+  \begin{align*}
+  f^{null}_{i}(x) & = \hat{\beta}_1^{null}s_{i1}(x) +  \hat{\beta}_2^{null}s_{i2}(x) \\
+  f^{data}_{i}(x) & = \hat{\beta}_1^{data}s_{i1}(x) +  \hat{\beta}_2^{data}s_{i2}(x) + \hat{\beta}_3^{data}s_{i3}(x) 
+  \end{align*}
+
+
 
 
 \section{Model X versus Y lineup size 3}
