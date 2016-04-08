@@ -92,6 +92,7 @@ Jumping Transitive Triplets & $\beta_3$ & $s_{i3}(x) = \sum\limits_{\forall j\ne
 \end{table}
 
 After estimating the parameters in each of these models, we simulated from them to obtain realizations of each of the models. The objective function for each actor in each model is given below. 
+\hh{It might be better to re-phrase the two functions below from `null' and `data' to model $M_1$ and model $M_2$, where $M_1$ is nested within model $M_2$. Both $M_1$ and $M_2$ are based on the data - so the distinction between null and data might add a bit of confusion, when we flip the models around in the next step.  }
   \begin{align*}
   f^{null}_{i}(x) & = \hat{\beta}_1^{null}s_{i1}(x) +  \hat{\beta}_2^{null}s_{i2}(x) \\
   f^{data}_{i}(x) & = \hat{\beta}_1^{data}s_{i1}(x) +  \hat{\beta}_2^{data}s_{i2}(x) + \hat{\beta}_3^{data}s_{i3}(x) 
