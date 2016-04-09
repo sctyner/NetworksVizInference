@@ -23,6 +23,10 @@
 
 \tableofcontents
 
+\section{Introduction}
+
+Stochastic actor-oriented models (SAOMs) are a set of network models that consider both network and actor effects when determining how and why a network changes over time. Network effects, like reciprocity and outdegree, only consider the ties between actors as important to network change, while actor effects allow for covariate values associated with each actor to influence ties between actors. In the SAOM literature, a network is denoted by $x(t_m)$, has $n$ actors, and for two actors $i \neq j \in \{1, 2, \dots, n\}$, the relationship between them is denoted by $x_ij$. This relationship $x_{ij}$ is equal to 1 if there is a tie between actors $i$ and $j$ and it is 0 if there is not a tie between them. The time component, $t_m$, represents the $m = 1, 2, \dots, M$ points of observation of the network. These networks $x(t_1), \dots, x(t_M)$ are modeled as observations of a continuous-time Markov chain, where most of the steps in the chain are unobserved. 
+
 \section{Models}
 
 We fit two different stochastic actor-oriented models to a subset of the 50 actor dataset from the ``Teenage Friends and Lifestyle Study" that is provided on the RSiena webpage.\footnote{\url{http://www.stats.ox.ac.uk/~snijders/siena/s50_data.htm}} The subset contained actors 20 through 35 and the ties between them, as well as the drinking behavior of each actor at each of the three waves. This specific subset was chosen because it showed somewhat higher connectivity than other subsets, as we've emphasized in the visualizations of the three network adjacency matrices below. For model fitting, we condition on wave 1 and estimate the parameters of our models from the second and third waves.
@@ -74,20 +78,25 @@ ggplot(data = actual1, aes(from_id = X1, to_id = X2)) +
 #  theme_net() + theme(panel.background = element_rect(fill = "white", color = 'black')) + facet_wrap(~wave)
 @
 
-The two models we fit are a ``null model" (model X) and a ``data model" (model Y). The null model only includes the default parameters that are included in the RSiena R package. The data model includes one additional parameter that was determined to be significant by the Wald test in the RSienaTest package.  Details on these effects are given in the table below.
+<<modelfit, echo=FALSE, results = 'hide', message=FALSE, warning = FALSE, cache = T>>=
+source("Code/complete_lineup_creation.R")
+lineup1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct = eff_models_smallFriends[[39]], M = 3)
+@
+
+The two models we fit are a ``null model" (model $M_1$) and an ``alternative model" (model $M_2$). The null model only includes the default parameters that are included in the RSiena estimation. The alternative model includes one additional covariate parameter that was determined to be significant by the Wald test in the RSienaTest package.  Details on these effects are given in the table below.
 
 \begin{table}[h]
 \centering
 \tiny
 \begin{tabular}{lcccc}
-Effect name & Symbol & Corresponding Statistic & Model X Estimate & Model Y Estimate\\
+Effect name & Symbol & Corresponding Statistic & $M_1$ Estimate & Model Y Estimate\\
 \hline
 \hline
-Rate 1 (wave 1 $\rightarrow$ 2) & $\alpha_1$ & ? \\
-Rate 2 (wave 2 $\rightarrow$ 3) & $\alpha_2$ & ? \\
-Outdegree & $\beta_1$ & $s_{i1}(x) = \sum\limits_{j=1}^n x_{ij}$ \\
-Reciprocity & $\beta_2$ & $s_{i2}(x) = \sum\limits_{j=1}^n x_{ij}x_{ji}$ \\
-Jumping Transitive Triplets & $\beta_3$ & $s_{i3}(x) = \sum\limits_{\forall j\neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j) $
+Rate 1 (wave 1 $\rightarrow$ 2) & $\alpha_1$ & $\sum\limits_{i,j = 1 i\neq j}^n (x_{ij}(t_2) - x_{ij}(t_1))^2 $ & \Sexpr{round(lineup1$null_mod_ests[1], 3)} & \Sexpr{round(lineup1$alt_mod_estimates[1],3)}\\
+Rate 2 (wave 2 $\rightarrow$ 3) & $\alpha_2$ & $\sum\limits_{i,j = 1 i\neq j}^n (x_{ij}(t_3) - x_{ij}(t_2))^2 $ & \Sexpr{round(lineup1$null_mod_ests[2], 3)} & \Sexpr{round(lineup1$alt_mod_estimates[2],3)}\\
+Outdegree & $\beta_1$ & $s_{i1}(x) = \sum\limits_{j=1}^n x_{ij}$ & \Sexpr{round(lineup1$null_mod_ests[3], 3)} & \Sexpr{round(lineup1$alt_mod_estimates[3],3)}\\
+Reciprocity & $\beta_2$ & $s_{i2}(x) = \sum\limits_{j=1}^n x_{ij}x_{ji}$ & \Sexpr{round(lineup1$null_mod_ests[4], 3)} & \Sexpr{round(lineup1$alt_mod_estimates[4],3)}\\
+Jumping Transitive Triplets & $\beta_3$ & $s_{i3}(x) = \sum\limits_{\forall j\neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$ & -- & \Sexpr{round(lineup1$alt_mod_estimates[5],3)}
 \end{tabular}
 \end{table}
 
@@ -95,9 +104,9 @@ After estimating the parameters in each of these models, we simulated from them 
 \hh{It might be better to re-phrase the two functions below from `null' and `data' to model $M_1$ and model $M_2$, where $M_1$ is nested within model $M_2$. Both $M_1$ and $M_2$ are based on the data - so the distinction between null and data might add a bit of confusion, when we flip the models around in the next step.  }
   \begin{align*}
   f^{null}_{i}(x) & = \hat{\beta}_1^{null}s_{i1}(x) +  \hat{\beta}_2^{null}s_{i2}(x) \\
-  f^{data}_{i}(x) & = \hat{\beta}_1^{data}s_{i1}(x) +  \hat{\beta}_2^{data}s_{i2}(x) + \hat{\beta}_3^{data}s_{i3}(x) 
+  f^{alt}_{i}(x) & = \hat{\beta}_1^{alt}s_{i1}(x) +  \hat{\beta}_2^{alt}s_{i2}(x) + \hat{\beta}_3^{data}s_{i3}(x) 
   \end{align*}
-
+The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities for change each actor gets when moving from wave 1 to 2 and from wave 2 to 3, respectively. 
 
 
 

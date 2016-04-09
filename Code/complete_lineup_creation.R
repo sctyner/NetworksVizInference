@@ -4,7 +4,7 @@ library(grid)
 library(gridSVG)
 ##### LOAD IN DATA #####
 #looks like 20:35 are pretty well connected, go with those for now
-setwd("Desktop/NetworksResearch/NetworksVizInference/")
+#setwd("Desktop/NetworksResearch/NetworksVizInference/")
 friend.data.w1 <- as.matrix(read.table("Data/s50_data/s50-network1.dat"))
 friend.data.w2 <- as.matrix(read.table("Data/s50_data/s50-network2.dat"))
 friend.data.w3 <- as.matrix(read.table("Data/s50_data/s50-network3.dat"))
@@ -68,12 +68,12 @@ create_smfriend_lu <- function(null_eff_struct, test_eff_struct, M, my_dat=mysma
     geom_net(fiteach = TRUE, directed = F, size = 1, arrowsize = .5) +
     facet_wrap(~plot_order) + theme_net() + theme(panel.background = element_rect(fill = "white", color = 'black'))
   data_plot_id <- unique(to_plot$plot_order[which(to_plot$count == M)])
-  return(list(data = to_plot, lineup = plot, test_id = data_plot_id))
+  return(list(data = to_plot, lineup = plot, test_id = data_plot_id, null_mod_ests = c(null_net$rate,null_net$theta), alt_mod_estimates = c(test_net$rate,test_net$theta)))
 }
-lu1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct = eff_models_smallFriends[[39]], M = 6)
-savepdf(file = "Lineup-Images/pdfs/testcropping", width = 7.2*2.54, height = 4.5*2.54)
-print(lu1$lineup)
-dev.off()
+# lu1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct = eff_models_smallFriends[[39]], M = 6)
+# savepdf(file = "Lineup-Images/pdfs/testcropping", width = 7.2*2.54, height = 4.5*2.54)
+# print(lu1$lineup)
+# dev.off()
 
 scriptURL = "http://www.hofroe.net/examples/lineup/action-back.js"
 
@@ -138,12 +138,13 @@ make_interactive_lineups <- function(M, reps, model.effects, null.effects){
     make_interactive(filename2 = tmpfile, script=scriptURL,  
                      high="#d5d5d5",  background="#ffffff")
   }
+  return(list(lineup = lineup))
 }
 
-make_interactive_lineups(M = 3, reps=20, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
+#make_interactive_lineups(M = 3, reps=20, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
 
-make_interactive_lineups(M = 6, reps=20, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
+#make_interactive_lineups(M = 6, reps=20, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
 
-make_interactive_lineups(M = 9, reps=20, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
+#make_interactive_lineups(M = 9, reps=20, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
 
-make_interactive_lineups(M = 12, reps=20, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
+#make_interactive_lineups(M = 12, reps=20, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
