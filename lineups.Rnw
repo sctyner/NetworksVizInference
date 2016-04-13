@@ -111,6 +111,11 @@ After estimating the parameters in each of these models, we simulated from them 
 The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities for change each actor gets when moving from wave 1 to 2 and from wave 2 to 3, respectively. 
 
 
+\hh{XXX Sam, when you are creating these lineups, could you split the functions into two, and create and save the data into a csv file in a first function, and then in a second function get the data and put it into a network? - That way we don't have to create the data again, if/when we change the design.}
+
+\hh{XXX question for the meeting: right now the difference between models X and Y are the Jumping Transitive Triplets, which we might (or not) see in the graphs. Is there another effect that is significant at this stage as well? It would be good to have the same kind of lineups for a different effect.  }
+
+\hh{XXX another question for tomorrow: in the first four reps of the reverse model it looks like one graph is more complex than the other two models ... which is not what I'd expect from this scenario, because ehere, we are looking for the simplest model, right? }
 
 \section{Model X versus Y lineup size 3}
 \newcounter{k}
