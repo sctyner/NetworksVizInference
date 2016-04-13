@@ -117,6 +117,8 @@ The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities 
 
 \hh{XXX another question for tomorrow: in the first four reps of the reverse model it looks like one graph is more complex than the other two models ... which is not what I'd expect from this scenario, because ehere, we are looking for the simplest model, right? }
 
+\hh{XXX would a size 15 (= 5x3) lineup be more `square' than a size 16 one? }
+
 \section{Model X versus Y lineup size 3}
 \newcounter{k}
 \forloop{k}{1}{\value{k} < 21}{smallfriends-m-3-rep-\arabic{k}\newline
