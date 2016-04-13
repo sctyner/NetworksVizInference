@@ -148,3 +148,5 @@ make_interactive_lineups <- function(M, reps, model.effects, null.effects){
 #make_interactive_lineups(M = 9, reps=20, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
 
 #make_interactive_lineups(M = 12, reps=20, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
+
+# make_interactive_lineups(M = 16, reps=20, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
