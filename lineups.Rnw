@@ -85,13 +85,14 @@ source("Code/complete_lineup_creation.R")
 lineup1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct = eff_models_smallFriends[[39]], M = 3)
 @
 
-The two models we fit are a ``null model" (model $M_1$) and an ``alternative model" (model $M_2$). The null model only includes the default parameters that are included in the RSiena estimation. The alternative model includes one additional covariate parameter that was determined to be significant by the Wald test in the RSienaTest package.  Details on these effects are given in the table below.
+The two models we fit are a ``null model" (model $M_1$) and an ``alternative model" (model $M_2$). The null model only includes the default parameters that are included in the RSiena estimation. The alternative model includes one additional covariate parameter that was determined to be significant by the Wald test in the RSienaTest package.  Details on these effects are given in Table~\ref{tab:models}.
 
 \begin{table}[h]
+\caption{\label{tab:models}Parameters and estimates of models $M_1$ and $M_2$.}
 \centering
-\tiny
-\begin{tabular}{lcccc}
-Effect name & Symbol & Corresponding Statistic & $M_1$ Estimate & Model Y Estimate\\
+\scalebox{0.8}{
+\begin{tabular}{lccrr}
+Effect name & Symbol & Corresponding Statistic & $M_1$ Estimate & $M_2$ Estimate\\
 \hline
 \hline
 Rate 1 (wave 1 $\rightarrow$ 2) & $\alpha_1$ & $\sum\limits_{i,j = 1 i\neq j}^n (x_{ij}(t_2) - x_{ij}(t_1))^2 $ & \Sexpr{round(lineup1$null_mod_ests[1], 3)} & \Sexpr{round(lineup1$alt_mod_estimates[1],3)}\\
@@ -99,10 +100,35 @@ Rate 2 (wave 2 $\rightarrow$ 3) & $\alpha_2$ & $\sum\limits_{i,j = 1 i\neq j}^n 
 Outdegree & $\beta_1$ & $s_{i1}(x) = \sum\limits_{j=1}^n x_{ij}$ & \Sexpr{round(lineup1$null_mod_ests[3], 3)} & \Sexpr{round(lineup1$alt_mod_estimates[3],3)}\\
 Reciprocity & $\beta_2$ & $s_{i2}(x) = \sum\limits_{j=1}^n x_{ij}x_{ji}$ & \Sexpr{round(lineup1$null_mod_ests[4], 3)} & \Sexpr{round(lineup1$alt_mod_estimates[4],3)}\\
 Jumping Transitive Triplets & $\beta_3$ & $s_{i3}(x) = \sum\limits_{\forall j\neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$ & -- & \Sexpr{round(lineup1$alt_mod_estimates[5],3)}
-\end{tabular}
+\end{tabular}}
 \end{table}
 
-After estimating the parameters in each of these models, we simulated from them to obtain realizations of each of the models. The objective function for each actor in each model is given below. 
+
+\begin{figure}
+<<hist-estimates, echo=FALSE>>=
+# nulls <- read.csv("Data/distribution_null_model.csv")
+# names(nulls)[-1] <- c("alpha1", "alpha2", "beta1", "beta2")
+# nulls$Sim <- 1:nrow(nulls)
+# nulls$Model <- "M1"
+# 
+# alt <- read.csv("Data/distribution_jumpTT_model.csv")
+# names(alt)[-1] <- c("alpha1", "alpha2", "beta1", "beta2", "beta3")
+# alt$Sim <- 1:nrow(alt)
+# alt$Model <- "M2"
+# 
+# alt2 <- gather(alt, parameter, estimate, 2:6)
+# null2 <- gather(nulls, parameter, estimate, 2:5)
+# 
+# simu <- rbind(alt2[,-1], null2[,-1])
+# write.csv(simu, "Data/simulation-1000-M1-M2.csv", row.names=FALSE)
+
+simu <- read.csv("Data/simulation-1000-M1-M2.csv")
+qplot(data=simu, estimate, fill=Model, geom="density", alpha=I(0.75)) + facet_wrap(~parameter, scales="free") + theme_bw()
+@
+\caption{\label{fig:hist-simulations}Histogram of the distribution of model parameters based on 1,000 simulation runs. Model parameter $\beta_3$ for jumping transitive triplets in model $M_2$ is significantly different from zero, but its inclusion also leads to significant changes in the  other model parameters of model $M_1$. }
+\end{figure}
+
+After estimating the parameters in each of these models, we simulate from them to obtain realizations of each of the models. The objective function for each actor in each model is given below. 
 \hh{It might be better to re-phrase the two functions below from `null' and `data' to model $M_1$ and model $M_2$, where $M_1$ is nested within model $M_2$. Both $M_1$ and $M_2$ are based on the data - so the distinction between null and data might add a bit of confusion, when we flip the models around in the next step.  }
   \begin{align*}
   f^{null}_{i}(x) & = \hat{\beta}_1^{null}s_{i1}(x) +  \hat{\beta}_2^{null}s_{i2}(x) \\
