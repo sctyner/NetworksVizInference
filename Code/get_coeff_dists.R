@@ -59,7 +59,7 @@ alt_model2_ests <- get_eff_val_dist(B = 1000, eff_struct = eff_models_smallFrien
 
 null_model_dist <- read.csv("../Data/distribution_null_model.csv")
 alt_model_dist <- read.csv("../Data/distribution_jumpTT_model.csv")
-alt_model2_dist <- read.csv("../Data/distribtution_dblpairs_model.csv")
+alt_model2_dist <- read.csv("Data/distribtution_dblpairs_model.csv")
 
 #null_model_dist <- as.data.frame(null_model_dist)
 rownames(null_model_dist) <- 1:nrow(null_model_dist)
@@ -82,6 +82,17 @@ ggplot(data = alt_model_dist2, aes(x = value)) +
   geom_histogram(binwidth = .01) +
   facet_wrap(~coefficient, scales = "free_x")
 
+alt_model2_dist <- as.data.frame(alt_model2_ests)
+rownames(alt_model2_dist) <- 1:nrow(alt_model2_dist)
+names(alt_model2_dist) <- c('alpha1', 'alpha2', 'beta1', 'beta2','beta3')
+
+alt_model2_dist %>% gather(coefficient, value, alpha1:beta3) -> alt_model2_dist2
+
+ggplot(data = alt_model2_dist2, aes(x = value)) + 
+  geom_histogram(binwidth = .01) +
+  facet_wrap(~coefficient, scales = "free_x") # the spread is pretty big on beta3
+
 library(GGally)
 ggscatmat(null_model_dist) # :(
 ggscatmat(alt_model_dist) # :(
+ggscatmat(alt_model2_dist)
