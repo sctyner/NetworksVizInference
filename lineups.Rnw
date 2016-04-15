@@ -88,11 +88,11 @@ lineup1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct
 The two models we fit are a ``null model" (model $M_1$) and an ``alternative model" (model $M_2$). The null model only includes the default parameters that are included in the RSiena estimation. The alternative model includes one additional covariate parameter that was determined to be significant by the Wald test in the RSienaTest package.  Details on these effects are given in Table~\ref{tab:models}.
 
 \begin{table}[h]
-\caption{\label{tab:models}Parameters and estimates of models $M_1$ and $M_2$.}
+\caption{\label{tab:models}Parameters and estimates of models $M_1$ and $M_2$. \hh{Estimates stem from one of the simulations. XXX We probably should change that to the average of the 1000 simulations, and then simulate the lineups from those, like you suggested. }}
 \centering
 \scalebox{0.8}{
 \begin{tabular}{lccrr}
-Effect name & Symbol & Corresponding Statistic & $M_1$ Estimate & $M_2$ Estimate\\
+Effect name & Parameter & Corresponding Statistic & $M_1$ Estimate & $M_2$ Estimate\\
 \hline
 \hline
 Rate 1 (wave 1 $\rightarrow$ 2) & $\alpha_1$ & $\sum\limits_{i,j = 1 i\neq j}^n (x_{ij}(t_2) - x_{ij}(t_1))^2 $ & \Sexpr{round(lineup1$null_mod_ests[1], 3)} & \Sexpr{round(lineup1$alt_mod_estimates[1],3)}\\
@@ -105,7 +105,8 @@ Jumping Transitive Triplets & $\beta_3$ & $s_{i3}(x) = \sum\limits_{\forall j\ne
 
 
 \begin{figure}
-<<hist-estimates, echo=FALSE>>=
+\centering
+<<hist-estimates, echo=FALSE, fig.width=8, fig.height=5, out.width='.8\\linewidth'>>=
 # nulls <- read.csv("Data/distribution_null_model.csv")
 # names(nulls)[-1] <- c("alpha1", "alpha2", "beta1", "beta2")
 # nulls$Sim <- 1:nrow(nulls)
@@ -129,10 +130,9 @@ qplot(data=simu, estimate, fill=Model, geom="density", alpha=I(0.75)) + facet_wr
 \end{figure}
 
 After estimating the parameters in each of these models, we simulate from them to obtain realizations of each of the models. The objective function for each actor in each model is given below. 
-\hh{It might be better to re-phrase the two functions below from `null' and `data' to model $M_1$ and model $M_2$, where $M_1$ is nested within model $M_2$. Both $M_1$ and $M_2$ are based on the data - so the distinction between null and data might add a bit of confusion, when we flip the models around in the next step.  }
   \begin{align*}
-  f^{null}_{i}(x) & = \hat{\beta}_1^{null}s_{i1}(x) +  \hat{\beta}_2^{null}s_{i2}(x) \\
-  f^{alt}_{i}(x) & = \hat{\beta}_1^{alt}s_{i1}(x) +  \hat{\beta}_2^{alt}s_{i2}(x) + \hat{\beta}_3^{data}s_{i3}(x) 
+  f^{M_1}_{i}(x) & = \hat{\beta}_1^{M_1}s_{i1}(x) +  \hat{\beta}_2^{M_1}s_{i2}(x) \\
+  f^{M_2}_{i}(x) & = \hat{\beta}_1^{M_2}s_{i1}(x) +  \hat{\beta}_2^{M_2}s_{i2}(x) + \hat{\beta}_3^{M_2}s_{i3}(x) 
   \end{align*}
 The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities for change each actor gets when moving from wave 1 to 2 and from wave 2 to 3, respectively. 
 
