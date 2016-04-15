@@ -52,8 +52,14 @@ get_eff_val_dist <- function(B, eff_struct, sd = 2017){
 # use these!  5.172778  2.015728 -4.101604  4.274210  3.207874
 #alt_model_ests2 <- avg_eff_val(B = 10, eff_struct = eff_models_smallFriends[[39]])
 
+# another significan effect: number pairs at double achieved dist 2. eff_models_smFriends[[18]]
+
+alt_model2_ests <- get_eff_val_dist(B = 1000, eff_struct = eff_models_smallFriends[[18]])
+#write.csv(alt_model2_ests, "Data/distribution_dblpairs_model.csv")
+
 null_model_dist <- read.csv("../Data/distribution_null_model.csv")
 alt_model_dist <- read.csv("../Data/distribution_jumpTT_model.csv")
+alt_model2_dist <- read.csv("../Data/distribtution_dblpairs_model.csv")
 
 #null_model_dist <- as.data.frame(null_model_dist)
 rownames(null_model_dist) <- 1:nrow(null_model_dist)
