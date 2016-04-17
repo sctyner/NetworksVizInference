@@ -162,53 +162,53 @@ The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities 
 
 \hh{XXX would a size 15 (= 5x3) lineup be more `square' than a size 16 one? }
 
-\section{Model X versus Y lineup size 3}
+\section{Model $M_1$ versus $M_2$ lineup size 3}
 \newcounter{k}
 \forloop{k}{1}{\value{k} < 21}{smallfriends-m-3-rep-\arabic{k}\newline
 \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-3-rep-\arabic{k}} \\ }
 
-\section{Model X versus Y lineup size 6}
+\section{Model $M_1$ versus $M_2$ lineup size 6}
 \newcounter{k1}
 \forloop{k1}{1}{\value{k1} < 21}{
 Lineup-Images/pdfs/smallfriends-m-6-rep-\arabic{k1}\newline
 \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-6-rep-\arabic{k1}} \\ }
 
-\section{Model X versus Y lineup size 9}
+\section{Model $M_1$ versus $M_2$ lineup size 9}
 \newcounter{k2}
 \forloop{k2}{1}{\value{k2} < 21}{Lineup-Images/pdfs/smallfriends-m-9-rep-\arabic{k2}\newline
 \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-9-rep-\arabic{k2}} \\ }
 
-\section{Model X versus Y lineup size 12}
+\section{Model $M_1$ versus $M_2$ lineup size 12}
 \newcounter{k3}
 \forloop{k3}{1}{\value{k3} < 21}{Lineup-Images/pdfs/smallfriends-m-12-rep-\arabic{k3}\newline
 \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-12-rep-\arabic{k3}} \\ }
 
-\section{Model X versus Y lineup size 16}
+\section{Model $M_1$ versus $M_2$ lineup size 16}
 \newcounter{k4}
 \forloop{k4}{1}{\value{k4} < 21}{smallfriends-m-16-rep-\arabic{k4}\newline
 \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-m-16-rep-\arabic{k4}} \\ }
 
-\section{Model Y versus X lineup size 3}
+\section{Model $M_2$ versus $M_1$ lineup size 3}
 \newcounter{k5}
 \forloop{k5}{1}{\value{k5} < 21}{smallfriendsrev-m-3-rep-\arabic{k5}\newline
 \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriendsrev-m-3-rep-\arabic{k5}} \\ }
 
-\section{Model Y versus X lineup size 6}
+\section{Model $M_2$ versus $M_1$ lineup size 6}
 \newcounter{k6}
 \forloop{k6}{1}{\value{k6} < 21}{smallfriendsrev-m-6-rep-\arabic{k6}\newline
 \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriendsrev-m-6-rep-\arabic{k6}} \\ }
 
-\section{Model Y versus X lineup size 9}
+\section{Model $M_2$ versus $M_1$ lineup size 9}
 \newcounter{k7}
 \forloop{k7}{1}{\value{k7} < 21}{smallfriendsrev-m-9-rep-\arabic{k7}\newline
 \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriendsrev-m-9-rep-\arabic{k7}} \\ }
 
-\section{Model Y versus X lineup size 12}
+\section{Model $M_2$ versus $M_1$ lineup size 12}
 \newcounter{k8}
 \forloop{k8}{1}{\value{k8} < 21}{smallfriendsrev-m-12-rep-\arabic{k8}\newline
 \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriendsrev-m-12-rep-\arabic{k8}} \\ }
 
-\section{Model Y versus X lineup size 16}
+\section{Model $M_2$ versus $M_1$ lineup size 16}
 \newcounter{k9}
 \forloop{k9}{1}{\value{k9} < 21}{smallfriendsrev-m-16-rep-\arabic{k9}\newline
 \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriendsrev-m-16-rep-\arabic{k9}} \\ }
