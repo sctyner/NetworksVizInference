@@ -210,26 +210,77 @@ Lineup-Images/pdfs/smallfriends-m-6-rep-\arabic{k1}\newline
 
 \section{Model $M_2$ versus $M_1$ lineup size 3}
 \newcounter{k5}
-\forloop{k5}{1}{\value{k5} < 21}{smallfriendsrev-m-3-rep-\arabic{k5}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriendsrev-m-3-rep-\arabic{k5}} \\ }
+\forloop{k5}{1}{\value{k5} < 21}{smallfriends-rev-m-3-rep-\arabic{k5}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-rev-m-3-rep-\arabic{k5}} \\ }
 
 \section{Model $M_2$ versus $M_1$ lineup size 6}
 \newcounter{k6}
-\forloop{k6}{1}{\value{k6} < 21}{smallfriendsrev-m-6-rep-\arabic{k6}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriendsrev-m-6-rep-\arabic{k6}} \\ }
+\forloop{k6}{1}{\value{k6} < 21}{smallfriends-rev-m-6-rep-\arabic{k6}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-rev-m-6-rep-\arabic{k6}} \\ }
 
 \section{Model $M_2$ versus $M_1$ lineup size 9}
 \newcounter{k7}
-\forloop{k7}{1}{\value{k7} < 21}{smallfriendsrev-m-9-rep-\arabic{k7}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriendsrev-m-9-rep-\arabic{k7}} \\ }
+\forloop{k7}{1}{\value{k7} < 21}{smallfriends-rev-m-9-rep-\arabic{k7}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-rev-m-9-rep-\arabic{k7}} \\ }
 
 \section{Model $M_2$ versus $M_1$ lineup size 12}
 \newcounter{k8}
-\forloop{k8}{1}{\value{k8} < 21}{smallfriendsrev-m-12-rep-\arabic{k8}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriendsrev-m-12-rep-\arabic{k8}} \\ }
+\forloop{k8}{1}{\value{k8} < 21}{smallfriends-rev-m-12-rep-\arabic{k8}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-rev-m-12-rep-\arabic{k8}} \\ }
 
 \section{Model $M_2$ versus $M_1$ lineup size 16}
 \newcounter{k9}
-\forloop{k9}{1}{\value{k9} < 21}{smallfriendsrev-m-16-rep-\arabic{k9}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriendsrev-m-16-rep-\arabic{k9}} \\ }
+\forloop{k9}{1}{\value{k9} < 21}{smallfriends-rev-m-16-rep-\arabic{k9}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-rev-m-16-rep-\arabic{k9}} \\ }
+
+\section{Model $M_1$ versus $M_3$ lineup size 3}
+\newcounter{k10}
+\forloop{k10}{1}{\value{k10} < 21}{smallfriends-eff2-m-3-rep-\arabic{k10}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-3-rep-\arabic{k10}} \\ }
+
+\section{Model $M_1$ versus $M_3$ lineup size 6}
+\newcounter{k11}
+\forloop{k11}{1}{\value{k11} < 21}{smallfriends-eff2-m-6-rep-\arabic{k11}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-6-rep-\arabic{k11}} \\ }
+
+\section{Model $M_1$ versus $M_3$ lineup size 9}
+\newcounter{k12}
+\forloop{k12}{1}{\value{k12} < 21}{smallfriends-eff2-m-9-rep-\arabic{k12}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-9-rep-\arabic{k12}} \\ }
+
+\section{Model $M_1$ versus $M_3$ lineup size 12}
+\newcounter{k13}
+\forloop{k13}{1}{\value{k13} < 21}{smallfriends-eff2-m-12-rep-\arabic{k13}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-12-rep-\arabic{k13}} \\ }
+
+\section{Model $M_1$ versus $M_3$ lineup size 16}
+\newcounter{k14}
+\forloop{k14}{1}{\value{k14} < 21}{smallfriends-eff2-m-16-rep-\arabic{k14}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-16-rep-\arabic{k14}} \\ }
+
+\section{Model $M_3$ versus $M_1$ lineup size 3}
+\newcounter{k15}
+\forloop{k15}{1}{\value{k15} < 21}{smallfriends-eff2-rev-m-3-rep-\arabic{k15}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-3-rep-\arabic{k15}} \\ }
+
+\section{Model $M_3$ versus $M_1$ lineup size 6}
+\newcounter{k16}
+\forloop{k16}{1}{\value{k16} < 21}{smallfriends-eff2-rev-m-6-rep-\arabic{k16}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-6-rep-\arabic{k16}} \\ }
+
+\section{Model $M_3$ versus $M_1$ lineup size 9}
+\newcounter{k17}
+\forloop{k17}{1}{\value{k17} < 21}{smallfriends-eff2-rev-m-9-rep-\arabic{k17}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-9-rep-\arabic{k17}} \\ }
+
+\section{Model $M_3$ versus $M_1$ lineup size 12}
+\newcounter{k18}
+\forloop{k18}{1}{\value{k18} < 21}{smallfriends-eff2-rev-m-12-rep-\arabic{k18}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-12-rep-\arabic{k18}} \\ }
+
+\section{Model $M_3$ versus $M_1$ lineup size 16}
+\newcounter{k19}
+\forloop{k19}{1}{\value{k19} < 21}{smallfriends-eff2-rev-m-16-rep-\arabic{k19}\newline
+\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-16-rep-\arabic{k19}} \\ }
+
 \end{document}
