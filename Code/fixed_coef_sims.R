@@ -177,7 +177,70 @@ savepdf <- function(file, width=16, height=10)
 }
 
 
-create_lu <- function(null_model, null_model_svs, alt_model, alt_model_svs, M, my_dat = mysmalldata, reps, yx = FALSE,...){
+# create_lu <- function(null_model, null_model_svs, alt_model, alt_model_svs, M, my_dat = mysmalldata, reps, yx = FALSE,...){
+#   for (r in 1:reps){
+#     if (yx == FALSE){
+#       lu_dat <- create_lu_dat_xy(null_model, null_model_svs, alt_model, alt_model_svs, m=M, my_dat, sd = (r + M))
+#     } else lu_dat <- create_lu_dat_yx(null_model, null_model_svs, alt_model, alt_model_svs,m=M, my_dat, sd = (r + M))
+#     lu_dat$plot_order <- rep(sample(M), as.vector(table(lu_dat$count)))
+#     lu_dat$X1 <- as.factor(lu_dat$X1)
+#     lu_dat$X2 <- as.factor(lu_dat$X2)
+#     if (yx == FALSE){
+#       filename <- paste0("Data/lineupdata/smallfriends-m-", M, '-rep-', r, ".csv")
+#       filename2 <- sprintf("Lineup-Images/pdfs/smallfriends-m-%s-rep-%s",M,r)
+#     } else {
+#       filename <- paste0("Data/lineupdata/smallfriends-rev-m-", M, '-rep-', r, ".csv")
+#       filename2 <- sprintf("Lineup-Images/pdfs/smallfriends-rev-m-%s-rep-%s",M,r)
+#     }
+#     write.csv(lu_dat, file = filename)
+#     lu_plot <- ggplot(data = lu_dat, aes(from_id = X1, to_id = X2)) + 
+#       geom_net(fiteach = TRUE, directed = F, size = 1, arrowsize = .5) +
+#       facet_wrap(~plot_order) + theme_net() + theme(panel.background = element_rect(fill = "white", color = 'black'))
+#     savepdf(file = filename2, width = 8*2.54, height = 8*2.54)
+#     print(lu_plot)
+#     dev.off()
+#     tmpfile <- sprintf("%s.svg",tempfile(tmpdir="Lineup-Images/svgs"))
+#     make_interactive(filename2 = tmpfile, script=scriptURL,  
+#                      high="#d5d5d5",  background="#ffffff")
+#     }
+# }
+
+# create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+#           alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+#           M = 3, reps = 20)
+# 
+# create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+#           alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+#           M = 6, reps = 20)
+# 
+# create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+#           alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+#           M = 9, reps = 20)
+# create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+#           alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+#           M = 12, reps = 20)
+# create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+#           alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+#           M = 16, reps = 20)
+# 
+# create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+#           alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+#           M = 3, reps = 20, yx = TRUE)
+# create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+#           alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+#           M = 6, reps = 20, yx = TRUE)
+# create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+#           alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+#           M = 9, reps = 20, yx = TRUE)
+# create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+#           alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+#           M = 12, reps = 20, yx = TRUE)
+# create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+#           alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+#           M = 16, reps = 20, yx = TRUE)
+
+#write same function for additional effect. 
+create_lu2 <- function(null_model, null_model_svs, alt_model, alt_model_svs, M, my_dat = mysmalldata, reps, yx = FALSE,...){
   for (r in 1:reps){
     if (yx == FALSE){
       lu_dat <- create_lu_dat_xy(null_model, null_model_svs, alt_model, alt_model_svs, m=M, my_dat, sd = (r + M))
@@ -186,11 +249,11 @@ create_lu <- function(null_model, null_model_svs, alt_model, alt_model_svs, M, m
     lu_dat$X1 <- as.factor(lu_dat$X1)
     lu_dat$X2 <- as.factor(lu_dat$X2)
     if (yx == FALSE){
-      filename <- paste0("Data/lineupdata/smallfriends-m-", M, '-rep-', r, ".csv")
-      filename2 <- sprintf("Lineup-Images/pdfs/smallfriends-m-%s-rep-%s",M,r)
+      filename <- paste0("Data/lineupdata/smallfriends-eff2-m-", M, '-rep-', r, ".csv")
+      filename2 <- sprintf("Lineup-Images/pdfs/smallfriends-eff2-m-%s-rep-%s",M,r)
     } else {
-      filename <- paste0("Data/lineupdata/smallfriends-rev-m-", M, '-rep-', r, ".csv")
-      filename2 <- sprintf("Lineup-Images/pdfs/smallfriends-rev-m-%s-rep-%s",M,r)
+      filename <- paste0("Data/lineupdata/smallfriends-eff2-rev-m-", M, '-rep-', r, ".csv")
+      filename2 <- sprintf("Lineup-Images/pdfs/smallfriends-eff2-rev-m-%s-rep-%s",M,r)
     }
     write.csv(lu_dat, file = filename)
     lu_plot <- ggplot(data = lu_dat, aes(from_id = X1, to_id = X2)) + 
@@ -202,39 +265,40 @@ create_lu <- function(null_model, null_model_svs, alt_model, alt_model_svs, M, m
     tmpfile <- sprintf("%s.svg",tempfile(tmpdir="Lineup-Images/svgs"))
     make_interactive(filename2 = tmpfile, script=scriptURL,  
                      high="#d5d5d5",  background="#ffffff")
-    }
+  }
 }
 
-create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
-          alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+
+create_lu2(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+          alt_model = eff_models_smallFriends[[18]], alt_model_svs = alt_mod2_sv,
           M = 3, reps = 20)
 
-create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
-          alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+create_lu2(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+          alt_model = eff_models_smallFriends[[18]], alt_model_svs = alt_mod2_sv,
           M = 6, reps = 20)
 
-create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
-          alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+create_lu2(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+          alt_model = eff_models_smallFriends[[18]], alt_model_svs = alt_mod2_sv,
           M = 9, reps = 20)
-create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
-          alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+create_lu2(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+          alt_model = eff_models_smallFriends[[18]], alt_model_svs = alt_mod2_sv,
           M = 12, reps = 20)
-create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
-          alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+create_lu2(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+          alt_model = eff_models_smallFriends[[18]], alt_model_svs = alt_mod2_sv,
           M = 16, reps = 20)
 
-create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
-          alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+create_lu2(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+          alt_model = eff_models_smallFriends[[18]], alt_model_svs = alt_mod2_sv,
           M = 3, reps = 20, yx = TRUE)
-create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
-          alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+create_lu2(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+          alt_model = eff_models_smallFriends[[18]], alt_model_svs = alt_mod2_sv,
           M = 6, reps = 20, yx = TRUE)
-create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
-          alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+create_lu2(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+          alt_model = eff_models_smallFriends[[18]], alt_model_svs = alt_mod2_sv,
           M = 9, reps = 20, yx = TRUE)
-create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
-          alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+create_lu2(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+          alt_model = eff_models_smallFriends[[18]], alt_model_svs = alt_mod2_sv,
           M = 12, reps = 20, yx = TRUE)
-create_lu(null_model = null_model_eff2, null_model_svs = null_mod_sv,
-          alt_model = eff_models_smallFriends[[39]], alt_model_svs = alt_mod_sv,
+create_lu2(null_model = null_model_eff2, null_model_svs = null_mod_sv,
+          alt_model = eff_models_smallFriends[[18]], alt_model_svs = alt_mod2_sv,
           M = 16, reps = 20, yx = TRUE)
