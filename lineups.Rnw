@@ -31,7 +31,7 @@ Stochastic actor-oriented models (SAOMs) are a set of network models that consid
 
 \section{Models}
 
-We fit two different stochastic actor-oriented models to a subset of the 50 actor dataset from the ``Teenage Friends and Lifestyle Study" that is provided on the RSiena webpage.\footnote{\url{http://www.stats.ox.ac.uk/~snijders/siena/s50_data.htm}} We chose to subset the data to decrease the cognitive load on our experiment's subjects. The subset contained actors 20 through 35 and the ties between them, as well as the drinking behavior of each actor at each of the three waves. This specific subset was chosen because it showed somewhat higher connectivity than other subsets, as we've emphasized in the visualizations of the three network adjacency matrices below. For model fitting, we condition on wave 1 and estimate the parameters of our models from the second and third waves.
+We fit \st{three} different stochastic actor-oriented models to a subset of the 50 actor dataset from the ``Teenage Friends and Lifestyle Study" that is provided on the RSiena webpage.\footnote{\url{http://www.stats.ox.ac.uk/~snijders/siena/s50_data.htm}} We chose to subset the data to decrease the cognitive load on our experiment's subjects. The subset contained actors 20 through 35 and the ties between them, as well as the drinking behavior of each actor at each of the three waves. This specific subset was chosen because it showed somewhat higher connectivity than other subsets, as we've emphasized in the visualizations of the three network adjacency matrices below. For model fitting, we condition on wave 1 and estimate the parameters of our models from the second and third waves.
 
 <<get_sm_friends, echo=FALSE, fig.width=8, fig.height=3, message = FALSE, warning = FALSE>>=
 source("Code/small_friends.R")
@@ -85,7 +85,7 @@ source("Code/complete_lineup_creation.R")
 lineup1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct = eff_models_smallFriends[[39]], M = 3)
 @
 
-The two models we fit are a ``null model" (model $M_1$) and an ``alternative model" (model $M_2$). The null model only includes the default parameters that are included in the RSiena estimation. The alternative model includes one additional covariate parameter that was determined to be significant by the Wald test in the RSienaTest package.  Details on these effects are given in Table~\ref{tab:models}.
+The two models we fit are a ``null model" (model $M_1$) and two ``alternative models" (model $M_2$ and $M_3$). The null model only includes the default parameters that are included in the RSiena estimation. The alternative model $M_2$ includes one additional covariate parameter that was determined to be significant by the Wald test in the RSienaTest package, while the alternative model $M_3$ includes one additional structural parameter whose significance was determined in the same way. Details on these effects are given in Table~\ref{tab:models}.
 
 <<readsimu, echo=FALSE>>=
 # nulls <- read.csv("Data/distribution_null_model.csv")
@@ -109,31 +109,50 @@ simu <- read.csv("Data/simulation-1000-M1-M2.csv")
 means <- simu %>% group_by(Model, parameter) %>% summarize(
   mean = mean(estimate)
 )
+library(dplyr)
+null_model_dist <- read.csv("Data/distribution_null_model.csv")
+null_model_dist <- null_model_dist[,-1]
+alt_model_dist <- read.csv("Data/distribution_jumpTT_model.csv")
+alt_model_dist <- alt_model_dist[,-1]
+alt_model2_dist <- read.csv("Data/distribution_dblpairs_model.csv")
+alt_model2_dist <- alt_model2_dist[,-1]
+
+null_mod_sv <- as.numeric(null_model_dist %>% summarise_each(funs(mean)))
+alt_mod_sv <- as.numeric(alt_model_dist %>% summarise_each(funs(mean)))
+alt_mod2_sv <- as.numeric(alt_model2_dist %>% summarise_each(funs(mean)))
 @
 
 \begin{table}[h]
 \caption{\label{tab:models}Parameters and estimates of models $M_1$ and $M_2$. \hh{Estimates stem from one of the simulations. XXX We probably should change that to the average of the 1000 simulations, and then simulate the lineups from those, like you suggested. }}
 \centering
 \scalebox{0.8}{
-\begin{tabular}{lccrr}
-Effect name & Parameter & Corresponding Statistic & $M_1$ Estimate & $M_2$ Estimate\\
+\begin{tabular}{lccrrr}
+Effect name & Parameter & Corresponding Statistic & $M_1$ Estimate & $M_2$ Estimate & $M_3$ Estimate\\
 \hline
 \hline
 Rate 1 (wave 1 $\rightarrow$ 2) & $\alpha_1$ & $\sum\limits_{i,j = 1 i\neq j}^n (x_{ij}(t_2) - x_{ij}(t_1))^2 $ & 
-\Sexpr{round(subset(means, Model=="M1" & parameter=="alpha1")$mean, 2)} &
-\Sexpr{round(subset(means, Model=="M2" & parameter=="alpha1")$mean, 2)}
+\Sexpr{round(null_mod_sv[1], 2)} &
+\Sexpr{round(alt_mod_sv[1], 2)} & 
+\Sexpr{round(alt_mod2_sv[1], 2)} 
 \\
 Rate 2 (wave 2 $\rightarrow$ 3) & $\alpha_2$ & $\sum\limits_{i,j = 1 i\neq j}^n (x_{ij}(t_3) - x_{ij}(t_2))^2 $ & 
-\Sexpr{round(subset(means, Model=="M1" & parameter=="alpha2")$mean, 2)} &
-\Sexpr{round(subset(means, Model=="M2" & parameter=="alpha2")$mean, 2)}
+\Sexpr{round(null_mod_sv[2], 2)} &
+\Sexpr{round(alt_mod_sv[2], 2)} & 
+\Sexpr{round(alt_mod2_sv[2], 2)}
 \\
-Outdegree & $\beta_1$ & $s_{i1}(x) = \sum\limits_{j=1}^n x_{ij}$ & \Sexpr{round(subset(means, Model=="M1" & parameter=="beta1")$mean, 2)} &
-\Sexpr{round(subset(means, Model=="M2" & parameter=="beta1")$mean, 2)}
+Outdegree & $\beta_1$ & $s_{i1}(x) = \sum\limits_{j=1}^n x_{ij}$ & 
+\Sexpr{round(null_mod_sv[3], 2)} &
+\Sexpr{round(alt_mod_sv[3], 2)} & 
+\Sexpr{round(alt_mod2_sv[3], 2)}
 \\
-Reciprocity & $\beta_2$ & $s_{i2}(x) = \sum\limits_{j=1}^n x_{ij}x_{ji}$ & \Sexpr{round(subset(means, Model=="M1" & parameter=="beta2")$mean, 2)} &
-\Sexpr{round(subset(means, Model=="M2" & parameter=="beta2")$mean, 2)}
+Reciprocity & $\beta_2$ & $s_{i2}(x) = \sum\limits_{j=1}^n x_{ij}x_{ji}$ & \Sexpr{round(null_mod_sv[4], 2)} &
+\Sexpr{round(alt_mod_sv[4], 2)} & 
+\Sexpr{round(alt_mod2_sv[4], 2)}
 \\
-Jumping Transitive Triplets & $\beta_3$ & $s_{i3}(x) = \sum\limits_{\forall j\neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$ & -- & \Sexpr{round(subset(means, Model=="M2" & parameter=="beta3")$mean, 2)}
+Jumping Transitive Triplets & $\beta_3$ & $s_{i3}(x) = \sum\limits_{\forall j\neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$ & -- & 
+\Sexpr{round(alt_mod_sv[5], 2)} & -- \\
+\# doubly achieved distances & $\beta_4$ & $s_{i4}(x) = |\{j : x_{ij} = 0, \sum\limits_h x_{ih}x_{hj} \geq 2\}|$ & -- & -- &
+\Sexpr{round(alt_mod2_sv[5], 2)}
 \end{tabular}}
 \end{table}
 
@@ -149,12 +168,13 @@ qplot(data=simu, estimate, fill=Model, geom="density", alpha=I(0.75)) + facet_wr
 After estimating the parameters in each of these models, we simulate from them to obtain realizations of each of the models. The objective function for each actor in each model is given below. 
   \begin{align*}
   f^{M_1}_{i}(x) & = \hat{\beta}_1^{M_1}s_{i1}(x) +  \hat{\beta}_2^{M_1}s_{i2}(x) \\
-  f^{M_2}_{i}(x) & = \hat{\beta}_1^{M_2}s_{i1}(x) +  \hat{\beta}_2^{M_2}s_{i2}(x) + \hat{\beta}_3^{M_2}s_{i3}(x) 
+  f^{M_2}_{i}(x) & = \hat{\beta}_1^{M_2}s_{i1}(x) +  \hat{\beta}_2^{M_2}s_{i2}(x) + \hat{\beta}_3^{M_2}s_{i3}(x) \\
+  f^{M_3}_{i}(x) & = \hat{\beta}_1^{M_3}s_{i1}(x) +  \hat{\beta}_2^{M_3}s_{i2}(x) + \hat{\beta}_4^{M_3}s_{i4}(x) 
   \end{align*}
 The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities for change each actor gets when moving from wave 1 to 2 and from wave 2 to 3, respectively. 
 
 
-\hh{XXX Sam, when you are creating these lineups, could you split the functions into two, and create and save the data into a csv file in a first function, and then in a second function get the data and put it into a network? - That way we don't have to create the data again, if/when we change the design.}
+\hh{XXX Sam, when you are creating these lineups, could you split the functions into two, and create and save the data into a csv file in a first function, and then in a second function get the data and put it into a network? - That way we don't have to create the data again, if/when we change the design.} \st{done!}
 
 \hh{XXX question for the meeting: right now the difference between models X and Y are the Jumping Transitive Triplets, which we might (or not) see in the graphs. Is there another effect that is significant at this stage as well? It would be good to have the same kind of lineups for a different effect.  }
 
