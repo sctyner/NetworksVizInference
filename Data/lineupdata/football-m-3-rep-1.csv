@@ -1,0 +1,1867 @@
+"from","to","same.conf","value","group","data_plot"
+"AirForce","NevadaLasVegas",1,"Mountain West",2,2
+"Akron","MiamiOhio",1,"Mid-American",2,2
+"Akron","VirginiaTech",0,"Mid-American",2,2
+"Akron","Buffalo",1,"Mid-American",2,2
+"Akron","BowlingGreenState",1,"Mid-American",2,2
+"Akron","Kent",1,"Mid-American",2,2
+"Akron","Connecticut",0,"Mid-American",2,2
+"Akron","Ohio",1,"Mid-American",2,2
+"Akron","CentralFlorida",0,"Mid-American",2,2
+"Akron","CentralMichigan",1,"Mid-American",2,2
+"Akron","Marshall",1,"Mid-American",2,2
+"Alabama","MississippiState",1,"Southeastern",2,2
+"Alabama","Mississippi",1,"Southeastern",2,2
+"Alabama","CentralFlorida",0,"Southeastern",2,2
+"Alabama","Tennessee",1,"Southeastern",2,2
+"Alabama","Arkansas",1,"Southeastern",2,2
+"Alabama","SouthernMississippi",0,"Southeastern",2,2
+"Alabama","SouthCarolina",1,"Southeastern",2,2
+"Alabama","UCLA",0,"Southeastern",2,2
+"Alabama","LouisianaState",1,"Southeastern",2,2
+"Alabama","Vanderbilt",1,"Southeastern",2,2
+"AlabamaBirmingham",NA,NA,"Conference USA",2,2
+"Arizona","Washington",1,"Pacific Ten",2,2
+"Arizona","Oregon",1,"Pacific Ten",2,2
+"Arizona","OregonState",1,"Pacific Ten",2,2
+"Arizona","Utah",0,"Pacific Ten",2,2
+"Arizona","WashingtonState",1,"Pacific Ten",2,2
+"Arizona","OhioState",0,"Pacific Ten",2,2
+"Arizona","Stanford",1,"Pacific Ten",2,2
+"ArizonaState","California",1,"Pacific Ten",2,2
+"ArizonaState","Stanford",1,"Pacific Ten",2,2
+"ArizonaState","Oregon",1,"Pacific Ten",2,2
+"ArizonaState","Washington",1,"Pacific Ten",2,2
+"ArizonaState","SanDiegoState",0,"Pacific Ten",2,2
+"ArizonaState","UCLA",1,"Pacific Ten",2,2
+"ArizonaState","ColoradoState",0,"Pacific Ten",2,2
+"ArizonaState","Arizona",1,"Pacific Ten",2,2
+"ArizonaState","UtahState",0,"Pacific Ten",2,2
+"ArizonaState","WashingtonState",1,"Pacific Ten",2,2
+"Arkansas",NA,NA,"Southeastern",2,2
+"ArkansasState","Memphis",0,"Sun Belt",2,2
+"ArkansasState","Oklahoma",0,"Sun Belt",2,2
+"ArkansasState","UtahState",0,"Sun Belt",2,2
+"ArkansasState","NorthCarolinaState",0,"Sun Belt",2,2
+"ArkansasState","Mississippi",0,"Sun Belt",2,2
+"ArkansasState","BoiseState",0,"Sun Belt",2,2
+"ArkansasState","NewMexicoState",1,"Sun Belt",2,2
+"ArkansasState","TexasChristian",0,"Sun Belt",2,2
+"ArkansasState","Idaho",1,"Sun Belt",2,2
+"Army","Cincinnati",1,"Conference USA",2,2
+"Army","AirForce",0,"Conference USA",2,2
+"Army","AlabamaBirmingham",1,"Conference USA",2,2
+"Auburn","MississippiState",1,"Southeastern",2,2
+"Auburn","LouisianaTech",0,"Southeastern",2,2
+"Auburn","LouisianaState",1,"Southeastern",2,2
+"Auburn","Alabama",1,"Southeastern",2,2
+"Auburn","Vanderbilt",1,"Southeastern",2,2
+"Auburn","Florida",1,"Southeastern",2,2
+"Auburn","Georgia",1,"Southeastern",2,2
+"Auburn","Arkansas",1,"Southeastern",2,2
+"Auburn","Mississippi",1,"Southeastern",2,2
+"BallState","Buffalo",1,"Mid-American",2,2
+"BallState","MiamiOhio",1,"Mid-American",2,2
+"BallState","Toledo",1,"Mid-American",2,2
+"BallState","EasternMichigan",1,"Mid-American",2,2
+"BallState","Florida",0,"Mid-American",2,2
+"BallState","Connecticut",0,"Mid-American",2,2
+"BallState","CentralMichigan",1,"Mid-American",2,2
+"Baylor","IowaState",1,"Big Twelve",2,2
+"Baylor","NorthTexas",0,"Big Twelve",2,2
+"Baylor","Missouri",1,"Big Twelve",2,2
+"Baylor","Nebraska",1,"Big Twelve",2,2
+"Baylor","OklahomaState",1,"Big Twelve",2,2
+"Baylor","Texas",1,"Big Twelve",2,2
+"Baylor","Oklahoma",1,"Big Twelve",2,2
+"Baylor","TexasA&M",1,"Big Twelve",2,2
+"Baylor","Minnesota",0,"Big Twelve",2,2
+"BoiseState","NewMexicoState",0,"Western Athletic",2,2
+"BoiseState","UtahState",0,"Western Athletic",2,2
+"BoiseState","WashingtonState",0,"Western Athletic",2,2
+"BoiseState","Arkansas",0,"Western Athletic",2,2
+"BoiseState","Idaho",0,"Western Athletic",2,2
+"BoiseState","CentralMichigan",0,"Western Athletic",2,2
+"BostonCollege","NotreDame",0,"Big East",2,2
+"BostonCollege","MiamiFlorida",1,"Big East",2,2
+"BostonCollege","Rutgers",1,"Big East",2,2
+"BostonCollege","Navy",0,"Big East",2,2
+"BostonCollege","Temple",1,"Big East",2,2
+"BostonCollege","WestVirginia",1,"Big East",2,2
+"BostonCollege","Connecticut",0,"Big East",2,2
+"BostonCollege","Army",0,"Big East",2,2
+"BostonCollege","Syracuse",1,"Big East",2,2
+"BostonCollege","Pittsburgh",1,"Big East",2,2
+"BowlingGreenState","Pittsburgh",0,"Mid-American",2,2
+"BowlingGreenState","EasternMichigan",1,"Mid-American",2,2
+"BowlingGreenState","Marshall",1,"Mid-American",2,2
+"BowlingGreenState","Buffalo",1,"Mid-American",2,2
+"BowlingGreenState","Kent",1,"Mid-American",2,2
+"BowlingGreenState","Ohio",1,"Mid-American",2,2
+"BowlingGreenState","Toledo",1,"Mid-American",2,2
+"BowlingGreenState","Michigan",0,"Mid-American",2,2
+"BowlingGreenState","MiamiOhio",1,"Mid-American",2,2
+"BowlingGreenState","Temple",0,"Mid-American",2,2
+"BrighamYoung","FloridaState",0,"Mountain West",2,2
+"BrighamYoung","Utah",1,"Mountain West",2,2
+"BrighamYoung","NewMexico",1,"Mountain West",2,2
+"BrighamYoung","AirForce",1,"Mountain West",2,2
+"BrighamYoung","NevadaLasVegas",1,"Mountain West",2,2
+"BrighamYoung","UtahState",0,"Mountain West",2,2
+"BrighamYoung","Wyoming",1,"Mountain West",2,2
+"BrighamYoung","SanDiegoState",1,"Mountain West",2,2
+"BrighamYoung","MississippiState",0,"Mountain West",2,2
+"BrighamYoung","Syracuse",0,"Mountain West",2,2
+"BrighamYoung","ColoradoState",1,"Mountain West",2,2
+"BrighamYoung","Virginia",0,"Mountain West",2,2
+"Buffalo","Ohio",1,"Mid-American",2,2
+"Buffalo","Marshall",1,"Mid-American",2,2
+"Buffalo","Connecticut",0,"Mid-American",2,2
+"Buffalo","MiamiOhio",1,"Mid-American",2,2
+"Buffalo","Rutgers",0,"Mid-American",2,2
+"Buffalo","Kent",1,"Mid-American",2,2
+"Buffalo","Syracuse",0,"Mid-American",2,2
+"California",NA,NA,"Pacific Ten",2,2
+"CentralFlorida","LouisianaMonroe",0,"Independents",2,2
+"CentralFlorida","LouisianaTech",0,"Independents",2,2
+"CentralFlorida","GeorgiaTech",0,"Independents",2,2
+"CentralFlorida","EasternMichigan",0,"Independents",2,2
+"CentralMichigan","Purdue",0,"Mid-American",2,2
+"CentralMichigan","EasternMichigan",1,"Mid-American",2,2
+"CentralMichigan","Ohio",1,"Mid-American",2,2
+"CentralMichigan","Kent",1,"Mid-American",2,2
+"CentralMichigan","Toledo",1,"Mid-American",2,2
+"Cincinnati","AlabamaBirmingham",1,"Conference USA",2,2
+"Cincinnati","Indiana",0,"Conference USA",2,2
+"Clemson","WakeForest",1,"Atlantic Coast",2,2
+"Clemson","Maryland",1,"Atlantic Coast",2,2
+"Colorado","Nebraska",1,"Big Twelve",2,2
+"Colorado","OklahomaState",1,"Big Twelve",2,2
+"Colorado","Washington",0,"Big Twelve",2,2
+"Colorado","Texas",1,"Big Twelve",2,2
+"Colorado","ColoradoState",0,"Big Twelve",2,2
+"Colorado","Missouri",1,"Big Twelve",2,2
+"Colorado","TexasA&M",1,"Big Twelve",2,2
+"Colorado","IowaState",1,"Big Twelve",2,2
+"Colorado","Kansas",1,"Big Twelve",2,2
+"ColoradoState","NevadaLasVegas",1,"Mountain West",2,2
+"ColoradoState","AirForce",1,"Mountain West",2,2
+"ColoradoState","Nevada",0,"Mountain West",2,2
+"Connecticut","MiddleTennesseeState",0,"Independents",2,2
+"Connecticut","Louisville",0,"Independents",2,2
+"Connecticut","EasternMichigan",0,"Independents",2,2
+"Duke","Maryland",1,"Atlantic Coast",2,2
+"Duke","WakeForest",1,"Atlantic Coast",2,2
+"Duke","Vanderbilt",0,"Atlantic Coast",2,2
+"Duke","Clemson",1,"Atlantic Coast",2,2
+"Duke","NorthCarolina",1,"Atlantic Coast",2,2
+"EastCarolina","Army",1,"Conference USA",2,2
+"EastCarolina","Houston",1,"Conference USA",2,2
+"EastCarolina","SouthernMississippi",1,"Conference USA",2,2
+"EastCarolina","Tulane",1,"Conference USA",2,2
+"EastCarolina","Duke",0,"Conference USA",2,2
+"EastCarolina","Memphis",1,"Conference USA",2,2
+"EastCarolina","AlabamaBirmingham",1,"Conference USA",2,2
+"EastCarolina","Louisville",1,"Conference USA",2,2
+"EasternMichigan","MiamiOhio",1,"Mid-American",2,2
+"EasternMichigan","Temple",0,"Mid-American",2,2
+"EasternMichigan","Toledo",1,"Mid-American",2,2
+"EasternMichigan","SouthCarolina",0,"Mid-American",2,2
+"Florida","MiddleTennesseeState",0,"Southeastern",2,2
+"Florida","MississippiState",1,"Southeastern",2,2
+"Florida","SouthCarolina",1,"Southeastern",2,2
+"Florida","Georgia",1,"Southeastern",2,2
+"Florida","Tennessee",1,"Southeastern",2,2
+"Florida","Vanderbilt",1,"Southeastern",2,2
+"Florida","LouisianaState",1,"Southeastern",2,2
+"Florida","Kentucky",1,"Southeastern",2,2
+"FloridaState","Duke",1,"Atlantic Coast",2,2
+"FloridaState","NorthCarolinaState",1,"Atlantic Coast",2,2
+"FloridaState","Clemson",1,"Atlantic Coast",2,2
+"FloridaState","GeorgiaTech",1,"Atlantic Coast",2,2
+"FloridaState","Florida",0,"Atlantic Coast",2,2
+"FloridaState","WakeForest",1,"Atlantic Coast",2,2
+"FloridaState","Louisville",0,"Atlantic Coast",2,2
+"FloridaState","Virginia",1,"Atlantic Coast",2,2
+"FloridaState","MiamiFlorida",0,"Atlantic Coast",2,2
+"FloridaState","NorthCarolina",1,"Atlantic Coast",2,2
+"FloridaState","Maryland",1,"Atlantic Coast",2,2
+"FresnoState","California",0,"Western Athletic",2,2
+"FresnoState","Nevada",1,"Western Athletic",2,2
+"FresnoState","Tulsa",1,"Western Athletic",2,2
+"FresnoState","TexasChristian",0,"Western Athletic",2,2
+"FresnoState","Hawaii",1,"Western Athletic",2,2
+"FresnoState","Rice",1,"Western Athletic",2,2
+"FresnoState","TexasElPaso",1,"Western Athletic",2,2
+"FresnoState","SouthernMethodist",1,"Western Athletic",2,2
+"FresnoState","SanJoseState",1,"Western Athletic",2,2
+"FresnoState","OhioState",0,"Western Athletic",2,2
+"Georgia","Arkansas",1,"Southeastern",2,2
+"GeorgiaTech","Navy",0,"Atlantic Coast",2,2
+"GeorgiaTech","Duke",1,"Atlantic Coast",2,2
+"GeorgiaTech","Maryland",1,"Atlantic Coast",2,2
+"GeorgiaTech","WakeForest",1,"Atlantic Coast",2,2
+"GeorgiaTech","NorthCarolina",1,"Atlantic Coast",2,2
+"GeorgiaTech","Clemson",1,"Atlantic Coast",2,2
+"GeorgiaTech","Georgia",0,"Atlantic Coast",2,2
+"Hawaii",NA,NA,"Western Athletic",2,2
+"Houston","Rice",0,"Conference USA",2,2
+"Houston","SouthernMethodist",0,"Conference USA",2,2
+"Houston","Army",1,"Conference USA",2,2
+"Houston","Tulane",1,"Conference USA",2,2
+"Houston","Cincinnati",1,"Conference USA",2,2
+"Houston","Memphis",1,"Conference USA",2,2
+"Houston","Louisville",1,"Conference USA",2,2
+"Houston","SouthernMississippi",1,"Conference USA",2,2
+"Houston","LouisianaState",0,"Conference USA",2,2
+"Houston","Texas",0,"Conference USA",2,2
+"Idaho","Washington",0,"Sun Belt",2,2
+"Idaho","NewMexicoState",1,"Sun Belt",2,2
+"Idaho","WashingtonState",0,"Sun Belt",2,2
+"Idaho","UtahState",0,"Sun Belt",2,2
+"Idaho","Oregon",0,"Sun Belt",2,2
+"Illinois","MichiganState",1,"Big Ten",2,2
+"Illinois","California",0,"Big Ten",2,2
+"Illinois","Indiana",1,"Big Ten",2,2
+"Indiana",NA,NA,"Big Ten",2,2
+"Iowa","WesternMichigan",0,"Big Ten",2,2
+"Iowa","OhioState",1,"Big Ten",2,2
+"Iowa","Nebraska",0,"Big Ten",2,2
+"Iowa","Indiana",1,"Big Ten",2,2
+"Iowa","Northwestern",1,"Big Ten",2,2
+"Iowa","Wisconsin",1,"Big Ten",2,2
+"Iowa","IowaState",0,"Big Ten",2,2
+"Iowa","KansasState",0,"Big Ten",2,2
+"Iowa","Illinois",1,"Big Ten",2,2
+"Iowa","Minnesota",1,"Big Ten",2,2
+"Iowa","PennState",1,"Big Ten",2,2
+"Iowa","MichiganState",1,"Big Ten",2,2
+"IowaState","TexasA&M",1,"Big Twelve",2,2
+"IowaState","OklahomaState",1,"Big Twelve",2,2
+"IowaState","Nebraska",1,"Big Twelve",2,2
+"IowaState","Missouri",1,"Big Twelve",2,2
+"IowaState","NevadaLasVegas",0,"Big Twelve",2,2
+"Kansas","Missouri",1,"Big Twelve",2,2
+"Kansas","Nebraska",1,"Big Twelve",2,2
+"Kansas","Texas",1,"Big Twelve",2,2
+"Kansas","Oklahoma",1,"Big Twelve",2,2
+"Kansas","AlabamaBirmingham",0,"Big Twelve",2,2
+"Kansas","SouthernMethodist",0,"Big Twelve",2,2
+"Kansas","IowaState",1,"Big Twelve",2,2
+"KansasState","TexasTech",1,"Big Twelve",2,2
+"KansasState","Nebraska",1,"Big Twelve",2,2
+"KansasState","Oklahoma",1,"Big Twelve",2,2
+"KansasState","Missouri",1,"Big Twelve",2,2
+"KansasState","LouisianaTech",0,"Big Twelve",2,2
+"KansasState","TexasA&M",1,"Big Twelve",2,2
+"KansasState","Kansas",1,"Big Twelve",2,2
+"KansasState","BallState",0,"Big Twelve",2,2
+"KansasState","NorthTexas",0,"Big Twelve",2,2
+"KansasState","Colorado",1,"Big Twelve",2,2
+"KansasState","IowaState",1,"Big Twelve",2,2
+"Kent","Marshall",1,"Mid-American",2,2
+"Kent","Pittsburgh",0,"Mid-American",2,2
+"Kent","MiamiOhio",1,"Mid-American",2,2
+"Kent","Ohio",1,"Mid-American",2,2
+"Kentucky","Tennessee",1,"Southeastern",2,2
+"Kentucky","LouisianaState",1,"Southeastern",2,2
+"Kentucky","SouthCarolina",1,"Southeastern",2,2
+"Kentucky","Indiana",0,"Southeastern",2,2
+"Kentucky","Vanderbilt",1,"Southeastern",2,2
+"Kentucky","Louisville",0,"Southeastern",2,2
+"Kentucky","MississippiState",1,"Southeastern",2,2
+"Kentucky","Georgia",1,"Southeastern",2,2
+"Kentucky","Mississippi",1,"Southeastern",2,2
+"LouisianaLafayette","AlabamaBirmingham",0,"Sun Belt",2,2
+"LouisianaLafayette","Texas",0,"Sun Belt",2,2
+"LouisianaMonroe","Minnesota",0,"Sun Belt",2,2
+"LouisianaMonroe","LouisianaLafayette",1,"Sun Belt",2,2
+"LouisianaMonroe","Memphis",0,"Sun Belt",2,2
+"LouisianaMonroe","MiddleTennesseeState",1,"Sun Belt",2,2
+"LouisianaMonroe","Tennessee",0,"Sun Belt",2,2
+"LouisianaMonroe","Arkansas",0,"Sun Belt",2,2
+"LouisianaState","Arkansas",1,"Southeastern",2,2
+"LouisianaState","AlabamaBirmingham",0,"Southeastern",2,2
+"LouisianaTech","LouisianaMonroe",0,"Western Athletic",2,2
+"LouisianaTech","Hawaii",1,"Western Athletic",2,2
+"LouisianaTech","MiddleTennesseeState",0,"Western Athletic",2,2
+"LouisianaTech","LouisianaLafayette",0,"Western Athletic",2,2
+"LouisianaTech","MiamiFlorida",0,"Western Athletic",2,2
+"LouisianaTech","Tulsa",1,"Western Athletic",2,2
+"Louisville","Army",1,"Conference USA",2,2
+"Louisville","Cincinnati",1,"Conference USA",2,2
+"Louisville","SouthernMississippi",1,"Conference USA",2,2
+"Louisville","AlabamaBirmingham",1,"Conference USA",2,2
+"Louisville","Tulane",1,"Conference USA",2,2
+"Marshall","MichiganState",0,"Mid-American",2,2
+"Maryland",NA,NA,"Atlantic Coast",2,2
+"Memphis","AlabamaBirmingham",1,"Conference USA",2,2
+"Memphis","Tennessee",0,"Conference USA",2,2
+"Memphis","Army",1,"Conference USA",2,2
+"Memphis","Cincinnati",1,"Conference USA",2,2
+"Memphis","Tulane",1,"Conference USA",2,2
+"Memphis","SouthernMississippi",1,"Conference USA",2,2
+"MiamiFlorida",NA,NA,"Big East",2,2
+"MiamiOhio","Marshall",1,"Mid-American",2,2
+"MiamiOhio","Ohio",1,"Mid-American",2,2
+"MiamiOhio","Cincinnati",0,"Mid-American",2,2
+"MiamiOhio","Vanderbilt",0,"Mid-American",2,2
+"Michigan","Illinois",1,"Big Ten",2,2
+"Michigan","MichiganState",1,"Big Ten",2,2
+"Michigan","Indiana",1,"Big Ten",2,2
+"Michigan","Purdue",1,"Big Ten",2,2
+"Michigan","OhioState",1,"Big Ten",2,2
+"Michigan","Rice",0,"Big Ten",2,2
+"MichiganState","Missouri",0,"Big Ten",2,2
+"MiddleTennesseeState","AlabamaBirmingham",0,"Sun Belt",2,2
+"MiddleTennesseeState","LouisianaLafayette",1,"Sun Belt",2,2
+"MiddleTennesseeState","MississippiState",0,"Sun Belt",2,2
+"MiddleTennesseeState","Illinois",0,"Sun Belt",2,2
+"MiddleTennesseeState","Maryland",0,"Sun Belt",2,2
+"Minnesota","Indiana",1,"Big Ten",2,2
+"Minnesota","Ohio",0,"Big Ten",2,2
+"Minnesota","Illinois",1,"Big Ten",2,2
+"Mississippi","Georgia",1,"Southeastern",2,2
+"Mississippi","NevadaLasVegas",0,"Southeastern",2,2
+"Mississippi","LouisianaState",1,"Southeastern",2,2
+"Mississippi","Arkansas",1,"Southeastern",2,2
+"MississippiState","Memphis",0,"Southeastern",2,2
+"MississippiState","SouthCarolina",1,"Southeastern",2,2
+"MississippiState","LouisianaState",1,"Southeastern",2,2
+"MississippiState","Arkansas",1,"Southeastern",2,2
+"MississippiState","Mississippi",1,"Southeastern",2,2
+"Missouri","OklahomaState",1,"Big Twelve",2,2
+"Missouri","Clemson",0,"Big Twelve",2,2
+"Navy","Toledo",0,"Independents",2,2
+"Navy","NotreDame",1,"Independents",2,2
+"Navy","Rutgers",0,"Independents",2,2
+"Navy","AirForce",0,"Independents",2,2
+"Navy","Army",0,"Independents",2,2
+"Navy","WakeForest",0,"Independents",2,2
+"Navy","TexasChristian",0,"Independents",2,2
+"Navy","Tulane",0,"Independents",2,2
+"Nebraska","Oklahoma",1,"Big Twelve",2,2
+"Nebraska","NotreDame",0,"Big Twelve",2,2
+"Nebraska","Missouri",1,"Big Twelve",2,2
+"Nevada","NevadaLasVegas",0,"Western Athletic",2,2
+"Nevada","TexasChristian",0,"Western Athletic",2,2
+"Nevada","TexasElPaso",1,"Western Athletic",2,2
+"Nevada","Tulsa",1,"Western Athletic",2,2
+"Nevada","Oregon",0,"Western Athletic",2,2
+"Nevada","SanJoseState",1,"Western Athletic",2,2
+"Nevada","Hawaii",1,"Western Athletic",2,2
+"NevadaLasVegas","Hawaii",0,"Mountain West",2,2
+"NewMexico","AirForce",1,"Mountain West",2,2
+"NewMexico","ColoradoState",1,"Mountain West",2,2
+"NewMexico","TexasTech",0,"Mountain West",2,2
+"NewMexico","Utah",1,"Mountain West",2,2
+"NewMexico","BoiseState",0,"Mountain West",2,2
+"NewMexico","SanDiegoState",1,"Mountain West",2,2
+"NewMexico","NewMexicoState",0,"Mountain West",2,2
+"NewMexico","OregonState",0,"Mountain West",2,2
+"NewMexico","Wyoming",1,"Mountain West",2,2
+"NewMexico","NevadaLasVegas",1,"Mountain West",2,2
+"NewMexicoState","Army",0,"Sun Belt",2,2
+"NewMexicoState","Georgia",0,"Sun Belt",2,2
+"NewMexicoState","Tulsa",0,"Sun Belt",2,2
+"NewMexicoState","TexasElPaso",0,"Sun Belt",2,2
+"NewMexicoState","SouthCarolina",0,"Sun Belt",2,2
+"NewMexicoState","UtahState",0,"Sun Belt",2,2
+"NorthCarolina","WakeForest",1,"Atlantic Coast",2,2
+"NorthCarolina","Marshall",0,"Atlantic Coast",2,2
+"NorthCarolina","Clemson",1,"Atlantic Coast",2,2
+"NorthCarolina","Maryland",1,"Atlantic Coast",2,2
+"NorthCarolinaState","WakeForest",1,"Atlantic Coast",2,2
+"NorthCarolinaState","SouthernMethodist",0,"Atlantic Coast",2,2
+"NorthCarolinaState","Duke",1,"Atlantic Coast",2,2
+"NorthCarolinaState","Clemson",1,"Atlantic Coast",2,2
+"NorthCarolinaState","Virginia",1,"Atlantic Coast",2,2
+"NorthCarolinaState","NorthCarolina",1,"Atlantic Coast",2,2
+"NorthCarolinaState","GeorgiaTech",1,"Atlantic Coast",2,2
+"NorthCarolinaState","Maryland",1,"Atlantic Coast",2,2
+"NorthCarolinaState","Indiana",0,"Atlantic Coast",2,2
+"NorthernIllinois","CentralFlorida",0,"Mid-American",2,2
+"NorthernIllinois","BallState",1,"Mid-American",2,2
+"NorthernIllinois","EasternMichigan",1,"Mid-American",2,2
+"NorthernIllinois","Toledo",1,"Mid-American",2,2
+"NorthernIllinois","Buffalo",1,"Mid-American",2,2
+"NorthernIllinois","Akron",1,"Mid-American",2,2
+"NorthernIllinois","WesternMichigan",1,"Mid-American",2,2
+"NorthernIllinois","CentralMichigan",1,"Mid-American",2,2
+"NorthernIllinois","Auburn",0,"Mid-American",2,2
+"NorthernIllinois","Northwestern",0,"Mid-American",2,2
+"NorthTexas","NewMexicoState",1,"Sun Belt",2,2
+"NorthTexas","LouisianaLafayette",1,"Sun Belt",2,2
+"NorthTexas","BoiseState",0,"Sun Belt",2,2
+"NorthTexas","NevadaLasVegas",0,"Sun Belt",2,2
+"NorthTexas","UtahState",0,"Sun Belt",2,2
+"NorthTexas","Idaho",1,"Sun Belt",2,2
+"NorthTexas","ArkansasState",1,"Sun Belt",2,2
+"Northwestern","Indiana",1,"Big Ten",2,2
+"Northwestern","Illinois",1,"Big Ten",2,2
+"Northwestern","Duke",0,"Big Ten",2,2
+"Northwestern","TexasChristian",0,"Big Ten",2,2
+"Northwestern","Purdue",1,"Big Ten",2,2
+"Northwestern","Minnesota",1,"Big Ten",2,2
+"Northwestern","Wisconsin",1,"Big Ten",2,2
+"Northwestern","MichiganState",1,"Big Ten",2,2
+"Northwestern","Michigan",1,"Big Ten",2,2
+"NotreDame","AirForce",0,"Independents",2,2
+"NotreDame","Rutgers",0,"Independents",2,2
+"NotreDame","MichiganState",0,"Independents",2,2
+"Ohio","IowaState",0,"Mid-American",2,2
+"Ohio","Marshall",1,"Mid-American",2,2
+"OhioState","MiamiOhio",0,"Big Ten",2,2
+"OhioState","Illinois",1,"Big Ten",2,2
+"OhioState","MichiganState",1,"Big Ten",2,2
+"OhioState","Minnesota",1,"Big Ten",2,2
+"Oklahoma","Texas",1,"Big Twelve",2,2
+"Oklahoma","OklahomaState",1,"Big Twelve",2,2
+"OklahomaState",NA,NA,"Big Twelve",2,2
+"Oregon","California",1,"Pacific Ten",2,2
+"Oregon","OregonState",1,"Pacific Ten",2,2
+"Oregon","WashingtonState",1,"Pacific Ten",2,2
+"OregonState","California",1,"Pacific Ten",2,2
+"PennState","MichiganState",1,"Big Ten",2,2
+"PennState","Pittsburgh",0,"Big Ten",2,2
+"PennState","Illinois",1,"Big Ten",2,2
+"PennState","OhioState",1,"Big Ten",2,2
+"PennState","LouisianaTech",0,"Big Ten",2,2
+"PennState","Minnesota",1,"Big Ten",2,2
+"PennState","Purdue",1,"Big Ten",2,2
+"PennState","Indiana",1,"Big Ten",2,2
+"PennState","SouthernCalifornia",0,"Big Ten",2,2
+"PennState","Michigan",1,"Big Ten",2,2
+"PennState","Toledo",0,"Big Ten",2,2
+"Pittsburgh","NorthCarolina",0,"Big East",2,2
+"Pittsburgh","Temple",1,"Big East",2,2
+"Pittsburgh","MiamiFlorida",1,"Big East",2,2
+"Pittsburgh","Rutgers",1,"Big East",2,2
+"Purdue","OhioState",1,"Big Ten",2,2
+"Purdue","Indiana",1,"Big Ten",2,2
+"Purdue","NotreDame",0,"Big Ten",2,2
+"Purdue","MichiganState",1,"Big Ten",2,2
+"Purdue","Kent",0,"Big Ten",2,2
+"Purdue","Minnesota",1,"Big Ten",2,2
+"Rice","TexasElPaso",1,"Western Athletic",2,2
+"Rice","Nevada",1,"Western Athletic",2,2
+"Rice","Hawaii",1,"Western Athletic",2,2
+"Rice","SanJoseState",1,"Western Athletic",2,2
+"Rice","SouthernMethodist",1,"Western Athletic",2,2
+"Rice","Tulsa",1,"Western Athletic",2,2
+"Rice","Oklahoma",0,"Western Athletic",2,2
+"Rice","TexasChristian",0,"Western Athletic",2,2
+"Rutgers","MiamiFlorida",1,"Big East",2,2
+"SanDiegoState","Utah",1,"Mountain West",2,2
+"SanDiegoState","Arizona",0,"Mountain West",2,2
+"SanDiegoState","Wyoming",1,"Mountain West",2,2
+"SanDiegoState","NevadaLasVegas",1,"Mountain West",2,2
+"SanDiegoState","ColoradoState",1,"Mountain West",2,2
+"SanDiegoState","Illinois",0,"Mountain West",2,2
+"SanDiegoState","AirForce",1,"Mountain West",2,2
+"SanDiegoState","OregonState",0,"Mountain West",2,2
+"SanJoseState","TexasElPaso",1,"Western Athletic",2,2
+"SanJoseState","Hawaii",1,"Western Athletic",2,2
+"SanJoseState","TexasChristian",0,"Western Athletic",2,2
+"SanJoseState","Nebraska",0,"Western Athletic",2,2
+"SanJoseState","Tulsa",1,"Western Athletic",2,2
+"SanJoseState","Stanford",0,"Western Athletic",2,2
+"SouthCarolina","Tennessee",1,"Southeastern",2,2
+"SouthCarolina","Arkansas",1,"Southeastern",2,2
+"SouthCarolina","Georgia",1,"Southeastern",2,2
+"SouthCarolina","Clemson",0,"Southeastern",2,2
+"SouthernCalifornia","UCLA",1,"Pacific Ten",2,2
+"SouthernCalifornia","Stanford",1,"Pacific Ten",2,2
+"SouthernCalifornia","California",1,"Pacific Ten",2,2
+"SouthernCalifornia","WashingtonState",1,"Pacific Ten",2,2
+"SouthernCalifornia","Oregon",1,"Pacific Ten",2,2
+"SouthernCalifornia","NotreDame",0,"Pacific Ten",2,2
+"SouthernCalifornia","Colorado",0,"Pacific Ten",2,2
+"SouthernCalifornia","ArizonaState",1,"Pacific Ten",2,2
+"SouthernCalifornia","Arizona",1,"Pacific Ten",2,2
+"SouthernCalifornia","SanJoseState",0,"Pacific Ten",2,2
+"SouthernCalifornia","OregonState",1,"Pacific Ten",2,2
+"SouthernMethodist","Tulsa",1,"Western Athletic",2,2
+"SouthernMethodist","TexasElPaso",1,"Western Athletic",2,2
+"SouthernMethodist","SanJoseState",1,"Western Athletic",2,2
+"SouthernMethodist","Hawaii",1,"Western Athletic",2,2
+"SouthernMethodist","Nevada",1,"Western Athletic",2,2
+"SouthernMethodist","Tulane",0,"Western Athletic",2,2
+"SouthernMethodist","TexasChristian",0,"Western Athletic",2,2
+"SouthernMississippi","Tennessee",0,"Conference USA",2,2
+"SouthernMississippi","AlabamaBirmingham",1,"Conference USA",2,2
+"SouthernMississippi","Tulane",1,"Conference USA",2,2
+"SouthernMississippi","Cincinnati",1,"Conference USA",2,2
+"SouthernMississippi","OklahomaState",0,"Conference USA",2,2
+"Stanford","WashingtonState",1,"Pacific Ten",2,2
+"Stanford","OregonState",1,"Pacific Ten",2,2
+"Stanford","California",1,"Pacific Ten",2,2
+"Stanford","NotreDame",0,"Pacific Ten",2,2
+"Stanford","Texas",0,"Pacific Ten",2,2
+"Syracuse","Rutgers",1,"Big East",2,2
+"Syracuse","Cincinnati",0,"Big East",2,2
+"Syracuse","Temple",1,"Big East",2,2
+"Syracuse","Pittsburgh",1,"Big East",2,2
+"Syracuse","MiamiFlorida",1,"Big East",2,2
+"Syracuse","EastCarolina",0,"Big East",2,2
+"Temple","Navy",0,"Big East",2,2
+"Temple","Maryland",0,"Big East",2,2
+"Temple","Rutgers",1,"Big East",2,2
+"Temple","MiamiFlorida",1,"Big East",2,2
+"Tennessee","Georgia",1,"Southeastern",2,2
+"Tennessee","Arkansas",1,"Southeastern",2,2
+"Tennessee","LouisianaState",1,"Southeastern",2,2
+"Texas","Missouri",1,"Big Twelve",2,2
+"Texas","OklahomaState",1,"Big Twelve",2,2
+"TexasA&M","Texas",1,"Big Twelve",2,2
+"TexasA&M","NotreDame",0,"Big Twelve",2,2
+"TexasA&M","TexasElPaso",0,"Big Twelve",2,2
+"TexasA&M","OklahomaState",1,"Big Twelve",2,2
+"TexasA&M","Oklahoma",1,"Big Twelve",2,2
+"TexasChristian","Hawaii",0,"Conference USA",2,2
+"TexasElPaso","Oklahoma",0,"Western Athletic",2,2
+"TexasElPaso","Hawaii",1,"Western Athletic",2,2
+"TexasElPaso","TexasChristian",0,"Western Athletic",2,2
+"TexasElPaso","Tulsa",1,"Western Athletic",2,2
+"TexasTech","Texas",1,"Big Twelve",2,2
+"TexasTech","Kansas",1,"Big Twelve",2,2
+"TexasTech","OklahomaState",1,"Big Twelve",2,2
+"TexasTech","Oklahoma",1,"Big Twelve",2,2
+"TexasTech","Nebraska",1,"Big Twelve",2,2
+"TexasTech","NorthTexas",0,"Big Twelve",2,2
+"TexasTech","LouisianaLafayette",0,"Big Twelve",2,2
+"TexasTech","UtahState",0,"Big Twelve",2,2
+"TexasTech","TexasA&M",1,"Big Twelve",2,2
+"TexasTech","Baylor",1,"Big Twelve",2,2
+"Toledo","Marshall",1,"Mid-American",2,2
+"Tulane","Cincinnati",1,"Conference USA",2,2
+"Tulane","Mississippi",0,"Conference USA",2,2
+"Tulane","LouisianaLafayette",0,"Conference USA",2,2
+"Tulane","Army",1,"Conference USA",2,2
+"Tulsa","NorthCarolina",0,"Western Athletic",2,2
+"Tulsa","OklahomaState",0,"Western Athletic",2,2
+"Tulsa","TexasChristian",0,"Western Athletic",2,2
+"Tulsa","Hawaii",1,"Western Athletic",2,2
+"UCLA","California",1,"Pacific Ten",2,2
+"UCLA","OregonState",1,"Pacific Ten",2,2
+"UCLA","FresnoState",0,"Pacific Ten",2,2
+"UCLA","Oregon",1,"Pacific Ten",2,2
+"UCLA","Washington",1,"Pacific Ten",2,2
+"UCLA","Stanford",1,"Pacific Ten",2,2
+"UCLA","Arizona",1,"Pacific Ten",2,2
+"UCLA","Michigan",0,"Pacific Ten",2,2
+"Utah","UtahState",0,"Mountain West",2,2
+"Utah","AirForce",1,"Mountain West",2,2
+"Utah","WashingtonState",0,"Mountain West",2,2
+"Utah","ColoradoState",1,"Mountain West",2,2
+"Utah","California",0,"Mountain West",2,2
+"Utah","NevadaLasVegas",1,"Mountain West",2,2
+"UtahState",NA,NA,"Independents",2,2
+"Vanderbilt","Tennessee",1,"Southeastern",2,2
+"Vanderbilt","Mississippi",1,"Southeastern",2,2
+"Vanderbilt","SouthCarolina",1,"Southeastern",2,2
+"Vanderbilt","Georgia",1,"Southeastern",2,2
+"Vanderbilt","WakeForest",0,"Southeastern",2,2
+"Virginia","GeorgiaTech",1,"Atlantic Coast",2,2
+"Virginia","Maryland",1,"Atlantic Coast",2,2
+"Virginia","NorthCarolina",1,"Atlantic Coast",2,2
+"Virginia","WakeForest",1,"Atlantic Coast",2,2
+"Virginia","Duke",1,"Atlantic Coast",2,2
+"Virginia","Clemson",1,"Atlantic Coast",2,2
+"VirginiaTech","Rutgers",1,"Big East",2,2
+"VirginiaTech","CentralFlorida",0,"Big East",2,2
+"VirginiaTech","BostonCollege",1,"Big East",2,2
+"VirginiaTech","Pittsburgh",1,"Big East",2,2
+"VirginiaTech","Temple",1,"Big East",2,2
+"VirginiaTech","EastCarolina",0,"Big East",2,2
+"VirginiaTech","MiamiFlorida",1,"Big East",2,2
+"VirginiaTech","Virginia",0,"Big East",2,2
+"VirginiaTech","WestVirginia",1,"Big East",2,2
+"VirginiaTech","Syracuse",1,"Big East",2,2
+"WakeForest","Maryland",1,"Atlantic Coast",2,2
+"Washington","California",1,"Pacific Ten",2,2
+"Washington","WashingtonState",1,"Pacific Ten",2,2
+"Washington","OregonState",1,"Pacific Ten",2,2
+"Washington","MiamiFlorida",0,"Pacific Ten",2,2
+"Washington","Oregon",1,"Pacific Ten",2,2
+"Washington","Stanford",1,"Pacific Ten",2,2
+"WashingtonState","OregonState",1,"Pacific Ten",2,2
+"WashingtonState","California",1,"Pacific Ten",2,2
+"WesternMichigan","Marshall",1,"Mid-American",2,2
+"WesternMichigan","Toledo",1,"Mid-American",2,2
+"WesternMichigan","CentralMichigan",1,"Mid-American",2,2
+"WesternMichigan","Ohio",1,"Mid-American",2,2
+"WesternMichigan","EasternMichigan",1,"Mid-American",2,2
+"WesternMichigan","BallState",1,"Mid-American",2,2
+"WesternMichigan","Wisconsin",0,"Mid-American",2,2
+"WesternMichigan","Kent",1,"Mid-American",2,2
+"WestVirginia","NotreDame",0,"Big East",2,2
+"WestVirginia","Pittsburgh",1,"Big East",2,2
+"WestVirginia","Idaho",0,"Big East",2,2
+"WestVirginia","EastCarolina",0,"Big East",2,2
+"WestVirginia","Maryland",0,"Big East",2,2
+"WestVirginia","MiamiFlorida",1,"Big East",2,2
+"WestVirginia","Rutgers",1,"Big East",2,2
+"WestVirginia","Temple",1,"Big East",2,2
+"WestVirginia","Syracuse",1,"Big East",2,2
+"Wisconsin","MichiganState",1,"Big Ten",2,2
+"Wisconsin","Indiana",1,"Big Ten",2,2
+"Wisconsin","Hawaii",0,"Big Ten",2,2
+"Wisconsin","Minnesota",1,"Big Ten",2,2
+"Wisconsin","Michigan",1,"Big Ten",2,2
+"Wisconsin","Cincinnati",0,"Big Ten",2,2
+"Wisconsin","Oregon",0,"Big Ten",2,2
+"Wisconsin","OhioState",1,"Big Ten",2,2
+"Wisconsin","Purdue",1,"Big Ten",2,2
+"Wyoming","Utah",1,"Mountain West",2,2
+"Wyoming","Auburn",0,"Mountain West",2,2
+"Wyoming","ColoradoState",1,"Mountain West",2,2
+"Wyoming","CentralMichigan",0,"Mountain West",2,2
+"Wyoming","Nevada",0,"Mountain West",2,2
+"Wyoming","AirForce",1,"Mountain West",2,2
+"Wyoming","NevadaLasVegas",1,"Mountain West",2,2
+"Wyoming","TexasA&M",0,"Mountain West",2,2
+"AirForce","MiamiOhio",1,"Mountain West",1,2
+"Akron","Navy",1,"Mid-American",1,2
+"Akron","California",0,"Mid-American",1,2
+"Akron","MichiganState",1,"Mid-American",1,2
+"Akron","California",1,"Mid-American",1,2
+"Akron","Memphis",1,"Mid-American",1,2
+"Akron","AirForce",0,"Mid-American",1,2
+"Akron","KansasState",1,"Mid-American",1,2
+"Akron","EasternMichigan",0,"Mid-American",1,2
+"Akron","WakeForest",1,"Mid-American",1,2
+"Akron","AirForce",1,"Mid-American",1,2
+"Alabama","Oklahoma",1,"Southeastern",1,2
+"Alabama","OklahomaState",1,"Southeastern",1,2
+"Alabama","MiamiOhio",0,"Southeastern",1,2
+"Alabama","Vanderbilt",1,"Southeastern",1,2
+"Alabama","California",1,"Southeastern",1,2
+"Alabama","GeorgiaTech",0,"Southeastern",1,2
+"Alabama","Cincinnati",1,"Southeastern",1,2
+"Alabama","MiddleTennesseeState",0,"Southeastern",1,2
+"Alabama",NA,1,"Southeastern",1,2
+"Alabama","Rutgers",1,"Southeastern",1,2
+"AlabamaBirmingham","MichiganState",NA,"Conference USA",1,2
+"Arizona","Cincinnati",1,"Pacific Ten",1,2
+"Arizona","LouisianaState",1,"Pacific Ten",1,2
+"Arizona","OregonState",1,"Pacific Ten",1,2
+"Arizona","UCLA",0,"Pacific Ten",1,2
+"Arizona","IowaState",1,"Pacific Ten",1,2
+"Arizona","EasternMichigan",0,"Pacific Ten",1,2
+"Arizona","Stanford",1,"Pacific Ten",1,2
+"ArizonaState","Wyoming",1,"Pacific Ten",1,2
+"ArizonaState","OhioState",1,"Pacific Ten",1,2
+"ArizonaState","Hawaii",1,"Pacific Ten",1,2
+"ArizonaState","WakeForest",1,"Pacific Ten",1,2
+"ArizonaState","SanJoseState",0,"Pacific Ten",1,2
+"ArizonaState","MississippiState",1,"Pacific Ten",1,2
+"ArizonaState","Oklahoma",0,"Pacific Ten",1,2
+"ArizonaState","WashingtonState",1,"Pacific Ten",1,2
+"ArizonaState","Hawaii",0,"Pacific Ten",1,2
+"ArizonaState","Tulsa",1,"Pacific Ten",1,2
+"Arkansas","MiamiFlorida",NA,"Southeastern",1,2
+"ArkansasState","Temple",0,"Sun Belt",1,2
+"ArkansasState","SouthernCalifornia",0,"Sun Belt",1,2
+"ArkansasState","MiamiOhio",0,"Sun Belt",1,2
+"ArkansasState","Memphis",0,"Sun Belt",1,2
+"ArkansasState","NorthCarolina",0,"Sun Belt",1,2
+"ArkansasState","NevadaLasVegas",0,"Sun Belt",1,2
+"ArkansasState","Vanderbilt",1,"Sun Belt",1,2
+"ArkansasState","NotreDame",0,"Sun Belt",1,2
+"ArkansasState","VirginiaTech",1,"Sun Belt",1,2
+"Army","BallState",1,"Conference USA",1,2
+"Army","AirForce",0,"Conference USA",1,2
+"Army","SouthernMethodist",1,"Conference USA",1,2
+"Auburn","ColoradoState",1,"Southeastern",1,2
+"Auburn","Tulane",0,"Southeastern",1,2
+"Auburn","Temple",1,"Southeastern",1,2
+"Auburn",NA,1,"Southeastern",1,2
+"Auburn","Stanford",1,"Southeastern",1,2
+"Auburn","Marshall",1,"Southeastern",1,2
+"Auburn","Oregon",1,"Southeastern",1,2
+"Auburn","Vanderbilt",1,"Southeastern",1,2
+"Auburn","WakeForest",1,"Southeastern",1,2
+"BallState","Purdue",1,"Mid-American",1,2
+"BallState","Kent",1,"Mid-American",1,2
+"BallState","Georgia",1,"Mid-American",1,2
+"BallState","TexasChristian",1,"Mid-American",1,2
+"BallState","Oregon",0,"Mid-American",1,2
+"BallState","Missouri",0,"Mid-American",1,2
+"BallState","WashingtonState",1,"Mid-American",1,2
+"Baylor","Hawaii",1,"Big Twelve",1,2
+"Baylor","TexasA&M",0,"Big Twelve",1,2
+"Baylor","MiddleTennesseeState",1,"Big Twelve",1,2
+"Baylor","Minnesota",1,"Big Twelve",1,2
+"Baylor","WashingtonState",1,"Big Twelve",1,2
+"Baylor","EasternMichigan",1,"Big Twelve",1,2
+"Baylor","AlabamaBirmingham",1,"Big Twelve",1,2
+"Baylor","OregonState",1,"Big Twelve",1,2
+"Baylor","Wyoming",0,"Big Twelve",1,2
+"BoiseState","Duke",0,"Western Athletic",1,2
+"BoiseState","MiamiOhio",0,"Western Athletic",1,2
+"BoiseState","Tulane",0,"Western Athletic",1,2
+"BoiseState","Syracuse",0,"Western Athletic",1,2
+"BoiseState","Georgia",0,"Western Athletic",1,2
+"BoiseState","Mississippi",0,"Western Athletic",1,2
+"BostonCollege","CentralMichigan",0,"Big East",1,2
+"BostonCollege","OklahomaState",1,"Big East",1,2
+"BostonCollege","Arkansas",1,"Big East",1,2
+"BostonCollege","Mississippi",0,"Big East",1,2
+"BostonCollege","UtahState",1,"Big East",1,2
+"BostonCollege","LouisianaLafayette",1,"Big East",1,2
+"BostonCollege","Nebraska",0,"Big East",1,2
+"BostonCollege","SouthernMississippi",0,"Big East",1,2
+"BostonCollege","Illinois",1,"Big East",1,2
+"BostonCollege","Auburn",1,"Big East",1,2
+"BowlingGreenState","MichiganState",0,"Mid-American",1,2
+"BowlingGreenState","GeorgiaTech",1,"Mid-American",1,2
+"BowlingGreenState","Tulane",1,"Mid-American",1,2
+"BowlingGreenState","MississippiState",1,"Mid-American",1,2
+"BowlingGreenState","Mississippi",1,"Mid-American",1,2
+"BowlingGreenState","Toledo",1,"Mid-American",1,2
+"BowlingGreenState","Pittsburgh",1,"Mid-American",1,2
+"BowlingGreenState","BoiseState",0,"Mid-American",1,2
+"BowlingGreenState","Rutgers",1,"Mid-American",1,2
+"BowlingGreenState","Oklahoma",0,"Mid-American",1,2
+"BrighamYoung","Oklahoma",0,"Mountain West",1,2
+"BrighamYoung","Rutgers",1,"Mountain West",1,2
+"BrighamYoung","OklahomaState",1,"Mountain West",1,2
+"BrighamYoung","Toledo",1,"Mountain West",1,2
+"BrighamYoung","MichiganState",1,"Mountain West",1,2
+"BrighamYoung","TexasA&M",0,"Mountain West",1,2
+"BrighamYoung","Arizona",1,"Mountain West",1,2
+"BrighamYoung","Indiana",1,"Mountain West",1,2
+"BrighamYoung","California",0,"Mountain West",1,2
+"BrighamYoung","Tulane",0,"Mountain West",1,2
+"BrighamYoung","MiamiFlorida",1,"Mountain West",1,2
+"BrighamYoung","Arizona",0,"Mountain West",1,2
+"Buffalo","Clemson",1,"Mid-American",1,2
+"Buffalo","Pittsburgh",1,"Mid-American",1,2
+"Buffalo","Nebraska",0,"Mid-American",1,2
+"Buffalo","LouisianaLafayette",1,"Mid-American",1,2
+"Buffalo","Florida",0,"Mid-American",1,2
+"Buffalo","TexasElPaso",1,"Mid-American",1,2
+"Buffalo","NorthTexas",0,"Mid-American",1,2
+"California","WashingtonState",NA,"Pacific Ten",1,2
+"CentralFlorida","Rice",0,"Independents",1,2
+"CentralFlorida","SanJoseState",0,"Independents",1,2
+"CentralFlorida","BostonCollege",0,"Independents",1,2
+"CentralFlorida","Arkansas",0,"Independents",1,2
+"CentralMichigan","Arizona",0,"Mid-American",1,2
+"CentralMichigan","Maryland",1,"Mid-American",1,2
+"CentralMichigan","Minnesota",1,"Mid-American",1,2
+"CentralMichigan","Cincinnati",1,"Mid-American",1,2
+"CentralMichigan","Tennessee",1,"Mid-American",1,2
+"Cincinnati","WestVirginia",1,"Conference USA",1,2
+"Cincinnati","TexasElPaso",0,"Conference USA",1,2
+"Clemson","SouthCarolina",1,"Atlantic Coast",1,2
+"Clemson","TexasChristian",1,"Atlantic Coast",1,2
+"Colorado","OklahomaState",1,"Big Twelve",1,2
+"Colorado","BowlingGreenState",1,"Big Twelve",1,2
+"Colorado","Georgia",0,"Big Twelve",1,2
+"Colorado","Nevada",1,"Big Twelve",1,2
+"Colorado","TexasChristian",0,"Big Twelve",1,2
+"Colorado","ColoradoState",1,"Big Twelve",1,2
+"Colorado","Michigan",1,"Big Twelve",1,2
+"Colorado","SouthernMississippi",1,"Big Twelve",1,2
+"Colorado","NorthTexas",1,"Big Twelve",1,2
+"ColoradoState","Rutgers",1,"Mountain West",1,2
+"ColoradoState","OregonState",1,"Mountain West",1,2
+"ColoradoState","NevadaLasVegas",0,"Mountain West",1,2
+"Connecticut","AlabamaBirmingham",0,"Independents",1,2
+"Connecticut","Oklahoma",0,"Independents",1,2
+"Connecticut","Syracuse",0,"Independents",1,2
+"Duke","Clemson",1,"Atlantic Coast",1,2
+"Duke","LouisianaState",1,"Atlantic Coast",1,2
+"Duke","TexasChristian",0,"Atlantic Coast",1,2
+"Duke","Tulsa",1,"Atlantic Coast",1,2
+"Duke","LouisianaState",1,"Atlantic Coast",1,2
+"EastCarolina","Minnesota",1,"Conference USA",1,2
+"EastCarolina","Ohio",1,"Conference USA",1,2
+"EastCarolina","CentralMichigan",1,"Conference USA",1,2
+"EastCarolina","California",1,"Conference USA",1,2
+"EastCarolina","Mississippi",0,"Conference USA",1,2
+"EastCarolina","NotreDame",1,"Conference USA",1,2
+"EastCarolina","Hawaii",1,"Conference USA",1,2
+"EastCarolina",NA,1,"Conference USA",1,2
+"EasternMichigan","AlabamaBirmingham",1,"Mid-American",1,2
+"EasternMichigan","Temple",0,"Mid-American",1,2
+"EasternMichigan","Cincinnati",1,"Mid-American",1,2
+"EasternMichigan","Nebraska",0,"Mid-American",1,2
+"Florida","AirForce",0,"Southeastern",1,2
+"Florida","Indiana",1,"Southeastern",1,2
+"Florida","SouthCarolina",1,"Southeastern",1,2
+"Florida","Buffalo",1,"Southeastern",1,2
+"Florida","CentralFlorida",1,"Southeastern",1,2
+"Florida","Illinois",1,"Southeastern",1,2
+"Florida","Army",1,"Southeastern",1,2
+"Florida","Missouri",1,"Southeastern",1,2
+"FloridaState","Texas",1,"Atlantic Coast",1,2
+"FloridaState","BallState",1,"Atlantic Coast",1,2
+"FloridaState","OklahomaState",1,"Atlantic Coast",1,2
+"FloridaState","Kansas",1,"Atlantic Coast",1,2
+"FloridaState","Missouri",0,"Atlantic Coast",1,2
+"FloridaState","Illinois",1,"Atlantic Coast",1,2
+"FloridaState","Virginia",0,"Atlantic Coast",1,2
+"FloridaState","Nebraska",1,"Atlantic Coast",1,2
+"FloridaState","Maryland",0,"Atlantic Coast",1,2
+"FloridaState","CentralFlorida",1,"Atlantic Coast",1,2
+"FloridaState",NA,1,"Atlantic Coast",1,2
+"FresnoState","ColoradoState",0,"Western Athletic",1,2
+"FresnoState","AlabamaBirmingham",1,"Western Athletic",1,2
+"FresnoState","Stanford",1,"Western Athletic",1,2
+"FresnoState","OregonState",0,"Western Athletic",1,2
+"FresnoState","OklahomaState",1,"Western Athletic",1,2
+"FresnoState","NorthTexas",1,"Western Athletic",1,2
+"FresnoState","MiamiFlorida",1,"Western Athletic",1,2
+"FresnoState","MiamiOhio",1,"Western Athletic",1,2
+"FresnoState","LouisianaState",1,"Western Athletic",1,2
+"FresnoState","California",0,"Western Athletic",1,2
+"Georgia","FloridaState",1,"Southeastern",1,2
+"GeorgiaTech","NevadaLasVegas",0,"Atlantic Coast",1,2
+"GeorgiaTech","Memphis",1,"Atlantic Coast",1,2
+"GeorgiaTech","OregonState",1,"Atlantic Coast",1,2
+"GeorgiaTech","Army",1,"Atlantic Coast",1,2
+"GeorgiaTech","Idaho",1,"Atlantic Coast",1,2
+"GeorgiaTech","ArizonaState",1,"Atlantic Coast",1,2
+"GeorgiaTech","WakeForest",0,"Atlantic Coast",1,2
+"Hawaii","Maryland",NA,"Western Athletic",1,2
+"Houston","Virginia",0,"Conference USA",1,2
+"Houston","Cincinnati",0,"Conference USA",1,2
+"Houston","Indiana",1,"Conference USA",1,2
+"Houston","BoiseState",1,"Conference USA",1,2
+"Houston","Texas",1,"Conference USA",1,2
+"Houston","Hawaii",1,"Conference USA",1,2
+"Houston","Illinois",1,"Conference USA",1,2
+"Houston","Connecticut",1,"Conference USA",1,2
+"Houston","Arkansas",0,"Conference USA",1,2
+"Houston","Clemson",0,"Conference USA",1,2
+"Idaho","Texas",0,"Sun Belt",1,2
+"Idaho","CentralMichigan",1,"Sun Belt",1,2
+"Idaho","Arkansas",0,"Sun Belt",1,2
+"Idaho","Utah",0,"Sun Belt",1,2
+"Idaho","Nebraska",0,"Sun Belt",1,2
+"Illinois","NotreDame",1,"Big Ten",1,2
+"Illinois","Indiana",0,"Big Ten",1,2
+"Illinois","Minnesota",1,"Big Ten",1,2
+"Indiana","OklahomaState",NA,"Big Ten",1,2
+"Iowa","LouisianaLafayette",0,"Big Ten",1,2
+"Iowa","Texas",1,"Big Ten",1,2
+"Iowa","NewMexicoState",0,"Big Ten",1,2
+"Iowa","Toledo",1,"Big Ten",1,2
+"Iowa","Louisville",1,"Big Ten",1,2
+"Iowa","OhioState",1,"Big Ten",1,2
+"Iowa","Kent",0,"Big Ten",1,2
+"Iowa","Maryland",0,"Big Ten",1,2
+"Iowa","WakeForest",1,"Big Ten",1,2
+"Iowa","Syracuse",1,"Big Ten",1,2
+"Iowa","Tulsa",1,"Big Ten",1,2
+"Iowa","Marshall",1,"Big Ten",1,2
+"IowaState","Clemson",1,"Big Twelve",1,2
+"IowaState","Minnesota",1,"Big Twelve",1,2
+"IowaState","Baylor",1,"Big Twelve",1,2
+"IowaState","BallState",1,"Big Twelve",1,2
+"IowaState","WashingtonState",0,"Big Twelve",1,2
+"Kansas","MiamiFlorida",1,"Big Twelve",1,2
+"Kansas","SouthernMississippi",1,"Big Twelve",1,2
+"Kansas","SouthernMethodist",1,"Big Twelve",1,2
+"Kansas","Arkansas",1,"Big Twelve",1,2
+"Kansas","Alabama",0,"Big Twelve",1,2
+"Kansas","SanJoseState",0,"Big Twelve",1,2
+"Kansas","Idaho",1,"Big Twelve",1,2
+"KansasState","UCLA",1,"Big Twelve",1,2
+"KansasState","MississippiState",1,"Big Twelve",1,2
+"KansasState","NewMexicoState",1,"Big Twelve",1,2
+"KansasState","Memphis",1,"Big Twelve",1,2
+"KansasState","Maryland",0,"Big Twelve",1,2
+"KansasState","LouisianaTech",1,"Big Twelve",1,2
+"KansasState","LouisianaLafayette",1,"Big Twelve",1,2
+"KansasState","IowaState",0,"Big Twelve",1,2
+"KansasState","UtahState",0,"Big Twelve",1,2
+"KansasState","MiamiOhio",1,"Big Twelve",1,2
+"KansasState","California",1,"Big Twelve",1,2
+"Kent","Tennessee",1,"Mid-American",1,2
+"Kent","Michigan",0,"Mid-American",1,2
+"Kent","Oklahoma",1,"Mid-American",1,2
+"Kent","OklahomaState",1,"Mid-American",1,2
+"Kentucky","Cincinnati",1,"Southeastern",1,2
+"Kentucky","Florida",1,"Southeastern",1,2
+"Kentucky","Hawaii",1,"Southeastern",1,2
+"Kentucky","Maryland",0,"Southeastern",1,2
+"Kentucky","WakeForest",1,"Southeastern",1,2
+"Kentucky","Marshall",0,"Southeastern",1,2
+"Kentucky","Marshall",1,"Southeastern",1,2
+"Kentucky","NotreDame",1,"Southeastern",1,2
+"Kentucky","Wisconsin",1,"Southeastern",1,2
+"LouisianaLafayette","WakeForest",0,"Sun Belt",1,2
+"LouisianaLafayette","MississippiState",0,"Sun Belt",1,2
+"LouisianaMonroe","Ohio",0,"Sun Belt",1,2
+"LouisianaMonroe","TexasChristian",1,"Sun Belt",1,2
+"LouisianaMonroe","Duke",0,"Sun Belt",1,2
+"LouisianaMonroe","SanDiegoState",1,"Sun Belt",1,2
+"LouisianaMonroe","TexasChristian",0,"Sun Belt",1,2
+"LouisianaMonroe","Cincinnati",0,"Sun Belt",1,2
+"LouisianaState","MichiganState",1,"Southeastern",1,2
+"LouisianaState","Army",0,"Southeastern",1,2
+"LouisianaTech","Rice",0,"Western Athletic",1,2
+"LouisianaTech","Missouri",1,"Western Athletic",1,2
+"LouisianaTech","Virginia",0,"Western Athletic",1,2
+"LouisianaTech","Toledo",0,"Western Athletic",1,2
+"LouisianaTech","SouthernMississippi",0,"Western Athletic",1,2
+"LouisianaTech","Buffalo",1,"Western Athletic",1,2
+"Louisville","Indiana",1,"Conference USA",1,2
+"Louisville","NevadaLasVegas",1,"Conference USA",1,2
+"Louisville","Kent",1,"Conference USA",1,2
+"Louisville","Marshall",1,"Conference USA",1,2
+"Louisville","Missouri",1,"Conference USA",1,2
+"Marshall","Louisville",0,"Mid-American",1,2
+"Maryland","OregonState",NA,"Atlantic Coast",1,2
+"Memphis","Nebraska",1,"Conference USA",1,2
+"Memphis","Indiana",0,"Conference USA",1,2
+"Memphis","Arkansas",1,"Conference USA",1,2
+"Memphis","Duke",1,"Conference USA",1,2
+"Memphis","Michigan",1,"Conference USA",1,2
+"Memphis","NewMexicoState",1,"Conference USA",1,2
+"MiamiFlorida","Washington",NA,"Big East",1,2
+"MiamiOhio","Hawaii",1,"Mid-American",1,2
+"MiamiOhio","LouisianaTech",1,"Mid-American",1,2
+"MiamiOhio","Virginia",0,"Mid-American",1,2
+"MiamiOhio","Tennessee",0,"Mid-American",1,2
+"Michigan","LouisianaMonroe",1,"Big Ten",1,2
+"Michigan","Georgia",1,"Big Ten",1,2
+"Michigan","Florida",1,"Big Ten",1,2
+"Michigan","WashingtonState",1,"Big Ten",1,2
+"Michigan","UtahState",1,"Big Ten",1,2
+"Michigan","Kent",0,"Big Ten",1,2
+"MichiganState","TexasA&M",0,"Big Ten",1,2
+"MiddleTennesseeState","CentralFlorida",0,"Sun Belt",1,2
+"MiddleTennesseeState","Navy",1,"Sun Belt",1,2
+"MiddleTennesseeState","SouthernMethodist",0,"Sun Belt",1,2
+"MiddleTennesseeState","NevadaLasVegas",0,"Sun Belt",1,2
+"MiddleTennesseeState","AirForce",0,"Sun Belt",1,2
+"Minnesota","Maryland",1,"Big Ten",1,2
+"Minnesota","TexasElPaso",0,"Big Ten",1,2
+"Minnesota","Colorado",1,"Big Ten",1,2
+"Mississippi",NA,1,"Southeastern",1,2
+"Mississippi","SouthernMethodist",0,"Southeastern",1,2
+"Mississippi","Pittsburgh",1,"Southeastern",1,2
+"Mississippi","Vanderbilt",1,"Southeastern",1,2
+"MississippiState","WesternMichigan",0,"Southeastern",1,2
+"MississippiState","TexasTech",1,"Southeastern",1,2
+"MississippiState","WesternMichigan",1,"Southeastern",1,2
+"MississippiState","Clemson",1,"Southeastern",1,2
+"MississippiState","Temple",1,"Southeastern",1,2
+"Missouri","NewMexico",1,"Big Twelve",1,2
+"Missouri","OhioState",0,"Big Twelve",1,2
+"Navy","EastCarolina",0,"Independents",1,2
+"Navy","EasternMichigan",1,"Independents",1,2
+"Navy","OhioState",0,"Independents",1,2
+"Navy","Stanford",0,"Independents",1,2
+"Navy","MississippiState",0,"Independents",1,2
+"Navy","Maryland",0,"Independents",1,2
+"Navy","Toledo",0,"Independents",1,2
+"Navy","Tulane",0,"Independents",1,2
+"Nebraska","MiamiFlorida",1,"Big Twelve",1,2
+"Nebraska","Houston",0,"Big Twelve",1,2
+"Nebraska","CentralFlorida",1,"Big Twelve",1,2
+"Nevada","GeorgiaTech",0,"Western Athletic",1,2
+"Nevada","IowaState",0,"Western Athletic",1,2
+"Nevada","EastCarolina",1,"Western Athletic",1,2
+"Nevada","WashingtonState",1,"Western Athletic",1,2
+"Nevada","Tennessee",0,"Western Athletic",1,2
+"Nevada","Army",1,"Western Athletic",1,2
+"Nevada","MiddleTennesseeState",1,"Western Athletic",1,2
+"NevadaLasVegas","LouisianaState",0,"Mountain West",1,2
+"NewMexico","MiamiFlorida",1,"Mountain West",1,2
+"NewMexico","CentralMichigan",1,"Mountain West",1,2
+"NewMexico","LouisianaLafayette",0,"Mountain West",1,2
+"NewMexico","Utah",1,"Mountain West",1,2
+"NewMexico","GeorgiaTech",0,"Mountain West",1,2
+"NewMexico","Nebraska",1,"Mountain West",1,2
+"NewMexico","Nevada",0,"Mountain West",1,2
+"NewMexico","Akron",0,"Mountain West",1,2
+"NewMexico","NevadaLasVegas",1,"Mountain West",1,2
+"NewMexico","Rutgers",1,"Mountain West",1,2
+"NewMexicoState","Connecticut",0,"Sun Belt",1,2
+"NewMexicoState","Hawaii",0,"Sun Belt",1,2
+"NewMexicoState","Oregon",0,"Sun Belt",1,2
+"NewMexicoState","Missouri",0,"Sun Belt",1,2
+"NewMexicoState",NA,0,"Sun Belt",1,2
+"NewMexicoState","Maryland",0,"Sun Belt",1,2
+"NorthCarolina","Stanford",1,"Atlantic Coast",1,2
+"NorthCarolina","Tulsa",0,"Atlantic Coast",1,2
+"NorthCarolina","Marshall",1,"Atlantic Coast",1,2
+"NorthCarolina","AlabamaBirmingham",1,"Atlantic Coast",1,2
+"NorthCarolinaState","Hawaii",1,"Atlantic Coast",1,2
+"NorthCarolinaState","UtahState",0,"Atlantic Coast",1,2
+"NorthCarolinaState","SouthCarolina",1,"Atlantic Coast",1,2
+"NorthCarolinaState","WakeForest",1,"Atlantic Coast",1,2
+"NorthCarolinaState","NorthCarolina",1,"Atlantic Coast",1,2
+"NorthCarolinaState","Ohio",1,"Atlantic Coast",1,2
+"NorthCarolinaState","Marshall",1,"Atlantic Coast",1,2
+"NorthCarolinaState","NewMexicoState",1,"Atlantic Coast",1,2
+"NorthCarolinaState","LouisianaState",0,"Atlantic Coast",1,2
+"NorthernIllinois","California",0,"Mid-American",1,2
+"NorthernIllinois","Tulsa",1,"Mid-American",1,2
+"NorthernIllinois","CentralMichigan",1,"Mid-American",1,2
+"NorthernIllinois","Connecticut",1,"Mid-American",1,2
+"NorthernIllinois","Oklahoma",1,"Mid-American",1,2
+"NorthernIllinois","Stanford",1,"Mid-American",1,2
+"NorthernIllinois","Oklahoma",1,"Mid-American",1,2
+"NorthernIllinois","Tulsa",1,"Mid-American",1,2
+"NorthernIllinois","AirForce",0,"Mid-American",1,2
+"NorthernIllinois","Kentucky",0,"Mid-American",1,2
+"NorthTexas","AirForce",1,"Sun Belt",1,2
+"NorthTexas","Pittsburgh",1,"Sun Belt",1,2
+"NorthTexas","Vanderbilt",0,"Sun Belt",1,2
+"NorthTexas","Hawaii",0,"Sun Belt",1,2
+"NorthTexas","MiamiFlorida",0,"Sun Belt",1,2
+"NorthTexas","Temple",1,"Sun Belt",1,2
+"NorthTexas","UtahState",1,"Sun Belt",1,2
+"Northwestern","Syracuse",1,"Big Ten",1,2
+"Northwestern","Duke",1,"Big Ten",1,2
+"Northwestern","SanDiegoState",0,"Big Ten",1,2
+"Northwestern","Arkansas",0,"Big Ten",1,2
+"Northwestern","Army",1,"Big Ten",1,2
+"Northwestern","Louisville",1,"Big Ten",1,2
+"Northwestern","Indiana",1,"Big Ten",1,2
+"Northwestern","TexasChristian",1,"Big Ten",1,2
+"Northwestern","Indiana",1,"Big Ten",1,2
+"NotreDame","MichiganState",0,"Independents",1,2
+"NotreDame","Oregon",0,"Independents",1,2
+"NotreDame","OhioState",0,"Independents",1,2
+"Ohio","Duke",0,"Mid-American",1,2
+"Ohio","Nebraska",1,"Mid-American",1,2
+"OhioState","Ohio",0,"Big Ten",1,2
+"OhioState","Missouri",1,"Big Ten",1,2
+"OhioState","PennState",1,"Big Ten",1,2
+"OhioState","MichiganState",1,"Big Ten",1,2
+"Oklahoma","Georgia",1,"Big Twelve",1,2
+"Oklahoma","Utah",1,"Big Twelve",1,2
+"OklahomaState","Oklahoma",NA,"Big Twelve",1,2
+"Oregon","Duke",1,"Pacific Ten",1,2
+"Oregon","OregonState",1,"Pacific Ten",1,2
+"Oregon","Pittsburgh",1,"Pacific Ten",1,2
+"OregonState","OhioState",1,"Pacific Ten",1,2
+"PennState","SanJoseState",1,"Big Ten",1,2
+"PennState","Tulsa",0,"Big Ten",1,2
+"PennState","SanJoseState",1,"Big Ten",1,2
+"PennState","NevadaLasVegas",1,"Big Ten",1,2
+"PennState","Marshall",0,"Big Ten",1,2
+"PennState","Marshall",1,"Big Ten",1,2
+"PennState","UtahState",1,"Big Ten",1,2
+"PennState","Texas",1,"Big Ten",1,2
+"PennState","Washington",0,"Big Ten",1,2
+"PennState","Ohio",1,"Big Ten",1,2
+"PennState","Tulane",0,"Big Ten",1,2
+"Pittsburgh","Vanderbilt",0,"Big East",1,2
+"Pittsburgh","Indiana",1,"Big East",1,2
+"Pittsburgh","Oregon",1,"Big East",1,2
+"Pittsburgh","Oregon",1,"Big East",1,2
+"Purdue","Mississippi",1,"Big Ten",1,2
+"Purdue","NewMexicoState",1,"Big Ten",1,2
+"Purdue","Wisconsin",0,"Big Ten",1,2
+"Purdue","Indiana",1,"Big Ten",1,2
+"Purdue","Illinois",0,"Big Ten",1,2
+"Purdue","IowaState",1,"Big Ten",1,2
+"Rice","SouthCarolina",1,"Western Athletic",1,2
+"Rice","Washington",1,"Western Athletic",1,2
+"Rice","LouisianaState",1,"Western Athletic",1,2
+"Rice","TexasElPaso",1,"Western Athletic",1,2
+"Rice","Oregon",1,"Western Athletic",1,2
+"Rice","Tennessee",1,"Western Athletic",1,2
+"Rice","Nevada",0,"Western Athletic",1,2
+"Rice","SouthernMethodist",0,"Western Athletic",1,2
+"Rutgers","FresnoState",1,"Big East",1,2
+"SanDiegoState","Mississippi",1,"Mountain West",1,2
+"SanDiegoState","Tulane",0,"Mountain West",1,2
+"SanDiegoState","Rice",1,"Mountain West",1,2
+"SanDiegoState","Cincinnati",1,"Mountain West",1,2
+"SanDiegoState",NA,1,"Mountain West",1,2
+"SanDiegoState","Minnesota",0,"Mountain West",1,2
+"SanDiegoState","MiamiFlorida",1,"Mountain West",1,2
+"SanDiegoState","Army",0,"Mountain West",1,2
+"SanJoseState","California",1,"Western Athletic",1,2
+"SanJoseState","Pittsburgh",1,"Western Athletic",1,2
+"SanJoseState","Michigan",0,"Western Athletic",1,2
+"SanJoseState","Ohio",0,"Western Athletic",1,2
+"SanJoseState","TexasTech",1,"Western Athletic",1,2
+"SanJoseState","NevadaLasVegas",0,"Western Athletic",1,2
+"SouthCarolina","EasternMichigan",1,"Southeastern",1,2
+"SouthCarolina","WestVirginia",1,"Southeastern",1,2
+"SouthCarolina","Texas",1,"Southeastern",1,2
+"SouthCarolina","Purdue",0,"Southeastern",1,2
+"SouthernCalifornia","Buffalo",1,"Pacific Ten",1,2
+"SouthernCalifornia","Texas",1,"Pacific Ten",1,2
+"SouthernCalifornia","Toledo",1,"Pacific Ten",1,2
+"SouthernCalifornia","Idaho",1,"Pacific Ten",1,2
+"SouthernCalifornia","Illinois",1,"Pacific Ten",1,2
+"SouthernCalifornia","Wyoming",0,"Pacific Ten",1,2
+"SouthernCalifornia","Purdue",0,"Pacific Ten",1,2
+"SouthernCalifornia","Colorado",1,"Pacific Ten",1,2
+"SouthernCalifornia","BoiseState",1,"Pacific Ten",1,2
+"SouthernCalifornia","Washington",0,"Pacific Ten",1,2
+"SouthernCalifornia","NorthCarolina",1,"Pacific Ten",1,2
+"SouthernMethodist","AlabamaBirmingham",1,"Western Athletic",1,2
+"SouthernMethodist","LouisianaLafayette",1,"Western Athletic",1,2
+"SouthernMethodist","ColoradoState",1,"Western Athletic",1,2
+"SouthernMethodist","EasternMichigan",1,"Western Athletic",1,2
+"SouthernMethodist","TexasA&M",1,"Western Athletic",1,2
+"SouthernMethodist","AirForce",0,"Western Athletic",1,2
+"SouthernMethodist","Michigan",0,"Western Athletic",1,2
+"SouthernMississippi","Wisconsin",0,"Conference USA",1,2
+"SouthernMississippi","NevadaLasVegas",1,"Conference USA",1,2
+"SouthernMississippi","AlabamaBirmingham",1,"Conference USA",1,2
+"SouthernMississippi","Washington",1,"Conference USA",1,2
+"SouthernMississippi","Army",0,"Conference USA",1,2
+"Stanford","Arkansas",1,"Pacific Ten",1,2
+"Stanford","Utah",1,"Pacific Ten",1,2
+"Stanford","MichiganState",1,"Pacific Ten",1,2
+"Stanford","TexasElPaso",0,"Pacific Ten",1,2
+"Stanford","NevadaLasVegas",0,"Pacific Ten",1,2
+"Syracuse","Memphis",1,"Big East",1,2
+"Syracuse","Kent",0,"Big East",1,2
+"Syracuse","NorthCarolina",1,"Big East",1,2
+"Syracuse","Purdue",1,"Big East",1,2
+"Syracuse","NotreDame",1,"Big East",1,2
+"Syracuse","NorthCarolina",0,"Big East",1,2
+"Temple","ArkansasState",0,"Big East",1,2
+"Temple","Arkansas",0,"Big East",1,2
+"Temple","Utah",1,"Big East",1,2
+"Temple","Nevada",1,"Big East",1,2
+"Tennessee","Arkansas",1,"Southeastern",1,2
+"Tennessee","SouthCarolina",1,"Southeastern",1,2
+"Tennessee","Illinois",1,"Southeastern",1,2
+"Texas","ColoradoState",1,"Big Twelve",1,2
+"Texas","Ohio",1,"Big Twelve",1,2
+"TexasA&M","Rutgers",1,"Big Twelve",1,2
+"TexasA&M","Georgia",0,"Big Twelve",1,2
+"TexasA&M","Syracuse",0,"Big Twelve",1,2
+"TexasA&M","Kansas",1,"Big Twelve",1,2
+"TexasA&M","CentralMichigan",1,"Big Twelve",1,2
+"TexasChristian","Temple",0,"Conference USA",1,2
+"TexasElPaso","Indiana",0,"Western Athletic",1,2
+"TexasElPaso","TexasA&M",1,"Western Athletic",1,2
+"TexasElPaso","Auburn",0,"Western Athletic",1,2
+"TexasElPaso","Rutgers",1,"Western Athletic",1,2
+"TexasTech","OklahomaState",1,"Big Twelve",1,2
+"TexasTech","ColoradoState",1,"Big Twelve",1,2
+"TexasTech","Georgia",1,"Big Twelve",1,2
+"TexasTech","Tennessee",1,"Big Twelve",1,2
+"TexasTech","OklahomaState",1,"Big Twelve",1,2
+"TexasTech","Toledo",0,"Big Twelve",1,2
+"TexasTech","MichiganState",0,"Big Twelve",1,2
+"TexasTech","SanDiegoState",0,"Big Twelve",1,2
+"TexasTech","Kansas",1,"Big Twelve",1,2
+"TexasTech","Ohio",1,"Big Twelve",1,2
+"Toledo","AlabamaBirmingham",1,"Mid-American",1,2
+"Tulane","IowaState",1,"Conference USA",1,2
+"Tulane","TexasChristian",0,"Conference USA",1,2
+"Tulane","Louisville",0,"Conference USA",1,2
+"Tulane","OregonState",1,"Conference USA",1,2
+"Tulsa","MiamiFlorida",0,"Western Athletic",1,2
+"Tulsa","Clemson",0,"Western Athletic",1,2
+"Tulsa","WakeForest",0,"Western Athletic",1,2
+"Tulsa","Navy",1,"Western Athletic",1,2
+"UCLA","Pittsburgh",1,"Pacific Ten",1,2
+"UCLA","ColoradoState",1,"Pacific Ten",1,2
+"UCLA","Illinois",0,"Pacific Ten",1,2
+"UCLA","Tulsa",1,"Pacific Ten",1,2
+"UCLA","Nevada",1,"Pacific Ten",1,2
+"UCLA","LouisianaTech",1,"Pacific Ten",1,2
+"UCLA","Minnesota",1,"Pacific Ten",1,2
+"UCLA","Purdue",0,"Pacific Ten",1,2
+"Utah","Hawaii",0,"Mountain West",1,2
+"Utah","Tennessee",1,"Mountain West",1,2
+"Utah","AirForce",0,"Mountain West",1,2
+"Utah","Maryland",1,"Mountain West",1,2
+"Utah","WashingtonState",0,"Mountain West",1,2
+"Utah","OregonState",1,"Mountain West",1,2
+"UtahState","Arizona",NA,"Independents",1,2
+"Vanderbilt","UCLA",1,"Southeastern",1,2
+"Vanderbilt","Clemson",1,"Southeastern",1,2
+"Vanderbilt","EasternMichigan",1,"Southeastern",1,2
+"Vanderbilt","MiddleTennesseeState",1,"Southeastern",1,2
+"Vanderbilt","MichiganState",0,"Southeastern",1,2
+"Virginia","Georgia",1,"Atlantic Coast",1,2
+"Virginia","SouthernMississippi",1,"Atlantic Coast",1,2
+"Virginia","Missouri",1,"Atlantic Coast",1,2
+"Virginia","NorthCarolina",1,"Atlantic Coast",1,2
+"Virginia",NA,1,"Atlantic Coast",1,2
+"Virginia","Northwestern",1,"Atlantic Coast",1,2
+"VirginiaTech","MiamiFlorida",1,"Big East",1,2
+"VirginiaTech","Tennessee",0,"Big East",1,2
+"VirginiaTech","Temple",1,"Big East",1,2
+"VirginiaTech","Rutgers",1,"Big East",1,2
+"VirginiaTech","NotreDame",1,"Big East",1,2
+"VirginiaTech","TexasChristian",0,"Big East",1,2
+"VirginiaTech","LouisianaState",1,"Big East",1,2
+"VirginiaTech","Louisville",0,"Big East",1,2
+"VirginiaTech","NevadaLasVegas",1,"Big East",1,2
+"VirginiaTech","California",1,"Big East",1,2
+"WakeForest","Rutgers",1,"Atlantic Coast",1,2
+"Washington","Minnesota",1,"Pacific Ten",1,2
+"Washington","Toledo",1,"Pacific Ten",1,2
+"Washington","IowaState",1,"Pacific Ten",1,2
+"Washington","NorthCarolinaState",0,"Pacific Ten",1,2
+"Washington","WashingtonState",1,"Pacific Ten",1,2
+"Washington","California",1,"Pacific Ten",1,2
+"WashingtonState","Northwestern",1,"Pacific Ten",1,2
+"WashingtonState","OhioState",1,"Pacific Ten",1,2
+"WesternMichigan","Army",1,"Mid-American",1,2
+"WesternMichigan","SouthCarolina",1,"Mid-American",1,2
+"WesternMichigan","NotreDame",1,"Mid-American",1,2
+"WesternMichigan","MiamiOhio",1,"Mid-American",1,2
+"WesternMichigan",NA,1,"Mid-American",1,2
+"WesternMichigan","LouisianaTech",1,"Mid-American",1,2
+"WesternMichigan","NorthCarolina",0,"Mid-American",1,2
+"WesternMichigan","Cincinnati",1,"Mid-American",1,2
+"WestVirginia","UtahState",0,"Big East",1,2
+"WestVirginia","Maryland",1,"Big East",1,2
+"WestVirginia","TexasElPaso",0,"Big East",1,2
+"WestVirginia","TexasElPaso",0,"Big East",1,2
+"WestVirginia","Buffalo",0,"Big East",1,2
+"WestVirginia","Oregon",1,"Big East",1,2
+"WestVirginia","AlabamaBirmingham",1,"Big East",1,2
+"WestVirginia","NorthCarolinaState",1,"Big East",1,2
+"WestVirginia","TexasA&M",1,"Big East",1,2
+"Wisconsin","Connecticut",1,"Big Ten",1,2
+"Wisconsin","MississippiState",1,"Big Ten",1,2
+"Wisconsin","TexasChristian",0,"Big Ten",1,2
+"Wisconsin","Texas",1,"Big Ten",1,2
+"Wisconsin","EastCarolina",1,"Big Ten",1,2
+"Wisconsin","UtahState",0,"Big Ten",1,2
+"Wisconsin","Texas",0,"Big Ten",1,2
+"Wisconsin","LouisianaMonroe",1,"Big Ten",1,2
+"Wisconsin","UtahState",1,"Big Ten",1,2
+"Wyoming","Georgia",1,"Mountain West",1,2
+"Wyoming","SouthCarolina",0,"Mountain West",1,2
+"Wyoming","AlabamaBirmingham",1,"Mountain West",1,2
+"Wyoming","Clemson",0,"Mountain West",1,2
+"Wyoming","Mississippi",0,"Mountain West",1,2
+"Wyoming","NotreDame",1,"Mountain West",1,2
+"Wyoming","Idaho",1,"Mountain West",1,2
+"Wyoming","Kent",0,"Mountain West",1,2
+"AirForce","CentralFlorida",1,"Mountain West",3,2
+"Akron","Tulsa",1,"Mid-American",3,2
+"Akron","Missouri",0,"Mid-American",3,2
+"Akron","NevadaLasVegas",1,"Mid-American",3,2
+"Akron","Toledo",1,"Mid-American",3,2
+"Akron","NotreDame",1,"Mid-American",3,2
+"Akron","SouthernMississippi",0,"Mid-American",3,2
+"Akron","Minnesota",1,"Mid-American",3,2
+"Akron","Wyoming",0,"Mid-American",3,2
+"Akron","Nebraska",1,"Mid-American",3,2
+"Akron","GeorgiaTech",1,"Mid-American",3,2
+"Alabama","NevadaLasVegas",1,"Southeastern",3,2
+"Alabama","Pittsburgh",1,"Southeastern",3,2
+"Alabama","Kent",0,"Southeastern",3,2
+"Alabama","Virginia",1,"Southeastern",3,2
+"Alabama","Louisville",1,"Southeastern",3,2
+"Alabama","Stanford",0,"Southeastern",3,2
+"Alabama","Alabama",1,"Southeastern",3,2
+"Alabama","Tulane",0,"Southeastern",3,2
+"Alabama","Rutgers",1,"Southeastern",3,2
+"Alabama","Hawaii",1,"Southeastern",3,2
+"AlabamaBirmingham","SouthernMethodist",NA,"Conference USA",3,2
+"Arizona","Wyoming",1,"Pacific Ten",3,2
+"Arizona","Oklahoma",1,"Pacific Ten",3,2
+"Arizona","MississippiState",1,"Pacific Ten",3,2
+"Arizona","LouisianaState",0,"Pacific Ten",3,2
+"Arizona","Tennessee",1,"Pacific Ten",3,2
+"Arizona","TexasA&M",0,"Pacific Ten",3,2
+"Arizona","SouthernMississippi",1,"Pacific Ten",3,2
+"ArizonaState","Stanford",1,"Pacific Ten",3,2
+"ArizonaState","NevadaLasVegas",1,"Pacific Ten",3,2
+"ArizonaState","Hawaii",1,"Pacific Ten",3,2
+"ArizonaState","OhioState",1,"Pacific Ten",3,2
+"ArizonaState","Indiana",0,"Pacific Ten",3,2
+"ArizonaState","CentralMichigan",1,"Pacific Ten",3,2
+"ArizonaState","Ohio",0,"Pacific Ten",3,2
+"ArizonaState","Indiana",1,"Pacific Ten",3,2
+"ArizonaState","WashingtonState",0,"Pacific Ten",3,2
+"ArizonaState","Maryland",1,"Pacific Ten",3,2
+"Arkansas","Hawaii",NA,"Southeastern",3,2
+"ArkansasState","Temple",0,"Sun Belt",3,2
+"ArkansasState","LouisianaLafayette",0,"Sun Belt",3,2
+"ArkansasState","OhioState",0,"Sun Belt",3,2
+"ArkansasState","Arkansas",0,"Sun Belt",3,2
+"ArkansasState","UtahState",0,"Sun Belt",3,2
+"ArkansasState","Temple",0,"Sun Belt",3,2
+"ArkansasState","WashingtonState",1,"Sun Belt",3,2
+"ArkansasState","WashingtonState",0,"Sun Belt",3,2
+"ArkansasState","Rutgers",1,"Sun Belt",3,2
+"Army","Marshall",1,"Conference USA",3,2
+"Army","MiamiFlorida",0,"Conference USA",3,2
+"Army","PennState",1,"Conference USA",3,2
+"Auburn","NotreDame",1,"Southeastern",3,2
+"Auburn","Arkansas",0,"Southeastern",3,2
+"Auburn","Georgia",1,"Southeastern",3,2
+"Auburn","MichiganState",1,"Southeastern",3,2
+"Auburn","California",1,"Southeastern",3,2
+"Auburn","Idaho",1,"Southeastern",3,2
+"Auburn","WakeForest",1,"Southeastern",3,2
+"Auburn","Wisconsin",1,"Southeastern",3,2
+"Auburn","Purdue",1,"Southeastern",3,2
+"BallState","California",1,"Mid-American",3,2
+"BallState","Texas",1,"Mid-American",3,2
+"BallState","EastCarolina",1,"Mid-American",3,2
+"BallState","MichiganState",1,"Mid-American",3,2
+"BallState","Georgia",0,"Mid-American",3,2
+"BallState","LouisianaState",0,"Mid-American",3,2
+"BallState","CentralMichigan",1,"Mid-American",3,2
+"Baylor","NorthTexas",1,"Big Twelve",3,2
+"Baylor","Connecticut",0,"Big Twelve",3,2
+"Baylor","Indiana",1,"Big Twelve",3,2
+"Baylor","AlabamaBirmingham",1,"Big Twelve",3,2
+"Baylor","Louisville",1,"Big Twelve",3,2
+"Baylor","Nevada",1,"Big Twelve",3,2
+"Baylor","Minnesota",1,"Big Twelve",3,2
+"Baylor","Toledo",1,"Big Twelve",3,2
+"Baylor","Syracuse",0,"Big Twelve",3,2
+"BoiseState","ArkansasState",0,"Western Athletic",3,2
+"BoiseState","Mississippi",0,"Western Athletic",3,2
+"BoiseState","Tulane",0,"Western Athletic",3,2
+"BoiseState","Nebraska",0,"Western Athletic",3,2
+"BoiseState","Arkansas",0,"Western Athletic",3,2
+"BoiseState","OhioState",0,"Western Athletic",3,2
+"BostonCollege","NevadaLasVegas",0,"Big East",3,2
+"BostonCollege","SouthernMississippi",1,"Big East",3,2
+"BostonCollege","MiamiFlorida",1,"Big East",3,2
+"BostonCollege","Kent",0,"Big East",3,2
+"BostonCollege","ColoradoState",1,"Big East",3,2
+"BostonCollege","BowlingGreenState",1,"Big East",3,2
+"BostonCollege","Temple",0,"Big East",3,2
+"BostonCollege","Oklahoma",0,"Big East",3,2
+"BostonCollege","Hawaii",1,"Big East",3,2
+"BostonCollege","MississippiState",1,"Big East",3,2
+"BowlingGreenState","TexasElPaso",0,"Mid-American",3,2
+"BowlingGreenState","Ohio",1,"Mid-American",3,2
+"BowlingGreenState","OklahomaState",1,"Mid-American",3,2
+"BowlingGreenState","NewMexicoState",1,"Mid-American",3,2
+"BowlingGreenState","MichiganState",1,"Mid-American",3,2
+"BowlingGreenState","Illinois",1,"Mid-American",3,2
+"BowlingGreenState","OregonState",1,"Mid-American",3,2
+"BowlingGreenState","Missouri",0,"Mid-American",3,2
+"BowlingGreenState","OklahomaState",1,"Mid-American",3,2
+"BowlingGreenState","EasternMichigan",0,"Mid-American",3,2
+"BrighamYoung","Kent",0,"Mountain West",3,2
+"BrighamYoung","WakeForest",1,"Mountain West",3,2
+"BrighamYoung","AlabamaBirmingham",1,"Mountain West",3,2
+"BrighamYoung","MiamiOhio",1,"Mountain West",3,2
+"BrighamYoung","NotreDame",1,"Mountain West",3,2
+"BrighamYoung","Arkansas",0,"Mountain West",3,2
+"BrighamYoung","Georgia",1,"Mountain West",3,2
+"BrighamYoung","NotreDame",1,"Mountain West",3,2
+"BrighamYoung","Memphis",0,"Mountain West",3,2
+"BrighamYoung","SouthCarolina",0,"Mountain West",3,2
+"BrighamYoung","EasternMichigan",1,"Mountain West",3,2
+"BrighamYoung","Oklahoma",0,"Mountain West",3,2
+"Buffalo","Wisconsin",1,"Mid-American",3,2
+"Buffalo","Minnesota",1,"Mid-American",3,2
+"Buffalo","Tulsa",0,"Mid-American",3,2
+"Buffalo","NewMexicoState",1,"Mid-American",3,2
+"Buffalo","Washington",0,"Mid-American",3,2
+"Buffalo","Illinois",1,"Mid-American",3,2
+"Buffalo","MiamiFlorida",0,"Mid-American",3,2
+"California","Tulane",NA,"Pacific Ten",3,2
+"CentralFlorida","NorthCarolinaState",0,"Independents",3,2
+"CentralFlorida","Tulane",0,"Independents",3,2
+"CentralFlorida","Oregon",0,"Independents",3,2
+"CentralFlorida","Tennessee",0,"Independents",3,2
+"CentralMichigan","OhioState",0,"Mid-American",3,2
+"CentralMichigan","California",1,"Mid-American",3,2
+"CentralMichigan","AirForce",1,"Mid-American",3,2
+"CentralMichigan","MiamiFlorida",1,"Mid-American",3,2
+"CentralMichigan","AlabamaBirmingham",1,"Mid-American",3,2
+"Cincinnati","Marshall",1,"Conference USA",3,2
+"Cincinnati","NorthCarolina",0,"Conference USA",3,2
+"Clemson","Cincinnati",1,"Atlantic Coast",3,2
+"Clemson","Rutgers",1,"Atlantic Coast",3,2
+"Colorado",NA,1,"Big Twelve",3,2
+"Colorado","Tulsa",1,"Big Twelve",3,2
+"Colorado","LouisianaState",0,"Big Twelve",3,2
+"Colorado","UtahState",1,"Big Twelve",3,2
+"Colorado","Akron",0,"Big Twelve",3,2
+"Colorado","Stanford",1,"Big Twelve",3,2
+"Colorado","Tulane",1,"Big Twelve",3,2
+"Colorado","Missouri",1,"Big Twelve",3,2
+"Colorado","AirForce",1,"Big Twelve",3,2
+"ColoradoState","OklahomaState",1,"Mountain West",3,2
+"ColoradoState","OregonState",1,"Mountain West",3,2
+"ColoradoState","OregonState",0,"Mountain West",3,2
+"Connecticut","Utah",0,"Independents",3,2
+"Connecticut","Army",0,"Independents",3,2
+"Connecticut","Arizona",0,"Independents",3,2
+"Duke","EasternMichigan",1,"Atlantic Coast",3,2
+"Duke","UtahState",1,"Atlantic Coast",3,2
+"Duke","NorthCarolina",0,"Atlantic Coast",3,2
+"Duke","NotreDame",1,"Atlantic Coast",3,2
+"Duke","Washington",1,"Atlantic Coast",3,2
+"EastCarolina","TexasTech",1,"Conference USA",3,2
+"EastCarolina","Oklahoma",1,"Conference USA",3,2
+"EastCarolina",NA,1,"Conference USA",3,2
+"EastCarolina","CentralMichigan",1,"Conference USA",3,2
+"EastCarolina","Buffalo",0,"Conference USA",3,2
+"EastCarolina","Rutgers",1,"Conference USA",3,2
+"EastCarolina","TexasChristian",1,"Conference USA",3,2
+"EastCarolina","Georgia",1,"Conference USA",3,2
+"EasternMichigan","MichiganState",1,"Mid-American",3,2
+"EasternMichigan","Nebraska",0,"Mid-American",3,2
+"EasternMichigan","SouthernMethodist",1,"Mid-American",3,2
+"EasternMichigan","California",0,"Mid-American",3,2
+"Florida","Maryland",0,"Southeastern",3,2
+"Florida","Buffalo",1,"Southeastern",3,2
+"Florida","WestVirginia",1,"Southeastern",3,2
+"Florida","Minnesota",1,"Southeastern",3,2
+"Florida","MiamiOhio",1,"Southeastern",3,2
+"Florida","Pittsburgh",1,"Southeastern",3,2
+"Florida","AirForce",1,"Southeastern",3,2
+"Florida","Clemson",1,"Southeastern",3,2
+"FloridaState","Missouri",1,"Atlantic Coast",3,2
+"FloridaState","Northwestern",1,"Atlantic Coast",3,2
+"FloridaState","Auburn",1,"Atlantic Coast",3,2
+"FloridaState","Tennessee",1,"Atlantic Coast",3,2
+"FloridaState","WakeForest",0,"Atlantic Coast",3,2
+"FloridaState","BallState",1,"Atlantic Coast",3,2
+"FloridaState","Illinois",0,"Atlantic Coast",3,2
+"FloridaState","Georgia",1,"Atlantic Coast",3,2
+"FloridaState","MichiganState",0,"Atlantic Coast",3,2
+"FloridaState","CentralMichigan",1,"Atlantic Coast",3,2
+"FloridaState","SanDiegoState",1,"Atlantic Coast",3,2
+"FresnoState","NevadaLasVegas",0,"Western Athletic",3,2
+"FresnoState","California",1,"Western Athletic",3,2
+"FresnoState","SanJoseState",1,"Western Athletic",3,2
+"FresnoState","Louisville",0,"Western Athletic",3,2
+"FresnoState","Michigan",1,"Western Athletic",3,2
+"FresnoState","Oregon",1,"Western Athletic",3,2
+"FresnoState","GeorgiaTech",1,"Western Athletic",3,2
+"FresnoState","Connecticut",1,"Western Athletic",3,2
+"FresnoState","Tulsa",1,"Western Athletic",3,2
+"FresnoState","WashingtonState",0,"Western Athletic",3,2
+"Georgia","Purdue",1,"Southeastern",3,2
+"GeorgiaTech","Oklahoma",0,"Atlantic Coast",3,2
+"GeorgiaTech","Syracuse",1,"Atlantic Coast",3,2
+"GeorgiaTech","Georgia",1,"Atlantic Coast",3,2
+"GeorgiaTech","Idaho",1,"Atlantic Coast",3,2
+"GeorgiaTech","Cincinnati",1,"Atlantic Coast",3,2
+"GeorgiaTech","Tennessee",1,"Atlantic Coast",3,2
+"GeorgiaTech","AirForce",0,"Atlantic Coast",3,2
+"Hawaii","Cincinnati",NA,"Western Athletic",3,2
+"Houston","TexasElPaso",0,"Conference USA",3,2
+"Houston","Clemson",0,"Conference USA",3,2
+"Houston","Memphis",1,"Conference USA",3,2
+"Houston","Maryland",1,"Conference USA",3,2
+"Houston","Texas",1,"Conference USA",3,2
+"Houston","LouisianaTech",1,"Conference USA",3,2
+"Houston","WesternMichigan",1,"Conference USA",3,2
+"Houston","NevadaLasVegas",1,"Conference USA",3,2
+"Houston","Oklahoma",0,"Conference USA",3,2
+"Houston","AirForce",0,"Conference USA",3,2
+"Idaho","OregonState",0,"Sun Belt",3,2
+"Idaho","Clemson",1,"Sun Belt",3,2
+"Idaho","Nebraska",0,"Sun Belt",3,2
+"Idaho","SanJoseState",0,"Sun Belt",3,2
+"Idaho","Texas",0,"Sun Belt",3,2
+"Illinois","Toledo",1,"Big Ten",3,2
+"Illinois","NewMexicoState",0,"Big Ten",3,2
+"Illinois","Utah",1,"Big Ten",3,2
+"Indiana","Marshall",NA,"Big Ten",3,2
+"Iowa","SouthernMississippi",0,"Big Ten",3,2
+"Iowa","EastCarolina",1,"Big Ten",3,2
+"Iowa","WakeForest",0,"Big Ten",3,2
+"Iowa","SouthCarolina",1,"Big Ten",3,2
+"Iowa","Syracuse",1,"Big Ten",3,2
+"Iowa","Temple",1,"Big Ten",3,2
+"Iowa","Temple",0,"Big Ten",3,2
+"Iowa","Army",0,"Big Ten",3,2
+"Iowa","LouisianaLafayette",1,"Big Ten",3,2
+"Iowa","TexasA&M",1,"Big Ten",3,2
+"Iowa","Oregon",1,"Big Ten",3,2
+"Iowa","SanDiegoState",1,"Big Ten",3,2
+"IowaState","LouisianaTech",1,"Big Twelve",3,2
+"IowaState","WesternMichigan",1,"Big Twelve",3,2
+"IowaState","MichiganState",1,"Big Twelve",3,2
+"IowaState","ColoradoState",1,"Big Twelve",3,2
+"IowaState","OregonState",0,"Big Twelve",3,2
+"Kansas","Minnesota",1,"Big Twelve",3,2
+"Kansas","SouthCarolina",1,"Big Twelve",3,2
+"Kansas","MichiganState",1,"Big Twelve",3,2
+"Kansas","Nebraska",1,"Big Twelve",3,2
+"Kansas","LouisianaLafayette",0,"Big Twelve",3,2
+"Kansas","Duke",0,"Big Twelve",3,2
+"Kansas","IowaState",1,"Big Twelve",3,2
+"KansasState","UCLA",1,"Big Twelve",3,2
+"KansasState","Colorado",1,"Big Twelve",3,2
+"KansasState","BallState",1,"Big Twelve",3,2
+"KansasState","SouthCarolina",1,"Big Twelve",3,2
+"KansasState","Florida",0,"Big Twelve",3,2
+"KansasState","Ohio",1,"Big Twelve",3,2
+"KansasState","Pittsburgh",1,"Big Twelve",3,2
+"KansasState","MississippiState",0,"Big Twelve",3,2
+"KansasState","Arizona",0,"Big Twelve",3,2
+"KansasState","OklahomaState",1,"Big Twelve",3,2
+"KansasState","Army",1,"Big Twelve",3,2
+"Kent","AirForce",1,"Mid-American",3,2
+"Kent","AlabamaBirmingham",0,"Mid-American",3,2
+"Kent","TexasChristian",1,"Mid-American",3,2
+"Kent","Tennessee",1,"Mid-American",3,2
+"Kentucky","Rutgers",1,"Southeastern",3,2
+"Kentucky","ColoradoState",1,"Southeastern",3,2
+"Kentucky","Tulsa",1,"Southeastern",3,2
+"Kentucky","Kansas",0,"Southeastern",3,2
+"Kentucky","CentralMichigan",1,"Southeastern",3,2
+"Kentucky","Florida",0,"Southeastern",3,2
+"Kentucky","KansasState",1,"Southeastern",3,2
+"Kentucky","CentralFlorida",1,"Southeastern",3,2
+"Kentucky","MiddleTennesseeState",1,"Southeastern",3,2
+"LouisianaLafayette","Indiana",0,"Sun Belt",3,2
+"LouisianaLafayette","Pittsburgh",0,"Sun Belt",3,2
+"LouisianaMonroe","MississippiState",0,"Sun Belt",3,2
+"LouisianaMonroe","NotreDame",1,"Sun Belt",3,2
+"LouisianaMonroe","MiddleTennesseeState",0,"Sun Belt",3,2
+"LouisianaMonroe","Buffalo",1,"Sun Belt",3,2
+"LouisianaMonroe","Louisville",0,"Sun Belt",3,2
+"LouisianaMonroe","IowaState",0,"Sun Belt",3,2
+"LouisianaState","OklahomaState",1,"Southeastern",3,2
+"LouisianaState","TexasChristian",0,"Southeastern",3,2
+"LouisianaTech","Indiana",0,"Western Athletic",3,2
+"LouisianaTech","Indiana",1,"Western Athletic",3,2
+"LouisianaTech","IowaState",0,"Western Athletic",3,2
+"LouisianaTech","Navy",0,"Western Athletic",3,2
+"LouisianaTech","Toledo",0,"Western Athletic",3,2
+"LouisianaTech","NewMexicoState",1,"Western Athletic",3,2
+"Louisville","Connecticut",1,"Conference USA",3,2
+"Louisville","WashingtonState",1,"Conference USA",3,2
+"Louisville","NorthCarolina",1,"Conference USA",3,2
+"Louisville","Indiana",1,"Conference USA",3,2
+"Louisville","Arkansas",1,"Conference USA",3,2
+"Marshall","MiamiOhio",0,"Mid-American",3,2
+"Maryland","Marshall",NA,"Atlantic Coast",3,2
+"Memphis","Texas",1,"Conference USA",3,2
+"Memphis","Texas",0,"Conference USA",3,2
+"Memphis","Arkansas",1,"Conference USA",3,2
+"Memphis","California",1,"Conference USA",3,2
+"Memphis","MiamiFlorida",1,"Conference USA",3,2
+"Memphis","Maryland",1,"Conference USA",3,2
+"MiamiFlorida","NotreDame",NA,"Big East",3,2
+"MiamiOhio","Baylor",1,"Mid-American",3,2
+"MiamiOhio","Indiana",1,"Mid-American",3,2
+"MiamiOhio","TexasElPaso",0,"Mid-American",3,2
+"MiamiOhio","NevadaLasVegas",0,"Mid-American",3,2
+"Michigan","Ohio",1,"Big Ten",3,2
+"Michigan","Arkansas",1,"Big Ten",3,2
+"Michigan","Arkansas",1,"Big Ten",3,2
+"Michigan","Toledo",1,"Big Ten",3,2
+"Michigan","SanJoseState",1,"Big Ten",3,2
+"Michigan","Oregon",0,"Big Ten",3,2
+"MichiganState","SouthCarolina",0,"Big Ten",3,2
+"MiddleTennesseeState","WestVirginia",0,"Sun Belt",3,2
+"MiddleTennesseeState","Maryland",1,"Sun Belt",3,2
+"MiddleTennesseeState","GeorgiaTech",0,"Sun Belt",3,2
+"MiddleTennesseeState","EasternMichigan",0,"Sun Belt",3,2
+"MiddleTennesseeState","WakeForest",0,"Sun Belt",3,2
+"Minnesota",NA,1,"Big Ten",3,2
+"Minnesota","LouisianaLafayette",0,"Big Ten",3,2
+"Minnesota","TexasA&M",1,"Big Ten",3,2
+"Mississippi","Nevada",1,"Southeastern",3,2
+"Mississippi","Georgia",0,"Southeastern",3,2
+"Mississippi","Duke",1,"Southeastern",3,2
+"Mississippi","Missouri",1,"Southeastern",3,2
+"MississippiState","Virginia",0,"Southeastern",3,2
+"MississippiState","California",1,"Southeastern",3,2
+"MississippiState","Vanderbilt",1,"Southeastern",3,2
+"MississippiState","AlabamaBirmingham",1,"Southeastern",3,2
+"MississippiState","Tulane",1,"Southeastern",3,2
+"Missouri","LouisianaTech",1,"Big Twelve",3,2
+"Missouri","TexasA&M",0,"Big Twelve",3,2
+"Navy","Mississippi",0,"Independents",3,2
+"Navy","Oregon",1,"Independents",3,2
+"Navy","Maryland",0,"Independents",3,2
+"Navy","Ohio",0,"Independents",3,2
+"Navy","MichiganState",0,"Independents",3,2
+"Navy","Michigan",0,"Independents",3,2
+"Navy","Army",0,"Independents",3,2
+"Navy","LouisianaState",0,"Independents",3,2
+"Nebraska","Utah",1,"Big Twelve",3,2
+"Nebraska","AlabamaBirmingham",0,"Big Twelve",3,2
+"Nebraska","Stanford",1,"Big Twelve",3,2
+"Nevada","OhioState",0,"Western Athletic",3,2
+"Nevada","Arizona",0,"Western Athletic",3,2
+"Nevada","Kansas",1,"Western Athletic",3,2
+"Nevada","SanDiegoState",1,"Western Athletic",3,2
+"Nevada","Mississippi",0,"Western Athletic",3,2
+"Nevada","Idaho",1,"Western Athletic",3,2
+"Nevada","Rice",1,"Western Athletic",3,2
+"NevadaLasVegas","Georgia",0,"Mountain West",3,2
+"NewMexico","NorthTexas",1,"Mountain West",3,2
+"NewMexico","NevadaLasVegas",1,"Mountain West",3,2
+"NewMexico","Buffalo",0,"Mountain West",3,2
+"NewMexico","Temple",1,"Mountain West",3,2
+"NewMexico","Oregon",0,"Mountain West",3,2
+"NewMexico","SouthernMethodist",1,"Mountain West",3,2
+"NewMexico","Arizona",0,"Mountain West",3,2
+"NewMexico","NevadaLasVegas",0,"Mountain West",3,2
+"NewMexico","Pittsburgh",1,"Mountain West",3,2
+"NewMexico","WashingtonState",1,"Mountain West",3,2
+"NewMexicoState","ColoradoState",0,"Sun Belt",3,2
+"NewMexicoState","LouisianaState",0,"Sun Belt",3,2
+"NewMexicoState","WakeForest",0,"Sun Belt",3,2
+"NewMexicoState","NorthCarolinaState",0,"Sun Belt",3,2
+"NewMexicoState","California",0,"Sun Belt",3,2
+"NewMexicoState","SouthCarolina",0,"Sun Belt",3,2
+"NorthCarolina","Clemson",1,"Atlantic Coast",3,2
+"NorthCarolina","OregonState",0,"Atlantic Coast",3,2
+"NorthCarolina","AirForce",1,"Atlantic Coast",3,2
+"NorthCarolina","Tulsa",1,"Atlantic Coast",3,2
+"NorthCarolinaState","Tennessee",1,"Atlantic Coast",3,2
+"NorthCarolinaState","EastCarolina",0,"Atlantic Coast",3,2
+"NorthCarolinaState","Oklahoma",1,"Atlantic Coast",3,2
+"NorthCarolinaState","ColoradoState",1,"Atlantic Coast",3,2
+"NorthCarolinaState","Nebraska",1,"Atlantic Coast",3,2
+"NorthCarolinaState","BoiseState",1,"Atlantic Coast",3,2
+"NorthCarolinaState","NorthCarolina",1,"Atlantic Coast",3,2
+"NorthCarolinaState","Stanford",1,"Atlantic Coast",3,2
+"NorthCarolinaState","California",0,"Atlantic Coast",3,2
+"NorthernIllinois","Mississippi",0,"Mid-American",3,2
+"NorthernIllinois","BoiseState",1,"Mid-American",3,2
+"NorthernIllinois","Kent",1,"Mid-American",3,2
+"NorthernIllinois","MiamiFlorida",1,"Mid-American",3,2
+"NorthernIllinois","Kent",1,"Mid-American",3,2
+"NorthernIllinois","Rice",1,"Mid-American",3,2
+"NorthernIllinois","Rice",1,"Mid-American",3,2
+"NorthernIllinois","UCLA",1,"Mid-American",3,2
+"NorthernIllinois",NA,0,"Mid-American",3,2
+"NorthernIllinois","UtahState",0,"Mid-American",3,2
+"NorthTexas","VirginiaTech",1,"Sun Belt",3,2
+"NorthTexas","TexasChristian",1,"Sun Belt",3,2
+"NorthTexas","Ohio",0,"Sun Belt",3,2
+"NorthTexas","Arkansas",0,"Sun Belt",3,2
+"NorthTexas","Cincinnati",0,"Sun Belt",3,2
+"NorthTexas","Marshall",1,"Sun Belt",3,2
+"NorthTexas","CentralMichigan",1,"Sun Belt",3,2
+"Northwestern","IowaState",1,"Big Ten",3,2
+"Northwestern","Marshall",1,"Big Ten",3,2
+"Northwestern","Louisville",0,"Big Ten",3,2
+"Northwestern","TexasChristian",0,"Big Ten",3,2
+"Northwestern","MiddleTennesseeState",1,"Big Ten",3,2
+"Northwestern","LouisianaMonroe",1,"Big Ten",3,2
+"Northwestern","OklahomaState",1,"Big Ten",3,2
+"Northwestern","Clemson",1,"Big Ten",3,2
+"Northwestern","EasternMichigan",1,"Big Ten",3,2
+"NotreDame","Hawaii",0,"Independents",3,2
+"NotreDame","Indiana",0,"Independents",3,2
+"NotreDame","Northwestern",0,"Independents",3,2
+"Ohio","Temple",0,"Mid-American",3,2
+"Ohio","Mississippi",1,"Mid-American",3,2
+"OhioState","Army",0,"Big Ten",3,2
+"OhioState","MiamiOhio",1,"Big Ten",3,2
+"OhioState","OregonState",1,"Big Ten",3,2
+"OhioState","BallState",1,"Big Ten",3,2
+"Oklahoma","SouthernMethodist",1,"Big Twelve",3,2
+"Oklahoma","Illinois",1,"Big Twelve",3,2
+"OklahomaState","Wyoming",NA,"Big Twelve",3,2
+"Oregon","MiamiFlorida",1,"Pacific Ten",3,2
+"Oregon","Virginia",1,"Pacific Ten",3,2
+"Oregon","UtahState",1,"Pacific Ten",3,2
+"OregonState","ColoradoState",1,"Pacific Ten",3,2
+"PennState","NewMexico",1,"Big Ten",3,2
+"PennState","OhioState",0,"Big Ten",3,2
+"PennState","Illinois",1,"Big Ten",3,2
+"PennState","Maryland",1,"Big Ten",3,2
+"PennState","Purdue",0,"Big Ten",3,2
+"PennState","LouisianaLafayette",1,"Big Ten",3,2
+"PennState","WashingtonState",1,"Big Ten",3,2
+"PennState","WashingtonState",1,"Big Ten",3,2
+"PennState","Cincinnati",0,"Big Ten",3,2
+"PennState","Pittsburgh",1,"Big Ten",3,2
+"PennState","Texas",0,"Big Ten",3,2
+"Pittsburgh","BostonCollege",0,"Big East",3,2
+"Pittsburgh","Toledo",1,"Big East",3,2
+"Pittsburgh","Indiana",1,"Big East",3,2
+"Pittsburgh","OklahomaState",1,"Big East",3,2
+"Purdue","Minnesota",1,"Big Ten",3,2
+"Purdue","MiamiFlorida",1,"Big Ten",3,2
+"Purdue","TexasChristian",0,"Big Ten",3,2
+"Purdue","Texas",1,"Big Ten",3,2
+"Purdue","NorthTexas",0,"Big Ten",3,2
+"Purdue","Maryland",1,"Big Ten",3,2
+"Rice","WakeForest",1,"Western Athletic",3,2
+"Rice","Minnesota",1,"Western Athletic",3,2
+"Rice","WakeForest",1,"Western Athletic",3,2
+"Rice","MississippiState",1,"Western Athletic",3,2
+"Rice","Hawaii",1,"Western Athletic",3,2
+"Rice","Texas",1,"Western Athletic",3,2
+"Rice","Syracuse",0,"Western Athletic",3,2
+"Rice","Indiana",0,"Western Athletic",3,2
+"Rutgers","EasternMichigan",1,"Big East",3,2
+"SanDiegoState","SouthernMethodist",1,"Mountain West",3,2
+"SanDiegoState","Army",0,"Mountain West",3,2
+"SanDiegoState","Rutgers",1,"Mountain West",3,2
+"SanDiegoState","Navy",1,"Mountain West",3,2
+"SanDiegoState","ColoradoState",1,"Mountain West",3,2
+"SanDiegoState","Virginia",0,"Mountain West",3,2
+"SanDiegoState","Rutgers",1,"Mountain West",3,2
+"SanDiegoState","Missouri",0,"Mountain West",3,2
+"SanJoseState","Hawaii",1,"Western Athletic",3,2
+"SanJoseState","OklahomaState",1,"Western Athletic",3,2
+"SanJoseState","TexasElPaso",0,"Western Athletic",3,2
+"SanJoseState","Mississippi",0,"Western Athletic",3,2
+"SanJoseState","Georgia",1,"Western Athletic",3,2
+"SanJoseState","TexasChristian",0,"Western Athletic",3,2
+"SouthCarolina","AlabamaBirmingham",1,"Southeastern",3,2
+"SouthCarolina","IowaState",1,"Southeastern",3,2
+"SouthCarolina","Nevada",1,"Southeastern",3,2
+"SouthCarolina","LouisianaMonroe",0,"Southeastern",3,2
+"SouthernCalifornia","LouisianaState",1,"Pacific Ten",3,2
+"SouthernCalifornia","OklahomaState",1,"Pacific Ten",3,2
+"SouthernCalifornia","MiamiOhio",1,"Pacific Ten",3,2
+"SouthernCalifornia","ArizonaState",1,"Pacific Ten",3,2
+"SouthernCalifornia","AlabamaBirmingham",1,"Pacific Ten",3,2
+"SouthernCalifornia","UtahState",0,"Pacific Ten",3,2
+"SouthernCalifornia","Duke",0,"Pacific Ten",3,2
+"SouthernCalifornia","UtahState",1,"Pacific Ten",3,2
+"SouthernCalifornia","Clemson",1,"Pacific Ten",3,2
+"SouthernCalifornia","NorthCarolina",0,"Pacific Ten",3,2
+"SouthernCalifornia","Washington",1,"Pacific Ten",3,2
+"SouthernMethodist","MichiganState",1,"Western Athletic",3,2
+"SouthernMethodist","Army",1,"Western Athletic",3,2
+"SouthernMethodist","Oklahoma",1,"Western Athletic",3,2
+"SouthernMethodist","NewMexicoState",1,"Western Athletic",3,2
+"SouthernMethodist","Washington",1,"Western Athletic",3,2
+"SouthernMethodist","Houston",0,"Western Athletic",3,2
+"SouthernMethodist",NA,0,"Western Athletic",3,2
+"SouthernMississippi","Cincinnati",0,"Conference USA",3,2
+"SouthernMississippi","Kansas",1,"Conference USA",3,2
+"SouthernMississippi","Tennessee",1,"Conference USA",3,2
+"SouthernMississippi","LouisianaLafayette",1,"Conference USA",3,2
+"SouthernMississippi","Marshall",0,"Conference USA",3,2
+"Stanford","Navy",1,"Pacific Ten",3,2
+"Stanford","SanJoseState",1,"Pacific Ten",3,2
+"Stanford","NevadaLasVegas",1,"Pacific Ten",3,2
+"Stanford","Duke",0,"Pacific Ten",3,2
+"Stanford","TexasElPaso",0,"Pacific Ten",3,2
+"Syracuse","LouisianaTech",1,"Big East",3,2
+"Syracuse","MississippiState",0,"Big East",3,2
+"Syracuse","Cincinnati",1,"Big East",3,2
+"Syracuse","FloridaState",1,"Big East",3,2
+"Syracuse","Toledo",1,"Big East",3,2
+"Syracuse","Vanderbilt",0,"Big East",3,2
+"Temple","Michigan",0,"Big East",3,2
+"Temple","Clemson",0,"Big East",3,2
+"Temple","Memphis",1,"Big East",3,2
+"Temple","Kent",1,"Big East",3,2
+"Tennessee","Rutgers",1,"Southeastern",3,2
+"Tennessee","MiamiFlorida",1,"Southeastern",3,2
+"Tennessee","LouisianaState",1,"Southeastern",3,2
+"Texas","EasternMichigan",1,"Big Twelve",3,2
+"Texas","SouthernCalifornia",1,"Big Twelve",3,2
+"TexasA&M","Hawaii",1,"Big Twelve",3,2
+"TexasA&M","Missouri",0,"Big Twelve",3,2
+"TexasA&M","Tennessee",0,"Big Twelve",3,2
+"TexasA&M","Hawaii",1,"Big Twelve",3,2
+"TexasA&M","Vanderbilt",1,"Big Twelve",3,2
+"TexasChristian","Arkansas",0,"Conference USA",3,2
+"TexasElPaso","Tulsa",0,"Western Athletic",3,2
+"TexasElPaso","Ohio",1,"Western Athletic",3,2
+"TexasElPaso","SouthernMississippi",0,"Western Athletic",3,2
+"TexasElPaso","Kentucky",1,"Western Athletic",3,2
+"TexasTech","TexasChristian",1,"Big Twelve",3,2
+"TexasTech","Duke",1,"Big Twelve",3,2
+"TexasTech","Idaho",1,"Big Twelve",3,2
+"TexasTech","TexasChristian",1,"Big Twelve",3,2
+"TexasTech","NorthCarolina",1,"Big Twelve",3,2
+"TexasTech","NotreDame",0,"Big Twelve",3,2
+"TexasTech","Illinois",0,"Big Twelve",3,2
+"TexasTech","Pittsburgh",0,"Big Twelve",3,2
+"TexasTech","Nevada",1,"Big Twelve",3,2
+"TexasTech","MiamiFlorida",1,"Big Twelve",3,2
+"Toledo","IowaState",1,"Mid-American",3,2
+"Tulane","Illinois",1,"Conference USA",3,2
+"Tulane","California",0,"Conference USA",3,2
+"Tulane","Toledo",0,"Conference USA",3,2
+"Tulane","Ohio",1,"Conference USA",3,2
+"Tulsa","Washington",0,"Western Athletic",3,2
+"Tulsa","TexasElPaso",0,"Western Athletic",3,2
+"Tulsa","Stanford",0,"Western Athletic",3,2
+"Tulsa","Nebraska",1,"Western Athletic",3,2
+"UCLA","TexasElPaso",1,"Pacific Ten",3,2
+"UCLA","Missouri",1,"Pacific Ten",3,2
+"UCLA","NevadaLasVegas",0,"Pacific Ten",3,2
+"UCLA","SanJoseState",1,"Pacific Ten",3,2
+"UCLA","Oregon",1,"Pacific Ten",3,2
+"UCLA","Army",1,"Pacific Ten",3,2
+"UCLA","WashingtonState",1,"Pacific Ten",3,2
+"UCLA","California",0,"Pacific Ten",3,2
+"Utah","Tulsa",0,"Mountain West",3,2
+"Utah","BoiseState",1,"Mountain West",3,2
+"Utah","Texas",0,"Mountain West",3,2
+"Utah",NA,1,"Mountain West",3,2
+"Utah","UCLA",0,"Mountain West",3,2
+"Utah","Cincinnati",1,"Mountain West",3,2
+"UtahState","WakeForest",NA,"Independents",3,2
+"Vanderbilt","Marshall",1,"Southeastern",3,2
+"Vanderbilt","Vanderbilt",1,"Southeastern",3,2
+"Vanderbilt","Hawaii",1,"Southeastern",3,2
+"Vanderbilt","OregonState",1,"Southeastern",3,2
+"Vanderbilt","Purdue",0,"Southeastern",3,2
+"Virginia","TexasA&M",1,"Atlantic Coast",3,2
+"Virginia","SouthCarolina",1,"Atlantic Coast",3,2
+"Virginia","AlabamaBirmingham",1,"Atlantic Coast",3,2
+"Virginia","MichiganState",1,"Atlantic Coast",3,2
+"Virginia","Memphis",1,"Atlantic Coast",3,2
+"Virginia","MiamiOhio",1,"Atlantic Coast",3,2
+"VirginiaTech","Utah",1,"Big East",3,2
+"VirginiaTech","Oklahoma",0,"Big East",3,2
+"VirginiaTech",NA,1,"Big East",3,2
+"VirginiaTech","Purdue",1,"Big East",3,2
+"VirginiaTech","MiddleTennesseeState",1,"Big East",3,2
+"VirginiaTech","NorthCarolina",0,"Big East",3,2
+"VirginiaTech","Vanderbilt",1,"Big East",3,2
+"VirginiaTech","Memphis",0,"Big East",3,2
+"VirginiaTech","Clemson",1,"Big East",3,2
+"VirginiaTech","TexasChristian",1,"Big East",3,2
+"WakeForest","Maryland",1,"Atlantic Coast",3,2
+"Washington","OregonState",1,"Pacific Ten",3,2
+"Washington","Michigan",1,"Pacific Ten",3,2
+"Washington","AirForce",1,"Pacific Ten",3,2
+"Washington","Colorado",0,"Pacific Ten",3,2
+"Washington","Cincinnati",1,"Pacific Ten",3,2
+"Washington","MiamiOhio",1,"Pacific Ten",3,2
+"WashingtonState","AlabamaBirmingham",1,"Pacific Ten",3,2
+"WashingtonState","Illinois",1,"Pacific Ten",3,2
+"WesternMichigan","GeorgiaTech",1,"Mid-American",3,2
+"WesternMichigan","Hawaii",1,"Mid-American",3,2
+"WesternMichigan","CentralFlorida",1,"Mid-American",3,2
+"WesternMichigan","Rutgers",1,"Mid-American",3,2
+"WesternMichigan","Nebraska",1,"Mid-American",3,2
+"WesternMichigan","TexasTech",1,"Mid-American",3,2
+"WesternMichigan","Mississippi",0,"Mid-American",3,2
+"WesternMichigan","Connecticut",1,"Mid-American",3,2
+"WestVirginia","UtahState",0,"Big East",3,2
+"WestVirginia","FresnoState",1,"Big East",3,2
+"WestVirginia","UtahState",0,"Big East",3,2
+"WestVirginia","Syracuse",0,"Big East",3,2
+"WestVirginia","CentralFlorida",0,"Big East",3,2
+"WestVirginia","Wisconsin",1,"Big East",3,2
+"WestVirginia","Auburn",1,"Big East",3,2
+"WestVirginia","OhioState",1,"Big East",3,2
+"WestVirginia","Duke",1,"Big East",3,2
+"Wisconsin","Minnesota",1,"Big Ten",3,2
+"Wisconsin","OklahomaState",1,"Big Ten",3,2
+"Wisconsin","Florida",0,"Big Ten",3,2
+"Wisconsin","Vanderbilt",1,"Big Ten",3,2
+"Wisconsin","Michigan",1,"Big Ten",3,2
+"Wisconsin","Nevada",0,"Big Ten",3,2
+"Wisconsin","TexasA&M",0,"Big Ten",3,2
+"Wisconsin",NA,1,"Big Ten",3,2
+"Wisconsin","AirForce",1,"Big Ten",3,2
+"Wyoming","Utah",1,"Mountain West",3,2
+"Wyoming","Maryland",0,"Mountain West",3,2
+"Wyoming","Tulane",1,"Mountain West",3,2
+"Wyoming","Marshall",0,"Mountain West",3,2
+"Wyoming",NA,0,"Mountain West",3,2
+"Wyoming","Maryland",1,"Mountain West",3,2
+"Wyoming","LouisianaState",1,"Mountain West",3,2
+"Wyoming","Oregon",0,"Mountain West",3,2

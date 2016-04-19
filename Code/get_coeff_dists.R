@@ -59,7 +59,7 @@ alt_model2_ests <- get_eff_val_dist(B = 1000, eff_struct = eff_models_smallFrien
 
 null_model_dist <- read.csv("../Data/distribution_null_model.csv")
 alt_model_dist <- read.csv("../Data/distribution_jumpTT_model.csv")
-alt_model2_dist <- read.csv("Data/distribtution_dblpairs_model.csv")
+alt_model2_dist <- read.csv("../Data/distribution_dblpairs_model.csv")
 
 #null_model_dist <- as.data.frame(null_model_dist)
 rownames(null_model_dist) <- 1:nrow(null_model_dist)
