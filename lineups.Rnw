@@ -88,17 +88,17 @@ lineup1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct
 The two models we fit are a ``null model" (model $M_1$) and two ``alternative models" (model $M_2$ and $M_3$). The null model only includes the default parameters that are included in the RSiena estimation. The alternative model $M_2$ includes one additional covariate parameter that was determined to be significant by the Wald test in the RSienaTest package, while the alternative model $M_3$ includes one additional structural parameter whose significance was determined in the same way. Details on these effects are given in Table~\ref{tab:models}.
 
 <<readsimu, echo=FALSE>>=
-# nulls <- read.csv("Data/distribution_null_model.csv")
+ nulls <- read.csv("Data/distribution_null_model.csv")
 # names(nulls)[-1] <- c("alpha1", "alpha2", "beta1", "beta2")
 # nulls$Sim <- 1:nrow(nulls)
 # nulls$Model <- "M1"
 # 
-# alt <- read.csv("Data/distribution_jumpTT_model.csv")
+ alt <- read.csv("Data/distribution_jumpTT_model.csv")
 # names(alt)[-1] <- c("alpha1", "alpha2", "beta1", "beta2", "beta3")
 # alt$Sim <- 1:nrow(alt)
 # alt$Model <- "M2"
 # 
-# alt2nd <- read.csv("Data/distribution_dblpairs_model.csv")
+ alt2nd <- read.csv("Data/distribution_dblpairs_model.csv")
 # names(alt2nd)[-1] <- c("alpha1", "alpha2", "beta1", "beta2", "beta4")
 # alt2nd$Sim <- 1:nrow(alt2nd)
 # alt2nd$Model <- "M3"
@@ -116,20 +116,13 @@ means <- simu2 %>% group_by(Model, parameter) %>% summarize(
   mean = mean(estimate)
 )
 library(dplyr)
-null_model_dist <- read.csv("Data/distribution_null_model.csv")
-null_model_dist <- null_model_dist[,-1]
-alt_model_dist <- read.csv("Data/distribution_jumpTT_model.csv")
-alt_model_dist <- alt_model_dist[,-1]
-alt_model2_dist <- read.csv("Data/distribution_dblpairs_model.csv")
-alt_model2_dist <- alt_model2_dist[,-1]
-
-null_mod_sv <- as.numeric(null_model_dist %>% summarise_each(funs(mean)))
-alt_mod_sv <- as.numeric(alt_model_dist %>% summarise_each(funs(mean)))
-alt_mod2_sv <- as.numeric(alt_model2_dist %>% summarise_each(funs(mean)))
+null_mod_sv <- as.numeric(nulls[,-c(1,6,7)] %>% summarise_each(funs(mean)))
+alt_mod_sv <- as.numeric(alt[,-c(1, 7,8)] %>% summarise_each(funs(mean)))
+alt_mod2_sv <- as.numeric(alt2nd[,-c(1,7,8)] %>% summarise_each(funs(mean)))
 @
 
 \begin{table}[h]
-\caption{\label{tab:models}Parameters and estimates of models $M_1$ and $M_2$. \hh{Estimates stem from one of the simulations. XXX We probably should change that to the average of the 1000 simulations, and then simulate the lineups from those, like you suggested. }}
+\caption{\label{tab:models}Parameters and estimates of models $M_1$, $M_2$, and $M_3$. Estimates are the mean of 1000 iterations of the model estimates. The lineups that follow are simulated from models using these values.}
 \centering
 \scalebox{0.8}{
 \begin{tabular}{lccrrr}
@@ -177,16 +170,20 @@ After estimating the parameters in each of these models, we simulate from them t
   f^{M_2}_{i}(x) & = \hat{\beta}_1^{M_2}s_{i1}(x) +  \hat{\beta}_2^{M_2}s_{i2}(x) + \hat{\beta}_3^{M_2}s_{i3}(x) \\
   f^{M_3}_{i}(x) & = \hat{\beta}_1^{M_3}s_{i1}(x) +  \hat{\beta}_2^{M_3}s_{i2}(x) + \hat{\beta}_4^{M_3}s_{i4}(x) 
   \end{align*}
-The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities for change each actor gets when moving from wave 1 to 2 and from wave 2 to 3, respectively. 
+The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities for change each actor gets when moving from wave 1 to 2 and from wave 2 to 3, respectively. The outdegree parameter, $\beta_1$, represents how likely an actor is to change outgoing ties. If the estimate, $\hat{\beta}_1$, is positive, the actor is more likely to create outgoing ties, while a negative estimate leads the actor to deleting outgoing ties. This effect is highly correlated with the reciprocity parameter, $\beta_2$. A negative estimate of this parameter implies that the actor is discouraged from reciprocating its incoming ties, while a positive estimate implies that the actor is encouraged to reciprocate all ties. The additional parameter in $M_2$, $\beta_3$, is a covariate parameter. The covariate in this model is the drinking behaviour of the 16 students in our data. The possible values are 1, 2, 3, and 4, which means the student drinks never, once or twice a year, once a month, or once a week. This jumping transitive triplet effect impacts the transitive closure of actors from different groups. Thus, a positive estimate encourages transitive closure when one of three actors is in a different covariate group than the other two, while a negative estimate discourages this behavior. An example of this type of closure is given in Figure~\ref{fig:jtt}. Finally, the doubly acheived distances effect is defined by the number of actors to whom actor $i$ is not directly tied, and tied through twopaths via at least two intermediaries. This is a structural effect, like the density and repciprocity effects. A positive value encourages indirect ties, while a negative value discourages the formation of indirect ties. 
 
+<<jtt, echo=FALSE, fig.width=2, fig.height=2, message = FALSE, warning = FALSE, fig.align='center', fig.cap="A realization of a jumping transitive triplet, where $i$ is the focal actor, $j$ is the target actor, and $h$ is the intermediary. The group of the actors is represented by the shape of the node.">>=
+jTTe <- data.frame(from = c('i', 'i', 'h'), to = c('h', 'j', 'j'))
+jTTn <- data.frame(id = letters[8:10], group = c(1,1,2))
 
-\hh{XXX Sam, when you are creating these lineups, could you split the functions into two, and create and save the data into a csv file in a first function, and then in a second function get the data and put it into a network? - That way we don't have to create the data again, if/when we change the design.} \st{done!}
+jTT <- merge(jTTe, jTTn, by.x = 'from', by.y = "id", all = T)
 
-\hh{XXX question for the meeting: right now the difference between models X and Y are the Jumping Transitive Triplets, which we might (or not) see in the graphs. Is there another effect that is significant at this stage as well? It would be good to have the same kind of lineups for a different effect.  }
+set.seed(12345)
+ggplot(data = jTT, aes(from_id = from, to_id = to)) + 
+  geom_net(aes(shape = as.factor(group)), directed = T, label = T, labelcolour='blue',vjust = -1, hjust =2, arrowgap = .05, colour = 'black') + 
+  theme_net() + theme(legend.position = "none")
+@
 
-\hh{XXX another question for tomorrow: in the first four reps of the reverse model it looks like one graph is more complex than the other two models ... which is not what I'd expect from this scenario, because ehere, we are looking for the simplest model, right? }
-
-\hh{XXX would a size 15 (= 5x3) lineup be more `square' than a size 16 one? }
 
 \section{Model $M_1$ versus $M_2$ lineup size 3}
 \newcounter{k}
