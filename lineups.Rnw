@@ -98,15 +98,21 @@ The two models we fit are a ``null model" (model $M_1$) and two ``alternative mo
 # alt$Sim <- 1:nrow(alt)
 # alt$Model <- "M2"
 # 
+# alt2nd <- read.csv("Data/distribution_dblpairs_model.csv")
+# names(alt2nd)[-1] <- c("alpha1", "alpha2", "beta1", "beta2", "beta4")
+# alt2nd$Sim <- 1:nrow(alt2nd)
+# alt2nd$Model <- "M3"
+# 
 # alt2 <- gather(alt, parameter, estimate, 2:6)
 # null2 <- gather(nulls, parameter, estimate, 2:5)
+# alt2nd2 <- gather(alt2nd, parameter, estimate, 2:6)
 # 
 # simu <- rbind(alt2[,-1], null2[,-1])
 # write.csv(simu, "Data/simulation-1000-M1-M2.csv", row.names=FALSE)
 
 
-simu <- read.csv("Data/simulation-1000-M1-M2.csv")
-means <- simu %>% group_by(Model, parameter) %>% summarize(
+simu2 <- read.csv("Data/simulation-1000-M1-M2-M3.csv")
+means <- simu2 %>% group_by(Model, parameter) %>% summarize(
   mean = mean(estimate)
 )
 library(dplyr)
@@ -160,9 +166,9 @@ Jumping Transitive Triplets & $\beta_3$ & $s_{i3}(x) = \sum\limits_{\forall j\ne
 \begin{figure}
 \centering
 <<hist-estimates, dependson='read-simu', echo=FALSE, fig.width=8, fig.height=5, out.width='.8\\linewidth'>>=
-qplot(data=simu, estimate, fill=Model, geom="density", alpha=I(0.75)) + facet_wrap(~parameter, scales="free") + theme_bw()
+qplot(data=simu2, estimate, fill=Model, geom="density", alpha=I(0.65)) + facet_wrap(~parameter, scales="free") + theme_bw()
 @
-\caption{\label{fig:hist-simulations}Histogram of the distribution of model parameters based on 1,000 simulation runs. Model parameter $\beta_3$ for jumping transitive triplets in model $M_2$ is significantly different from zero, but its inclusion also leads to significant changes in the  other model parameters of model $M_1$. }
+\caption{\label{fig:hist-simulations}Histogram of the distribution of model parameters based on 1,000 simulation runs. Model parameter $\beta_3$ for jumping transitive triplets in model $M_2$ is significantly different from zero, but its inclusion also leads to significant changes in the  other model parameters of model $M_1$. The parameter $\beta_4$ for doubly acheived distances is also significantly different from zero, but has larger variance. The inclusion of $\beta_4$ also changes the estimates of the other model parameters, but not as much as the inclusion of $\beta_3$.}
 \end{figure}
 
 After estimating the parameters in each of these models, we simulate from them to obtain realizations of each of the models. The objective function for each actor in each model is given below. 
