@@ -178,7 +178,7 @@ jTTn <- data.frame(id = letters[8:10], group = c(1,1,2))
 
 jTT <- merge(jTTe, jTTn, by.x = 'from', by.y = "id", all = T)
 
-set.seed(12345)
+set.seed(12345) # make shapes bigger, put labels in center. 
 ggplot(data = jTT, aes(from_id = from, to_id = to)) + 
   geom_net(aes(shape = as.factor(group)), directed = T, label = T, labelcolour='blue',vjust = -1, hjust =2, arrowgap = .05, colour = 'black') + 
   theme_net() + theme(legend.position = "none")
