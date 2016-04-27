@@ -234,7 +234,3 @@ ggplot() +
   geom_density(data = effects_dist, aes(x = estimate, fill = Model), alpha = .4)+
   facet_wrap(~effectname, scales = 'free')
   
-
-
-idx2 <- which(allres$idx == 1)
-allres[idx2,]  c(rep(c("alpha1", "beta1", "beta2"), (unique(allres$M[idx2])-1)), c("alpha1", "beta1", "beta2",'beta3'))
