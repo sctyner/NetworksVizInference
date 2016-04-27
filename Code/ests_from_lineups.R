@@ -191,14 +191,50 @@ for (i in unique(allres$idx)){
   print(i)
 }     
 
+allres$model <- 1:nrow(allres)
+
+for (i in unique(allres$idx)){ 
+  idx2 <- which(allres$idx == i)
+  if (unique(allres$lineupname[idx2]) == 'smallfriends'){
+    allres[idx2,]$model <- c(rep("M1", 3*(unique(allres$M[idx2])-1)), rep("M2", 4))
+  } else if (unique(allres$lineupname[idx2]) == 'smallfriends-rev'){
+    allres[idx2,]$model <- c(rep("M2", 4*(unique(allres$M[idx2])-1)),rep("M1", 3))
+  } else if (unique(allres$lineupname[idx2]) == 'smallfriends-eff2'){
+    allres[idx2,]$model <- c(rep("M1", 3*(unique(allres$M[idx2])-1)), 
+                                  rep("M3", 4))
+  } else{
+    allres[idx2,]$model <- c(rep("M3", 4*(unique(allres$M[idx2])-1)), 
+                                  rep("M1",3))
+  } 
+  print(i)
+} 
 head(allres)
 
 ggplot(data = allres, aes(x = idx, y = effects, color = plot)) +
   geom_point() + facet_wrap(~effectname, scales = 'free')
 
 ggplot(data = allres, aes(x = M, y = effects, color = plot, fill = plot, group = M)) +
-  geom_boxplot() + facet_wrap(~effectname, scales = 'free')
+  geom_boxplot() + ylim(c(-15,15)) +  facet_wrap(~effectname, scales = 'free')
+
+#very interesting
+ggplot(data = allres, aes(x = effects)) +
+  geom_density(aes(fill = model), alpha = .4) + xlim(c(-10,10)) + 
+  facet_wrap(~effectname, scales = 'free')  
+
+ggplot()+ 
+geom_density(data = effects_dist, 
+             aes(x = estimate, fill = model), alpha = .4) + 
+  facet_wrap(~effectname, scales = 'free')  
+
+
+effects_dist <- read.csv("Data/simulation-1000-M1-M2-M3.csv")
+names(effects_dist)[3] <- "effectname"
+names(effects_dist)[2] <- 'model'
+ggplot() + 
+  geom_density(data = effects_dist, aes(x = estimate, fill = Model), alpha = .4)+
+  facet_wrap(~effectname, scales = 'free')
   
+
 
 idx2 <- which(allres$idx == 1)
 allres[idx2,]  c(rep(c("alpha1", "beta1", "beta2"), (unique(allres$M[idx2])-1)), c("alpha1", "beta1", "beta2",'beta3'))
