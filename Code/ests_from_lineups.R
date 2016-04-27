@@ -130,11 +130,75 @@ nest_lu <- lineups %>% arrange(lineupname, M, rep) %>% nest(-lineupid)
 lineups %>% arrange(lineupname, M, rep) %>% nest(-lineupid) %>%
   mutate(fits = map(data, safely(estimates_from_lineup),alt_eff_name = "jumpXTransTrip")) -> lu_ests_eric
 
+#lu_ests_eric <- readRDS("Data/ests_from_lineup.RDS")
+
 lu_ests_eric %>% unnest(data) -> unnest_ests 
 library(plyr)
 
 lu_ests_eric %>% unnest(data) %>% 
-  select(fits) %>% flatten()
+  select(fits) %>% flatten() -> listRes 
 
 
-for (i in 1:nrow(unnest_ests))
+erridx <- NULL
+for (i in 1:length(listRes)){
+  if(!is.null(listRes[[i]]$error)){
+    erridx <- c(erridx, i)
+  } else {erridx <- erridx}
+}
+
+erridx
+
+listRes[-erridx,] 
+
+allres <- NULL
+
+for (i in (1:length(listRes))[-erridx]){
+  resi <- listRes[[i]]$result
+  resi$lineupid <- unnest_ests$lineupid[i]
+  resi$lineupname <- unnest_ests$lineupname[i]
+  resi$M <- unnest_ests$M[i]
+  resi$rep <- unnest_ests$rep[i]
+  resi$idx <- i
+  allres <- rbind(allres, resi)
+  print(i)
+}
+
+head(allres)
+
+if (allres$M[i] == allres$plot[i]){
+  
+}
+
+allres %>% group_by(lineupid, plot) %>% arrange(lineupname, M, rep)
+
+allres$effectname <- 1:nrow(allres) 
+
+for (i in unique(allres$idx)){ 
+  idx2 <- which(allres$idx == i)
+  if (unique(allres$lineupname[idx2]) == 'smallfriends'){
+    allres[idx2,]$effectname <- c(rep(c("alpha1", "beta1", "beta2"), (unique(allres$M[idx2])-1)), 
+                                  c("alpha1", "beta1", "beta2",'beta3'))
+  } else if (unique(allres$lineupname[idx2]) == 'smallfriends-rev'){
+    allres[idx2,]$effectname <- c(rep(c("alpha1", "beta1", "beta2", 'beta3'), (unique(allres$M[idx2])-1)), 
+                                  c("alpha1", "beta1", "beta2"))
+  } else if (unique(allres$lineupname[idx2]) == 'smallfriends-eff2'){
+    allres[idx2,]$effectname <- c(rep(c("alpha1", "beta1", "beta2"), (unique(allres$M[idx2])-1)), 
+                                c("alpha1", "beta1", "beta2",'beta4'))
+  } else{
+    allres[idx2,]$effectname <- c(rep(c("alpha1", "beta1", "beta2", 'beta4'), (unique(allres$M[idx2])-1)), 
+                                  c("alpha1", "beta1", "beta2"))
+  } 
+  print(i)
+}     
+
+head(allres)
+
+ggplot(data = allres, aes(x = idx, y = effects, color = plot)) +
+  geom_point() + facet_wrap(~effectname, scales = 'free')
+
+ggplot(data = allres, aes(x = M, y = effects, color = plot, fill = plot, group = M)) +
+  geom_boxplot() + facet_wrap(~effectname, scales = 'free')
+  
+
+idx2 <- which(allres$idx == 1)
+allres[idx2,]  c(rep(c("alpha1", "beta1", "beta2"), (unique(allres$M[idx2])-1)), c("alpha1", "beta1", "beta2",'beta3'))
