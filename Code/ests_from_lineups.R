@@ -22,10 +22,15 @@ drink2 <- drink[20:35,1]
 alcohol2 <- coCovar( as.vector(drink2) )
 mysmalldata <- sienaDataCreate( friend2, alcohol2)
 
+#get starting values for the simulations from the distributions
+effects_dist <- read.csv("Data/simulation-1000-M1-M2-M3.csv")
+effects_dist %>% group_by(model, effectname) %>% dplyr::summarise(bhat = mean(estimate))
+
 estimates_from_lineup <- function(dat, alt_eff_name, covariate = "alcohol2"){
   lineupname <- dat$lineupname
   M <- dat$M
   rep <- dat$rep
+  
   require(RSiena)
   require(dplyr)
 #   if (length(grep("rev", lineupname)) == 0){

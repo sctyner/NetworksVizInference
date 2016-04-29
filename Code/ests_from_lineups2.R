@@ -1,0 +1,101 @@
+effects_dist <- read.csv("Data/simulation-1000-M1-M2-M3.csv")
+effects_dist %>% group_by(model, effectname) %>% 
+  dplyr::summarise(bhat = mean(estimate)) %>%
+  filter(effectname !="alpha2") -> starting_values
+
+lineups <- expand.grid(lineupname = c("smallfriends", "smallfriends-rev", "smallfriends-eff2", "smallfriends-eff2-rev" ),
+                       M = c(3,6,9,12,16), 
+                       rep = 1:20)
+friend.data.w1 <- as.matrix(read.table("Data/s50_data/s50-network1.dat"))
+friend.data.w3 <- as.matrix(read.table("Data/s50_data/s50-network3.dat"))
+fd2.w1 <- friend.data.w1[20:35,20:35]
+fd2.w3 <- friend.data.w3[20:35,20:35]
+
+as.numeric(data.frame(starting_values %>% filter(model == "M1") %>% ungroup() %>%
+  select_("bhat"))[,1]) -> sv_M1
+as.numeric(data.frame(starting_values %>% filter(model == "M2") %>% ungroup() %>%
+                        select_("bhat"))[,1]) -> sv_M2
+as.numeric(data.frame(starting_values %>% filter(model == "M3") %>% ungroup() %>%
+                        select_("bhat"))[,1]) -> sv_M3
+
+estimates_from_lineup2 <- function(dat){
+  lineupname <- dat$lineupname
+  M <- dat$M
+  rep <- dat$rep
+  null_model_name <- "M1"
+  null_model_eff_names <- c('alpha1', 'beta1', 'beta2')
+  if (length(grep("eff2", lineupname)) == 0){
+    covariate <- "alcohol2"
+    alt_eff_name <- "jumpXTransTrip"
+    inits <- sv_M2
+    alt_model_name <- "M2"
+    alt_model_eff_names <- c("alpha1", 'beta1', 'beta2', 'beta3')
+  } else{
+    covariate <- ""
+    alt_eff_name <- "nbrDist2twice"
+    inits <- sv_M3
+    alt_model_name <- "M3"
+    alt_model_eff_names <- c("alpha1", 'beta1', 'beta2', 'beta4')
+  }
+  require(RSiena)
+  require(dplyr)
+  
+  # model setup
+  myalgorithm <- sienaAlgorithmCreate( projname = 's50null' , n3 = 5000)
+  filename <- paste0("Data/lineupdata/", lineupname, "-m-", M, "-rep-",rep, ".csv")
+  lu_dat <- read.csv(filename)
+  lu_dat_list <- NULL
+  friendData <- NULL
+  friendSiena <- NULL
+  fullSienaData <- NULL
+  for (m in 1:M){
+    # create the data for each of the panels of the lineups.
+    # the "alt" data is the Mth element of the list 
+    lu_dat_list[[m]] <- as.matrix.network.adjacency(
+      as.network(
+        na.omit(dplyr::filter(lu_dat, count == m)[,c("X1","X2")]), 
+        matrix.type = 'edgelist')
+    )
+    friendData[[m]] <- array( c( fd2.w1, lu_dat_list[[m]]),
+                              dim = c( 16, 16, 2 ) )
+    friendSiena[[m]] <- sienaDependent(friendData[[m]])
+    fullSienaData[[m]] <- sienaDataCreate( friendSiena[[m]], alcohol2)
+  }
+  null_model_effects <- NULL
+  alt_model_effects <- NULL
+  fittedNullModels <- NULL
+  fittedAltModels <- NULL
+    for(m in 1:M){
+      null_model_effects[[m]] <- getEffects(fullSienaData[[m]])
+      null_model_effects[[m]]$initialValue[null_model_effects[[m]]$include] <- sv_M1
+      fittedNullModels[[m]] <- siena07( myalgorithm, data = fullSienaData[[m]], 
+                                    returnDeps = TRUE, effects = null_model_effects[[m]],
+                                    batch=TRUE, verbose = FALSE, silent = TRUE)
+      alt_model_effects[[m]] <- includeEffects(null_model_effects[[m]], alt_eff_name, 
+                                               interaction1 = covariate, character = TRUE)
+      alt_model_effects[[m]]$initialValue[alt_model_effects[[m]]$include] <- inits
+      fittedAltModels[[m]] <- siena07( myalgorithm, data = fullSienaData[[m]],
+                                  returnDeps = TRUE, effects = alt_model_effects[[m]],
+                                  batch=TRUE, verbose = FALSE, silent = TRUE)
+    }
+    res <- data.frame(plot = c(rep(1:M, each = 3), rep(1:M, each = 4)), 
+                      model = c(rep("M1", 3*M), rep(alt_model_name, 4*M)),
+                      effectname = c(rep(null_model_eff_names, M), rep(alt_model_eff_names, M)),
+                      estimate = 9999)
+    for (j in 1:M){
+      res$estimate[which(res$plot == j & res$model == "M1" )] <- c(fittedNullModels[[j]]$rate, 
+                                                                  fittedNullModels[[j]]$theta)
+      res$estimate[which(res$plot == j & res$model == alt_model_name )] <- c(fittedAltModels[[j]]$rate, 
+                                                                            fittedAltModels[[j]]$theta)
+      }
+  return(res)
+}
+
+testing2 <- estimates_from_lineup2(dat = data.frame(lineupname = 'smallfriends', M = 3, rep = 1))
+lineups$lineupid <- paste(lineups$lineupname, lineups$M, lineups$rep,sep = '-')
+lineups$lineupname <- as.character(lineups$lineupname)
+
+
+lineups %>% arrange(lineupname, M, rep) %>% nest(-lineupid) %>%
+  mutate(fits = map(data, safely(estimates_from_lineup2))) -> lu_ests2
+

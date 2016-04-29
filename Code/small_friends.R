@@ -51,7 +51,7 @@ mysmalldata <- sienaDataCreate( friend2, alcohol2)
 #test_model_eff2 <- includeEffects( null_model_eff2, egoX, altX, egoXaltX, interaction1 = "alcohol2")
 #test_model_eff2 <- includeEffects( null_model_eff2, sameXTransTrip, interaction1 = "alcohol2")
 #myalgorithm2 <- sienaAlgorithmCreate( projname = 's50' , n3 = 1000)
-#ests_null <- siena07( myalgorithm2, data = mysmalldata, returnDeps = TRUE, effects = null_model_eff2, batch=TRUE, verbose = FALSE)
+ests_null <- siena07( myalgorithm2, data = mysmalldata, returnDeps = TRUE, effects = null_model_eff2, batch=TRUE, verbose = FALSE, silent = TRUE)
 #ests_test <- siena07( myalgorithm2, data = mysmalldata, returnDeps = TRUE, effects = test_model_eff2, batch=TRUE, verbose = FALSE)
 
 # pull out the last 10 networks for periods 1 (wave 1->2) and 2 (wave 2->3)
