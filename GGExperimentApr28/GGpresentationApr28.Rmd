@@ -1,0 +1,203 @@
+---
+title: "Network Lineups"
+author: "Sam Tyner"
+date: "April 28, 2016"
+output: pdf_document
+---
+
+```{r, global_options, include=FALSE}
+    library(knitr)
+    library(formatR)
+    opts_chunk$set(
+      echo=FALSE,
+      warning=FALSE,
+      message=FALSE,
+      fig.width = 8,
+      fig.align = 'left', cache = FALSE)
+```
+
+
+## Intro
+
+For each of the following lineups, write down the number of the panel that contains the graph you feel least resembles the graphs in the other panels.
+
+For example, for the lineup below, you should pick 2. 
+
+```{r,echo = FALSE, fig.height=3}
+datx <- data.frame(x = rnorm(30,2), y = rnorm(30,2), plot = 1)
+daty <- data.frame(x = rnorm(30,2), y = rnorm(30,2), plot = 3)
+datz <- data.frame(x = rnorm(30, 2), plot = 2)
+datz$y = datz$x + rnorm(30, sd = .1)
+dattt <- rbind(datx, daty, datz)
+library(ggplot2)
+ggplot(data = dattt) + geom_point(aes(x = x, y= y)) + theme(aspect.ratio = 1) + facet_wrap(~plot)
+```
+
+\newpage 
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+setwd("~/Desktop/NetworksResearch/NetworksVizInference/GGExperimentApr28/")
+for_gg <- data.frame(lineupname = rep(c("smallfriends", "smallfriends-rev", 
+                                        "smallfriends-eff2", "smallfriends-eff2-rev"), each = 5) ,
+                     M = rep(c(3,6,9,12,16), 4))
+for_gg$rep <- c(17,6,8,4,16, 7,18,3,14,3, 10,5,7,11,4, 4,17,5,7,14)
+
+for_gg$id <- 1:20
+
+set.seed(138818)
+for_gg$pres_order <- sample(LETTERS[1:20])
+
+for_gg$filename <- paste0(for_gg$lineupname, "-m-", for_gg$M, "-rep-", for_gg$rep, ".csv")
+
+# setwd("~/Desktop/NetworksResearch/NetworksVizInference/Data/lineupdata/")
+# for (i in 1:nrow(for_gg)){
+#   assign(x = paste0("dat",for_gg$pres_order[i]), value = read.csv(for_gg$filename[i]))  
+# }
+# for_gg$cat <- "CAT"
+# for_gg$cat[c(1,5,9,13,17)] <- "noa_noc"
+# for_gg$cat[(c(1,5,9,13,17) + 1)] <- "noa_c"
+# for_gg$cat[(c(1,5,9,13,17) + 2)] <- "a_c"
+# for_gg$cat[(c(1,5,9,13,17) + 3)] <- "a_noc"
+# 
+# all_dat <- NULL
+# for(i in 1:nrow(for_gg)){
+#   all_dat[[i]] <- read.csv(for_gg$filename[i])
+# }
+# 
+# drink <- as.matrix(read.table("../s50_data/s50-alcohol.dat"))[,2]
+# 
+# dr_beh <- data.frame(friendid = 1:16, drink = drink[20:35])
+# dr_beh$covariate <- "AH"
+# dr_beh$covariate[which(dr_beh$drink %in% c(1,2))] <- "level A"
+# dr_beh$covariate[which(dr_beh$drink %in% c(3,4))] <- "level B"
+
+# library(ggplot2)
+# library(geomnet)
+# gg_plots <- NULL
+# for (i in 1:length(all_dat)){
+#     if (for_gg$cat[i] == "noa_noc"){
+#       gg_plots[[i]] <- ggplot(data = all_dat[[i]], 
+#                               aes(from_id = X1, to_id = X2)) +
+#         geom_net(fiteach = T, size = 1, linewidth = .5) + 
+#         facet_wrap(~plot_order) + theme_net() + 
+#         theme(panel.background=element_rect(colour = 'black'))
+#     } else if(for_gg$cat[i] == "a_noc"){
+#       gg_plots[[i]] <- ggplot(data = all_dat[[i]], 
+#                               aes(from_id = X1, to_id = X2)) +
+#         geom_net(fiteach = T, size = 1, directed = T,  linewidth = .5, arrowsize = .1,
+#                  arrowgap = .01) + 
+#         facet_wrap(~plot_order) + theme_net() + 
+#         theme(panel.background=element_rect(colour = 'black'))
+#     } else if(for_gg$cat[i] == "noa_c"){
+#       dat <- all_dat[[i]]
+#       dat2 <- merge(dat, dr_beh, by.x = "X1", by.y = "friendid")
+#       gg_plots[[i]] <- ggplot(data = dat2, aes(from_id = X1, to_id = X2)) + 
+#         geom_net(fiteach = T, size = 1, linewidth = .5, aes(colour = covariate)) + 
+#         facet_wrap(~plot_order) + theme_net() + 
+#         theme(panel.background=element_rect(colour = 'black'))
+#     } else{
+#       dat <- all_dat[[i]]
+#       dat2 <- merge(dat, dr_beh, by.x = "X1", by.y = "friendid")
+#       gg_plots[[i]] <- ggplot(data = dat2, aes(from_id = X1, to_id = X2)) + 
+#         geom_net(fiteach = T, size = 1, directed = T, arrowsize = .1, linewidth = .5,
+#                  arrowgap = .01, aes(colour = covariate)) + 
+#         facet_wrap(~plot_order) + theme_net() + 
+#         theme(panel.background=element_rect(colour = 'black'))
+#     }
+# }
+# savepdf <- function(file, width=16, height=10){
+#   fname <- paste(file,".pdf",sep="")
+#   pdf(fname, width=width/2.54, height=height/2.54,
+#       pointsize=10)
+#   par(mgp=c(2.2,0.45,0), tcl=-0.4, mar=c(3.3,3.5,1.1,1))
+# }
+# for (i in 1:20){
+#   savepdf(file = paste(for_gg$pres_order[i], sub(".csv", "", for_gg$filename[i])), 
+#           width = 8*2.54, height = 8*2.54)
+#   print(gg_plots[[i]])
+#   dev.off()
+# }
+```
+
+## A
+![]("A smallfriends-eff2-rev-m-16-rep-14")
+\newpage
+
+## B
+![]("B smallfriends-rev-m-6-rep-18")
+\newpage
+
+## C
+![]("C smallfriends-eff2-m-3-rep-10")
+\newpage
+
+## D
+![]("D smallfriends-eff2-rev-m-3-rep-4")
+\newpage
+
+## E
+![]("E smallfriends-eff2-rev-m-6-rep-17")
+\newpage
+
+## F
+![]("F smallfriends-rev-m-3-rep-7")
+\newpage
+
+## G
+![]("G smallfriends-rev-m-16-rep-3")
+\newpage
+
+## H
+![]("H smallfriends-eff2-m-16-rep-4")
+\newpage
+
+## I
+![]("I smallfriends-rev-m-12-rep-14")
+\newpage
+
+## J
+![]("J smallfriends-m-16-rep-16")
+\newpage
+
+## K
+![]("K smallfriends-eff2-m-6-rep-5")
+\newpage
+
+## L
+![]("L smallfriends-m-12-rep-4")
+\newpage
+
+## M
+![]("M smallfriends-m-3-rep-17")
+\newpage
+
+## N
+![]("N smallfriends-m-9-rep-8")
+\newpage
+
+## O
+![]("O smallfriends-eff2-m-9-rep-7")
+\newpage
+
+## P
+![]("P smallfriends-m-6-rep-6")
+\newpage
+
+## Q
+![]("Q smallfriends-rev-m-9-rep-3")
+\newpage
+
+## R
+![]("R smallfriends-eff2-rev-m-9-rep-5")
+\newpage
+
+## S
+![]("S smallfriends-eff2-m-12-rep-11")
+\newpage
+
+## T
+![]("T smallfriends-eff2-rev-m-12-rep-7")
+\newpage
+
+
+
