@@ -99,3 +99,56 @@ lineups$lineupname <- as.character(lineups$lineupname)
 lineups %>% arrange(lineupname, M, rep) %>% nest(-lineupid) %>%
   mutate(fits = map(data, safely(estimates_from_lineup2))) -> lu_ests2
 
+#readRDS("Data/estimates_from_lineups2.RDS")
+
+#find out where there were errors
+estVect <- rep(NA, nrow(lu_ests2))
+for (i in 1:nrow(lu_ests2)){
+  estVect[i] <- !is.null(lu_ests2$fits[[i]]$error)
+}
+
+# subset data so the runs that didn't finish don't get included in the estimate
+lu_ests3 <- lu_ests2[-which(estVect == TRUE),]
+
+lu_ests3$fits2 <- lapply(lu_ests3$fits, `[[`, 1)
+
+lu_ests3 %>% unnest(data) %>% unnest(fits2) -> lu_ests4
+
+lineups$filename <- paste0(lineups$lineupname, "-m-", lineups$M, "-rep-", lineups$rep, ".csv")
+
+#setwd("~/Desktop/NetworksResearch/NetworksVizInference/Data/lineupdata/")
+derp <- read.csv(lineups$filename[1])
+
+lineups$altplot <- "hello"
+for (i in 1:nrow(lineups)){
+  derp <- read.csv(lineups$filename[[i]])
+  lineups$altplot[i] <- derp$plot_order[which.max(derp$count)]
+}
+
+head(lineups)
+lu_ans <- lineups[,c("lineupid", "altplot")]
+
+names(lu_ests4)
+head(lu_ests4)
+
+merge(lu_ests4, lu_ans, by = "lineupid") -> lu_ests5
+
+lu_ests5$isalt <- lu_ests5$plot == lu_ests5$altplot
+
+lu_setup <- data.frame(lineupname = unique(lu_ests5$lineupname), 
+                    altmodel = c("M2", "M3", "M1", "M1"),
+                    nullmodel = c("M1","M1", "M3", "M2"))
+
+merge(lu_ests5, lu_setup, by = "lineupname") -> lu_ests5
+
+lu_ests5$matchnull <- lu_ests5$model == lu_ests5$nullmodel
+lu_ests5$matchalt <- lu_ests5$model == lu_ests5$altmodel
+
+ggplot(data = lu_ests5) + 
+  geom_density(aes(x = estimate, fill = altmodel), alpha = .4) +
+  xlim(c(-30,30)) + 
+  facet_grid(isalt~effectname, scales = 'free')
+
+lu_ests5 %>% group_by(model, nullmodel, matchnull, effectname) %>%
+  dplyr::summarise(meanest = mean(estimate))
+
