@@ -1,5 +1,7 @@
 \documentclass[12pt]{article}
 \usepackage{amsmath,amssymb,amsfonts, mathrsfs,fancyhdr,syntonly,lastpage,hyperref,enumitem,graphicx, lscape, forloop, url}
+\usepackage[font=small,skip=5pt]{caption}
+\usepackage{subcaption}
 
 \hypersetup{colorlinks=true,urlcolor=black}
 
@@ -170,9 +172,12 @@ After estimating the parameters in each of these models, we simulate from them t
   f^{M_2}_{i}(x) & = \hat{\beta}_1^{M_2}s_{i1}(x) +  \hat{\beta}_2^{M_2}s_{i2}(x) + \hat{\beta}_3^{M_2}s_{i3}(x) \\
   f^{M_3}_{i}(x) & = \hat{\beta}_1^{M_3}s_{i1}(x) +  \hat{\beta}_2^{M_3}s_{i2}(x) + \hat{\beta}_4^{M_3}s_{i4}(x) 
   \end{align*}
-The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities for change each actor gets when moving from wave 1 to 2 and from wave 2 to 3, respectively. The outdegree parameter, $\beta_1$, represents how likely an actor is to change outgoing ties. If the estimate, $\hat{\beta}_1$, is positive, the actor is more likely to create outgoing ties, while a negative estimate leads the actor to deleting outgoing ties. This effect is highly correlated with the reciprocity parameter, $\beta_2$. A negative estimate of this parameter implies that the actor is discouraged from reciprocating its incoming ties, while a positive estimate implies that the actor is encouraged to reciprocate all ties. The additional parameter in $M_2$, $\beta_3$, is a covariate parameter. The covariate in this model is the drinking behaviour of the 16 students in our data. The possible values are 1, 2, 3, and 4, which means the student drinks never, once or twice a year, once a month, or once a week. This jumping transitive triplet effect impacts the transitive closure of actors from different groups. Thus, a positive estimate encourages transitive closure when one of three actors is in a different covariate group than the other two, while a negative estimate discourages this behavior. An example of this type of closure is given in Figure~\ref{fig:jtt}. Finally, the doubly acheived distances effect is defined by the number of actors to whom actor $i$ is not directly tied, and tied through twopaths via at least two intermediaries. This is a structural effect, like the density and repciprocity effects. A positive value encourages indirect ties, while a negative value discourages the formation of indirect ties. 
+The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities for change each actor gets when moving from wave 1 to 2 and from wave 2 to 3, respectively. The outdegree parameter, $\beta_1$, represents how likely an actor is to change outgoing ties. If the estimate, $\hat{\beta}_1$, is positive, the actor is more likely to create outgoing ties, while a negative estimate leads the actor to deleting outgoing ties. This effect is highly correlated with the reciprocity parameter, $\beta_2$. A negative estimate of this parameter implies that the actor is discouraged from reciprocating its incoming ties, while a positive estimate implies that the actor is encouraged to reciprocate all ties. The additional parameter in $M_2$, $\beta_3$, is a covariate parameter. The covariate in this model is the drinking behaviour of the 16 students in our data. The possible values are 1, 2, 3, and 4, which means the student drinks never, once or twice a year, once a month, or once a week. This jumping transitive triplet effect impacts the transitive closure of actors from different groups. Thus, a positive estimate encourages transitive closure when one of three actors is in a different covariate group than the other two, while a negative estimate discourages this behavior. An example of this type of closure is given in Figure~\ref{fig:jtt}. \hh{XXX Could you color the edge that forms the closer? That would be an edge of the form 'I become a friend of my friend's friend', right? XXX With the directed edges we also distinguish between 'i likes j' and 'j likes i'. } Finally, the doubly achieved distances effect is defined by the number of actors to whom actor $i$ is not directly tied, and tied through two paths via at least two intermediaries \hh{XXX could you give an example for that, too?}. This is a structural effect, like the density and reciprocity effects. A positive value encourages indirect ties, while a negative value discourages the formation of indirect ties. 
 
-<<jtt, echo=FALSE, fig.width=2, fig.height=2, message = FALSE, warning = FALSE, fig.align='center', fig.cap="A realization of a jumping transitive triplet, where $i$ is the focal actor, $j$ is the target actor, and $h$ is the intermediary. The group of the actors is represented by the shape of the node.">>=
+\begin{figure}
+\begin{subfigure}[t]{.45\textwidth}
+\caption{Realization of a jumping transitive triplet, where $i$ is the focal actor, $j$ is the target actor, and $h$ is the intermediary. The group of the actors is represented by the shape of the node.}
+<<jtt, echo=FALSE, fig.width=2, fig.height=2, message = FALSE, warning = FALSE, fig.align='center'>>=
 jTTe <- data.frame(from = c('i', 'i', 'h'), to = c('h', 'j', 'j'))
 jTTn <- data.frame(id = letters[8:10], group = c(1,1,2))
 
@@ -185,7 +190,25 @@ ggplot(data = jTT, aes(from_id = from, to_id = to)) +
   theme_net() +
   theme(legend.position = "none")
 @
+\end{subfigure}\hfill
+\begin{subfigure}[t]{.45\textwidth}
+\caption{Doubly achieved distance between actors $i$ and $k$.}
+<<dab, echo=FALSE, fig.width=2, fig.height=2, message = FALSE, warning = FALSE, fig.align='center'>>=
+dade <- data.frame(from = c('i', 'i', 'h', 'j'), to = c('h', 'j', 'k', 'k'))
+dadn <- data.frame(id = letters[8:11], group = c(1,1,1,1))
 
+dad <- merge(dade, dadn, by.x = 'from', by.y = "id", all = T)
+
+set.seed(12345) 
+ggplot(data = dad, aes(from_id = from, to_id = to)) + 
+  geom_net(aes(shape = as.factor(group)), directed = T, label = T, labelcolour='grey80',vjust = 0, hjust =0, arrowgap = .15, colour = 'black', size=10) + 
+  expand_limits(x=c(-0.1,1.1), y=c(-0.1,1.1)) +
+  theme_net() +
+  theme(legend.position = "none")
+@
+\end{subfigure}
+\caption{\label{fig:structures}Structural newtwork effects. On the left, a jumping transitive triplet (JTT). On the right, a doubly achieved distance between $i$ and $k$.}
+\end{figure}
 
 \section{Model $M_1$ versus $M_2$ lineup size 3}
 \newcounter{k}
