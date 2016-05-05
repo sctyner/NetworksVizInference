@@ -178,10 +178,12 @@ jTTn <- data.frame(id = letters[8:10], group = c(1,1,2))
 
 jTT <- merge(jTTe, jTTn, by.x = 'from', by.y = "id", all = T)
 
-set.seed(12345) # make shapes bigger, put labels in center. 
+set.seed(12345) 
 ggplot(data = jTT, aes(from_id = from, to_id = to)) + 
-  geom_net(aes(shape = as.factor(group)), directed = T, label = T, labelcolour='blue',vjust = -1, hjust =2, arrowgap = .05, colour = 'black') + 
-  theme_net() + theme(legend.position = "none")
+  geom_net(aes(shape = as.factor(group)), directed = T, label = T, labelcolour='grey80',vjust = 0, hjust =0, arrowgap = .15, colour = 'black', size=10) + 
+  expand_limits(x=c(-0.1,1.1), y=c(-0.1,1.1)) +
+  theme_net() +
+  theme(legend.position = "none")
 @
 
 
