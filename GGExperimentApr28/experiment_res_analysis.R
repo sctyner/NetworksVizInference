@@ -1,6 +1,6 @@
 # analyzing results of mini-experiment 
 
-setwd("GGExperimentApr28")
+#setwd("GGExperimentApr28")
 
 library(readxl)
 library(dplyr)
@@ -12,10 +12,10 @@ response %>% group_by(Respondent) %>%
 
 library(ggplot2)
 
-ggplot(data = response, aes(x = as.factor(ChosenLU), fill = as.factor(correct))) + 
+print(ggplot(data = response, aes(x = as.factor(ChosenLU), fill = as.factor(correct))) + 
   geom_bar() +
-  facet_wrap(~Lineup, scales = 'free')
+  facet_wrap(~Lineup, scales = 'free'))
 
-response %>% group_by(Lineup) %>%
+print(response %>% group_by(Lineup) %>%
   dplyr::summarise(perc_guessed = sum(na.omit(correct))/11, tot_resp = length(unique(ChosenLU)))
-
+)

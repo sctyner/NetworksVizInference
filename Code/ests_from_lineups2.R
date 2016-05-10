@@ -152,3 +152,30 @@ ggplot(data = lu_ests5) +
 lu_ests5 %>% group_by(model, nullmodel, matchnull, effectname) %>%
   dplyr::summarise(meanest = mean(estimate))
 
+lu_ests5 %>% select(-c(altplot, isalt, matchnull, matchalt)) %>% 
+       spread(model, estimate) %>% mutate(diff12 = ifelse(is.na(M1), M2, M1 - M2))%>% 
+       select(-c(M1,M2)) %>% spread(effectname, diff12) -> thing
+
+dim(thing)
+
+for (name in unique(lu_ests5$lineupid)){
+  filename <- paste0(name, "pcp")
+  savepdf(file = filename, width = 8*2.54, height = 8*2.54)
+lu_ests5 %>% 
+  select(-c(altplot, isalt, matchnull, matchalt)) %>% 
+  spread(model, estimate) %>% 
+  mutate(diff12 = ifelse(is.na(M1), M2, M1 - M2)) %>% 
+  filter(lineupid == name) %>% 
+  select(-c(M1,M2)) %>% spread(effectname, diff12) %>%
+  ggparcoord(columns = 9:12) + geom_label(aes(label = plot)) -> plott
+  print(plott)
+  dev.off()
+}
+
+savepdf <- function(file, width=16, height=10)
+{
+  fname <- paste(file,".pdf",sep="")
+  pdf(fname, width=width/2.54, height=height/2.54,
+      pointsize=10)
+  par(mgp=c(2.2,0.45,0), tcl=-0.4, mar=c(3.3,3.5,1.1,1))
+}
