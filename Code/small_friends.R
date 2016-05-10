@@ -47,7 +47,7 @@ friend2 <- sienaDependent(friendData2)
 alcohol2 <- varCovar( as.matrix(drink2) )
 # create siena data object
 mysmalldata <- sienaDataCreate( friend2, alcohol2)
-#null_model_eff2 <- getEffects(mysmalldata)
+null_model_eff2 <- getEffects(mysmalldata)
 #test_model_eff2 <- includeEffects( null_model_eff2, egoX, altX, egoXaltX, interaction1 = "alcohol2")
 #test_model_eff2 <- includeEffects( null_model_eff2, sameXTransTrip, interaction1 = "alcohol2")
 myalgorithm2 <- sienaAlgorithmCreate( projname = 's50' , n3 = 1000)
