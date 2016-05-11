@@ -35,20 +35,27 @@ Stochastic actor-oriented models (SAOMs) are a set of network models that consid
 
 We fit \st{three} different stochastic actor-oriented models to a subset of the 50 actor dataset from the ``Teenage Friends and Lifestyle Study" that is provided on the RSiena webpage.\footnote{\url{http://www.stats.ox.ac.uk/~snijders/siena/s50_data.htm}} We chose to subset the data to decrease the cognitive load on our experiment's subjects. The subset contained actors 20 through 35 and the ties between them, as well as the drinking behavior of each actor at each of the three waves. This specific subset was chosen because it showed somewhat higher connectivity than other subsets, as we've emphasized in the visualizations of the three network adjacency matrices below. For model fitting, we condition on wave 1 and estimate the parameters of our models from the second and third waves.
 
+\begin{figure}
 <<get_sm_friends, echo=FALSE, fig.width=8, fig.height=3, message = FALSE, warning = FALSE>>=
 source("Code/small_friends.R")
+view_rs2$wave <- factor(view_rs2$wave)
+levels(view_rs2$wave) <- c("Wave 1", "Wave 2", "Wave 3")
 ggplot(data= view_rs2, aes(x = x, y=y)) + 
-  geom_tile(aes(fill = as.factor(value))) + scale_fill_manual(values = c('white', 'black')) +
+  geom_tile(aes(fill = as.factor(value))) + 
+  scale_fill_manual("X likes Y", labels=c("no", "yes"), values = c('white', 'black')) +
   geom_rect(data= NULL, inherit.aes = FALSE, 
             aes(xmin = 20, xmax = 35, ymin = 20, ymax = 35, fill =NA), color = 'red') + 
   facet_wrap(~wave) + theme_bw() + 
-  theme(aspect.ratio=1)
-
+  theme(aspect.ratio=1) 
 @
+\caption{\label{fig:smallfriends}Representation of the edge matrix in waves 1,2, and 3 of the friendship study \hh{XXX cite XXX}. \hh{x and y axes labels are not particularly informative.}}
+\end{figure}
 
-The first wave of the network, which is conditioned on in estimation, is given below. 
+The first wave of the network, which is conditioned on in estimation, is given in Figure~\ref{fig:wave1}.
 
-<<wave1, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3>>=
+\begin{figure}
+\centering
+<<wave1, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, out.width='.6\\linewidth'>>=
 library(sna)
 library(network)
 actual1 <- merge(data.frame(as.edgelist(as.network(fd2.w1))), 
@@ -72,15 +79,21 @@ actual2$wave <- 2
 
 waves <- rbind(actual1, actual2)
 library(geomnet)
+actual1$behaviour <- factor(actual1$drink)
+levels(actual1$behaviour) <- c("None", "Once or twice a year", "Once a month", "Once a week")
 ggplot(data = actual1, aes(from_id = X1, to_id = X2)) + 
-  geom_net(label = TRUE, hjust = -.5, labelcolour = 'black', fiteach = T,
-           aes(color = as.factor(drink))) + 
+  geom_net(label = TRUE, hjust = 0.5, vjust=0.5, size=10,  
+           fiteach = T, labelcolour = 'black',
+           aes(colour = behaviour)) + 
+  scale_colour_brewer("Drinking behavior", palette="YlOrRd") +
   theme_net() 
 #ggplot(data = waves, aes(from_id = X1, to_id = X2)) + 
 #  geom_net(label = TRUE, hjust = -.5, labelcolour = 'black', fiteach = T,
 #           aes(color = as.factor(drink))) + 
 #  theme_net() + theme(panel.background = element_rect(fill = "white", color = 'black')) + facet_wrap(~wave)
 @
+\caption{\label{fig:wave1} Network of friendships of wave 1 of the subset of students marked in Figure~\ref{fig:smallfriends}. }
+\end{figure}
 
 <<modelfit, echo=FALSE, results = 'hide', message=FALSE, warning = FALSE, cache = T>>=
 source("Code/complete_lineup_creation.R")
@@ -128,7 +141,7 @@ alt_mod2_sv <- as.numeric(alt2nd[,-c(1,7,8)] %>% summarise_each(funs(mean)))
 \centering
 \scalebox{0.8}{
 \begin{tabular}{lccrrr}
-Effect name & Parameter & Corresponding Statistic & $M_1$ Estimate & $M_2$ Estimate & $M_3$ Estimate\\
+Effect name & Parameter & Corresponding Statistic & $M_1$  & $M_2$  & $M_3$ \\
 \hline
 \hline
 Rate 1 (wave 1 $\rightarrow$ 2) & $\alpha_1$ & $\sum\limits_{i,j = 1 i\neq j}^n (x_{ij}(t_2) - x_{ij}(t_1))^2 $ & 
