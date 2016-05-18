@@ -161,13 +161,25 @@ dim(thing)
 for (name in unique(lu_ests5$lineupid)){
   filename <- paste0(name, "pcp")
   savepdf(file = filename, width = 8*2.54, height = 8*2.54)
-lu_ests5 %>% 
-  select(-c(altplot, isalt, matchnull, matchalt)) %>% 
+  if (length(grep("eff2", name)) == 0){
+    lu_ests5 %>% 
+      select(-c(altplot, matchnull, matchalt)) %>% 
+      spread(model, estimate) %>% 
+      mutate(diff12 = ifelse(is.na(M1), M2, M1 - M2)) %>% 
+      filter(lineupid == name) %>% 
+      select(-c(M1,M2)) %>% spread(effectname, diff12) %>%
+      ggparcoord(columns = 10:13) + aes(color = isalt) + geom_label(aes(label = plot, color = isalt)) + 
+      scale_color_manual(values = c("black", "red")) -> plott
+  } else {
+  lu_ests5 %>% 
+  select(-c(altplot, matchnull, matchalt)) %>% 
   spread(model, estimate) %>% 
-  mutate(diff12 = ifelse(is.na(M1), M2, M1 - M2)) %>% 
+  mutate(diff13 = ifelse(is.na(M1), M3, M1 - M3)) %>% 
   filter(lineupid == name) %>% 
-  select(-c(M1,M2)) %>% spread(effectname, diff12) %>%
-  ggparcoord(columns = 9:12) + geom_label(aes(label = plot)) -> plott
+  select(-c(M1,M3)) %>% spread(effectname, diff13) %>%
+  ggparcoord(columns = 10:13) + aes(color = isalt) + geom_label(aes(label = plot, color = isalt)) + 
+      scale_color_manual(values = c("black", "red")) -> plott
+  }
   print(plott)
   dev.off()
 }
