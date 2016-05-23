@@ -29,7 +29,9 @@
 
 Stochastic actor-oriented models (SAOMs) are a set of network models that consider both network and actor effects when determining how and why a network changes over time. Network effects, like reciprocity and outdegree, only consider the ties between actors as important to network change, while actor effects allow for covariate values associated with each actor to influence ties between actors. In the SAOM literature, a network is denoted by $x(t_m)$, has $n$ actors, and for two actors $i \neq j \in \{1, 2, \dots, n\}$, the relationship between them is denoted by $x_ij$. This relationship $x_{ij}$ is equal to 1 if there is a tie between actors $i$ and $j$ and it is 0 if there is not a tie between them. The time component, $t_m$, represents the $m = 1, 2, \dots, M$ points of observation of the network. These networks $x(t_1), \dots, x(t_M)$ are modeled as observations of a continuous-time Markov chain, where most of the steps in the chain are unobserved. 
 
-\par Between any two discrete time points, $t_{m}$ and $t_{m-1}$ for $m = 2, \dots, M$, each actor gets the opportunity to change one of their ties at a rate of $\alpha_{m-1}$. This is due to the properties of the Markov chain, and it also assumes that the rate of change is constant for each actor between $t_{m-1}$ and $t_{m}$. When an actor is given an opportunity to change, it tries to maximize its objective function, $f_i(\beta, x)$, where $x$ is the potential new network state that actor $i$ can reach by changing one of its ties, $x_{ij}$. In model estimation, the parameters to be estimated are $\alpha_1, \dots, \alpha_{M-1}$ and the (possibly vector-valued) $\beta$
+\par Between any two discrete time points, $t_{m}$ and $t_{m-1}$ for $m = 2, \dots, M$, each actor gets the opportunity to change one of their ties at a rate of $\alpha_{m-1}$. This is due to the properties of the Markov chain, and it also assumes that the rate of change is constant \hh{and the same?} for each actor between $t_{m-1}$ and $t_{m}$. When an actor is given an opportunity to change, it tries to maximize its objective function, $f_i(\beta, x)$, where $x$ is the potential new network state that actor $i$ can reach by changing one of its ties, $x_{ij}$. In model estimation, the parameters to be estimated are $\alpha_1, \dots, \alpha_{M-1}$ and the (possibly vector-valued) $\beta$
+
+\hh{what is the objective function? XXX}
 
 \section{Models}
 
@@ -48,10 +50,12 @@ ggplot(data= view_rs2, aes(x = x, y=y)) +
   facet_wrap(~wave) + theme_bw() + 
   theme(aspect.ratio=1) 
 @
-\caption{\label{fig:smallfriends}Representation of the edge matrix in waves 1,2, and 3 of the friendship study \hh{XXX cite XXX}. \hh{x and y axes labels are not particularly informative.}}
+\caption{\label{fig:smallfriends}Adjacency matrices describing friendship relations between 50 students  in waves 1,2, and 3 of the friendship study \hh{XXX cite XXX}. The red squares identify the subset we focus on in the remainder. \hh{x and y axes labels are not particularly informative.}}
 \end{figure}
 
 The first wave of the network, which is conditioned on in estimation, is given in Figure~\ref{fig:wave1}.
+
+
 
 \begin{figure}
 \centering
@@ -83,10 +87,11 @@ actual1$behaviour <- factor(actual1$drink)
 levels(actual1$behaviour) <- c("None", "Once or twice a year", "Once a month", "Once a week")
 ggplot(data = actual1, aes(from_id = X1, to_id = X2)) + 
   geom_net(label = TRUE, hjust = 0.5, vjust=0.5, size=10,  
-           fiteach = T, labelcolour = 'black',
+           fiteach = T, labelcolour = "grey20", 
            aes(colour = behaviour)) + 
   scale_colour_brewer("Drinking behavior", palette="YlOrRd") +
   theme_net() 
+
 #ggplot(data = waves, aes(from_id = X1, to_id = X2)) + 
 #  geom_net(label = TRUE, hjust = -.5, labelcolour = 'black', fiteach = T,
 #           aes(color = as.factor(drink))) + 
