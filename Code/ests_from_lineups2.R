@@ -78,6 +78,7 @@ estimates_from_lineup2 <- function(dat){
                                   returnDeps = TRUE, effects = alt_model_effects[[m]],
                                   batch=TRUE, verbose = FALSE, silent = TRUE)
     }
+  
     res <- data.frame(plot = c(rep(1:M, each = 3), rep(1:M, each = 4)), 
                       model = c(rep("M1", 3*M), rep(alt_model_name, 4*M)),
                       effectname = c(rep(null_model_eff_names, M), rep(alt_model_eff_names, M)),
