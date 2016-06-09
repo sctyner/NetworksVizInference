@@ -191,4 +191,11 @@ ggplot() +
   facet_wrap(~param_name) +
   labs(title = "between red lines is good convergence")
 
+# interesting. explore jtt more
 
+ggplot() + 
+  geom_density(data = lus_res_long %>% filter(param_name == 'transitive triplets jumping alcohol2'), aes(x = converg_stat, fill = lineupname)) + 
+  geom_vline(xintercept = c(-.1, .1), color = 'red') + 
+facet_wrap(~lineupname)
+  
+# whoa. very cool  
