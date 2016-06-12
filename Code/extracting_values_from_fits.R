@@ -156,46 +156,4 @@ lus_res_long <- rbind(lus_res_m3, lus_res_m6, lus_res_m9,
 
 # plots 
 
-# lus_res_long <- read.csv("Data/June_estimates_from_lineups.csv", stringsAsFactors = FALSE)
-library(ggplot2)
-ggplot(data = lus_res_long, aes(x = param_est)) + 
-  geom_density(aes(fill = model), alpha = .7) + 
-  facet_wrap(~param_name, scales='free')
 
-ggplot(data = lus_res_long, aes(x = param_est_se)) + 
-  geom_density(aes(fill = model), alpha = .7) +
-  xlim(c(0,10)) + 
-  facet_wrap(~param_name, scales='free')
-
-ggplot(data = lus_res_long, aes(x = converg_stat)) + 
-  geom_density(aes(fill = model), alpha = .7) +
-  facet_wrap(~param_name, scales='free')
-
-# there are some NAs
-
-summary(lus_res_long$param_est)
-summary(lus_res_long$param_est_se)
-summary(lus_res_long$converg_stat)
-summary(lus_res_long$time)
-table(lus_res_long$termination, useNA ="ifany")
-
-# overall convergence measured by the rate convergence valu
-ggplot() + 
-  geom_density(data = lus_res_long %>% filter(param_name == 'rate'), aes(x = converg_stat)) +
-  geom_vline(xintercept = c(.2, .3), color = c('green', 'blue')) + 
-  geom_text(data = NULL, inherit.aes = FALSE, aes(x = 2, y = 1.5, label = "Excellent convergence left of green line,\nreasonable convergence left of blue line"))
-
-ggplot() + 
-  geom_density(data = lus_res_long %>% filter(param_name != 'rate'), aes(x = converg_stat)) + 
-  geom_vline(xintercept = c(-.1, .1), color = 'red') +
-  facet_wrap(~param_name) +
-  labs(title = "between red lines is good convergence")
-
-# interesting. explore jtt more
-
-ggplot() + 
-  geom_density(data = lus_res_long %>% filter(param_name == 'transitive triplets jumping alcohol2'), aes(x = converg_stat, fill = lineupname)) + 
-  geom_vline(xintercept = c(-.1, .1), color = 'red') + 
-facet_wrap(~lineupname)
-  
-# whoa. very cool  
