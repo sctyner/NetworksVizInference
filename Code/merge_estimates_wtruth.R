@@ -111,3 +111,14 @@ lus_ests_truth <- merge(lus_res_long, panels_and_truth)
 head(lus_ests_truth)
 
 lus_ests_truth %<>% arrange(lineupname, M, rep, model, panel_num, param_name)
+
+library(ggplot2)
+ggplot(data = lus_ests_truth) + geom_density(alpha = .8, aes(x = param_est, fill = interaction(model, true_model))) + 
+  facet_grid(param_name~model, scales = 'free')
+
+ggplot(data = lus_ests_truth) + geom_density(alpha = .8, aes(x = param_est, fill = param_name)) + 
+  facet_grid(model~true_model, scales = 'free')
+
+
+
+
