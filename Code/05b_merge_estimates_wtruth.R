@@ -113,12 +113,56 @@ head(lus_ests_truth)
 lus_ests_truth %<>% arrange(lineupname, M, rep, model, panel_num, param_name)
 
 library(ggplot2)
-ggplot(data = lus_ests_truth) + geom_density(alpha = .8, aes(x = param_est, fill = interaction(model, true_model))) + 
+ggplot(data = lus_ests_truth) + geom_density(alpha = .6, aes(x = param_est, fill = true_model)) + 
   facet_grid(param_name~model, scales = 'free')
 
+#previous pic better 
 ggplot(data = lus_ests_truth) + geom_density(alpha = .8, aes(x = param_est, fill = param_name)) + 
-  facet_grid(model~true_model, scales = 'free')
+  facet_grid(model~true_model, scales = 'free', labeller = "label_both") + xlim(c(-25,25))
 
+# params in all models 
+  # "outdegree (density)" "rate" "reciprocity"   
 
+allmodels <- dplyr::filter(lus_ests_truth, param_name %in% c("outdegree (density)","rate","reciprocity"))
 
+ggplot(data = allmodels) + 
+  geom_density(alpha = .6, aes(x = param_est, fill = true_model)) + xlim(c(-25,25)) + 
+  facet_grid(param_name~model, scales = 'free')
+
+# params in only 2, 3 : "transitive triplets jumping alcohol2" "number pairs at doubly achieved distance 2"
+
+others <- dplyr::filter(lus_ests_truth, param_name %in% c( "transitive triplets jumping alcohol2", "number pairs at doubly achieved distance 2"))
+
+ggplot(data = dplyr::filter(others, model == "M2")) + 
+  geom_density(alpha = .6, aes(x = param_est, fill = true_model))
+
+ggplot(data = dplyr::filter(others, model == "M3")) + 
+  geom_density(alpha = .6, aes(x = param_est, fill = true_model))
+
+# create column for convergence.
+
+# good convergence for params c(-.1,.1)
+# good convergence overall <.3, great convergence <.2
+
+names(lus_ests_truth)
+lus_ests_truth$convergence <- NA
+
+for (i in 1:nrow(lus_ests_truth)){
+  if (is.na(lus_ests_truth$converg_stat[i])){
+    lus_ests_truth$convergence[i] <- NA
+  } else if (lus_ests_truth$param_name[i] != "rate"){
+    if (lus_ests_truth$converg_stat[i] <= 0.1 & lus_ests_truth$converg_stat[i] >= -.1){
+      lus_ests_truth$convergence[i] <- "Converged"
+    } else{  lus_ests_truth$convergence[i] <- "Did not converge"} 
+  } else {
+    if (lus_ests_truth$converg_stat[i] <= 0.3){
+      lus_ests_truth$convergence[i] <- "Converged"
+    } else { lus_ests_truth$convergence[i] <- "Did not converge" }
+  }
+}
+
+table(lus_ests_truth$convergence, useNA = 'ifany')
+
+ggplot(data = lus_ests_truth) + geom_density(alpha = .8, aes(x = param_est, fill = true_model)) + 
+  facet_grid(convergence~param_name, scales = 'free', labeller = "label_both") 
 
