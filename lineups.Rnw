@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,amsfonts, mathrsfs,fancyhdr,syntonly,lastpage,hyperref,enumitem,graphicx, lscape, forloop, url}
+\usepackage{amsmath,amssymb,amsfonts, mathrsfs,fancyhdr,syntonly,lastpage,hyperref,enumitem,graphicx, lscape, forloop, url, natbib}
 \usepackage[font=small,skip=5pt]{caption}
 \usepackage{subcaption}
 
@@ -29,9 +29,11 @@
 
 Stochastic actor-oriented models (SAOMs) are a set of network models that consider both network and actor effects when determining how and why a network changes over time. Network effects, like reciprocity and outdegree, only consider the ties between actors as important to network change, while actor effects allow for covariate values associated with each actor to influence ties between actors. In the SAOM literature, a network is denoted by $x(t_m)$, has $n$ actors, and for two actors $i \neq j \in \{1, 2, \dots, n\}$, the relationship between them is denoted by $x_ij$. This relationship $x_{ij}$ is equal to 1 if there is a tie between actors $i$ and $j$ and it is 0 if there is not a tie between them. The time component, $t_m$, represents the $m = 1, 2, \dots, M$ points of observation of the network. These networks $x(t_1), \dots, x(t_M)$ are modeled as observations of a continuous-time Markov chain, where most of the steps in the chain are unobserved. 
 
-\par Between any two discrete time points, $t_{m}$ and $t_{m-1}$ for $m = 2, \dots, M$, each actor gets the opportunity to change one of their ties at a rate of $\alpha_{m-1}$. This is due to the properties of the Markov chain, and it also assumes that the rate of change is constant \hh{and the same?} for each actor between $t_{m-1}$ and $t_{m}$. When an actor is given an opportunity to change, it tries to maximize its objective function, $f_i(\beta, x)$, where $x$ is the potential new network state that actor $i$ can reach by changing one of its ties, $x_{ij}$. In model estimation, the parameters to be estimated are $\alpha_1, \dots, \alpha_{M-1}$ and the (possibly vector-valued) $\beta$
+\par Between any two discrete time points, $t_{m}$ and $t_{m-1}$ for $m = 2, \dots, M$, each actor gets the opportunity to change one of their ties at a rate of $\alpha_{m-1}$. This is due to the properties of the Markov chain, and it also assumes that the rate of change is identical and constant for each actor between $t_{m-1}$ and $t_{m}$. When an actor is given an opportunity to change, it tries to maximize its objective function, $f_i(\beta, x)$, where $x$ is the potential new network state that actor $i$ can reach by changing one of its ties, $x_{ij}$. In model estimation, the parameters to be estimated are $\alpha_1, \dots, \alpha_{M-1}$ and the (possibly vector-valued) $\beta$. The objective function takes the form 
 
-\hh{what is the objective function? XXX}
+$$ f_i(\beta, x) = \sum_k \beta_k s_{ki}(x)$$ 
+
+where $k = 1, \dots, K$, $K$ the number of non-rate parameters in the models and $s{ki}(x)$ is the corresponding statistic. There are several parameters that can be chosen for use in the objective function. Examples of these parameters and their corresponding statistics are given in Table~\ref{tab:models}. 
 
 \section{Models}
 
@@ -39,23 +41,22 @@ We fit \st{three} different stochastic actor-oriented models to a subset of the 
 
 \begin{figure}
 <<get_sm_friends, echo=FALSE, fig.width=8, fig.height=3, message = FALSE, warning = FALSE>>=
-source("Code/small_friends.R")
+source("Code/00e_small_friends.R")
 view_rs2$wave <- factor(view_rs2$wave)
 levels(view_rs2$wave) <- c("Wave 1", "Wave 2", "Wave 3")
 ggplot(data= view_rs2, aes(x = x, y=y)) + 
   geom_tile(aes(fill = as.factor(value))) + 
-  scale_fill_manual("X likes Y", labels=c("no", "yes"), values = c('white', 'black')) +
-  geom_rect(data= NULL, inherit.aes = FALSE, 
-            aes(xmin = 20, xmax = 35, ymin = 20, ymax = 35, fill =NA), color = 'red') + 
-  facet_wrap(~wave) + theme_bw() + 
-  theme(aspect.ratio=1) 
+  scale_fill_manual("X likes Y", labels=c("no", "yes"), 
+                    values = c('white', 'black')) +
+  geom_rect(data= NULL, inherit.aes = FALSE, color = 'red',
+            aes(xmin = 20, xmax = 35, ymin = 20, ymax = 35, fill =NA)) + 
+  facet_wrap(~wave) + theme_bw() +
+  theme(aspect.ratio=1, axis.text = element_blank(), axis.ticks = element_blank()) 
 @
-\caption{\label{fig:smallfriends}Adjacency matrices describing friendship relations between 50 students  in waves 1,2, and 3 of the friendship study \hh{XXX cite XXX}. The red squares identify the subset we focus on in the remainder. \hh{x and y axes labels are not particularly informative.}}
+\caption{\label{fig:smallfriends}Adjacency matrices describing friendship relations between 50 students in waves 1,2, and 3 of the friendship study \citep{friendsdata}. The red squares identify the subset we focus on in the remainder.}
 \end{figure}
 
 The first wave of the network, which is conditioned on in estimation, is given in Figure~\ref{fig:wave1}.
-
-
 
 \begin{figure}
 \centering
@@ -101,11 +102,11 @@ ggplot(data = actual1, aes(from_id = X1, to_id = X2)) +
 \end{figure}
 
 <<modelfit, echo=FALSE, results = 'hide', message=FALSE, warning = FALSE, cache = T>>=
-source("Code/complete_lineup_creation.R")
+source("Code/03c_complete_lineup_creation.R")
 lineup1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct = eff_models_smallFriends[[39]], M = 3)
 @
 
-The two models we fit are a ``null model" (model $M_1$) and two ``alternative models" (model $M_2$ and $M_3$). The null model only includes the default parameters that are included in the RSiena estimation. The alternative model $M_2$ includes one additional covariate parameter that was determined to be significant by the Wald test in the RSienaTest package, while the alternative model $M_3$ includes one additional structural parameter whose significance was determined in the same way. Details on these effects are given in Table~\ref{tab:models}.
+The two models we fit are a ``null model" (model $M_1$) and two ``alternative models" (model $M_2$ and $M_3$). The null model only includes the default parameters that are included in the RSiena estimation: the reciprocity and outdegree parameters. The alternative model $M_2$ includes one additional covariate parameter that was determined to be significant by the Wald test in the RSienaTest package, while the alternative model $M_3$ includes one additional structural parameter whose significance was determined in the same way. Details on these effects are given in Table~\ref{tab:models}.
 
 <<readsimu, echo=FALSE>>=
  nulls <- read.csv("Data/distribution_null_model.csv")
@@ -190,7 +191,7 @@ After estimating the parameters in each of these models, we simulate from them t
   f^{M_2}_{i}(x) & = \hat{\beta}_1^{M_2}s_{i1}(x) +  \hat{\beta}_2^{M_2}s_{i2}(x) + \hat{\beta}_3^{M_2}s_{i3}(x) \\
   f^{M_3}_{i}(x) & = \hat{\beta}_1^{M_3}s_{i1}(x) +  \hat{\beta}_2^{M_3}s_{i2}(x) + \hat{\beta}_4^{M_3}s_{i4}(x) 
   \end{align*}
-The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities for change each actor gets when moving from wave 1 to 2 and from wave 2 to 3, respectively. The outdegree parameter, $\beta_1$, represents how likely an actor is to change outgoing ties. If the estimate, $\hat{\beta}_1$, is positive, the actor is more likely to create outgoing ties, while a negative estimate leads the actor to deleting outgoing ties. This effect is highly correlated with the reciprocity parameter, $\beta_2$. A negative estimate of this parameter implies that the actor is discouraged from reciprocating its incoming ties, while a positive estimate implies that the actor is encouraged to reciprocate all ties. The additional parameter in $M_2$, $\beta_3$, is a covariate parameter. The covariate in this model is the drinking behaviour of the 16 students in our data. The possible values are 1, 2, 3, and 4, which means the student drinks never, once or twice a year, once a month, or once a week. This jumping transitive triplet effect impacts the transitive closure of actors from different groups. Thus, a positive estimate encourages transitive closure when one of three actors is in a different covariate group than the other two, while a negative estimate discourages this behavior. An example of this type of closure is given in Figure~\ref{fig:jtt}. \hh{XXX Could you color the edge that forms the closer? That would be an edge of the form 'I become a friend of my friend's friend', right? XXX With the directed edges we also distinguish between 'i likes j' and 'j likes i'. } Finally, the doubly achieved distances effect is defined by the number of actors to whom actor $i$ is not directly tied, and tied through two paths via at least two intermediaries \hh{XXX could you give an example for that, too?}. This is a structural effect, like the density and reciprocity effects. A positive value encourages indirect ties, while a negative value discourages the formation of indirect ties. 
+The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities for change each actor gets when moving from wave 1 to 2 and from wave 2 to 3, respectively. The outdegree parameter, $\beta_1$, represents how likely an actor is to change outgoing ties. If the estimate, $\hat{\beta}_1$, is positive, the actor is more likely to create outgoing ties, while a negative estimate leads the actor to deleting outgoing ties. This effect is highly correlated with the reciprocity parameter, $\beta_2$. A negative estimate of this parameter implies that the actor is discouraged from reciprocating its incoming ties, while a positive estimate implies that the actor is encouraged to reciprocate all ties. The additional parameter in $M_2$, $\beta_3$, is a covariate parameter. The covariate in this model is the drinking behaviour of the 16 students in our data. The possible values are 1, 2, 3, and 4, which means the student drinks never, once or twice a year, once a month, or once a week. This jumping transitive triplet effect impacts the transitive closure of actors from different groups. Thus, a positive estimate encourages transitive closure when one of three actors is in a different covariate group than the other two, while a negative estimate discourages this behavior. An example of this type of closure is given in Figure~\ref{fig:jtt}. With the directed edges we also distinguish between 'i likes j' and 'j likes i'. Finally, the doubly achieved distances effect is defined by the number of actors to whom actor $i$ is not directly tied, and tied through two paths via at least two intermediaries. This is a structural effect, like the density and reciprocity effects. A positive coefficient value encourages indirect ties, while a negative value discourages the formation of indirect ties. 
 
 \begin{figure}
 \begin{subfigure}[t]{.45\textwidth}
@@ -203,7 +204,10 @@ jTT <- merge(jTTe, jTTn, by.x = 'from', by.y = "id", all = T)
 
 set.seed(12345) 
 ggplot(data = jTT, aes(from_id = from, to_id = to)) + 
-  geom_net(aes(shape = as.factor(group)), directed = T, label = T, labelcolour='grey80',vjust = 0.5, hjust =0.5, arrowgap = .15, colour = 'black', size=10) + 
+  geom_net(aes(shape = as.factor(group)), directed = T, label = T, 
+           labelcolour='grey80',vjust = 0.5, hjust =0.5, arrowgap = .15, 
+           colour = 'black', size=10, 
+           ecolour = c("red", "grey40", "grey40", "grey40")) + 
   expand_limits(x=c(-0.1,1.1), y=c(-0.1,1.1)) +
   theme_net() +
   theme(legend.position = "none")
@@ -227,6 +231,14 @@ ggplot(data = dad, aes(from_id = from, to_id = to)) +
 \end{subfigure}
 \caption{\label{fig:structures}Structural newtwork effects. On the left, a jumping transitive triplet (JTT). On the right, a doubly achieved distance between $i$ and $k$.}
 \end{figure}
+
+\section{Lineup Simulation}
+
+To create the lineups that will be used in our experiment, we used the values given in Table~\ref{tab:models} as starting values in simulation. For each lineup simulated, the same default RSiena algorithm was used as was used to generate the fitted models with the exception that the algorithm only simulated from the given set of parameters. Each lineup and plot within lineup was generated idependent of all the others.
+
+\section{Parameter Estimation from Lineups}
+
+After the lineups were created, we also re-fit each of our three models to each graph in each lineup. 
 
 \section{Model $M_1$ versus $M_2$ lineup size 3}
 \newcounter{k}
@@ -279,54 +291,57 @@ Lineup-Images/pdfs/smallfriends-m-6-rep-\arabic{k1}\newline
 \forloop{k9}{1}{\value{k9} < 21}{smallfriends-rev-m-16-rep-\arabic{k9}\newline
 \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-rev-m-16-rep-\arabic{k9}} \\ }
 
-\section{Model $M_1$ versus $M_3$ lineup size 3}
-\newcounter{k10}
-\forloop{k10}{1}{\value{k10} < 21}{smallfriends-eff2-m-3-rep-\arabic{k10}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-3-rep-\arabic{k10}} \\ }
+% \section{Model $M_1$ versus $M_3$ lineup size 3}
+% \newcounter{k10}
+% \forloop{k10}{1}{\value{k10} < 21}{smallfriends-eff2-m-3-rep-\arabic{k10}\newline
+% \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-3-rep-\arabic{k10}} \\ }
+% 
+% \section{Model $M_1$ versus $M_3$ lineup size 6}
+% \newcounter{k11}
+% \forloop{k11}{1}{\value{k11} < 21}{smallfriends-eff2-m-6-rep-\arabic{k11}\newline
+% \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-6-rep-\arabic{k11}} \\ }
+% 
+% \section{Model $M_1$ versus $M_3$ lineup size 9}
+% \newcounter{k12}
+% \forloop{k12}{1}{\value{k12} < 21}{smallfriends-eff2-m-9-rep-\arabic{k12}\newline
+% \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-9-rep-\arabic{k12}} \\ }
+% 
+% \section{Model $M_1$ versus $M_3$ lineup size 12}
+% \newcounter{k13}
+% \forloop{k13}{1}{\value{k13} < 21}{smallfriends-eff2-m-12-rep-\arabic{k13}\newline
+% \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-12-rep-\arabic{k13}} \\ }
+% 
+% \section{Model $M_1$ versus $M_3$ lineup size 16}
+% \newcounter{k14}
+% \forloop{k14}{1}{\value{k14} < 21}{smallfriends-eff2-m-16-rep-\arabic{k14}\newline
+% \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-16-rep-\arabic{k14}} \\ }
+% 
+% \section{Model $M_3$ versus $M_1$ lineup size 3}
+% \newcounter{k15}
+% \forloop{k15}{1}{\value{k15} < 21}{smallfriends-eff2-rev-m-3-rep-\arabic{k15}\newline
+% \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-3-rep-\arabic{k15}} \\ }
+% 
+% \section{Model $M_3$ versus $M_1$ lineup size 6}
+% \newcounter{k16}
+% \forloop{k16}{1}{\value{k16} < 21}{smallfriends-eff2-rev-m-6-rep-\arabic{k16}\newline
+% \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-6-rep-\arabic{k16}} \\ }
+% 
+% \section{Model $M_3$ versus $M_1$ lineup size 9}
+% \newcounter{k17}
+% \forloop{k17}{1}{\value{k17} < 21}{smallfriends-eff2-rev-m-9-rep-\arabic{k17}\newline
+% \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-9-rep-\arabic{k17}} \\ }
+% 
+% \section{Model $M_3$ versus $M_1$ lineup size 12}
+% \newcounter{k18}
+% \forloop{k18}{1}{\value{k18} < 21}{smallfriends-eff2-rev-m-12-rep-\arabic{k18}\newline
+% \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-12-rep-\arabic{k18}} \\ }
 
-\section{Model $M_1$ versus $M_3$ lineup size 6}
-\newcounter{k11}
-\forloop{k11}{1}{\value{k11} < 21}{smallfriends-eff2-m-6-rep-\arabic{k11}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-6-rep-\arabic{k11}} \\ }
+% \section{Model $M_3$ versus $M_1$ lineup size 16}
+% \newcounter{k19}
+% \forloop{k19}{1}{\value{k19} < 21}{smallfriends-eff2-rev-m-16-rep-\arabic{k19}\newline
+% \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-16-rep-\arabic{k19}} \\ }
 
-\section{Model $M_1$ versus $M_3$ lineup size 9}
-\newcounter{k12}
-\forloop{k12}{1}{\value{k12} < 21}{smallfriends-eff2-m-9-rep-\arabic{k12}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-9-rep-\arabic{k12}} \\ }
-
-\section{Model $M_1$ versus $M_3$ lineup size 12}
-\newcounter{k13}
-\forloop{k13}{1}{\value{k13} < 21}{smallfriends-eff2-m-12-rep-\arabic{k13}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-12-rep-\arabic{k13}} \\ }
-
-\section{Model $M_1$ versus $M_3$ lineup size 16}
-\newcounter{k14}
-\forloop{k14}{1}{\value{k14} < 21}{smallfriends-eff2-m-16-rep-\arabic{k14}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-m-16-rep-\arabic{k14}} \\ }
-
-\section{Model $M_3$ versus $M_1$ lineup size 3}
-\newcounter{k15}
-\forloop{k15}{1}{\value{k15} < 21}{smallfriends-eff2-rev-m-3-rep-\arabic{k15}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-3-rep-\arabic{k15}} \\ }
-
-\section{Model $M_3$ versus $M_1$ lineup size 6}
-\newcounter{k16}
-\forloop{k16}{1}{\value{k16} < 21}{smallfriends-eff2-rev-m-6-rep-\arabic{k16}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-6-rep-\arabic{k16}} \\ }
-
-\section{Model $M_3$ versus $M_1$ lineup size 9}
-\newcounter{k17}
-\forloop{k17}{1}{\value{k17} < 21}{smallfriends-eff2-rev-m-9-rep-\arabic{k17}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-9-rep-\arabic{k17}} \\ }
-
-\section{Model $M_3$ versus $M_1$ lineup size 12}
-\newcounter{k18}
-\forloop{k18}{1}{\value{k18} < 21}{smallfriends-eff2-rev-m-12-rep-\arabic{k18}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-12-rep-\arabic{k18}} \\ }
-
-\section{Model $M_3$ versus $M_1$ lineup size 16}
-\newcounter{k19}
-\forloop{k19}{1}{\value{k19} < 21}{smallfriends-eff2-rev-m-16-rep-\arabic{k19}\newline
-\includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-16-rep-\arabic{k19}} \\ }
+\bibliographystyle{apalike}
+\bibliography{lineuppaperbib}
 
 \end{document}
