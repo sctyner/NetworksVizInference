@@ -234,11 +234,34 @@ ggplot(data = dad, aes(from_id = from, to_id = to)) +
 
 \section{Lineup Simulation}
 
+\hh{Needs more specifics: how many lineups were created for each model?}
+
+\hh{At the moment we are just considering models M2 and M3 for an inclusion in the lineup study. We are trying to nail down what to include and what not to include in the experiment.  }
+
 To create the lineups that will be used in our experiment, we used the values given in Table~\ref{tab:models} as starting values in simulation. For each lineup simulated, the same default RSiena algorithm was used as was used to generate the fitted models with the exception that the algorithm only simulated from the given set of parameters. Each lineup and plot within lineup was generated idependent of all the others.
+
 
 \section{Parameter Estimation from Lineups}
 
-After the lineups were created, we also re-fit each of our three models to each graph in each lineup. 
+After the lineups were created, we re-fit each of our three models to each graph in each lineup. 
+
+\hh{Questions that should be answered in this section:
+
+1. Why do we want to get the parameters for each model? 
+
+2. How is the fitting done, exactly?
+
+4. What parameters are in the output?
+
+5. What are the results?
+
+6. How do the results influence our decision for the lineups?
+
+}
+
+
+\bibliographystyle{apalike}
+\bibliography{lineuppaperbib}
 
 \section{Model $M_1$ versus $M_2$ lineup size 3}
 \newcounter{k}
@@ -341,7 +364,5 @@ Lineup-Images/pdfs/smallfriends-m-6-rep-\arabic{k1}\newline
 % \forloop{k19}{1}{\value{k19} < 21}{smallfriends-eff2-rev-m-16-rep-\arabic{k19}\newline
 % \includegraphics[width = \textwidth]{Lineup-Images/pdfs/smallfriends-eff2-rev-m-16-rep-\arabic{k19}} \\ }
 
-\bibliographystyle{apalike}
-\bibliography{lineuppaperbib}
 
 \end{document}
