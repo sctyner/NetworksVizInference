@@ -255,7 +255,17 @@ After the lineups were created, we re-fit each of our three models to each graph
 
 5. What are the results?
 
+<<results1, echo = FALSE>>=
+lus_res_long <- read.csv("Data/June_estimates_from_lineups.csv", stringsAsFactors = FALSE)
+
+@
+
 6. How do the results influence our decision for the lineups?
+
+The strong influence of the inclusion of $\beta_4$ in model 3 has made any comparison between model 1 and model 3 impossible. The $\beta_4$ estimate is always significantly greater than zero in fitted models that converged. Thus, $\beta_4$ should have been included from the beginning.
+% at end of param est we know that model m3 is useless. m3 messes with structure of m1. should have been in cluded in all of the models. nice & important but doesn't help for lineup study
+
+%  results from the the pilot study. how do estimates combine with pilot study ? have 10 non-m3 ones that are good. also want to see that m1 v m3 is way worse than m1 v m2. now have a reason for m1 v m3 is so bad. m1 v m3 ids should be NO GOOD. 
 
 }
 
