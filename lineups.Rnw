@@ -269,6 +269,10 @@ The strong influence of the inclusion of $\beta_4$ in model 3 has made any compa
 
 }
 
+\section{Results from the pilot study}
+
+\hh{Can we derive measures from the model estimates or the visual representation (ie. the network structure) that help us determine which lineups are more difficult than others, i.e. based on these estimates, how relaibly can we predict which panel will be picked from a lineup? 
+XXX For that, we could also calculate the number of JTTs in each network - use `jtt` for that.}
 
 \bibliographystyle{apalike}
 \bibliography{lineuppaperbib}
