@@ -257,7 +257,7 @@ After the lineups were created, we re-fit each of our three models to each graph
 }
 \begin{figure}
 <<results1, fig.width=8, fig.height=6, out.width='\\linewidth', echo = FALSE, warning = FALSE>>=
-lus_ests_truth <- read.csv("Data/lus_ests_truth.csv", stringsAsFactors = FALSE)
+load("Data/lus_ests_truth.rda")
 lus_ests_truth$param_name <- 
   factor(lus_ests_truth$param_name,
     levels = c("rate", "outdegree (density)", "reciprocity",
@@ -271,7 +271,7 @@ ggplot(data = lus_ests_truth) +
   geom_vline(aes(xintercept = 0), colour="grey50") +
   geom_density(alpha = .5, aes(x = param_est, fill = param_name)) + 
   facet_grid(model~true_model, scales = 'free', 
-             labeller = "label_both") + xlim(c(-25,25)) +
+             labeller = "label_both") + xlim(c(-20,20)) +
   theme_bw() + 
   scale_fill_brewer("Parameter", palette="Dark2",
      labels=c(bquote(paste(alpha,": ", .(l1[1]), sep="")), 
