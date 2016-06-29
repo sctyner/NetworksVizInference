@@ -254,20 +254,52 @@ After the lineups were created, we re-fit each of our three models to each graph
 4. What parameters are in the output?
 
 5. What are the results?
+}
+\begin{figure}
+<<results1, fig.width=8, fig.height=6, out.width='\\linewidth', echo = FALSE, warning = FALSE>>=
+lus_ests_truth <- read.csv("Data/lus_ests_truth.csv", stringsAsFactors = FALSE)
+lus_ests_truth$param_name <- 
+  factor(lus_ests_truth$param_name,
+    levels = c("rate", "outdegree (density)", "reciprocity",
+               "transitive triplets jumping alcohol2",
+               "number pairs at doubly achieved distance 2"))                                
+l1 <- levels(lus_ests_truth$param_name)
+l1 <- stringr::str_trim(gsub("2","", l1))
+l1[5] <- "#pairs at doubly achieved distance"
 
-<<results1, echo = FALSE>>=
-lus_res_long <- read.csv("Data/June_estimates_from_lineups.csv", stringsAsFactors = FALSE)
-
+ggplot(data = lus_ests_truth) + 
+  geom_vline(aes(xintercept = 0), colour="grey50") +
+  geom_density(alpha = .5, aes(x = param_est, fill = param_name)) + 
+  facet_grid(model~true_model, scales = 'free', 
+             labeller = "label_both") + xlim(c(-25,25)) +
+  theme_bw() + 
+  scale_fill_brewer("Parameter", palette="Dark2",
+     labels=c(bquote(paste(alpha,": ", .(l1[1]), sep="")), 
+              bquote(paste(beta[1],": ", .(l1[2]), sep="")),
+              bquote(paste(beta[2],": ", .(l1[3]), sep="")),
+              bquote(paste(beta[3],": ", .(l1[4]), sep="")),
+              bquote(paste(beta[4],": ", .(l1[5]), sep="")))) +
+  theme(legend.position = "bottom") +
+  xlab("Parameter Estimate") + 
+  guides(fill = guide_legend(nrow = 3, byrow = TRUE))
 @
+\caption{\label{fig:comparison} Comparison of model estimates under all three models under investigation.}
+\end{figure}
 
+Figure~\ref{fig:comparison} shows an overview of model estimates for each simulated data set. What we expect to see is that estimates do not change values (much) if they are estimated under a model different from the one they are generated from. This is true for all data sets estimated under model $M_1$ independently of which model they were generated from (top row of Figure~\ref{fig:comparison}). For data fitted under model $M_2$ we see that parameter $\beta_3$ (jumping transitive triplets) are estimated to be about zero, if the data is generated from models $M_1$ and $M_3$.
+For model $M_2$, parameter $\beta_3$ is estimated to be significantly different from zero in almost all cases \hh{(XXX how many exactly? XXX)}. This coincides with our expectation.
+
+However, the bottom row of Figure~\ref{fig:comparison} shows that independently of which model data is generated from, $\beta_4$, the number of pairs at doubly achieved distance, is estimated to be significantly different from zero in a large number of cases (about half in data generated from model $M_2$ and more than that in model $M_1$). While $\beta_4$ is a highly significant parameter in model $M_3$, this questions the way that parameters are fitted and tells us that we are not likely to be able to visually distinguish between data generated from model $M_3$ and data generated from models $M_1$ and $M_2$. We might, however, be able to distinguish between data sets for which $\beta_4$ is estimated to be significantly different from zero and non-significant ones. \hh{XXX can we see differences in the pilot study?}
+
+\hh{
 6. How do the results influence our decision for the lineups?
-
+}
 The strong influence of the inclusion of $\beta_4$ in model 3 has made any comparison between model 1 and model 3 impossible. The $\beta_4$ estimate is always significantly greater than zero in fitted models that converged. Thus, $\beta_4$ should have been included from the beginning.
 % at end of param est we know that model m3 is useless. m3 messes with structure of m1. should have been in cluded in all of the models. nice & important but doesn't help for lineup study
 
 %  results from the the pilot study. how do estimates combine with pilot study ? have 10 non-m3 ones that are good. also want to see that m1 v m3 is way worse than m1 v m2. now have a reason for m1 v m3 is so bad. m1 v m3 ids should be NO GOOD. 
 
-}
+
 
 \section{Results from the pilot study}
 
