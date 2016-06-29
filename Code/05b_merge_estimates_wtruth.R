@@ -85,6 +85,11 @@ library(dplyr)
 library(purrr)
 library(magrittr)
 
+lineups <- expand.grid(lineupname = c("smallfriends", "smallfriends-rev", "smallfriends-eff2", "smallfriends-eff2-rev" ),
+                       M = c(3,6,9,12,16), 
+                       rep = 1:20)
+
+lineups$lineupid <- paste(lineups$lineupname, lineups$M, lineups$rep,sep = '-')
 lineups$lineupname %<>% as.character()
 lineups %>% nest(-lineupid) %>% mutate(matching = map(data, get_truth)) -> matching_lineups 
 
@@ -111,6 +116,7 @@ lus_ests_truth <- merge(lus_res_long, panels_and_truth)
 head(lus_ests_truth)
 
 lus_ests_truth %<>% arrange(lineupname, M, rep, model, panel_num, param_name)
+write.csv(lus_ests_truth, file="Data/lus_ests_truth.csv", row.names=FALSE)
 
 library(ggplot2)
 ggplot(data = lus_ests_truth) + geom_density(alpha = .6, aes(x = param_est, fill = true_model)) + 
