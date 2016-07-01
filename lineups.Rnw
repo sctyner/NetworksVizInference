@@ -312,7 +312,7 @@ XXX For that, we could also calculate the number of JTTs in each network - use `
 \hh{Littler goal: evaluate pilot study and see whether the results line up with the conjectures made in the previous section.}
 
 
-\hh{The pilot study consisted of an evaluation of a set of 20 lineups by 11 volunteers. For each of the model situations ($M_1$ vs $M_2$, $M_2$ vs $M_1$, $M_1$ vs $M_3$ and $M_3$ vs $M_1$) on lineup of size $m = 3, 6, 9, 12$ was used.}
+\hh{The pilot study consisted of an evaluation of a set of 20 lineups by 11 volunteers. For each of the model situations ($M_1$ vs $M_2$, $M_2$ vs $M_1$, $M_1$ vs $M_3$ and $M_3$ vs $M_1$) one lineup of size $m = 3, 6, 9, 12$ was used. Overall, the number of data identifications in the lineups was very low (34 out of 220 evaluations). Participants identified the data plot in two to four of the lineups they evaluated. The mode was three data identifications. }
 \paragraph{Suitability of $M_3$ in lineups:}
 \begin{figure}
 \centering
@@ -345,12 +345,12 @@ dframe_res$res <- factor(dframe_res$data_pick, levels=c("TRUE", "FALSE"))
 qplot(label, weight=tally, fill=data_pick, data=dframe_res) +
   facet_grid(.~model, scales="free", space="free") + theme_bw() +
   theme(axis.text.x = element_text(angle=45, hjust=1)) + 
-  scale_fill_brewer("Data panel chosen", palette="Set1", na.value="grey80") 
+  scale_fill_brewer("Data panel chosen", palette="Set1", na.value="grey80") + xlab("Lineup")
 @
 \caption{\label{fig:data-picks}Barchart summarizing the number of responses from the pilot study by model and lineup. Color shows the number of times the data panel was chosen from the lineup. Clearly, the first two sets of lineups ($M_1$ vs $M_2$ and $M_2$ vs $M_1$) have on average higher number of data identifications. }
 \end{figure}
 
-\hh{Figure~\ref{fig:data-picks} shows barcharts of responses from the pilot study distinguishing the}
+\hh{Figure~\ref{fig:data-picks} shows barcharts of responses from the pilot study detailing the number of data identifications in each lineup. }
 \hh{It is more difficult to identify the data plot in lineups of graphs based on data from models $M_1$ and $M_3$ than  in lineups of graphs based on data from models $M_1$ and $M_2$.
 }
 
