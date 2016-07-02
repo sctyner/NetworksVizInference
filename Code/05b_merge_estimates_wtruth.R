@@ -111,7 +111,8 @@ true_params <- data.frame(model = rep(c("M1", "M2", "M3"), c(3,4,4)),
                           true_value = starting_values[[3]])
 
 panels_and_truth <- merge(match_lu_long, true_params)
-
+names(panels_and_truth)[5] <- "panel_num"
+names(lus_res_long)
 lus_ests_truth <- merge(lus_res_long, panels_and_truth)
 head(lus_ests_truth)
 
@@ -150,8 +151,8 @@ ggplot(data = dplyr::filter(others, model == "M3")) +
 # good convergence for params c(-.1,.1)
 # good convergence overall <.3, great convergence <.2
 
-names(lus_ests_truth)
-lus_ests_truth$convergence <- NA
+names(lus_ests_truth2)
+lus_ests_truth2$convergence <- NA
 
 for (i in 1:nrow(lus_ests_truth)){
   if (is.na(lus_ests_truth$converg_stat[i])){
