@@ -152,7 +152,8 @@ ggplot(data = dplyr::filter(others, model == "M3")) +
 # good convergence overall <.3, great convergence <.2
 
 names(lus_ests_truth2)
-lus_ests_truth2$convergence <- NA
+lus_ests_truth <- lus_ests_truth2
+lus_ests_truth$convergence <- NA
 
 for (i in 1:nrow(lus_ests_truth)){
   if (is.na(lus_ests_truth$converg_stat[i])){
@@ -168,7 +169,7 @@ for (i in 1:nrow(lus_ests_truth)){
   }
 }
 
-saveRDS(lus_ests_truth,"~/Desktop/NetworksResearch/NetworksVizInference/Data/lus_ests_truth.rda")
+save(lus_ests_truth, file = "~/Desktop/NetworksResearch/NetworksVizInference/Data/lus_ests_truth.rda")
 table(lus_ests_truth$convergence, useNA = 'ifany')
 
 ggplot(data = lus_ests_truth) + geom_density(alpha = .8, aes(x = param_est, fill = true_model)) + 

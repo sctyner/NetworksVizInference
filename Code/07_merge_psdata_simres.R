@@ -1,5 +1,4 @@
 # merge the lineup pilot study info with the lus_ests_truth
-
 load("~/Desktop/NetworksResearch/NetworksVizInference/Data/lus_ests_truth.rda")
 # lus_ests_truth$convergence <- NA
 # 
@@ -38,4 +37,5 @@ head(lus_ests_truth)
 # ggexp_datres: lineupname  M rep 
 head(ggexp_datres)
 
-left_join(lus_ests_truth, ggexp_datres, by = c("lineupname" = "lineupname", "M" = "M", "rep" = "rep"))
+lus_truth_expres <- left_join(lus_ests_truth, ggexp_datres, by = c("lineupname" = "lineupname", "M" = "M", "rep" = "rep", "panel_num" = "ChosenLU"))
+save(lus_truth_expres, file = "~/Desktop/NetworksResearch/NetworksVizInference/Data/lus_truth_expres.RDA")
