@@ -254,7 +254,7 @@ After the lineups were created, we re-fit each of our three models to each graph
 \st{XXX get into nitty gritty from RSiena model XXX }
 
 4. What parameters are in the output?
-
+% ST: add how convergence is calculated. from RSiena manual. 
 5. What are the results?
 }
 \begin{figure}
@@ -269,6 +269,7 @@ l1 <- levels(lus_ests_truth$param_name)
 l1 <- stringr::str_trim(gsub("2","", l1))
 l1[5] <- "#pairs at doubly achieved distance"
 
+# subset on ones that are actually converged. 
 ggplot(data = lus_ests_truth) + 
   geom_vline(aes(xintercept = 0), colour="grey50") +
   geom_density(alpha = .5, aes(x = param_est, fill = param_name)) + 
