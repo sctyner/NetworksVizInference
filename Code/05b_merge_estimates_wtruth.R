@@ -167,6 +167,7 @@ for (i in 1:nrow(lus_ests_truth)){
     } else { lus_ests_truth$convergence[i] <- "Did not converge" }
   }
 }
+
 saveRDS(lus_ests_truth,"~/Desktop/NetworksResearch/NetworksVizInference/Data/lus_ests_truth.rda")
 table(lus_ests_truth$convergence, useNA = 'ifany')
 
