@@ -248,7 +248,30 @@ After the lineups were created, we re-fit each of our three models to each graph
 \hh{Questions that should be answered in this section:
 
 1. Why do we want to get the parameters for each model? 
-\st{We fit all three models to every plot in the lineups. Fitting all models to all lineup plots allows us to gauge tha ability of the parameter estimates to provide a measure of lineup identification difficulty. XXX ? not quite sure ? XXX For instance, when comparing models 1 and 2 in a lineup, the estimates from fitting model 2 to plots which were simulated from model 2 should be significantly different from the model 2 estimates from plots simulated from model 1. The smaller the difference between these estimates, the harder it should be to identify the different model in the lineup. XXX IDEA: should we consider some sort of distance metric comparing all estimates from the models at once in addition to the differences in the $\beta_3$/$\beta_4$ values? XXX}
+\st{We fit all three models to every plot in the lineups. Fitting all models to all lineup plots allows us to gauge tha ability of the parameter estimates to provide a measure of lineup identification difficulty. XXX ? not quite sure ? XXX For instance, when comparing models 1 and 2 in a lineup, the estimates from fitting model 2 to plots which were simulated from model 2 should be significantly different from the model 2 estimates from plots simulated from model 
+0. Convergence issues
+
+\begin{figure}
+<<results0, fig.width=8, fig.height=3, out.width='\\linewidth', echo = FALSE, warning = FALSE>>=
+load("Data/lus_ests_truth.rda")
+lus_ests_truth$param_name <- 
+  factor(lus_ests_truth$param_name,
+    levels = c("rate", "outdegree (density)", "reciprocity",
+               "transitive triplets jumping alcohol2",
+               "number pairs at doubly achieved distance 2"))        
+
+ggplot(data=lus_ests_truth) +
+  geom_bar(aes(x=model, fill=convergence), position="fill") + 
+  facet_grid(.~true_model, labeller="label_both") +
+  theme_bw() +
+  theme(legend.position="bottom") + ylab("Ratio") +
+  scale_fill_brewer("Convergence", palette="Set1") +
+  xlab("Estimated Model")
+@
+\caption{\label{fig:convergence}Pattern of convergence. A total of 67.7\% of all lineup data converged in 5,000 iterations. The simplest model, $M_1$ has the highest rate of convergence. For models $M_2$ and $M_3$ data generated from the model converged at a higher rate than data generated from the other model.}
+\end{figure}
+
+1. The smaller the difference between these estimates, the harder it should be to identify the different model in the lineup. XXX IDEA: should we consider some sort of distance metric comparing all estimates from the models at once in addition to the differences in the $\beta_3$/$\beta_4$ values? XXX}
 
 2. How is the fitting done, exactly?
 \st{XXX get into nitty gritty from RSiena model XXX }
@@ -259,18 +282,12 @@ After the lineups were created, we re-fit each of our three models to each graph
 }
 \begin{figure}
 <<results1, fig.width=8, fig.height=6, out.width='\\linewidth', echo = FALSE, warning = FALSE>>=
-load("Data/lus_ests_truth.rda")
-lus_ests_truth$param_name <- 
-  factor(lus_ests_truth$param_name,
-    levels = c("rate", "outdegree (density)", "reciprocity",
-               "transitive triplets jumping alcohol2",
-               "number pairs at doubly achieved distance 2"))                                
 l1 <- levels(lus_ests_truth$param_name)
 l1 <- stringr::str_trim(gsub("2","", l1))
 l1[5] <- "#pairs at doubly achieved distance"
 
 # subset on ones that are actually converged. 
-ggplot(data = lus_ests_truth) + 
+ggplot(data = subset(lus_ests_truth, convergence=="Converged")) + 
   geom_vline(aes(xintercept = 0), colour="grey50") +
   geom_density(alpha = .5, aes(x = param_est, fill = param_name)) + 
   facet_grid(model~true_model, scales = 'free', 
@@ -292,7 +309,7 @@ ggplot(data = lus_ests_truth) +
 Figure~\ref{fig:comparison} shows an overview of model estimates for each simulated data set. What we expect to see is that estimates do not change values (much) if they are estimated under a model different from the one they are generated from. This is true for all data sets estimated under model $M_1$ independently of which model they were generated from (top row of Figure~\ref{fig:comparison}). For data fitted under model $M_2$ we see that parameter $\beta_3$ (jumping transitive triplets) are estimated to be about zero, if the data is generated from models $M_1$ and $M_3$.
 For model $M_2$, parameter $\beta_3$ is estimated to be significantly different from zero in almost all cases \hh{(XXX how many exactly? XXX)}. This coincides with our expectation.
 
-However, the bottom row of Figure~\ref{fig:comparison} shows that independently of which model data is generated from, $\beta_4$, the number of pairs at doubly achieved distance, is estimated to be significantly different from zero in a large number of cases (about half in data generated from model $M_2$ and more than that in model $M_1$). While $\beta_4$ is a highly significant parameter in model $M_3$, this questions the way that parameters are fitted and tells us that we are not likely to be able to visually distinguish between data generated from model $M_3$ and data generated from models $M_1$ and $M_2$. We might, however, be able to distinguish between data sets for which $\beta_4$ is estimated to be significantly different from zero and non-significant ones. \hh{XXX can we see differences in the pilot study?}
+However, the bottom row of Figure~\ref{fig:comparison} shows that independently of which model data is generated from, $\beta_4$, the number of pairs at doubly achieved distance, is estimated to be significantly different from zero in a large number of cases (about two thirds of the data generated from model $M_2$ and more than that in model $M_1$). While $\beta_4$ is a highly significant parameter in model $M_3$, this questions the way that parameters are fitted and tells us that we are not likely to be able to visually distinguish between data generated from model $M_3$ and data generated from models $M_1$ and $M_2$. We might, however, be able to distinguish between data sets for which $\beta_4$ is estimated to be significantly different from zero and non-significant ones. \hh{XXX can we see differences in the pilot study?}
 
 \hh{
 6. How do the results influence our decision for the lineups?
