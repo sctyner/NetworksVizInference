@@ -274,13 +274,13 @@ ggplot(data=lus_ests_truth) +
 1. The smaller the difference between these estimates, the harder it should be to identify the different model in the lineup. XXX IDEA: should we consider some sort of distance metric comparing all estimates from the models at once in addition to the differences in the $\beta_3$/$\beta_4$ values? XXX}
 
 2. How is the fitting done, exactly?
-\st{XXX get into nitty gritty from RSiena model XXX }
+\st{XXX get into nitty gritty from RSiena model XXX}
+
+\st{The model fitting in RSiena is done in three phases. Briefly, in the initial phase, sensitivity of the statistics to the parameter values is determined, then in the second phase, parameter values are fit iteratively. Finally, in the third phase, networks are simulated from the fitted models and the model is checked for convergence. }
 
 4. What parameters are in the output?
 \st{In RSiena, the convergence of a non-rate parameter is determined through the simulated values from Phase 3 of the SienaFit algorithm. XXX more detail will be above later XXX  The simulations are compared to the observed values of the statistics observed in the data. The values from the simulations should be fairly close to the observed values, but because the fitting is done stochastically, deviations from statistics will not be exactly zero. Checking for convergence is based on a t-ratio of the average of these deviations to the standard deviation of these deviations. RSiena also performs an overall maximum convergence check by finding the maximum t-ratio value for any linear combination of the observed statistics.  According to the RSiena Manual, ``convergence is excellent when the overall maximum convergence ratio is less than 0.2", and for the non-rate parameters, the threshold for ``reasonable" convergence is set at 0.3 with excellent convergence when the t-ratio is less than or equal to 0.1 in absolute value. (\cite{RSiena}).
 }
-
-% ST: add how convergence is calculated. from RSiena manual. 
 5. What are the results?
 }
 \begin{figure}
