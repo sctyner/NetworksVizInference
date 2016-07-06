@@ -289,8 +289,8 @@ l1 <- levels(lus_ests_truth$param_name)
 l1 <- stringr::str_trim(gsub("2","", l1))
 l1[5] <- "#pairs at doubly achieved distance"
 
-# subset on ones that are actually converged. 
-ggplot(data = subset(lus_ests_truth, convergence=="Converged")) + 
+# subset on ones that are actually converged. XXX No - that kills the zeroes in estimates that should be zero
+ggplot(data = subset(lus_ests_truth)) + #, convergence=="Converged")) + 
   geom_vline(aes(xintercept = 0), colour="grey50") +
   geom_density(alpha = .5, aes(x = param_est, fill = param_name)) + 
   facet_grid(model~true_model, scales = 'free', 
@@ -306,7 +306,7 @@ ggplot(data = subset(lus_ests_truth, convergence=="Converged")) +
   xlab("Parameter Estimate") + 
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))
 @
-\caption{\label{fig:comparison} Comparison of model estimates under all three models under investigation.}
+\caption{\label{fig:comparison} Comparison of model estimates under all three models under investigation. }
 \end{figure}
 
 Figure~\ref{fig:comparison} shows an overview of model estimates for each simulated data set. What we expect to see is that estimates do not change values (much) if they are estimated under a model different from the one they are generated from. This is true for all data sets estimated under model $M_1$ independently of which model they were generated from (top row of Figure~\ref{fig:comparison}). For data fitted under model $M_2$ we see that parameter $\beta_3$ (jumping transitive triplets) are estimated to be about zero, if the data is generated from models $M_1$ and $M_3$.
