@@ -309,7 +309,7 @@ ggplot(data = subset(lus_ests_truth)) + #, convergence=="Converged")) +
 \caption{\label{fig:comparison} Comparison of model estimates under all three models under investigation. }
 \end{figure}
 
-<<est>>=
+<<est, echo = FALSE>>=
 #For model $M_2$, parameter $\beta_3$ is estimated to be significantly different from zero in almost all cases \hh{(XXX how many exactly? XXX)}.
 
 # get beta3s where true model and fit model are M2
