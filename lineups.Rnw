@@ -347,7 +347,9 @@ lus_summary_2 <- lus_spread %>% dplyr::group_by(part, lineupid, param_name) %>%
 # XXX The lines commented out above crash my RStudio. I haven't figured out why yet! :( XXX
 
 p1 <- qplot(data_dist, upper_qu, data = subset(lus_summary_2, !is.na(upper_qu) & param_name=="transitive triplets jumping alcohol2")) +
-  facet_grid(.~part)
+  facet_grid(.~part) + xlab("Difference in M2 estimate of data panel and maximum of the null panels") +
+  ylab("Ratio of null panels with smaller M2 estimate") +
+  ggtitle("jumping transitive triplets")
 
 
 
@@ -363,11 +365,14 @@ lus_summary_3 <- lus_spread %>% group_by(part, lineupid, param_name) %>%
 
 
 p2 <- qplot(data_dist, lower_qu,  data = subset(lus_summary_3, !is.na(lower_qu) & param_name=="number pairs at doubly achieved distance 2")) +
-  facet_grid(.~part)
+  facet_grid(.~part) +
+  xlab("Difference in M3 estimate of data panel and minimum of the null panels") +
+  ylab("Ratio of null panels with larger M3 estimate") +
+  ggtitle("doubly achieved distance")
 
 gridExtra::grid.arrange(p1,p2)
 @
-\caption{\label{fig:lusparms}}
+\caption{\label{fig:lusparms} Scatterplots }
 \end{figure}
 
 
