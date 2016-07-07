@@ -195,7 +195,7 @@ The rate parameters, $\alpha_1$ and $\alpha_2$ represent how many opportunities 
 
 \begin{figure}
 \begin{subfigure}[t]{.45\textwidth}
-\caption{Realization of a jumping transitive triplet, where $i$ is the focal actor, $j$ is the target actor, and $h$ is the intermediary. The group of the actors is represented by the shape of the node.}
+\caption{\label{fig:jtt}Realization of a jumping transitive triplet, where $i$ is the focal actor, $j$ is the target actor, and $h$ is the intermediary. The group of the actors is represented by the shape of the node.}
 <<jtt, echo=FALSE, fig.width=2, fig.height=2, message = FALSE, warning = FALSE, fig.align='center'>>=
 jTTe <- data.frame(from = c('i', 'i', 'h'), to = c('h', 'j', 'j'))
 jTTn <- data.frame(id = letters[8:10], group = c(1,1,2))
@@ -316,7 +316,7 @@ However, the bottom row of Figure~\ref{fig:comparison} shows that independently 
 
 \begin{figure}
 \centering
-<<echo=FALSE, fig.with=8, fig.height = 8, out.width='.6\\linewidth'>>=
+<<echo=FALSE, fig.width=8, fig.height = 8, out.width='.6\\linewidth', warning = FALSE>>=
 load("Data/lus_ests_truth.rda")
 
 lus_ests_truth$true_panel <- lus_ests_truth$true_model == lus_ests_truth$model
@@ -326,11 +326,9 @@ lus_spread <- tidyr::spread(lus_ests_truth[,c("lineupid","model", "true_model", 
 
 # merge in true values:
 truth <- unique(subset(lus_ests_truth, true_panel==TRUE)[,c("lineupid", "true_model","param_name","true_value")])
-#dim(lus_spread)
+
 lus_spread <- merge(lus_spread, truth, by=c("lineupid","true_model", "param_name"), all.x=TRUE)
 lus_spread$true_value[is.na(lus_spread$true_value)] <- 0
-#qplot(M2, true_value, facets=~param_name, data=lus_spread, colour=true_model)
-#qplot(M3, true_value, facets=~param_name, data=lus_spread, colour=true_model)
 
 # compute a distance between the data panel and the closest null panel
 lus_spread$part <- gsub("(.*)-[0-9]*-[0-9]*", '\\1', lus_spread$lineupid)
@@ -340,11 +338,10 @@ lus_summary_2 <- lus_spread %>% dplyr::group_by(part, lineupid, param_name) %>%
     data_n = sum(true_model=="M2"),
     data_est = mean(M2[true_model=="M2"]),
     data_sd = sd(M2[true_model=="M2"], na.rm=TRUE),
-    null_est = list(M2[true_model=="M1"]),
-    data_dist = data_est - max(unlist(null_est))),
-  upper_qu = sum(data_est > unlist(null_est)) / (n()-1) )
+    data_dist = data_est - max(M2[true_model=="M1"]),
+    upper_qu = sum(data_est > M2[true_model=="M1"]) / (n()-1) 
+)
 
-# XXX The lines commented out above crash my RStudio. I haven't figured out why yet! :( XXX
 
 p1 <- qplot(data_dist, upper_qu, data = subset(lus_summary_2, !is.na(upper_qu) & param_name=="transitive triplets jumping alcohol2")) +
   facet_grid(.~part) + xlab("Difference in M2 estimate of data panel and maximum of the null panels") +
@@ -352,29 +349,49 @@ p1 <- qplot(data_dist, upper_qu, data = subset(lus_summary_2, !is.na(upper_qu) &
   ggtitle("jumping transitive triplets")
 
 
+lus_summary_2b <- lus_spread %>% dplyr::group_by(part, lineupid, param_name) %>%
+  dplyr::summarize(
+    data_n = sum(true_model=="M1"),
+    data_est = mean(M2[true_model=="M1"]),
+    data_sd = sd(M2[true_model=="M1"], na.rm=TRUE),
+    data_dist = data_est - min(M2[true_model=="M2"]),
+    lower_qu = sum(data_est < M2[true_model=="M2"]) / (n()-1) 
+)
 
+p2 <- qplot(data_dist, lower_qu, data = subset(lus_summary_2b, !is.na(data_dist) & param_name=="transitive triplets jumping alcohol2" & part %in% c("smallfriends", "smallfriends-rev"))) +
+  facet_grid(.~part) + xlab("Difference in M2 estimate of data panel and minimum of the null panels") +
+  ylab("Ratio of null panels with larger M2 estimate") +
+  ggtitle("jumping transitive triplets")
+
+
+gridExtra::grid.arrange(p1,p2)
+@
+\caption{\label{fig:lusparms} Scatterplots of smallfriends and smallfriends-rev: comparing the ratio of null plots with smaller estimates of $\beta_3$ in the nulls than in the data panel (top row) and larger estimates of $\beta_3$ in the nulls than in the data panel. In lineups with a ratio of 1 the data should be 'easy' to identify in both scenarios.}
+\end{figure}
+
+\begin{figure}
+\centering
+<<echo=FALSE, fig.width=8, fig.height = 8, out.width='.6\\linewidth'>>=
 lus_summary_3 <- lus_spread %>% group_by(part, lineupid, param_name) %>%
   summarize(
     data_n = sum(true_model=="M3"),
     data_est = mean(M3[true_model=="M3"]),
     data_sd = sd(M3[true_model=="M3"], na.rm=TRUE),
-    null_est = list(M3[true_model=="M1"]),
-    data_dist = min(unlist(null_est)) - data_est,
-    lower_qu = sum(data_est < unlist(null_est))/(n()-1)
+    data_dist = min(M3[true_model=="M1"]) - data_est,
+    lower_qu = sum(data_est < M3[true_model=="M1"])/(n()-1)
   )
 
-
-p2 <- qplot(data_dist, lower_qu,  data = subset(lus_summary_3, !is.na(lower_qu) & param_name=="number pairs at doubly achieved distance 2")) +
+p1 <- qplot(data_dist, lower_qu,  data = subset(lus_summary_3, !is.na(lower_qu) & param_name=="number pairs at doubly achieved distance 2")) +
   facet_grid(.~part) +
   xlab("Difference in M3 estimate of data panel and minimum of the null panels") +
   ylab("Ratio of null panels with larger M3 estimate") +
   ggtitle("doubly achieved distance")
 
-gridExtra::grid.arrange(p1,p2)
+#gridExtra::grid.arrange(p1,p2)
+p1
 @
-\caption{\label{fig:lusparms} Scatterplots }
+\caption{\label{fig:lusparms-eff2} }
 \end{figure}
-
 
 \hh{
 6. How do the results influence our decision for the lineups?
