@@ -374,6 +374,12 @@ lus_summary_2b <- lus_spread %>% dplyr::group_by(part, lineupid, param_name) %>%
     lower_qu = sum(data_est < M2[true_model=="M2"]) / (n()-1) 
 )
 
+p2 <- qplot(data_dist, lower_qu, data = subset(lus_summary_2b, part %in% c("smallfriends", "smallfriends-rev") & param_name=="transitive triplets jumping alcohol2")) +
+  facet_grid(.~part) + xlab("Difference in M2 estimate of data panel and minimum of the null panels") +
+  ylab("Ratio of null panels with larger M2 estimate") +
+  ggtitle("jumping transitive triplets")
+
+gridExtra::grid.arrange(p1,p2)
 @
 \caption{\label{fig:lusparms} Scatterplots of smallfriends and smallfriends-rev: comparing the ratio of null plots with smaller estimates of $\beta_3$ in the nulls than in the data panel (top row) and larger estimates of $\beta_3$ in the nulls than in the data panel. In lineups with a ratio of 1 the data should be 'easy' to identify in both scenarios.}
 \end{figure}
