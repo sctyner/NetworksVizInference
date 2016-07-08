@@ -360,7 +360,7 @@ lus_summary_2 <- lus_spread %>% dplyr::group_by(part, lineupid, param_name) %>%
 )
 
 p1 <- qplot(data_dist, upper_qu, data = subset(lus_summary_2, !is.na(upper_qu) & param_name=="transitive triplets jumping alcohol2")) +
-  facet_grid(.~part) + xlab("Difference in M2 estimate of data panel and maximum of the null panels") +
+  facet_grid(.~part) + xlab("Difference in M2 estimate of data panel and maximum of the null panels (from M1)") +
   ylab("Ratio of null panels with smaller M2 estimate") +
   ggtitle("jumping transitive triplets")
 
@@ -375,7 +375,7 @@ lus_summary_2b <- lus_spread %>% dplyr::group_by(part, lineupid, param_name) %>%
 )
 
 p2 <- qplot(data_dist, lower_qu, data = subset(lus_summary_2b, part %in% c("smallfriends", "smallfriends-rev") & param_name=="transitive triplets jumping alcohol2")) +
-  facet_grid(.~part) + xlab("Difference in M2 estimate of data panel and minimum of the null panels") +
+  facet_grid(.~part) + xlab("Difference in M2 estimate of data panel and minimum of the null panels (from M2)") +
   ylab("Ratio of null panels with larger M2 estimate") +
   ggtitle("jumping transitive triplets")
 
