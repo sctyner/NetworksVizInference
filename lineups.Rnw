@@ -276,6 +276,8 @@ ggplot(data=lus_ests_truth) +
 2. How is the fitting done, exactly?
 \st{XXX get into nitty gritty from RSiena model XXX}
 
+\st{Because the likelihood function for these complicated models is intractable, RSiena implements a Monte Carlo simulation to obtain method of moments estimates of the parameter values. This fitting procedure was first introduced in ~\cite{saompaper}. }
+
 \st{The model fitting in RSiena is done in three phases. Briefly, in the initial phase, sensitivity of the statistics to the parameter values is determined, then in the second phase, parameter values are fit iteratively. Finally, in the third phase, networks are simulated from the fitted models and the model is checked for convergence. }
 
 4. What parameters are in the output?
