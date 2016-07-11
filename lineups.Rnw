@@ -388,7 +388,7 @@ gridExtra::grid.arrange(p1,p2)
 
 \begin{figure}
 \centering
-<<echo=FALSE, fig.width=8, fig.height = 8, out.width='.6\\linewidth'>>=
+<<echo=FALSE, fig.width=8, fig.height = 8, out.width='.6\\linewidth', warning=FALSE>>=
 lus_summary_3 <- lus_spread %>% group_by(part, lineupid, param_name) %>%
   summarize(
     data_n = sum(true_model=="M3"),
@@ -400,12 +400,28 @@ lus_summary_3 <- lus_spread %>% group_by(part, lineupid, param_name) %>%
 
 p1 <- qplot(data_dist, lower_qu,  data = subset(lus_summary_3, !is.na(lower_qu) & param_name=="number pairs at doubly achieved distance 2")) +
   facet_grid(.~part) +
-  xlab("Difference in M3 estimate of data panel and minimum of the null panels") +
+  xlab("Difference in M3 estimate of data panel and minimum of the null panels (M1 nulls)") +
   ylab("Ratio of null panels with larger M3 estimate") +
   ggtitle("doubly achieved distance")
 
-#gridExtra::grid.arrange(p1,p2)
-p1
+lus_summary_3b <- lus_spread %>% group_by(part, lineupid, param_name) %>%
+  summarize(
+    data_n = sum(true_model=="M1"),
+    data_est = mean(M3[true_model=="M1"]),
+    data_sd = sd(M3[true_model=="M1"], na.rm=TRUE),
+    data_dist = max(M3[true_model=="M3"]) - data_est,
+    upper_qu = sum(data_est > M3[true_model=="M3"])/(n()-1)
+  )
+
+p2 <- qplot(data_dist, upper_qu,  data = subset(lus_summary_3b, !is.na(upper_qu) & param_name=="number pairs at doubly achieved distance 2" &
+part %in% c("smallfriends-eff2", "smallfriends-eff2-rev"))) +
+  facet_grid(.~part) +
+  xlab("Difference in M3 estimate of data panel and minimum of the null panels (M3 nulls)") +
+  ylab("Ratio of null panels with smaller M3 estimate") +
+  ggtitle("doubly achieved distance")
+
+gridExtra::grid.arrange(p1,p2)
+#p1
 @
 \caption{\label{fig:lusparms-eff2} }
 \end{figure}
