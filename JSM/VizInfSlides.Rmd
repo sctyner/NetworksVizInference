@@ -19,8 +19,13 @@ output: ioslides_presentation
 
 ## Visual Inference 
 
-## Lineup (?)
+## Lineups
 
+$H_0$: "boring model" XX how specific? XX
+
+$H_1$: "alternate model consisting of one additional statistically significant parameter" XX how specific? XX
+
+Want: In a lineup, networks simulated from the $H_1$ model should appear so different from a series of models simulated from $H_0$ that an observer can pick out the different, alternative model.
 
 ## SAOMs
 
@@ -35,11 +40,15 @@ Observed networks treated as discrete observations of a continuous time Markov C
 
 1. At each (unobserved) time point in the CTMC one actor can change one of its ties.
 2. Between network observations (say from $t_1$ to $t_2$) all actors are given the opportunity to change a tie at the same rate.
-3. Once an actor can change, it tries to maximize its objective functon, $f_i(x)$
-Parameters: 
-
+3. Once an actor can change, it tries to maximize its objective functon, $f_i(\mathbf{\beta},x) = \sum_k \beta_k s_{ki}(x)$, where $\beta_k$ are network or actor parameters, and $s_{ki}(x)$ are corresponding statistics.
 
 # Simulation
+
+Using a subset of the friendship network data from Michell & Amos we: 
+
+1. Fit three (XX two? XX) models 1000 times to obtain a distribution of parameter estimates
+2. Simulated the second wave from each of our models to form lineups. Means from 1 were used as starting parameter values.
+3. Estimated the parameters of each of our three (XX two? XX) models using the simulated second waves.
 
 ## RSiena
 
