@@ -19,12 +19,25 @@ output: ioslides_presentation
 
 ## Visual Inference 
 
+## Lineup (?)
+
+
 ## SAOMs
 
-Modelling dynamic networks using 
+Goal: modeling dynamic networks using 
 
-- Network effects
-- Actor covariate effects
+- Network effects (e.g. outdegree, reciprocity)
+- Actor covariate effects 
+
+## Model "Rules"
+
+Observed networks treated as discrete observations of a continuous time Markov Chain. 
+
+1. At each (unobserved) time point in the CTMC one actor can change one of its ties.
+2. Between network observations (say from $t_1$ to $t_2$) all actors are given the opportunity to change a tie at the same rate.
+3. Once an actor can change, it tries to maximize its objective functon, $f_i(x)$
+Parameters: 
+
 
 # Simulation
 
