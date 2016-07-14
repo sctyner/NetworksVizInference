@@ -42,13 +42,18 @@ Observed networks treated as discrete observations of a continuous time Markov C
 2. Between network observations (say from $t_1$ to $t_2$) all actors are given the opportunity to change a tie at the same rate.
 3. Once an actor can change, it tries to maximize its objective functon, $f_i(\mathbf{\beta},x) = \sum_k \beta_k s_{ki}(x)$, where $\beta_k$ are network or actor parameters, and $s_{ki}(x)$ are corresponding statistics.
 
+## Model Parameters
+
+Effect name | Parameter | Corresponding Statistic
+------------|-----------|-------------------------
+Rate 1 (wave 1 $\rightarrow$ 2) | $\alpha_1$ | $\sum\limits_{i,j = 1 i \neq j}^n (x_{ij}(t_2) - x_{ij}(t_1))^2$  
+Rate 2 (wave 2 $\rightarrow$ 3) | $\alpha_2$ | $\sum\limits_{i,j = 1 i\neq j}^n (x_{ij}(t_3) - x_{ij}(t_2))^2$
+Outdegree | $\beta_1$ | $s_{i1}(x) = \sum\limits_{j=1}^n x_{ij}$ 
+Reciprocity | $\beta_2$ | $s_{i2}(x) = \sum\limits_{j=1}^n x_{ij}x_{ji}$ 
+Jumping Transitive Triplets | $\beta_3$ | $s_{i3}(x) = \sum\limits_{\forall j\neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$ 
+
+ 
 # Simulation
-
-Using a subset of the friendship network data from Michell & Amos we: 
-
-1. Fit three (XX two? XX) models 1000 times to obtain a distribution of parameter estimates
-2. Simulated the second wave from each of our models to form lineups. Means from 1 were used as starting parameter values.
-3. Estimated the parameters of each of our three (XX two? XX) models using the simulated second waves.
 
 ## RSiena
 
@@ -56,11 +61,21 @@ R Simulation Investigation for Empirical Network Analysis
 
 Method of moment Monte Carlo estimation of the parameters in models
 
+## Procedure
+
+Using a subset of the friendship network data from Michell & Amos we: 
+
+1. Fit three (XX two? XX) models 1000 times to obtain a distribution of parameter estimates
+2. Simulated the second wave from each of our models to form lineups. Means from 1 were used as starting parameter values.
+3. Estimated the parameters of each of our three (XX two? XX) models using the simulated second waves.
+
 ## ? SOMETHING ELSE ?
 
 # Experiment
 
 ## Pilot Study (?)
+
+Help to find a measure of difficulty of a lineup
 
 ## Procedure
 
