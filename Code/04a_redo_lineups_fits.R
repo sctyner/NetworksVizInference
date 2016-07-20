@@ -39,8 +39,8 @@ fit_all_models <- function(dat){
         na.omit(dplyr::filter(lu_dat, count == m)[,c("X1","X2")]), 
         matrix.type = 'edgelist')
     )
-    friendData[[m]] <- array( c( fd2.w1, lu_dat_list[[m]]),
-                              dim = c( 16, 16, 2 ) )
+    friendData[[m]] <- array( c( fd2.w1, lu_dat_list[[m]], fd2.w3),
+                              dim = c( 16, 16, 3 ) )
     friendSiena[[m]] <- sienaDependent(friendData[[m]])
     fullSienaData[[m]] <- sienaDataCreate( friendSiena[[m]], alcohol2)
   }
