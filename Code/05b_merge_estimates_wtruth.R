@@ -109,13 +109,13 @@ true_params <- data.frame(model = rep(c("M1", "M2", "M3"), c(3,4,4)),
                                          "rate","outdegree (density)","reciprocity", "transitive triplets jumping alcohol2",
                                          "rate","outdegree (density)","reciprocity", "number pairs at doubly achieved distance 2"), 
                           true_value = starting_values[[3]])
-
+names(true_params)[1] <- "true_model"
 panels_and_truth <- merge(match_lu_long, true_params)
-names(panels_and_truth)[5] <- "panel_num"
+names(panels_and_truth)[6] <- "panel_num"
 names(lus_res_long)
-lus_ests_truth <- merge(lus_res_long, panels_and_truth)
+lus_ests_truth <- merge(lus_res_long, panels_and_truth, by = intersect(names(lus_res_long), names(panels_and_truth)))
 head(lus_ests_truth)
-
+lus_ests_truth <-lus_ests_truth[, -which(names(lus_ests_truth) == "X")]
 lus_ests_truth %<>% arrange(lineupname, M, rep, model, panel_num, param_name)
 write.csv(lus_ests_truth, file="Data/lus_ests_truth.csv", row.names=FALSE)
 
