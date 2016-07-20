@@ -110,6 +110,9 @@ true_params <- data.frame(model = rep(c("M1", "M2", "M3"), c(3,4,4)),
                                          "rate","outdegree (density)","reciprocity", "number pairs at doubly achieved distance 2"), 
                           true_value = starting_values[[3]])
 names(true_params)[1] <- "true_model"
+true_params <- rbind(true_params, data.frame(true_model = c("M1", "M1", "M2", "M3"), 
+                                             param_name = c("transitive triplets jumping alcohol2", "number pairs at doubly achieved distance 2", "number pairs at doubly achieved distance 2", "transitive triplets jumping alcohol2"), 
+                                             true_value = rep(0,4)))
 panels_and_truth <- merge(match_lu_long, true_params)
 names(panels_and_truth)[6] <- "panel_num"
 names(lus_res_long)
@@ -175,3 +178,7 @@ table(lus_ests_truth$convergence, useNA = 'ifany')
 ggplot(data = lus_ests_truth) + geom_density(alpha = .8, aes(x = param_est, fill = true_model)) + 
   facet_grid(convergence~param_name, scales = 'free', labeller = "label_both") 
 
+# create zeros for the parameters that don't exist. 
+head(data.frame(lus_ests_truth %>% spread(model, param_est)), 100)
+
+head(data.frame(lus_ests_truth %>% filter(model == "M1" & true_model == "M2")))
