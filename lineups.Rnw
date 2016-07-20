@@ -284,6 +284,28 @@ ggplot(data=lus_ests_truth) +
 \caption{\label{fig:convergence}Pattern of convergence. A total of 67.7\% of all lineup data converged in 5,000 iterations. The simplest model, $M_1$ has the highest rate of convergence. For models $M_2$ and $M_3$ data generated from the model converged at a higher rate than data generated from the other model.}
 \end{figure}
 
+
+\begin{figure}
+<<results0b, fig.width=8, fig.height=3, out.width='\\linewidth', echo = FALSE, warning = FALSE>>=
+load("Data/lus_ests_truth.rda")
+lus_ests_truth$param_name <- 
+  factor(lus_ests_truth$param_name,
+    levels = c("rate", "outdegree (density)", "reciprocity",
+               "transitive triplets jumping alcohol2",
+               "number pairs at doubly achieved distance 2"))        
+ggplot(data=lus_ests_truth) +
+  geom_density(aes(x=param_est-true_value, fill=convergence), alpha= 0.6) +
+  facet_grid(model+param_name~true_model, labeller="label_both") +
+  theme_bw() +
+  theme(legend.position="bottom") + 
+  scale_colour_brewer("Convergence", palette="Set1") +
+  xlab("Parameter Estimate") + xlim(c(-25,25))
+@
+\caption{\label{fig:convergence-ests}}
+\end{figure}
+
+
+
 1. The smaller the difference between these estimates, the harder it should be to identify the different model in the lineup. XXX IDEA: should we consider some sort of distance metric comparing all estimates from the models at once in addition to the differences in the $\beta_3$/$\beta_4$ values? XXX}
 
 2. How is the fitting done, exactly?
