@@ -286,22 +286,30 @@ ggplot(data=lus_ests_truth) +
 
 
 \begin{figure}
-<<results0b, fig.width=8, fig.height=3, out.width='\\linewidth', echo = FALSE, warning = FALSE>>=
+<<results0b, fig.width=8, fig.height=10, out.width='\\linewidth', echo = FALSE, warning = FALSE>>=
 load("Data/lus_ests_truth.rda")
 lus_ests_truth$param_name <- 
   factor(lus_ests_truth$param_name,
     levels = c("rate", "outdegree (density)", "reciprocity",
                "transitive triplets jumping alcohol2",
                "number pairs at doubly achieved distance 2"))        
-ggplot(data=lus_ests_truth) +
-  geom_density(aes(x=param_est-true_value, fill=convergence), alpha= 0.6) +
-  facet_grid(model+param_name~true_model, labeller="label_both") +
+lus_ests_truth$model_label <- lus_ests_truth$model
+lus_ests_truth$true_model_label <- sprintf("True~Model:~%s", lus_ests_truth$true_model)
+lus_ests_truth$param_label <- c("alpha", "beta[1]", "beta[2]", "beta[3]", "beta[4]")[as.numeric(lus_ests_truth$param_name)]
+ggplot(data=lus_ests_truth %>% filter(!is.na(convergence))) +
+  geom_rect(xmin=-25, xmax=25, ymin=-0.5, ymax = 1, fill=rgb(.25,.25,.25,alpha=.25), data=unique(subset(lus_ests_truth, (true_model==model) & (!is.na(param_est)) )[,c("true_model_label", "model_label", "param_label")]) ) +
+  geom_vline(xintercept = 0, colour="grey50") +
+  geom_density(aes(x=param_est-true_value, fill=convergence), 
+               alpha= 0.6) +
+  facet_grid(model_label+param_label~true_model_label, drop=TRUE, labeller=label_parsed) +
   theme_bw() +
-  theme(legend.position="bottom") + 
-  scale_colour_brewer("Convergence", palette="Set1") +
-  xlab("Parameter Estimate") + xlim(c(-25,25))
+  theme(legend.position="bottom", 
+        strip.text.y = element_text(angle=0)) + 
+  scale_fill_brewer("Convergence", palette="Set1") +
+  xlab("Difference between parameter estimate and true value") + 
+    xlim(c(-15,15))
 @
-\caption{\label{fig:convergence-ests}}
+\caption{\label{fig:convergence-ests} Difference between parameter estimate and true value. Densities are drawn for both converged and non-converged data. Panels with a light grey background show model fits with data sampled from the same model. }
 \end{figure}
 
 
