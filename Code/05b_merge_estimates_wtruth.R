@@ -169,7 +169,7 @@ for (i in 1:nrow(lus_ests_truth)){
   }
 }
 
-save(lus_ests_truth, file = "~/Desktop/NetworksResearch/NetworksVizInference/Data/lus_ests_truth.rda")
+save(lus_ests_truth, file = "~/Desktop/NetworksResearch/NetworksVizInference/Data/lus_ests_truth.RDA")
 table(lus_ests_truth$convergence, useNA = 'ifany')
 
 ggplot(data = lus_ests_truth) + geom_density(alpha = .8, aes(x = param_est, fill = true_model)) + 
