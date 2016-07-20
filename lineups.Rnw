@@ -286,7 +286,7 @@ ggplot(data=lus_ests_truth) +
 
 
 \begin{figure}
-<<results0b, fig.width=8, fig.height=10, out.width='\\linewidth', echo = FALSE, warning = FALSE>>=
+<<results0b, fig.width=8, fig.height=8, out.width='\\linewidth', echo = FALSE, warning = FALSE>>=
 load("Data/lus_ests_truth.rda")
 lus_ests_truth$param_name <- 
   factor(lus_ests_truth$param_name,
@@ -296,7 +296,12 @@ lus_ests_truth$param_name <-
 lus_ests_truth$model_label <- lus_ests_truth$model
 lus_ests_truth$true_model_label <- sprintf("True~Model:~%s", lus_ests_truth$true_model)
 lus_ests_truth$param_label <- c("alpha", "beta[1]", "beta[2]", "beta[3]", "beta[4]")[as.numeric(lus_ests_truth$param_name)]
-ggplot(data=lus_ests_truth %>% filter(!is.na(convergence))) +
+ggplot(data=lus_ests_truth %>% 
+         filter(
+           !is.na(convergence),
+           (true_model=="M3" & model != "M2") | (true_model=="M1") |
+             (true_model=="M2" & model != "M3")
+           )) +
   geom_rect(xmin=-25, xmax=25, ymin=-0.5, ymax = 1, fill=rgb(.25,.25,.25,alpha=.25), data=unique(subset(lus_ests_truth, (true_model==model) & (!is.na(param_est)) )[,c("true_model_label", "model_label", "param_label")]) ) +
   geom_vline(xintercept = 0, colour="grey50") +
   geom_density(aes(x=param_est-true_value, fill=convergence), 
@@ -309,7 +314,9 @@ ggplot(data=lus_ests_truth %>% filter(!is.na(convergence))) +
   xlab("Difference between parameter estimate and true value") + 
     xlim(c(-15,15))
 @
-\caption{\label{fig:convergence-ests} Difference between parameter estimate and true value. Densities are drawn for both converged and non-converged data. Panels with a light grey background show model fits with data sampled from the same model. }
+\caption{\label{fig:convergence-ests} Difference between parameter estimate and true value. 
+Panels with a light grey background show model fits with data sampled from the same model.  Densities are drawn for both converged and non-converged data. The red-filled densities should have a mode in zero, indicating that the model converged in the correct value. For data from model $M_1$ estimates for parameters $\beta_3$ and $\beta_4$ converge to a wrong value.
+}
 \end{figure}
 
 
