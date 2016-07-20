@@ -149,8 +149,16 @@ get_jtts <- function(dat){
   rep <- dat$rep
   filename <- paste0("Data/lineupdata/", lineupname, "-m-", M, "-rep-",rep, ".csv")
   lu_dat <- read.csv(filename)
-  jtt(lu_dat[, c("X1", "X2")], "X1", "X2")
-  # not working waaaaaahhhhhhhhh
+  jtts <- data.frame(plot_order = unique(lu_dat$plot_order), jtt = NA)
+  for(i in 1:M){
+    sub_dat <- subset(lu_dat, plot_order == i)
+    my_jtt <- jtt(data = sub_dat, from_id = "X1", to_id = "X2")
+    jtts[i,"jtt"] <- my_jtt
+  }
+  return(jtts)
 }
+# won't work.......... :'(
+# Error in if (n < 0) stop("Network objects cannot be of negative order.") : 
+# missing value where TRUE/FALSE needed
 
-weirdones_refit %>% mutate jtt(data = )
+weirdones_refit %>% mutate(jtts = map(data, get_jtts)) -> weirdones_refit
