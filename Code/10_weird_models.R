@@ -138,3 +138,19 @@ get_fit_info <- function(dat){
 
 weirdones3 %>% mutate(fit_info = map(data, get_fit_info)) -> weirdones_refit
 
+
+# okay run the code from HH on the weird ones refit. 
+# 
+library(geomnet)
+
+get_jtts <- function(dat){
+  lineupname <- dat$lineupname
+  M <- dat$M
+  rep <- dat$rep
+  filename <- paste0("Data/lineupdata/", lineupname, "-m-", M, "-rep-",rep, ".csv")
+  lu_dat <- read.csv(filename)
+  jtt(lu_dat[, c("X1", "X2")], "X1", "X2")
+  # not working waaaaaahhhhhhhhh
+}
+
+weirdones_refit %>% mutate jtt(data = )
