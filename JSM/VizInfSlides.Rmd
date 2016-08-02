@@ -76,12 +76,12 @@ Observed networks treated as discrete observations of a continuous time Markov C
 
 ## Model Parameters
 
-1. Rate - how often actors change ties 
+1. Rate - how often girls change friendships 
 2. Outdegree - measure of activeness
-3. Reciprocity - how often ties are reciprocated
-4. Jumping Transitive Triplets 
+3. Reciprocity - how often friendships are reciprocated
+4. Jumping Transitive Triplets - friends of the same person become friends
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.height=2}
 jTTe <- data.frame(from = c('i', 'i', 'h'), to = c('h', 'j', 'j'))
 jTTn <- data.frame(id = letters[8:10], group = c(1,1,2))
 
@@ -120,28 +120,35 @@ Jumping Transitive Triplets | $\beta_3$ | $s_{i3}(x) = \sum\limits_{\forall j\ne
 
 ## Can you see the difference? 
 
+```{r echo=FALSE}
+dat <- readr::read_csv("../Lineup-Images/ForExperimentTraining/datafiles/smallfriends-rev-m-12-rep-c.csv")
+ggplot(data = dat %>% filter(plot_order2 %in% c(11,12)) %>% mutate(plot = plot_order2 - 10) ) + 
+  geom_net(aes(from_id = X1, to_id = X2), size = 2, fiteach = T, directed = T, 
+           colour = 'black', arrowsize = .25, arrowgap = .02, ecolour = 'grey60') + 
+  facet_wrap(~plot) + 
+  theme_net()
+```
 
+## Can you see the difference?
 
+```{r echo=FALSE}
+dat <- readr::read_csv("../Lineup-Images/ForExperimentTraining/datafiles/smallfriends-m-12-rep-1.csv")
+ggplot(data = dat %>% filter(plot_order %in% c(2,7)) %>% mutate(plot = ifelse(plot_order == 2, 1, 2))) + 
+  geom_net(aes(from_id = X1, to_id = X2), size = 2, fiteach = T, directed = T, 
+           colour = 'black', arrowsize = .25, arrowgap = .02, ecolour = 'grey60') + 
+  facet_wrap(~plot) + 
+  theme_net()
+```
 
-## Procedure
+## Question
 
-Using a subset of the friendship network data from Michell & Amos we: 
+Can we *see* a significant parameter when visualizing networks simulated from two different models?
 
-1. Fit three (XX two? XX) models 1000 times to obtain a distribution of parameter estimates
-2. Simulated the second wave from each of our models to form lineups. Means from 1 were used as starting parameter values.
-3. Estimated the parameters of each of our three (XX two? XX) models using the simulated second waves.
+- Idea: a very statistically significant difference in models should look different to us
 
-## ? SOMETHING ELSE ?
+## Experiment
 
-# Experiment
-
-## Pilot Study (?)
-
-Help us find a measure of difficulty of a lineup
-
-## Procedure
-
-# Results 
+- Small Amazon Turk experiment
 
 ## Summary
 
