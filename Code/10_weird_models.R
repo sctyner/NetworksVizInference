@@ -137,28 +137,15 @@ get_fit_info <- function(dat){
 }
 
 weirdones3 %>% mutate(fit_info = map(data, get_fit_info)) -> weirdones_refit
-
-
+weirdones_refit[weirdones_refit$lineupid == "smallfriends-6-17","fit_info"][[1]]
+lus_ests_truth[lus_ests_truth$lineupid == "smallfriends-6-17",]
 # okay run the code from HH on the weird ones refit. 
 # 
-library(geomnet)
 
-get_jtts <- function(dat){
-  lineupname <- dat$lineupname
-  M <- dat$M
-  rep <- dat$rep
-  filename <- paste0("Data/lineupdata/", lineupname, "-m-", M, "-rep-",rep, ".csv")
-  lu_dat <- read.csv(filename)
-  jtts <- data.frame(plot_order = unique(lu_dat$plot_order), jtt = NA)
-  for(i in 1:M){
-    sub_dat <- subset(lu_dat, plot_order == i)
-    my_jtt <- jtt(data = sub_dat, from_id = "X1", to_id = "X2")
-    jtts[i,"jtt"] <- my_jtt
-  }
-  return(jtts)
-}
-# won't work.......... :'(
-# Error in if (n < 0) stop("Network objects cannot be of negative order.") : 
-# missing value where TRUE/FALSE needed
+library(geomnet)
+# redo jtts 
+dframe <- data.frame(dframe)
+dframe$filename <- lineupdata[as.numeric(dframe$filename)]
+
 
 weirdones_refit %>% mutate(jtts = map(data, get_jtts)) -> weirdones_refit

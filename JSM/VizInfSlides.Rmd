@@ -8,58 +8,120 @@ output: ioslides_presentation
 ## Outline
 
 - Introduction
-  * Visual Inference
-  * Stochactic Actor-Oriented Models for Social Networks
-- Simulation
-- Experiment
+- Stochactic Actor-Oriented Models for Social Networks
+- Visual Inference Experiment
 - Results
 - Future Work
 
-# Introduction
+## Friendship Network
 
-## Visual Inference 
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+library(sna)
+library(network)
+friend.data.w1 <- as.matrix(read.table("../Data/s50_data/s50-network1.dat"))
+friend.data.w2 <- as.matrix(read.table("../Data/s50_data/s50-network2.dat"))
+fd2.w1 <- friend.data.w1[20:35,20:35]
+fd2.w2 <- friend.data.w2[20:35,20:35]
+drink <- as.matrix(read.table("../Data/s50_data/s50-alcohol.dat"))
+drink2 <- drink[20:35,]
+actual1 <- merge(data.frame(as.edgelist(as.network(fd2.w1))), 
+                 data.frame(id = 1:16, drink = drink2[,1]), 
+                 by.x = "X1", by.y = "id", all = T)
+for (j in 1:nrow(actual1)){
+      if (!(actual1$X1[j] %in% actual1$X2) & is.na(actual1$X2[j])){
+        actual1$X2[j] <- actual1$X1[j]
+      } else {actual1$X2[j] <- actual1$X2[j]}
+}
+actual2 <- merge(data.frame(as.edgelist(as.network(fd2.w2))), 
+                 data.frame(id = 1:16, drink = drink2[,2]), 
+                 by.x = "X1", by.y = "id", all = T)
+for (j in 1:nrow(actual2)){
+      if (!(actual2$X1[j] %in% actual2$X2) & is.na(actual2$X2[j])){
+        actual2$X2[j] <- actual2$X1[j]
+      } else {actual2$X2[j] <- actual2$X2[j]}
+    }
+actual1$wave <- 1
+actual2$wave <- 2
 
-## Lineups
+waves <- rbind(actual1, actual2)
+library(geomnet)
+actual1$behaviour <- factor(actual1$drink)
+levels(actual1$behaviour) <- c("None", "Once or twice a year", "Once a month", "Once a week")
+set.seed(34567)
+ggplot(data = actual1, aes(from_id = X1, to_id = X2)) + 
+  geom_net(label = TRUE, hjust = 0.5, vjust=0.5, size=9,  
+          labelcolour = "grey20", directed = T, arrowgap = .04,
+           aes(colour = behaviour)) + 
+  scale_colour_brewer("Drinking behavior", palette="YlOrRd") +
+  theme_net() 
 
-$H_0$: "boring model" XX how specific? XX
+#ggplot(data = waves, aes(from_id = X1, to_id = X2)) + 
+#  geom_net(label = TRUE, hjust = -.5, labelcolour = 'black', fiteach = T,
+#           aes(color = as.factor(drink))) + 
+#  theme_net() + theme(panel.background = element_rect(fill = "white", color = 'black')) + facet_wrap(~wave)
+```
 
-$H_1$: "alternate model consisting of one additional statistically significant parameter" XX how specific? XX
+## Stochastic Actor Oriented Models
 
-Want: In a lineup, networks simulated from the $H_1$ model should appear so different from a series of models simulated from $H_0$ that an observer can pick out the different, alternative model.
-
-## SAOMs
-
-Goal: modeling dynamic networks using 
+Goal: model dynamic networks with 
 
 - Network effects (e.g. outdegree, reciprocity)
 - Actor covariate effects 
 
-## Model "Rules"
-
 Observed networks treated as discrete observations of a continuous time Markov Chain. 
 
-1. At each (unobserved) time point in the CTMC one actor can change one of its ties.
-2. Between network observations (say from $t_1$ to $t_2$) all actors are given the opportunity to change a tie at the same rate.
-3. Once an actor can change, it tries to maximize its objective functon, $f_i(\mathbf{\beta},x) = \sum_k \beta_k s_{ki}(x)$, where $\beta_k$ are network or actor parameters, and $s_{ki}(x)$ are corresponding statistics.
+1. At each (unobserved) time point 1 actor can change 1 tie
+2. Between observations all actors are given the opportunity to change at same rate
+3. When an actor can change, aims to maximize its objective functon, $f_i(\mathbf{\beta},x) = \sum_k \beta_k s_{ki}(x)$, where $\beta_k$ are network or actor parameters, and $s_{ki}(x)$ are corresponding statistics.
 
 ## Model Parameters
 
-Effect name | Parameter | Corresponding Statistic
-------------|-----------|-------------------------
-Rate 1 (wave 1 $\rightarrow$ 2) | $\alpha_1$ | $\sum\limits_{i,j = 1 i \neq j}^n (x_{ij}(t_2) - x_{ij}(t_1))^2$  
-Rate 2 (wave 2 $\rightarrow$ 3) | $\alpha_2$ | $\sum\limits_{i,j = 1 i\neq j}^n (x_{ij}(t_3) - x_{ij}(t_2))^2$
-Outdegree | $\beta_1$ | $s_{i1}(x) = \sum\limits_{j=1}^n x_{ij}$ 
-Reciprocity | $\beta_2$ | $s_{i2}(x) = \sum\limits_{j=1}^n x_{ij}x_{ji}$ 
-Jumping Transitive Triplets | $\beta_3$ | $s_{i3}(x) = \sum\limits_{\forall j\neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$ 
+1. Rate - how often actors change ties 
+2. Outdegree - measure of activeness
+3. Reciprocity - how often ties are reciprocated
+4. Jumping Transitive Triplets 
 
- 
-# Simulation
+```{r, echo = FALSE}
+jTTe <- data.frame(from = c('i', 'i', 'h'), to = c('h', 'j', 'j'))
+jTTn <- data.frame(id = letters[8:10], group = c(1,1,2))
 
-## RSiena
+jTT <- merge(jTTe, jTTn, by.x = 'from', by.y = "id", all = T)
 
-R Simulation Investigation for Empirical Network Analysis
+set.seed(12345) 
+ggplot(data = jTT, aes(from_id = from, to_id = to)) + 
+  geom_net(aes(shape = as.factor(group)), directed = T, label = T, 
+           labelcolour='grey80',vjust = 0.5, hjust =0.5, arrowgap = .15, 
+           colour = 'black', size=10, 
+           ecolour = c("red", "grey40", "grey40", "grey40")) + 
+  expand_limits(x=c(-0.1,1.1), y=c(-0.1,1.1)) +
+  theme_net() +
+  theme(legend.position = "none")
+```
 
-Method of moment Monte Carlo estimation of the parameters in models
+## Model Parameters {.smaller}
+
+```{r echo=FALSE, eval=FALSE}
+A<- c(1, rep(0,4))
+
+library(RSienaTest)
+Multipar.RSiena(runs_models_smallFriends[[1]], 1)
+Multipar.RSiena(runs_models_smallFriends[[1]], 2)
+```
+
+Effect name | Parameter | Corresponding Statistic | M1 | M2 | p-value M1 | p-value M2 |
+:------------:|:-----------:|:-------------------------:|:----:|:----:|:--------:|:----:
+Rate 1 (wave 1 $\rightarrow$ 2) | $\alpha_1$ | $\sum\limits_{i,j = 1 i \neq j}^n (x_{ij}(t_2) - x_{ij}(t_1))^2$  | **X** | **X** | -- | --
+Rate 2 (wave 2 $\rightarrow$ 3) | $\alpha_2$ | $\sum\limits_{i,j = 1 i\neq j}^n (x_{ij}(t_3) - x_{ij}(t_2))^2$  | **X** | **X** | -- | --
+Outdegree | $\beta_1$ | $s_{i1}(x) = \sum\limits_{j=1}^n x_{ij}$ | **X** | **X** | $5.67 \times 10^{-8}$ | $4.66 \times 10^{-10}$
+Reciprocity | $\beta_2$ | $s_{i2}(x) = \sum\limits_{j=1}^n x_{ij}x_{ji}$ | **X** | **X** | $1.10 \times 10^{-5}$ | $4.42 \times 10^{-7}$
+Jumping Transitive Triplets | $\beta_3$ | $s_{i3}(x) = \sum\limits_{\forall j\neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$ | | **X** | -- | $0.00036$ 
+
+
+
+## Can you see the difference? 
+
+
+
 
 ## Procedure
 

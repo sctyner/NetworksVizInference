@@ -24,7 +24,24 @@ lus_summary_2 <- lus_spread %>% dplyr::group_by(part, lineupid, param_name) %>%
     upper_qu = sum(data_est > M2[true_model=="M1"]) / (n()-1) 
   )
 
-p1 <- qplot(data_dist, upper_qu, data = subset(lus_summary_2, !is.na(upper_qu) & param_name=="transitive triplets jumping alcohol2")) +
+# smallfriends rev 
+
+data.frame(lus_summary_2 %>% 
+  filter(part == "smallfriends-rev", param_name == "transitive triplets jumping alcohol2", upper_qu == 0) %>% 
+  dplyr::select(part, lineupid, param_name, data_dist, upper_qu))
+data.frame(lus_summary_2 %>% 
+             filter(part == "smallfriends-rev", param_name == "transitive triplets jumping alcohol2", upper_qu > 0, upper_qu<.25, data_dist < 1) %>% 
+             dplyr::select(part, lineupid, param_name, data_dist, upper_qu))
+
+data.frame(lus_summary_2 %>% 
+             filter(part == "smallfriends-eff2", param_name == "number pairs at doubly achieved distance 2", upper_qu == 1) %>% 
+             dplyr::select(part, lineupid, param_name, data_dist, upper_qu))
+data.frame(lus_summary_2 %>% 
+             filter(part == "smallfriends-eff2", param_name == "transitive triplets jumping alcohol2", upper_qu > 0, upper_qu<.25, data_dist < 1) %>% 
+             dplyr::select(part, lineupid, param_name, data_dist, upper_qu))
+
+
+p1 <- qplot(data_dist, upper_qu, data = subset(lus_summary_2, !is.na(upper_qu) & param_name=="transitive triplets jumping alcohol2"), color = upper_qu) +
   facet_grid(.~part) + xlab("Difference in M2 estimate of data panel and maximum of the null panels") +
   ylab("Ratio of null panels with smaller M2 estimate") +
   ggtitle("jumping transitive triplets")
@@ -41,11 +58,23 @@ lus_summary_2b <- lus_spread %>% dplyr::group_by(part, lineupid, param_name) %>%
 
 
 # which are 1 ? should be easy! 
+easy_ids <- filter(lus_summary_2, !is.na(upper_qu) & 
+                   param_name=="transitive triplets jumping alcohol2" &  
+                   upper_qu > .75)
+easy_ids
 
-easy_id <- which(lus_summary_2$upper_qu == 1)
+easy_id_1 <- easy_ids[which(easy_ids$upper_qu == 1),]
+easy_id_75 <- easy_ids[which(easy_ids$upper_qu > .75 & easy_ids$upper_qu < 1),]
+
 easy_lineups <- plyr::ldply(strsplit(lus_summary_2$lineupid[easy_id], "-"), rbind)
+easy_lineups2 <- plyr::ldply(strsplit(lus_summary_2$lineupid[easy_id2], "-"), rbind)
+lus_summary_2[easy_id2,]
 names(easy_lineups) <- c('lineupname', 'M', 'rep')
+easy_lineups[easy_lineups$M == 12,"rep"]
+names(easy_lineups2) <- c('lineupname', 'M', 'rep')
+easy_lineups2[easy_lineups2$M == 12,"rep"]
 
+easy_lineups
 view_lu <- function(dat){
   lineupname <- dat$lineupname
   M <- dat$M

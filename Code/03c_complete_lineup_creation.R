@@ -70,6 +70,8 @@ create_smfriend_lu <- function(null_eff_struct, test_eff_struct, M, my_dat=mysma
   data_plot_id <- unique(to_plot$plot_order[which(to_plot$count == M)])
   return(list(data = to_plot, lineup = plot, test_id = data_plot_id, null_mod_ests = c(null_net$rate,null_net$theta), alt_mod_estimates = c(test_net$rate,test_net$theta)))
 }
+
+
 # lu1 <- create_smfriend_lu(null_eff_struct = null_model_eff2, test_eff_struct = eff_models_smallFriends[[39]], M = 6)
 # savepdf(file = "Lineup-Images/pdfs/testcropping", width = 7.2*2.54, height = 4.5*2.54)
 # print(lu1$lineup)
@@ -133,13 +135,16 @@ make_interactive_lineups <- function(M, reps, model.effects, null.effects){
     #ggsave(lineup$lineup, file=sprintf("Lineup-Images/pdfs/smallfriends-m-%s-rep-%s.pdf",M,r), width = 7.2, height = 4.5, units = "in")
     savepdf(file = sprintf("Lineup-Images/pdfs/smallfriends-m-%s-rep-%s",M,r), width = 7.2*2.54, height = 4.5*2.54)
     print(lineup$lineup)
-    dev.off()
     tmpfile <- sprintf("%s.svg",tempfile(tmpdir="Lineup-Images/svgs"))
     make_interactive(filename2 = tmpfile, script=scriptURL,  
                      high="#d5d5d5",  background="#ffffff")
+    dev.off()
   }
   return(list(lineup = lineup))
 }
+
+#make_interactive_lineups(M = 4, reps=3, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
+
 
 #make_interactive_lineups(M = 3, reps=20, model.effects = null_model_eff2, null.effects = eff_models_smallFriends[[39]])
 
