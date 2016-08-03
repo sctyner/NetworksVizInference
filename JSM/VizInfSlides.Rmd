@@ -63,16 +63,10 @@ ggplot(data = actual1, aes(from_id = X1, to_id = X2)) +
 
 ## Stochastic Actor Oriented Models
 
-Goal: model dynamic networks with 
+Observed networks: discrete observations of continuous time Markov Chain. 
 
-- Network effects (e.g. outdegree, reciprocity)
-- Actor covariate effects 
-
-Observed networks treated as discrete observations of a continuous time Markov Chain. 
-
-1. At each (unobserved) time point 1 actor can change 1 tie
-2. Between observations all actors are given the opportunity to change at same rate
-3. When an actor can change, aims to maximize its objective functon, $f_i(\mathbf{\beta},x) = \sum_k \beta_k s_{ki}(x)$, where $\beta_k$ are network or actor parameters, and $s_{ki}(x)$ are corresponding statistics.
+1. Between observations:  actors act (i.e. change ties with others) at same rate
+2. Actor aims to maximize  objective functon, $f_i(\mathbf{\beta},x) = \sum_k \beta_k s_{ki}(x)$.
 
 ## Model Parameters
 
@@ -98,7 +92,7 @@ ggplot(data = jTT, aes(from_id = from, to_id = to)) +
   theme(legend.position = "none")
 ```
 
-## Model Parameters {.smaller}
+## Two Models {.smaller}
 
 ```{r echo=FALSE, eval=FALSE}
 A<- c(1, rep(0,4))
@@ -122,22 +116,22 @@ Jumping Transitive Triplets | $\beta_3$ | $s_{i3}(x) = \sum\limits_{\forall j\ne
 
 ```{r echo=FALSE}
 dat <- readr::read_csv("../Lineup-Images/ForExperimentTraining/datafiles/smallfriends-rev-m-12-rep-c.csv")
-ggplot(data = dat %>% filter(plot_order2 %in% c(11,12)) %>% mutate(plot = plot_order2 - 10) ) + 
+ggplot(data = dat %>% filter(plot_order2 %in% c(11,12)) %>% mutate(Model = plot_order2 - 10) ) + 
   geom_net(aes(from_id = X1, to_id = X2), size = 2, fiteach = T, directed = T, 
            colour = 'black', arrowsize = .25, arrowgap = .02, ecolour = 'grey60') + 
-  facet_wrap(~plot) + 
-  theme_net()
+  facet_wrap(~Model, labeller = "label_both") + 
+  theme_net() + theme(panel.background = element_rect(color = 'black'))
 ```
 
 ## Can you see the difference?
 
 ```{r echo=FALSE}
 dat <- readr::read_csv("../Lineup-Images/ForExperimentTraining/datafiles/smallfriends-m-12-rep-1.csv")
-ggplot(data = dat %>% filter(plot_order %in% c(2,7)) %>% mutate(plot = ifelse(plot_order == 2, 1, 2))) + 
+ggplot(data = dat %>% filter(plot_order %in% c(2,7)) %>% mutate(Model = ifelse(plot_order == 2, 2, 1))) + 
   geom_net(aes(from_id = X1, to_id = X2), size = 2, fiteach = T, directed = T, 
            colour = 'black', arrowsize = .25, arrowgap = .02, ecolour = 'grey60') + 
-  facet_wrap(~plot) + 
-  theme_net()
+  facet_wrap(~Model, labeller = "label_both") + 
+  theme_net() + theme(panel.background = element_rect(color = 'black'))
 ```
 
 ## Question
@@ -145,21 +139,65 @@ ggplot(data = dat %>% filter(plot_order %in% c(2,7)) %>% mutate(plot = ifelse(pl
 Can we *see* a significant parameter when visualizing networks simulated from two different models?
 
 - Idea: a very statistically significant difference in models should look different to us
+- Method: visual inference - use lineups with graphs from models 1 & 2 to test this idea
+
+## Lineup 
+
+- Show $m$ plots to people
+- Ask to identify most different plot
+- Null ($m-1$ plots) vs. Alternative ($1$ plot) models
+- Identification of the alternative plot is evidence against null
+- Probability to pick alternative plot randomly is $\frac{1}{m}$
 
 ## Experiment
 
-- Small Amazon Turk experiment
+- M1 v. M2 (most complex structure)
+- M2 v. M1 (least complex structure)
+- five lineups each
+- each participant randomly sees ten lineups
 
-## Summary
+## Most complex? 
 
-## Significance (?)
+```{r, echo=FALSE, fig.align='center'}
+dat <- readr::read_csv("../Lineup-Images/ForExperimentTraining/datafiles/smallfriends-m-12-rep-10.csv")
+ggplot(data = dat) +
+  geom_net(aes(from_id = X1, to_id = X2), size = 1, fiteach = T, directed = T, 
+           colour = 'black', arrowsize = .15, arrowgap = .02, ecolour = 'grey60') + 
+  facet_wrap(~plot_order) + 
+  theme_net() + theme(panel.background = element_rect(color = 'black'))
+```
 
-# Conclusion
+## Least Complex? 
 
-## What we've learned
+```{r echo=FALSE, fig.align='center'}
+dat <- readr::read_csv("../Lineup-Images/ForExperimentTraining/datafiles/smallfriends-rev-m-12-rep-b.csv")
+ggplot(data = dat) +
+  geom_net(aes(from_id = X1, to_id = X2), size = 1, fiteach = T, directed = T, 
+           colour = 'black', arrowsize = .15, arrowgap = .02, ecolour = 'grey60') + 
+  facet_wrap(~plot_order2) + 
+  theme_net() + theme(panel.background = element_rect(color = 'black'))
+```
 
-## Future Work
+## Small Amazon Turk experiment
 
-## References
+<img src="screenshot.png" width="800px" height="400px" />
 
-## Thank you!
+
+## Results 1
+
+``` {r, echo=FALSE}
+tab <- readr::read_csv("../Results/turk21_users.csv")
+res <- readr::read_csv("../Results/turk21_feedback.csv")
+```
+
+- barchart with filled correct 
+
+## Results 2
+
+- scatterplot of %correct by beta 3
+- scatterplot of %correct by #jtt
+
+## Conclusion
+
+- Doesn't work for networks
+- Need another way! (layout?)
