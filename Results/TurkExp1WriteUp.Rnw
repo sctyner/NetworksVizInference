@@ -36,14 +36,7 @@ Stochastic actor-oriented models (SAOMs) are a set of network models that consid
 
 $$ f_i(\beta, x) = \sum_k \beta_k s_{ki}(x)$$ 
 
-where $k = 1, \dots, K$, $K$ the number of non-rate parameters in the models and $s_{ki}(x)$ is the corresponding statistic. There are several parameters that can be chosen for use in the objective function. Examples of these parameters and their corresponding statistics are given in Table~\ref{tab:models}. 
-
-% BACKGROUND & PURPOSE
-The parameters in the objective function are tested for significance using $t$-tests. The test statistic is the ratio of the parameter estimate to its standard error. If this value is larger than 2 in absolute value, then the parameter is significant at the $\alpha = 0.05$ level and should be included in the model. This is a fairly simple statistical test, so we wanted to test whether this significance can be detected visually just as simply as the statistical test detects it. If visualizations of simulated networks from two nested models have a much different appearance when placed side-by-side, then the difference in appearance can be attributed to the additional parameter in one. If, however, there is no visually detectable difference, then the additional parameter does not appear to have changed the network structure all that much. Because model selection and diagnostic in network analysis are less developed areas of the theory, testing network parameters in this visual way could lead to additional methods of model selection for networks. 
-
-\section{Methods}
-In order to test our hypothesis, we set up an amazon turk experiment using the lineup protocal of {\color{green} Buja et all (2009). FIX CITE}.  
-
+where $k = 1, \dots, K$, $K$ the number of non-rate parameters in the models and $s_{ki}(x)$ is the corresponding statistic. There are several parameters that can be chosen for use in the objective function. Examples of these parameters and their corresponding statistics are given in Table~\ref{tab:models}.
 
 <<readsim, echo=FALSE, message=FALSE, warning=FALSE>>=
 setwd("~/Desktop/NetworksResearch/NetworksVizInference/Results/")
@@ -92,12 +85,67 @@ Reciprocity & $\beta_2$ & $s_{i2}(x) = \sum\limits_{j=1}^n x_{ij}x_{ji}$ & \Sexp
 \\
 Jumping Transitive Triplets & $\beta_3$ & $s_{i3}(x) = \sum\limits_{\forall j\neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$ & -- & 
 \Sexpr{round(alt_mod_sv[5], 2)} & -- \\
-\# doubly achieved distances & $\beta_4$ & $s_{i4}(x) = |\{j : x_{ij} = 0, \sum\limits_h x_{ih}x_{hj} \geq 2\}|$ & -- & -- &
+\# doubly achieved distances 2 effect & $\beta_4$ & $s_{i4}(x) = |\{j : x_{ij} = 0, \sum\limits_h x_{ih}x_{hj} \geq 2\}|$ & -- & -- &
 \Sexpr{round(alt_mod2_sv[5], 2)}
 \end{tabular}}
 \caption{\label{tab:models}Parameters and estimates of models $M_1$, $M_2$, and $M_3$. Estimates are the mean of 1000 iterations of the model estimates. The lineups that follow are simulated from models using these values.}
 \end{table}
 
+The outdegree and reciprocity effects are the most important effects to any SAOMs. The outdegree effect ``always must be included," and the reciprocity effect ``practically always must be included" {\color{green} (CITE Rsiena Manual, p 41)}. The outdegree of a node in a network is a measure of how active that node is within the network, while the reciprocity parameter measures of how often a node's outgoing ties are reciprocated.  The additional effects, jumping transitive triplets and doubly achieved distance, were deemed very significant by a $t$-test. 
+
+
+\begin{figure}
+\begin{subfigure}[t]{.45\textwidth}
+\caption{\label{fig:jtt}Realization of a jumping transitive triplet, where $i$ is the focal actor, $j$ is the target actor, and $h$ is the intermediary. The group of the actors is represented by the shape of the node.}
+<<jtt, echo=FALSE, fig.width=2, fig.height=2, message = FALSE, warning = FALSE, fig.align='center'>>=
+jTTe <- data.frame(from = c('i', 'i', 'h'), to = c('h', 'j', 'j'))
+jTTn <- data.frame(id = letters[8:10], group = c(1,1,2))
+
+jTT <- merge(jTTe, jTTn, by.x = 'from', by.y = "id", all = T)
+
+set.seed(12345) 
+ggplot(data = jTT, aes(from_id = from, to_id = to)) + 
+  geom_net(aes(shape = as.factor(group)), directed = T, label = T, 
+           labelcolour='grey80',vjust = 0.5, hjust =0.5, arrowgap = .15, 
+           colour = 'black', size=10, 
+           ecolour = c("red", "grey40", "grey40", "grey40")) + 
+  expand_limits(x=c(-0.1,1.1), y=c(-0.1,1.1)) +
+  theme_net() +
+  theme(legend.position = "none")
+@
+\end{subfigure}\hfill
+\begin{subfigure}[t]{.45\textwidth}
+\caption{Doubly achieved distance between actors $i$ and $k$.}
+<<dab, echo=FALSE, fig.width=2, fig.height=2, message = FALSE, warning = FALSE, fig.align='center'>>=
+dade <- data.frame(from = c('i', 'i', 'h', 'j'), to = c('h', 'j', 'k', 'k'))
+dadn <- data.frame(id = letters[8:11], group = c(1,1,1,1))
+
+dad <- merge(dade, dadn, by.x = 'from', by.y = "id", all = T)
+
+set.seed(12345) 
+ggplot(data = dad, aes(from_id = from, to_id = to)) + 
+  geom_net(aes(shape = as.factor(group)), directed = T, label = T, labelcolour='grey80',vjust = 0.5, hjust =0.5, arrowgap = .15, colour = 'black', size=10) + 
+  expand_limits(x=c(-0.1,1.1), y=c(-0.1,1.1)) +
+  theme_net() +
+  theme(legend.position = "none")
+@
+\end{subfigure}
+\caption{\label{fig:structures}Structural newtwork effects. On the left, a jumping transitive triplet (JTT). On the right, a doubly achieved distance between $i$ and $k$.}
+\end{figure}
+
+% BACKGROUND AND PURPOSE
+The parameters in the objective function are tested for significance using $t$-tests. The test statistic is the ratio of the parameter estimate to its standard error. If this value is larger than 2 in absolute value, then the parameter is said to be significant at the $\alpha = 0.05$ level and should be included in the model. This is a fairly simple statistical test, so we wanted to test whether this significance can be detected visually just as simply as the statistical test detects it. If visualizations of simulated networks from two nested models have a much different appearance when placed side-by-side, then the difference in appearance can be attributed to the additional parameter in one. If, however, there is no visually detectable difference, then the additional parameter does not appear to have changed the network structure all that much. Because model selection and diagnostics for network models are less developed areas of the theory, testing network parameters in this visual way could lead to additional methods of model selection for networks. 
+
+\section{Methods}
+In order to test our hypothesis, we set up an amazon turk experiment using the lineup protocal of {\color{green} Buja et all (2009). FIX CITE}. We presented four types of lineups: M1 v. M2, M2 v. M1, M1 v. M3, and M3 v. M1, where M1, M2, and M3 have the objective functions givein in ~\ref{tab:models}. For each lineup, there were 12 plots shown: 11 of the plots were simulated from the first model (the ``null" model) and 1 was simulated from the second model (the ``alternative" model). The order of the plots in the lineups was randomly assigned. 
+
+In order to become a subject in our experiment, the Amazon turk user had to first read through some introductory material and prove they could identify the correct plot in two test lineups, one for M1 v. M2 and one for M2 v. M1. These two lineups were constructed to be very simple in order to train the turkers. Once the turker made it into the experiment, they looked at 10 lineups selected at random from a pool of 25. There were five lineups for each of the four types with an additional five lineups of the type M1 v. M2 which were chosen for their high counts of jumping transitive triplets in the alternative model network.  
+
+
+
+
+
+\section{Appendix}
 
 
 
