@@ -91,7 +91,7 @@ Jumping Transitive Triplets & $\beta_3$ & $s_{i3}(x) = \sum\limits_{\forall j\ne
 \caption{\label{tab:models}Parameters and estimates of models $M_1$, $M_2$, and $M_3$. Estimates are the mean of 1000 iterations of the model estimates. The lineups that follow are simulated from models using these values.}
 \end{table}
 
-The outdegree and reciprocity effects are the most important effects to any SAOMs. The outdegree effect ``always must be included," and the reciprocity effect ``practically always must be included" {\color{green} (CITE Rsiena Manual, p 41)}. The outdegree of a node in a network is a measure of how active that node is within the network, while the reciprocity parameter measures of how often a node's outgoing ties are reciprocated.  The additional effects, jumping transitive triplets and doubly achieved distance, were deemed very significant by a $t$-test. 
+The outdegree and reciprocity effects are the most important effects to any SAOMs. The outdegree effect ``always must be included," and the reciprocity effect ``practically always must be included" {\color{green} (CITE Rsiena Manual, p 41)}. The outdegree of a node in a network is a measure of how active that node is within the network, while the reciprocity parameter measures of how often a node's outgoing ties are reciprocated.  The additional effects, jumping transitive triplets and doubly achieved distance, were deemed very significant by a $t$-test, which was why we chose them for testing. 
 
 
 \begin{figure}
@@ -139,13 +139,41 @@ The parameters in the objective function are tested for significance using $t$-t
 \section{Methods}
 In order to test our hypothesis, we set up an amazon turk experiment using the lineup protocal of {\color{green} Buja et all (2009). FIX CITE}. We presented four types of lineups: M1 v. M2, M2 v. M1, M1 v. M3, and M3 v. M1, where M1, M2, and M3 have the objective functions givein in ~\ref{tab:models}. For each lineup, there were 12 plots shown: 11 of the plots were simulated from the first model (the ``null" model) and 1 was simulated from the second model (the ``alternative" model). The order of the plots in the lineups was randomly assigned. 
 
-In order to become a subject in our experiment, the Amazon turk user had to first read through some introductory material and prove they could identify the correct plot in two test lineups, one for M1 v. M2 and one for M2 v. M1. These two lineups were constructed to be very simple in order to train the turkers. Once the turker made it into the experiment, they looked at 10 lineups selected at random from a pool of 25. There were five lineups for each of the four types with an additional five lineups of the type M1 v. M2 which were chosen for their high counts of jumping transitive triplets in the alternative model network.  
+In order to become a subject in our experiment, the Amazon turk user had to first read through some introductory material and prove they could identify the correct plot in two test lineups, one for M1 v. M2 and one for M2 v. M1. These two lineups were constructed to be very simple in order to train the turkers. Once the turker made it into the experiment, they looked at 10 lineups selected at random from a pool of 25. There were five lineups for each of the four types with an additional five lineups of the type M1 v. M2 which were chosen for their high counts of jumping transitive triplets in the alternative model network in an attempt to gauge how important this statistic is to the visualization of the network. If there are many jumping transitive triplets in the alternative model plot and more turkers correctly choose that plot, that would be evidence that the jumping transitive triplets are very noticeable to the user. \st{????}
 
+\section{Procedure}
 
+Each Amazon Turk user was greeted with the following message: ``In this survey a series of similar looking charts will be presented. We would like you to respond to the following questions.
+\begin{enumerate}
+\item Pick the plot based on the survey question
+\item Provide reasons for choice
+\item How certain are you?
+\end{enumerate}
+Finally we would like to collect some information about you. (age category, education and gender)."  Then, they were led through a training page about how to identify the correct plot in a lineup, seen in Figure~\ref{fig:lineupex}. Then, they saw two trial plots that they had to get correct in order to proceed to the rest of the experiment. They chose the plot that looked the most different from the others, why they chose is (most complex, least complex, or other), and how certain they were that they had chosen correctly (Very Uncertain, Uncertain, Neutral, Certain, Very Certain). These trial plots are shown in Figure~\ref{fig:lineuptrial} 
 
+\begin{figure}
+\begin{subfigure}[t]{.45\textwidth}
+\caption{Example 1}
+\includegraphics[width=\textwidth]{Ex1}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{.45\textwidth}
+\caption{Example 2}
+\includegraphics[width=\textwidth]{Ex2}
+\end{subfigure}
+\caption{\label{fig:lineupex} The first training page in the Amazon Turk experiment.}
+\end{figure}
 
-
-\section{Appendix}
+\begin{figure}
+\begin{subfigure}[t]{.45\textwidth}
+\caption{Trial 1}
+\includegraphics[width=\textwidth]{Trial1}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{.45\textwidth}
+\caption{Trial 2}
+\includegraphics[width=\textwidth]{Trial2}
+\end{subfigure}
+\caption{\label{fig:lineupex} The trial plots that users had to get correct in order to participate in the Amazon Turk experiment.}
+\end{figure}
 
 
 

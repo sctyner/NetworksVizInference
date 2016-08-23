@@ -183,21 +183,48 @@ ggplot(data = dat) +
 <img src="screenshot.png" width="800px" height="400px" />
 
 
-## Results 1
+## Results
 
-``` {r, echo=FALSE}
+``` {r, echo=FALSE, fig.align = 'center'}
+ids <- readr::read_csv("https://raw.githubusercontent.com/erichare/lineups/f19635a00507210013ba9e631761ad0c89a6564d/experiments/turk21/details/picture-details.csv")
 tab <- readr::read_csv("../Results/turk21_users.csv")
 res <- readr::read_csv("../Results/turk21_feedback.csv")
+res2 <- left_join(res, ids, by = 'pic_id')
+res3 <- res2 %>% filter(test_param %in% c("smallfriends", "smallfriends-rev")) 
+res3$correct <- res3$response_no == res3$obs_plot_location
+ggplot(data = res3) + 
+  geom_bar(aes(x = as.factor(response_no), fill = correct)) + 
+  facet_wrap(~data_name) + coord_flip() + 
+  labs(x = "response", y = "count") + 
+  theme(axis.text.y = element_blank())
 ```
-
-- barchart with filled correct 
 
 ## Results 2
 
-- scatterplot of %correct by beta 3
-- scatterplot of %correct by #jtt
+```{r, echo=FALSE}
+lus_jtts <- readr::read_csv("../Data/lineups-jtt.csv")
+load("../Data/lus_ests_truth.rda")
+
+res4 <-left_join(res3, lus_jtts, by = c("data_name" = "filename", "obs_plot_location" = "plot_order"))
+res4.2 <- res4 %>% group_by(data_name, jtt) %>% summarise(perc_corr = sum(correct)/n())
+p1 <- ggplot(data = res4.2) +geom_point(aes(x = jtt, y = perc_corr)) + labs(x = "Number of jumping transitive triplets", y = "Percent of Participants Choosing Correctly")
+res3a <- res3
+res3a$data_name <- sub(".csv", "", res3a$data_name)
+res3a$data_name <- sub("-m-", "-", res3a$data_name)
+res3a$data_name <- sub("-rep-", "-", res3a$data_name)
+exp_names <- unique(res3a$data_name)
+lus_truth2 <- lus_ests_truth %>% 
+  filter(param_name == "transitive triplets jumping alcohol2" &
+           lineupid %in% exp_names & model == "M2")
+res5 <- left_join(res3a, lus_truth2, by = c("data_name" = "lineupid",
+                                            "obs_plot_location" = "panel_num"))
+res5.2 <- res5 %>% group_by(data_name, param_est) %>% 
+  summarise(perc_corr = sum(correct)/n())
+p2 <- ggplot(data = res5.2) + geom_point(aes(x = param_est, y = perc_corr)) + labs(x = "Parameter estimate", y = "Percent of Participants Choosing Correctly")
+gridExtra::grid.arrange(p1, p2, nrow = 1)
+```
 
 ## Conclusion
 
 - Doesn't work for networks
-- Need another way! (layout?)
+- Need another way (layout?)
