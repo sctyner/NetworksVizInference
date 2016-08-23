@@ -1,0 +1,104 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsfonts, mathrsfs,fancyhdr,syntonly,lastpage,hyperref,enumitem,graphicx, lscape, forloop, url, natbib}
+\usepackage[font=small,skip=5pt]{caption}
+\usepackage{subcaption}
+
+\hypersetup{colorlinks=true,urlcolor=black}
+
+\topmargin      -1.5cm   % read Lamport p.163
+\oddsidemargin  -0.04cm  % read Lamport p.163
+\evensidemargin -0.04cm  % same as oddsidemargin but for left-hand pages
+\textwidth      16.59cm
+\textheight     23.94cm
+\parskip         7.2pt   % sets spacing between paragraphs
+\parindent         0pt   % sets leading space for paragraphs
+\pagestyle{empty}        % Uncomment if don't want page numbers
+\pagestyle{fancyplain}
+
+\newcommand{\hh}[1]{{\color{magenta} #1}}
+\newcommand{\st}[1]{{\color{red} #1}}
+
+\begin{document}
+\lhead{Amazon Turk Experiment 1}
+\chead{}
+\rhead{Samantha Tyner}
+
+\tableofcontents
+
+\section{Introduction}
+
+% ALTERNATE OPENER: Stochastic actor-oriented models (SAOMs) are used to model dynamic social networks. In these models, there are three different sets of parameters: rate, structural, and covariate. The rate parameters dictate how often the actors in the network change ties; the structural parameters dictate how ties change based solely on the network structure; the covariate parameters dictate how ties change based on actor characteristics. The many parameters in the model 
+
+% UNDERLYING THEORY
+Stochastic actor-oriented models (SAOMs) are a set of network models that consider both network and actor effects when determining how and why a network changes over time. Network effects, like reciprocity and outdegree, only consider the ties between actors as important to network change, while actor effects allow for covariate values associated with each actor to influence ties between actors. In the SAOM literature, a network is denoted by $x(t_m)$, has $n$ actors, and for two actors $i \neq j \in \{1, 2, \dots, n\}$, the relationship between them is denoted by $x_ij$. This relationship $x_{ij}$ is equal to 1 if there is a tie between actors $i$ and $j$ and it is 0 if there is not a tie between them. The time component, $t_m$, represents the $m = 1, 2, \dots, M$ points of observation of the network. These networks $x(t_1), \dots, x(t_M)$ are modeled as observations of a continuous-time Markov chain, where most of the steps in the chain are unobserved. 
+
+\par Between any two discrete time points, $t_{m}$ and $t_{m-1}$ for $m = 2, \dots, M$, each actor gets the opportunity to change one of their ties at a rate of $\alpha_{m-1}$. This is due to the properties of the Markov chain, and it also assumes that the rate of change is identical and constant for each actor between $t_{m-1}$ and $t_{m}$. When an actor is given an opportunity to change, it tries to maximize its objective function, $f_i(\beta, x)$, where $x$ is the potential new network state that actor $i$ can reach by changing one of its ties, $x_{ij}$. In model estimation, the parameters to be estimated are $\alpha_1, \dots, \alpha_{M-1}$ and the (possibly vector-valued) $\beta$. The objective function takes the form 
+
+$$ f_i(\beta, x) = \sum_k \beta_k s_{ki}(x)$$ 
+
+where $k = 1, \dots, K$, $K$ the number of non-rate parameters in the models and $s_{ki}(x)$ is the corresponding statistic. There are several parameters that can be chosen for use in the objective function. Examples of these parameters and their corresponding statistics are given in Table~\ref{tab:models}. 
+
+% BACKGROUND & PURPOSE
+The parameters in the objective function are tested for significance using $t$-tests. The test statistic is the ratio of the parameter estimate to its standard error. If this value is larger than 2 in absolute value, then the parameter is significant at the $\alpha = 0.05$ level and should be included in the model. This is a fairly simple statistical test, so we wanted to test whether this significance can be detected visually just as simply as the statistical test detects it. If visualizations of simulated networks from two nested models have a much different appearance when placed side-by-side, then the difference in appearance can be attributed to the additional parameter in one. If, however, there is no visually detectable difference, then the additional parameter does not appear to have changed the network structure all that much. Because model selection and diagnostic in network analysis are less developed areas of the theory, testing network parameters in this visual way could lead to additional methods of model selection for networks. 
+
+\section{Methods}
+In order to test our hypothesis, we set up an amazon turk experiment using the lineup protocal of {\color{green} Buja et all (2009). FIX CITE}.  
+
+
+<<readsim, echo=FALSE, message=FALSE, warning=FALSE>>=
+setwd("~/Desktop/NetworksResearch/NetworksVizInference/Results/")
+nulls <- read.csv("../Data/distribution_null_model.csv")
+# names(nulls)[-1] <- c("alpha1", "alpha2", "beta1", "beta2")
+# nulls$Sim <- 1:nrow(nulls)
+# nulls$Model <- "M1"
+# 
+alt <- read.csv("../Data/distribution_jumpTT_model.csv")
+# names(alt)[-1] <- c("alpha1", "alpha2", "beta1", "beta2", "beta3")
+# alt$Sim <- 1:nrow(alt)
+# alt$Model <- "M2"
+# 
+alt2nd <- read.csv("../Data/distribution_dblpairs_model.csv")
+library(dplyr)
+null_mod_sv <- as.numeric(nulls[,-c(1,6,7)] %>% summarise_each(funs(mean)))
+alt_mod_sv <- as.numeric(alt[,-c(1, 7,8)] %>% summarise_each(funs(mean)))
+alt_mod2_sv <- as.numeric(alt2nd[,-c(1,7,8)] %>% summarise_each(funs(mean)))
+@
+
+\begin{table}[h]
+\centering
+\scalebox{0.8}{
+\begin{tabular}{lccrrr}
+Effect name & Parameter & Corresponding Statistic & $M_1$  & $M_2$  & $M_3$ \\
+\hline
+\hline
+Rate 1 (wave 1 $\rightarrow$ 2) & $\alpha_1$ & $\sum\limits_{i,j = 1 i\neq j}^n (x_{ij}(t_2) - x_{ij}(t_1))^2 $ & 
+\Sexpr{round(null_mod_sv[1], 2)} &
+\Sexpr{round(alt_mod_sv[1], 2)} & 
+\Sexpr{round(alt_mod2_sv[1], 2)} 
+\\
+Rate 2 (wave 2 $\rightarrow$ 3) & $\alpha_2$ & $\sum\limits_{i,j = 1 i\neq j}^n (x_{ij}(t_3) - x_{ij}(t_2))^2 $ & 
+\Sexpr{round(null_mod_sv[2], 2)} &
+\Sexpr{round(alt_mod_sv[2], 2)} & 
+\Sexpr{round(alt_mod2_sv[2], 2)}
+\\
+Outdegree & $\beta_1$ & $s_{i1}(x) = \sum\limits_{j=1}^n x_{ij}$ & 
+\Sexpr{round(null_mod_sv[3], 2)} &
+\Sexpr{round(alt_mod_sv[3], 2)} & 
+\Sexpr{round(alt_mod2_sv[3], 2)}
+\\
+Reciprocity & $\beta_2$ & $s_{i2}(x) = \sum\limits_{j=1}^n x_{ij}x_{ji}$ & \Sexpr{round(null_mod_sv[4], 2)} &
+\Sexpr{round(alt_mod_sv[4], 2)} & 
+\Sexpr{round(alt_mod2_sv[4], 2)}
+\\
+Jumping Transitive Triplets & $\beta_3$ & $s_{i3}(x) = \sum\limits_{\forall j\neq h} x_{ij}x_{ih}x_{hj} \mathbb{I}(v_i = v_h \neq v_j)$ & -- & 
+\Sexpr{round(alt_mod_sv[5], 2)} & -- \\
+\# doubly achieved distances & $\beta_4$ & $s_{i4}(x) = |\{j : x_{ij} = 0, \sum\limits_h x_{ih}x_{hj} \geq 2\}|$ & -- & -- &
+\Sexpr{round(alt_mod2_sv[5], 2)}
+\end{tabular}}
+\caption{\label{tab:models}Parameters and estimates of models $M_1$, $M_2$, and $M_3$. Estimates are the mean of 1000 iterations of the model estimates. The lineups that follow are simulated from models using these values.}
+\end{table}
+
+
+
+
+\end{document}
