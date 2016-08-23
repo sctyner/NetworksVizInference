@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,amsfonts, mathrsfs,fancyhdr,syntonly,lastpage,hyperref,enumitem,graphicx, lscape, forloop, url, natbib}
+\usepackage{amsmath,amssymb,amsfonts, mathrsfs,fancyhdr,syntonly,lastpage,hyperref,enumitem,graphicx, lscape, forloop, url, natbib, blindtext}
 \usepackage[font=small,skip=5pt]{caption}
 \usepackage{subcaption}
 
@@ -27,6 +27,7 @@
 
 \section{Introduction}
 
+\st{XXX Most of this I copied over from the other paper so it might not be super coherent right now. XXX}
 % ALTERNATE OPENER: Stochastic actor-oriented models (SAOMs) are used to model dynamic social networks. In these models, there are three different sets of parameters: rate, structural, and covariate. The rate parameters dictate how often the actors in the network change ties; the structural parameters dictate how ties change based solely on the network structure; the covariate parameters dictate how ties change based on actor characteristics. The many parameters in the model 
 
 % UNDERLYING THEORY
@@ -102,7 +103,7 @@ jTTe <- data.frame(from = c('i', 'i', 'h'), to = c('h', 'j', 'j'))
 jTTn <- data.frame(id = letters[8:10], group = c(1,1,2))
 
 jTT <- merge(jTTe, jTTn, by.x = 'from', by.y = "id", all = T)
-
+library(geomnet)
 set.seed(12345) 
 ggplot(data = jTT, aes(from_id = from, to_id = to)) + 
   geom_net(aes(shape = as.factor(group)), directed = T, label = T, 
@@ -172,9 +173,125 @@ Finally we would like to collect some information about you. (age category, educ
 \caption{Trial 2}
 \includegraphics[width=\textwidth]{Trial2}
 \end{subfigure}
-\caption{\label{fig:lineupex} The trial plots that users had to get correct in order to participate in the Amazon Turk experiment.}
+\caption{\label{fig:lineuptrial} The trial plots that users had to get correct in order to participate in the Amazon Turk experiment.}
 \end{figure}
 
+Once the turk user chose the correct plot in the two trial plots, the experiment proceeded with the same interface and users selecting which plot they thought was most different, why they thought that, and how certain they were for 10 plots chosen at random. 
+
+\section{Results}
+
+<<get_res, echo=FALSE, warning=FALSE, message=FALSE, fig.align="center", fig.cap="Boxplot showing the percent of users correctly choosing the alternative model in all 25 lineups. In 15 out of 25 lineups, no user picked the correct plot. The maximum was 64.00\\%, and the second highest was 35.29\\% correct.", fig.height=3>>=
+ids <- readr::read_csv("https://raw.githubusercontent.com/erichare/lineups/f19635a00507210013ba9e631761ad0c89a6564d/experiments/turk21/details/picture-details.csv")
+tab <- readr::read_csv("../Results/turk21_users.csv")
+tab2 <- unique(tab)
+#length(unique(tab2$nick_name))
+#head(sort(table(tab2$nick_name),decreasing = T))
+#tab2 %>% filter(nick_name == "A3U3L1XQVR362A")
+#tab2 %>% filter(nick_name == "ADTIO3A6TM9CG")
+#tab2 %>% filter(nick_name %in% names(table(res$nick_name))[table(res$nick_name) != 10])
+res <- readr::read_csv("../Results/turk21_feedback.csv")
+# remove people who only completed 1 plot
+res <- res %>% filter(!(nick_name %in% names(table(res$nick_name))[table(res$nick_name) != 10]))
+#intersect(names(ids), names(res))
+res2 <- left_join(res, ids, by = 'pic_id')
+res2$correct <- res2$response_no == res2$obs_plot_location
+res2$time <- res2$end_time - res2$start_time
+
+res2$lineup_name <- as.factor(paste(res2$test_param, res2$param_value))
+levels(res2$lineup_name) <- c(paste("M1 v M2 rep", 1:10), paste("M1 v M3 rep", 1:5),
+                              paste("M3 v M1 rep", 1:5), paste("M2 v M1 rep", 1:5))
+
+
+res2 %>% group_by(lineup_name) %>% 
+  summarize(total = n(), tot_correct = sum(correct), perc_correct = tot_correct/total) %>% 
+  arrange(desc(perc_correct)) -> lineup_by_perc_correct
+#lineup_by_perc_correct[which.max(lineup_by_perc_correct$total),]
+#lineup_by_perc_correct[which.min(lineup_by_perc_correct$total),]
+# box plot
+ggplot(data = lineup_by_perc_correct, aes(x = 1, y = perc_correct)) + geom_boxplot() + 
+  scale_y_continuous(breaks = seq(0, 1, .10), labels = paste0(seq(0, 1, .10)*100, "%")) + 
+  coord_flip() + theme_classic() + 
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) + 
+  labs(x = "", title = "Percent of Users Correctly Identifying Alternate Model", y = "")
+@
+
+We collected 10 lineups each from 77 Amazon Turk users on July 28, 2016 from 19:11:03 GMT to 22:17:47 GMT. A table of demographic information is in 
+
+\begin{figure}
+\begin{subfigure}[c]{.45\textwidth}
+\textbf{Gender:} \\
+<<tab_demo, echo=FALSE, results='asis'>>=
+t1 <- t(data.frame(table(tab2$gender)))
+rownames(t1) <- c("Gender:", "Count:")
+colnames(t1) <- t1[1,]
+t1 <- t1[2,]
+kable(t1, format = 'latex')
+@
+\vspace{.5cm}
+\textbf{Education Level:} \\
+<<tab_demo3, echo=FALSE, results='asis'>>=
+t3 <- t(data.frame(table(tab2$academic_study)))
+rownames(t3) <- c("Highest Education:", "Count:")
+colnames(t3) <- t3[1,]
+t3 <- t3[2,]
+kable(t3, format = 'latex')
+@
+\end{subfigure}\hfill
+\begin{subfigure}[c]{.45\textwidth}
+\centering
+\textbf{Age Group:} \\
+<<tab_demo2, echo=FALSE, results='asis'>>=
+t2 <- t(data.frame(table(tab2$age)))
+rownames(t2) <- c("Age:", "Count:")
+colnames(t2) <- t2[1,]
+t2 <- t2[2,]
+kable(t2, format = 'latex')
+@
+\end{subfigure}
+\caption{\label{fig:demos} Demographic information on the Amazon Turk users participating in the experiment}
+\end{figure}
+
+
+Because of the random assignment of the 25 plots to users, almost every lineup was seen by a different number of people. Repetition 3 of M1 v. M3 was seen by 47 different users while repetition 2 of the same type was seen by only 6 different users. The mean number of times seens was 30.8 and the median was 31. In 15 of the 25 lineups, no user chose the correct plot, and in the remaining 10 lineups, the users correctly identified the alternative plot a minimum of 4.35\% of the time and a maximum of 64\% of the time.
+
+<<user_demos, echo=FALSE, warning=FALSE, eval=FALSE>>=
+makeplot_mosaic <- function(data, x, y, ...){
+  xvar <- deparse(substitute(x))
+  yvar <- deparse(substitute(y))
+  mydata <- data[c(xvar, yvar)];
+  mytable <- table(mydata);
+  widths <- c(0, cumsum(apply(mytable, 1, sum)));
+  heights <- apply(mytable, 1, function(x){c(0, cumsum(x/sum(x)))});
+
+  alldata <- data.frame();
+  allnames <- data.frame();
+  for(i in 1:nrow(mytable)){
+    for(j in 1:ncol(mytable)){
+      alldata <- rbind(alldata, c(widths[i], widths[i+1], heights[j, i], heights[j+1, i]));
+    }
+  }
+  colnames(alldata) <- c("xmin", "xmax", "ymin", "ymax")
+
+  alldata[[xvar]] <- rep(dimnames(mytable)[[1]],rep(ncol(mytable), nrow(mytable)));
+  alldata[[yvar]] <- rep(dimnames(mytable)[[2]],nrow(mytable));
+
+  ggplot(alldata, aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax)) + 
+    geom_rect(color="black", aes_string(fill=yvar)) +
+    xlab(paste(xvar, "(count)")) + ylab(paste(yvar, "(proportion)"));
+}
+
+makeplot_mosaic(tab2, x = age, y = academic_study)
+@
+
+<<facets_correct, echo=FALSE, fig.align="center", fig.cap="Plots chosen for each of the 25 lineups in the experiment. The x-axis ticks do not have a label because the label is less important than the number of different plots users chose and whether or not they chose the correct plot, shown in the coloring of the bars.", fig.height=9>>=
+ggplot(data = res2, aes(x = as.factor(response_no), fill = correct)) + 
+  geom_bar(color = 'black') + 
+  scale_fill_manual(values = c("white", "grey30"), name = "Correct?") + 
+  facet_wrap(~lineup_name, scales = "free", nrow = 5) +
+  theme_bw() + 
+  theme(axis.text.x = element_blank(), legend.position = 'bottom') + 
+  labs(x = "User Response" , y = "Number of Responses")
+@
 
 
 \end{document}
