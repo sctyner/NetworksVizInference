@@ -215,7 +215,7 @@ ggplot(data = lineup_by_perc_correct, aes(x = 1, y = perc_correct)) + geom_boxpl
   labs(x = "", title = "Percent of Users Correctly Identifying Alternate Model", y = "")
 @
 
-We collected 10 lineups each from 77 Amazon Turk users on July 28, 2016 from 19:11:03 GMT to 22:17:47 GMT. A table of demographic information is in 
+We collected 10 lineups each from 77 Amazon Turk users on July 28, 2016 from 19:11:03 GMT to 22:17:47 GMT. A table of demographic information collected on the participants in the experiment is in Table~\ref{fig:demos}. 
 
 \begin{figure}
 \begin{subfigure}[c]{.45\textwidth}
@@ -252,36 +252,7 @@ kable(t2, format = 'latex')
 \end{figure}
 
 
-Because of the random assignment of the 25 plots to users, almost every lineup was seen by a different number of people. Repetition 3 of M1 v. M3 was seen by 47 different users while repetition 2 of the same type was seen by only 6 different users. The mean number of times seens was 30.8 and the median was 31. In 15 of the 25 lineups, no user chose the correct plot, and in the remaining 10 lineups, the users correctly identified the alternative plot a minimum of 4.35\% of the time and a maximum of 64\% of the time.
-
-<<user_demos, echo=FALSE, warning=FALSE, eval=FALSE>>=
-makeplot_mosaic <- function(data, x, y, ...){
-  xvar <- deparse(substitute(x))
-  yvar <- deparse(substitute(y))
-  mydata <- data[c(xvar, yvar)];
-  mytable <- table(mydata);
-  widths <- c(0, cumsum(apply(mytable, 1, sum)));
-  heights <- apply(mytable, 1, function(x){c(0, cumsum(x/sum(x)))});
-
-  alldata <- data.frame();
-  allnames <- data.frame();
-  for(i in 1:nrow(mytable)){
-    for(j in 1:ncol(mytable)){
-      alldata <- rbind(alldata, c(widths[i], widths[i+1], heights[j, i], heights[j+1, i]));
-    }
-  }
-  colnames(alldata) <- c("xmin", "xmax", "ymin", "ymax")
-
-  alldata[[xvar]] <- rep(dimnames(mytable)[[1]],rep(ncol(mytable), nrow(mytable)));
-  alldata[[yvar]] <- rep(dimnames(mytable)[[2]],nrow(mytable));
-
-  ggplot(alldata, aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax)) + 
-    geom_rect(color="black", aes_string(fill=yvar)) +
-    xlab(paste(xvar, "(count)")) + ylab(paste(yvar, "(proportion)"));
-}
-
-makeplot_mosaic(tab2, x = age, y = academic_study)
-@
+Because of the random assignment of the 25 plots to users, almost every lineup was seen by a different number of people. Repetition 3 of M1 v. M3 was seen by 47 different users while repetition 2 of the same type was seen by only 6 different users. The mean number of times seens was 30.8 and the median was 31. In 15 of the 25 lineups, no user chose the correct plot, and in the remaining 10 lineups, the users correctly identified the alternative plot a minimum of 4.35\% of the time and a maximum of 64\% of the time. A plot showing the number of different plots chosen, how many times they were chosen, and whether or not it was the correct choice is given in Figure~\ref{fig:facets_correct}. 
 
 <<facets_correct, echo=FALSE, fig.align="center", fig.cap="Plots chosen for each of the 25 lineups in the experiment. The x-axis ticks do not have a label because the label is less important than the number of different plots users chose and whether or not they chose the correct plot, shown in the coloring of the bars.", fig.height=9>>=
 ggplot(data = res2, aes(x = as.factor(response_no), fill = correct)) + 
@@ -293,5 +264,6 @@ ggplot(data = res2, aes(x = as.factor(response_no), fill = correct)) +
   labs(x = "User Response" , y = "Number of Responses")
 @
 
+This plot shows us the abysmal ability of the Turkers to identify the althernatie plot correctly. There are also a few other interesting results from this plot. First, there are several lineups where a majority of participants selected the same wrong alternative plot. Additionally, we see a lot of variation in the number of different plots selected at the alternate plot by the Turkers. At most, there were 10 different plots selected, compared to 2 at the opposite end. 
 
 \end{document}
