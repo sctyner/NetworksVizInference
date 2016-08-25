@@ -306,4 +306,8 @@ ggplot(data = res2, aes(x = lineup_name, y = time)) +
 # fail to reject null
 @
 
+\section{Discussion/Future Work}
+
+This small experiment suggests that detecting a network model difference from just one simulation from one model and 11 from the other model is just about impossible. This result is fairly unsurprising: drawing a single random point from, say, a $\Chi^2_1$ distribution and placing it in a lineup with 11 separate draws from a standard normal distribution would likely have similar results. Every once in a while, a chi-square value would appear that would be too large to belong with draws from a standard normal distribution, but values near 1, the mean, would probably not appear that different from some random standard normal draws. This means that we need to develop a different way to compare two network models. We need a way to visualize many samples from a network model in one panel.
+
 \end{document}
