@@ -264,6 +264,36 @@ ggplot(data = res2, aes(x = as.factor(response_no), fill = correct)) +
   labs(x = "User Response" , y = "Number of Responses")
 @
 
-This plot shows us the abysmal ability of the Turkers to identify the althernatie plot correctly. There are also a few other interesting results from this plot. First, there are several lineups where a majority of participants selected the same wrong alternative plot. Additionally, we see a lot of variation in the number of different plots selected at the alternate plot by the Turkers. At most, there were 10 different plots selected, compared to 2 at the opposite end. 
+This plot shows us the abysmal ability of the Turkers to identify the alternative plot correctly. There are also a few other interesting results from this plot. First, there are several lineups where a majority of participants selected the same wrong alternative plot. Additionally, we see a lot of variation in the number of different plots selected at the alternate plot by the Turkers. At most, there were 10 different plots selected, compared to 2 at the opposite end. \st{XXX is it worth exploring these ``interesting things" more in-depth? XXX}
+
+Next, we investigate the confidence of the experiment's participants in selecting the most different plot from the others. Overall, in 40\% of the responses, the respondent was certain they were correct. User confidence in the remaining categories, neutral, uncertain, very certain, and very uncertain, was 26.88\%, 16.88\%, 9.48\%, and 6.76\%, respectively. These results are summarized by lineup in Figure~\ref{fig:cert_plot}.    
+
+<<cert_plot, echo=FALSE, fig.align='center', fig.height=4, fig.cap="All responses for all lineups, separated by whether the plot selected was the true alternative plot (TRUE) or not (FALSE) and colored by the respondent's uncertainty levels. We see here that most respondents were certain in their answer whether or not they were correct. ">>=
+res2$conf_level <- ordered(res2$conf_level, levels = c("Very Uncertain", "Uncertain", "Neutral", "Certain", "Very Certain"))
+
+ggplot(data = res2, aes(x = lineup_name)) + 
+  geom_bar(aes(fill = conf_level), color = 'grey60') + 
+  scale_fill_brewer(palette = "RdBu") + 
+  coord_flip() + 
+  facet_wrap(~correct) + 
+  theme_bw() + 
+  theme(legend.position = 'bottom')
+
+prop.table(table(res2$conf_level, res2$correct))
+
+@
+
+We next investigate the length of time that users' took to respond to each lineup. The minimum was 3.762 seconds and the maximum was 578.8 seconds (nearly 10 minutes). The median was 13.01 seconds and the mean was 20.32 seconds. 
+
+<<time_plot, echo=FALSE>>=
+#qplot(x = res2$time, binwidth = 2)
+#ggplot(data = res2, aes(x = conf_level, y = time)) + geom_boxplot() + coord_flip()
+ggplot(data = res2, aes(x = lineup_name, y = time)) + 
+  geom_boxplot() + 
+#  facet_wrap(~conf_level) + 
+  coord_flip() + 
+  theme_bw() + 
+  labs(x = "Time (in seconds)", y = "Lineup Name")
+@
 
 \end{document}
