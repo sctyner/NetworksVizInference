@@ -40,7 +40,7 @@ $$ f_i(\beta, x) = \sum_k \beta_k s_{ki}(x)$$
 where $k = 1, \dots, K$, $K$ the number of non-rate parameters in the models and $s_{ki}(x)$ is the corresponding statistic. There are several parameters that can be chosen for use in the objective function. Examples of these parameters and their corresponding statistics are given in Table~\ref{tab:models}.
 
 <<readsim, echo=FALSE, message=FALSE, warning=FALSE>>=
-setwd("~/Desktop/NetworksResearch/NetworksVizInference/Results/")
+setwd("../Results/")
 nulls <- read.csv("../Data/distribution_null_model.csv")
 # names(nulls)[-1] <- c("alpha1", "alpha2", "beta1", "beta2")
 # nulls$Sim <- 1:nrow(nulls)
@@ -268,7 +268,7 @@ This plot shows us the abysmal ability of the Turkers to identify the alternativ
 
 Next, we investigate the confidence of the experiment's participants in selecting the most different plot from the others. Overall, in 40\% of the responses, the respondent was certain they were correct. User confidence in the remaining categories, neutral, uncertain, very certain, and very uncertain, was 26.88\%, 16.88\%, 9.48\%, and 6.76\%, respectively. These results are summarized by lineup in Figure~\ref{fig:cert_plot}. We also performed a 5-sample test for equality of proportions in order to test the null hypothesis that the proportion of correct responses is the same in all 5 certainty categories. This test resulted in a $p$-value of 0.5881, so there is no evidence that the certainty of a user's response affects whether or not they choose the correct plot. This provides further evidence that detecting a network simulated from a different model is an extremely difficult problem. 
 
-<<cert_plot, echo=FALSE, fig.align='center', fig.height=4, fig.cap="All responses for all lineups, separated by whether the plot selected was the true alternative plot (TRUE) or not (FALSE) and colored by the respondent's uncertainty levels. We see here that most respondents were certain in their answer whether or not they were correct. ">>=
+<<cert_plot, echo=FALSE, warning = FALSE, message = FALSE, fig.align='center', fig.height=4, fig.cap="All responses for all lineups, separated by whether the plot selected was the true alternative plot (TRUE) or not (FALSE) and colored by the respondent's uncertainty levels. We see here that most respondents were certain in their answer whether or not they were correct.">>=
 res2$conf_level <- ordered(res2$conf_level, levels = c("Very Uncertain", "Uncertain", "Neutral", "Certain", "Very Certain"))
 
 ggplot(data = res2, aes(x = lineup_name)) + 
@@ -300,7 +300,7 @@ ggplot(data = res2, aes(x = lineup_name, y = time)) +
 #  facet_wrap(~conf_level) + 
   coord_flip() + 
   theme_bw() + 
-  labs(x = "Time (in seconds)", y = "Lineup Name")
+  labs(y = "Time (in seconds)", x = "Lineup Name")
 # 2-sample kolmogorov-smirnov test for equality of distributions
 # ks.test(x = summary(res2$time[res2$correct]), y = summary(res2$time[!res2$correct]))
 # fail to reject null
@@ -308,6 +308,6 @@ ggplot(data = res2, aes(x = lineup_name, y = time)) +
 
 \section{Discussion/Future Work}
 
-This small experiment suggests that detecting a network model difference from just one simulation from one model and 11 from the other model is just about impossible. This result is fairly unsurprising: drawing a single random point from, say, a $\Chi^2_1$ distribution and placing it in a lineup with 11 separate draws from a standard normal distribution would likely have similar results. Every once in a while, a chi-square value would appear that would be too large to belong with draws from a standard normal distribution, but values near 1, the mean, would probably not appear that different from some random standard normal draws. This means that we need to develop a different way to compare two network models. We need a way to visualize many samples from a network model in one panel.
+This small experiment suggests that detecting a network model difference from just one simulation from one model and 11 from the other model is just about impossible. This result is fairly unsurprising: drawing a single random point from, say, a $\chi^2_1$ distribution and placing it in a lineup with 11 separate draws from a standard normal distribution would likely have similar results. Every once in a while, a chi-square value would appear that would be too large to belong with draws from a standard normal distribution, but values near 1, the mean, would probably not appear that different from some random standard normal draws. This means that we need to develop a different way to compare two network models. We need a way to visualize many samples from a network model in one panel.
 
 \end{document}
