@@ -182,14 +182,14 @@ Once the turk user chose the correct plot in the two trial plots, the experiment
 
 <<get_res, echo=FALSE, warning=FALSE, message=FALSE, fig.align="center", fig.cap="Boxplot showing the percent of users correctly choosing the alternative model in all 25 lineups. In 15 out of 25 lineups, no user picked the correct plot. The maximum was 64.00\\%, and the second highest was 35.29\\% correct.", fig.height=3>>=
 ids <- readr::read_csv("https://raw.githubusercontent.com/erichare/lineups/f19635a00507210013ba9e631761ad0c89a6564d/experiments/turk21/details/picture-details.csv")
-tab <- readr::read_csv("../Results/turk21_users.csv")
+tab <- read.csv("../Results/turk21_users.csv")
 tab2 <- unique(tab)
 #length(unique(tab2$nick_name))
 #head(sort(table(tab2$nick_name),decreasing = T))
 #tab2 %>% filter(nick_name == "A3U3L1XQVR362A")
 #tab2 %>% filter(nick_name == "ADTIO3A6TM9CG")
 #tab2 %>% filter(nick_name %in% names(table(res$nick_name))[table(res$nick_name) != 10])
-res <- readr::read_csv("../Results/turk21_feedback.csv")
+res <- read.csv("../Results/turk21_feedback.csv")
 # remove people who only completed 1 plot
 res <- res %>% filter(!(nick_name %in% names(table(res$nick_name))[table(res$nick_name) != 10]))
 #intersect(names(ids), names(res))
