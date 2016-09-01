@@ -571,11 +571,11 @@ Finally we would like to collect some information about you. (age category, educ
 \begin{figure}
 \begin{subfigure}[t]{.45\textwidth}
 \caption{Example 1}
-\includegraphics[width=\textwidth]{Ex1}
+\includegraphics[width=\textwidth]{Results/Ex1}
 \end{subfigure}\hfill
 \begin{subfigure}[t]{.45\textwidth}
 \caption{Example 2}
-\includegraphics[width=\textwidth]{Ex2}
+\includegraphics[width=\textwidth]{Results/Ex2}
 \end{subfigure}
 \caption{\label{fig:lineupex} The first training page in the Amazon Turk experiment.}
 \end{figure}
@@ -583,11 +583,11 @@ Finally we would like to collect some information about you. (age category, educ
 \begin{figure}
 \begin{subfigure}[t]{.45\textwidth}
 \caption{Trial 1}
-\includegraphics[width=\textwidth]{Trial1}
+\includegraphics[width=\textwidth]{Results/Trial1}
 \end{subfigure}\hfill
 \begin{subfigure}[t]{.45\textwidth}
 \caption{Trial 2}
-\includegraphics[width=\textwidth]{Trial2}
+\includegraphics[width=\textwidth]{Results/Trial2}
 \end{subfigure}
 \caption{\label{fig:lineuptrial} The trial plots that users had to get correct in order to participate in the Amazon Turk experiment.}
 \end{figure}
@@ -598,14 +598,14 @@ Once the turk user chose the correct plot in the two trial plots, the experiment
 
 <<get_res, echo=FALSE, warning=FALSE, message=FALSE, fig.align="center", fig.cap="Boxplot showing the percent of users correctly choosing the alternative model in all 25 lineups. In 15 out of 25 lineups, no user picked the correct plot. The maximum was 64.00\\%, and the second highest was 35.29\\% correct.", fig.height=3>>=
 ids <- readr::read_csv("https://raw.githubusercontent.com/erichare/lineups/f19635a00507210013ba9e631761ad0c89a6564d/experiments/turk21/details/picture-details.csv")
-tab <- read.csv("../Results/turk21_users.csv")
+tab <- read.csv("Results/turk21_users.csv")
 tab2 <- unique(tab)
 #length(unique(tab2$nick_name))
 #head(sort(table(tab2$nick_name),decreasing = T))
 #tab2 %>% filter(nick_name == "A3U3L1XQVR362A")
 #tab2 %>% filter(nick_name == "ADTIO3A6TM9CG")
 #tab2 %>% filter(nick_name %in% names(table(res$nick_name))[table(res$nick_name) != 10])
-res <- read.csv("../Results/turk21_feedback.csv", stringsAsFactors = F)
+res <- read.csv("Results/turk21_feedback.csv", stringsAsFactors = F)
 # remove people who only completed 1 plot
 res <- res %>% filter(!(nick_name %in% names(table(res$nick_name))[table(res$nick_name) != 10]))
 # need to repeat rows with weights for people who selected multiple plots.
@@ -671,6 +671,7 @@ t1 <- t(data.frame(table(tab2$gender)))
 rownames(t1) <- c("Gender:", "Count:")
 colnames(t1) <- t1[1,]
 t1 <- t1[2,]
+t1[as.numeric(t1) < 5] <- "*"
 kable(t1, format = 'latex')
 @
 \vspace{.5cm}
@@ -680,6 +681,7 @@ t3 <- t(data.frame(table(tab2$academic_study)))
 rownames(t3) <- c("Highest Education:", "Count:")
 colnames(t3) <- t3[1,]
 t3 <- t3[2,]
+t3[as.numeric(t3) < 5] <- "*"
 kable(t3, format = 'latex')
 @
 \end{subfigure}\hfill
@@ -691,10 +693,15 @@ t2 <- t(data.frame(table(tab2$age)))
 rownames(t2) <- c("Age:", "Count:")
 colnames(t2) <- t2[1,]
 t2 <- t2[2,]
+names(t2)
+t2.2 <- t2
+t2.2 <- t2.2[1:7]
+names(t2.2)[6:7] <- c("46-55", "Over 55")
+t2.2[6:7] <- c(sum(as.numeric(t2[6:7])), sum(as.numeric(t2[8:9])))
 kable(t2, format = 'latex')
 @
 \end{subfigure}
-\caption{\label{fig:demos} Demographic information on the Amazon Turk users participating in the experiment}
+\caption{\label{fig:demos} Demographic information on the Amazon Turk users participating in the experiment. Asterisks (*) indicate less than 5 responses.}
 \end{figure}
 
 
