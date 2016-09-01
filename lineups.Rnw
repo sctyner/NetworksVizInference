@@ -245,6 +245,9 @@ ggplot(data = dad, aes(from_id = from, to_id = to)) +
 \caption{\label{fig:structures}Structural newtwork effects. On the left, a jumping transitive triplet (JTT). On the right, a doubly achieved distance between $i$ and $k$.}
 \end{figure}
 
+The parameters in the objective function are tested for significance using $t$-tests. The test statistic is the ratio of the parameter estimate to its standard error. If this value is larger than 2 in absolute value, then the parameter is said to be significant at the $\alpha = 0.05$ level and should be included in the model. This is a fairly simple statistical test, so we wanted to test whether this significance can be detected visually just as simply as the statistical test detects it. If visualizations of simulated networks from two nested models have a much different appearance when placed side-by-side, then the difference in appearance can be attributed to the additional parameter in one. If, however, there is no visually detectable difference, then the additional parameter does not appear to have changed the network structure all that much. Because model selection and diagnostics for network models are less developed areas of the theory, testing network parameters in this visual way could lead to additional methods of model selection for networks. 
+
+
 \section{Lineup Simulation}
 
 \hh{Needs more specifics: how many lineups were created for each model?}
@@ -546,6 +549,219 @@ qplot(label, weight=tally, fill=data_pick, data=dframe_res) +
 \hh{Figure~\ref{fig:data-picks} shows barcharts of responses from the pilot study detailing the number of data identifications in each lineup. }
 \hh{It is more difficult to identify the data plot in lineups of graphs based on data from models $M_1$ and $M_3$ than  in lineups of graphs based on data from models $M_1$ and $M_2$.
 }
+
+
+\section{Amazon Turk Experiment}
+
+\subsection{Methods}
+In order to test our hypothesis, we set up an amazon turk experiment using the lineup protocal of {\color{green} Buja et all (2009). FIX CITE}. We presented four types of lineups: M1 v. M2, M2 v. M1, M1 v. M3, and M3 v. M1, where M1, M2, and M3 have the objective functions givein in ~\ref{tab:models}. For each lineup, there were 12 plots shown: 11 of the plots were simulated from the first model (the ``null" model) and 1 was simulated from the second model (the ``alternative" model). The order of the plots in the lineups was randomly assigned. 
+
+In order to become a subject in our experiment, the Amazon turk user had to first read through some introductory material and prove they could identify the correct plot in two test lineups, one for M1 v. M2 and one for M2 v. M1. These two lineups were constructed to be very simple in order to train the turkers. Once the turker made it into the experiment, they looked at 10 lineups selected at random from a pool of 25. There were five lineups for each of the four types with an additional five lineups of the type M1 v. M2 which were chosen for their high counts of jumping transitive triplets in the alternative model network in an attempt to gauge how important this statistic is to the visualization of the network. If there are many jumping transitive triplets in the alternative model plot and more turkers correctly choose that plot, that would be evidence that the jumping transitive triplets are very noticeable to the user. \st{????}
+
+\subsection{Procedure}
+
+Each Amazon Turk user was greeted with the following message: ``In this survey a series of similar looking charts will be presented. We would like you to respond to the following questions.
+\begin{enumerate}
+\item Pick the plot based on the survey question
+\item Provide reasons for choice
+\item How certain are you?
+\end{enumerate}
+Finally we would like to collect some information about you. (age category, education and gender)."  Then, they were led through a training page about how to identify the correct plot in a lineup, seen in Figure~\ref{fig:lineupex}. Then, they saw two trial plots that they had to get correct in order to proceed to the rest of the experiment. They chose the plot that looked the most different from the others, why they chose is (most complex, least complex, or other), and how certain they were that they had chosen correctly (Very Uncertain, Uncertain, Neutral, Certain, Very Certain). These trial plots are shown in Figure~\ref{fig:lineuptrial} 
+
+\begin{figure}
+\begin{subfigure}[t]{.45\textwidth}
+\caption{Example 1}
+\includegraphics[width=\textwidth]{Ex1}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{.45\textwidth}
+\caption{Example 2}
+\includegraphics[width=\textwidth]{Ex2}
+\end{subfigure}
+\caption{\label{fig:lineupex} The first training page in the Amazon Turk experiment.}
+\end{figure}
+
+\begin{figure}
+\begin{subfigure}[t]{.45\textwidth}
+\caption{Trial 1}
+\includegraphics[width=\textwidth]{Trial1}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{.45\textwidth}
+\caption{Trial 2}
+\includegraphics[width=\textwidth]{Trial2}
+\end{subfigure}
+\caption{\label{fig:lineuptrial} The trial plots that users had to get correct in order to participate in the Amazon Turk experiment.}
+\end{figure}
+
+Once the turk user chose the correct plot in the two trial plots, the experiment proceeded with the same interface and users selecting which plot they thought was most different, why they thought that, and how certain they were for 10 plots chosen at random. 
+
+\subsection{Results}
+
+<<get_res, echo=FALSE, warning=FALSE, message=FALSE, fig.align="center", fig.cap="Boxplot showing the percent of users correctly choosing the alternative model in all 25 lineups. In 15 out of 25 lineups, no user picked the correct plot. The maximum was 64.00\\%, and the second highest was 35.29\\% correct.", fig.height=3>>=
+ids <- readr::read_csv("https://raw.githubusercontent.com/erichare/lineups/f19635a00507210013ba9e631761ad0c89a6564d/experiments/turk21/details/picture-details.csv")
+tab <- read.csv("../Results/turk21_users.csv")
+tab2 <- unique(tab)
+#length(unique(tab2$nick_name))
+#head(sort(table(tab2$nick_name),decreasing = T))
+#tab2 %>% filter(nick_name == "A3U3L1XQVR362A")
+#tab2 %>% filter(nick_name == "ADTIO3A6TM9CG")
+#tab2 %>% filter(nick_name %in% names(table(res$nick_name))[table(res$nick_name) != 10])
+res <- read.csv("../Results/turk21_feedback.csv", stringsAsFactors = F)
+# remove people who only completed 1 plot
+res <- res %>% filter(!(nick_name %in% names(table(res$nick_name))[table(res$nick_name) != 10]))
+# need to repeat rows with weights for people who selected multiple plots.
+res_norpt <- res[-grep(",", res$response_no),]  
+res_rpt <- res[grep(",", res$response_no),]  
+res_rpt$response_no
+library(stringr)
+# count # of responses (ttr = times to repeat)
+ttr <- str_count(string = res_rpt$response_no, pattern = ",") + 1
+rpt_rows <- rep(1:nrow(res_rpt), ttr)
+rpt_rows2 <- res_rpt[rpt_rows,]
+rpt_rows2$count_response <- unlist(sapply(ttr, seq_len))
+rpt_rows2$weight <- 1/rep(ttr, ttr)
+split_rows <- strsplit(rpt_rows2$response_no, ",")
+rpt_rows2$response_no2 <- NA
+for(i in 1:nrow(rpt_rows2)){
+  rpt_rows2$response_no2[i] <- split_rows[[i]][rpt_rows2$count_response[i]]
+}
+
+res_norpt$count_response <- 1 
+res_norpt$response_no2 <- res_norpt$response_no
+res_norpt$tot_response <- 1 
+res_norpt$weight <- 1
+# res with weight column   
+new_res <- rbind(res_norpt, rpt_rows2)
+
+#intersect(names(ids), names(res))
+res2 <- left_join(new_res, ids, by = 'pic_id')
+res2$correct <- res2$response_no == res2$obs_plot_location
+res2$time <- res2$end_time - res2$start_time
+res2$lineup_name <- as.factor(paste(res2$test_param, res2$param_value))
+# with the correct labels (in order of data plot w/value most different from rest to least different)
+more_details <- read.csv("experimentdetails_Aug31.csv", stringsAsFactors = F)
+res3 <- left_join(res2, more_details, by = c("data_name" = "lineup_filename"))
+# higest jtts are: reps 18, 20, 6, 19, 3 with 
+              # jtts of 40, 24, 18,17, 9
+head(res3)
+res3$group_name <- paste0(res3$group, " #", res3$group.rep)
+
+# get the weights
+res3 %>% group_by(group_name, response_no2, correct) %>% summarise(tot_wt = sum(weight)) -> summ_res_wts
+
+# res3 %>% group_by(group_name) %>% 
+#   summarize(total = n(), tot_correct = sum(correct), perc_correct = tot_correct/total) %>% 
+#   arrange(desc(perc_correct)) -> lineup_by_perc_correct
+#lineup_by_perc_correct[which.max(lineup_by_perc_correct$total),]
+#lineup_by_perc_correct[which.min(lineup_by_perc_correct$total),]
+# box plot no - ew. 
+# ggplot(data = lineup_by_perc_correct, aes(x = 1, y = perc_correct)) + geom_boxplot() + 
+#   scale_y_continuous(breaks = seq(0, 1, .10), labels = paste0(seq(0, 1, .10)*100, "%")) + 
+#   coord_flip() + theme_classic() + 
+#   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) + 
+#   labs(x = "", title = "Percent of Users Correctly Identifying Alternate Model", y = "")
+@
+
+We collected 10 lineups each from 77 Amazon Turk users on July 28, 2016 from 19:11:03 GMT to 22:17:47 GMT. A table of demographic information collected on the participants in the experiment is in Table~\ref{fig:demos}. 
+
+\begin{figure}
+\begin{subfigure}[c]{.45\textwidth}
+\textbf{Gender:} \\
+<<tab_demo, echo=FALSE, results='asis'>>=
+t1 <- t(data.frame(table(tab2$gender)))
+rownames(t1) <- c("Gender:", "Count:")
+colnames(t1) <- t1[1,]
+t1 <- t1[2,]
+kable(t1, format = 'latex')
+@
+\vspace{.5cm}
+\textbf{Education Level:} \\
+<<tab_demo3, echo=FALSE, results='asis'>>=
+t3 <- t(data.frame(table(tab2$academic_study)))
+rownames(t3) <- c("Highest Education:", "Count:")
+colnames(t3) <- t3[1,]
+t3 <- t3[2,]
+kable(t3, format = 'latex')
+@
+\end{subfigure}\hfill
+\begin{subfigure}[c]{.45\textwidth}
+\centering
+\textbf{Age Group:} \\
+<<tab_demo2, echo=FALSE, results='asis'>>=
+t2 <- t(data.frame(table(tab2$age)))
+rownames(t2) <- c("Age:", "Count:")
+colnames(t2) <- t2[1,]
+t2 <- t2[2,]
+kable(t2, format = 'latex')
+@
+\end{subfigure}
+\caption{\label{fig:demos} Demographic information on the Amazon Turk users participating in the experiment}
+\end{figure}
+
+
+Because of the random assignment of the 25 plots to users, almost every lineup was seen by a different number of people. Repetition 3 of M1 v. M3 was seen by 47 different users while repetition 2 of the same type was seen by only 6 different users. The mean number of times seens was 30.8 and the median was 31. In 15 of the 25 lineups, no user chose the correct plot, and in the remaining 10 lineups, the users correctly identified the alternative plot a minimum of 4.35\% of the time and a maximum of 64\% of the time. A plot showing the number of different plots chosen, how many times they were chosen, and whether or not it was the correct choice is given in Figure~\ref{fig:facets_correct}. 
+
+<<facets_correct, echo=FALSE, fig.align="center", fig.cap="Plots chosen for each of the 25 lineups in the experiment. The x-axis ticks do not have a label because the label is less important than the number of different plots users chose and whether or not they chose the correct plot, shown in the coloring of the bars.", fig.height=9>>=
+ggplot(data = summ_res_wts, aes(x = as.factor(response_no2), 
+                                y = tot_wt,
+                                fill = correct)) + 
+  geom_bar(color = 'black', stat = 'identity') + 
+  scale_fill_manual(values = c("white", "grey30"), 
+                    name = "Correct?") + 
+  facet_wrap(~group_name, scales = "free", nrow = 5) +
+  theme_bw() + 
+  theme(axis.text.x = element_blank(), 
+        legend.position = 'bottom') + 
+  labs(x = "User Response" , y = "Number of Responses")
+@
+
+This plot shows us the abysmal ability of the Turkers to identify the alternative plot correctly. There are also a few other interesting results from this plot. First, there are several lineups where a majority of participants selected the same wrong alternative plot. Additionally, we see a lot of variation in the number of different plots selected at the alternate plot by the Turkers. At most, there were 10 different plots selected, compared to 2 at the opposite end. \st{XXX is it worth exploring these ``interesting things" more in-depth? XXX}
+
+Next, we investigate the confidence of the experiment's participants in selecting the most different plot from the others. Overall, in 40\% of the responses, the respondent was certain they were correct. User confidence in the remaining categories, neutral, uncertain, very certain, and very uncertain, was 26.88\%, 16.88\%, 9.48\%, and 6.76\%, respectively. These results are summarized by lineup in Figure~\ref{fig:cert_plot}. We also performed a 5-sample test for equality of proportions in order to test the null hypothesis that the proportion of correct responses is the same in all 5 certainty categories. This test resulted in a $p$-value of 0.5881, so there is no evidence that the certainty of a user's response affects whether or not they choose the correct plot. This provides further evidence that detecting a network simulated from a different model is an extremely difficult problem. 
+
+<<cert_plot, echo=FALSE, warning = FALSE, message = FALSE, fig.align='center', fig.height=4, fig.cap="All responses for all lineups, separated by whether the plot selected was the true alternative plot (TRUE) or not (FALSE) and colored by the respondent's uncertainty levels. We see here that most respondents were certain in their answer whether or not they were correct.">>=
+res2$conf_level <- ordered(res2$conf_level, levels = c("Very Uncertain", "Uncertain", "Neutral", "Certain", "Very Certain"))
+
+ggplot(data = res2, aes(x = lineup_name)) + 
+  geom_bar(aes(fill = conf_level), color = 'grey60') + 
+  scale_fill_brewer(palette = "RdBu") + 
+  coord_flip() + 
+  facet_wrap(~correct) + 
+  theme_bw() + 
+  theme(legend.position = 'bottom')
+
+summary.conf <- data.frame(table(res2$conf_level, res2$correct))
+summary.conf %>% tidyr::spread(Var2, Freq) -> summary.conf
+rownames(summary.conf) <- as.character(summary.conf[,1])
+names(summary.conf) <- c("Var1", "Failures", "Successes")
+summary.conf <- summary.conf[,-1]
+summary.conf <- summary.conf[,c(2,1)]
+prop_test_for_conf_corr <- prop.test(as.matrix(summary.conf))
+@
+
+We next investigate the length of time that users' took to respond to each lineup. The minimum was 3.762 seconds and the maximum was 578.8 seconds (nearly 10 minutes). The median was 13.01 seconds and the mean was 20.32 seconds. First, a 2-sample Kolmogorov-Smirnov test for equality of distribution was done to see if the distribution of times for correct plots chosen is the same as the distribution of times for incorrect plots chosen. This two-sided test resulted in a $p$-value of 1, so there is no evidence that the distribution of times is different whether or not the response was correct. 
+
+<<time_plot, echo=FALSE>>=
+#qplot(x = res2$time, binwidth = 2)
+ggplot(data = res2, aes(x = conf_level, y = time)) + geom_boxplot() + coord_flip()
+ggplot(data = res2, aes(x = correct, y = time)) + geom_boxplot() + coord_flip() + theme_bw()
+ggplot(data = res2, aes(x = time)) + geom_histogram(binwidth = 5, fill ='white', color = 'black') + facet_wrap(~correct, nrow = 2)
+ggplot(data = res2, aes(x = lineup_name, y = time)) + 
+  geom_boxplot() + 
+#  facet_wrap(~conf_level) + 
+  coord_flip() + 
+  theme_bw() + 
+  labs(y = "Time (in seconds)", x = "Lineup Name")
+# 2-sample kolmogorov-smirnov test for equality of distributions
+# ks.test(x = summary(res2$time[res2$correct]), y = summary(res2$time[!res2$correct]))
+# fail to reject null
+@
+
+\subsection{Discussion/Future Work}
+
+This small experiment suggests that detecting a network model difference from just one simulation from one model and 11 from the other model is just about impossible. This result is fairly unsurprising: drawing a single random point from, say, a $\chi^2_1$ distribution and placing it in a lineup with 11 separate draws from a standard normal distribution would likely have similar results. Every once in a while, a chi-square value would appear that would be too large to belong with draws from a standard normal distribution, but values near 1, the mean, would probably not appear that different from some random standard normal draws. This means that we need to develop a different way to compare two network models. We need a way to visualize many samples from a network model in one panel.
+
+
+
 
 \bibliographystyle{apalike}
 \bibliography{lineuppaperbib}
