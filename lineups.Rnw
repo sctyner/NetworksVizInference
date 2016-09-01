@@ -661,7 +661,7 @@ res3 %>% group_by(group_name, response_no2, correct) %>% summarise(tot_wt = sum(
 #   labs(x = "", title = "Percent of Users Correctly Identifying Alternate Model", y = "")
 @
 
-We collected 10 lineups each from 77 Amazon Turk users on July 28, 2016 from 19:11:03 GMT to 22:17:47 GMT. A table of demographic information collected on the participants in the experiment is in Table~\ref{fig:demos}. 
+We collected 10 lineups each from 77 Amazon Turk users. A table of demographic information collected on the participants in the experiment is in Table~\ref{fig:demos}. 
 
 \begin{figure}
 \begin{subfigure}[c]{.45\textwidth}
@@ -701,7 +701,8 @@ kable(t2, format = 'latex')
 Because of the random assignment of the 25 plots to users, almost every lineup was seen by a different number of people. Repetition 3 of M1 v. M3 was seen by 47 different users while repetition 2 of the same type was seen by only 6 different users. The mean number of times seens was 30.8 and the median was 31. In 15 of the 25 lineups, no user chose the correct plot, and in the remaining 10 lineups, the users correctly identified the alternative plot a minimum of 4.35\% of the time and a maximum of 64\% of the time. A plot showing the number of different plots chosen, how many times they were chosen, and whether or not it was the correct choice is given in Figure~\ref{fig:facets_correct}. 
 
 <<facets_correct, echo=FALSE, fig.align="center", fig.cap="Plots chosen for each of the 25 lineups in the experiment. The x-axis ticks do not have a label because the label is less important than the number of different plots users chose and whether or not they chose the correct plot, shown in the coloring of the bars.", fig.height=9>>=
-ggplot(data = summ_res_wts, aes(x = as.factor(response_no2), 
+ggplot(data = summ_res_wts, 
+       aes(x = reorder(as.factor(response_no2), -tot_wt), 
                                 y = tot_wt,
                                 fill = correct)) + 
   geom_bar(color = 'black', stat = 'identity') + 
@@ -709,9 +710,8 @@ ggplot(data = summ_res_wts, aes(x = as.factor(response_no2),
                     name = "Correct?") + 
   facet_wrap(~group_name, scales = "free", nrow = 5) +
   theme_bw() + 
-  theme(axis.text.x = element_blank(), 
-        legend.position = 'bottom') + 
-  labs(x = "User Response" , y = "Number of Responses")
+  theme(legend.position = 'bottom') + 
+  labs(x = "User Response" , y = "Number of Responses") 
 @
 
 This plot shows us the abysmal ability of the Turkers to identify the alternative plot correctly. There are also a few other interesting results from this plot. First, there are several lineups where a majority of participants selected the same wrong alternative plot. Additionally, we see a lot of variation in the number of different plots selected at the alternate plot by the Turkers. At most, there were 10 different plots selected, compared to 2 at the opposite end. \st{XXX is it worth exploring these ``interesting things" more in-depth? XXX}
