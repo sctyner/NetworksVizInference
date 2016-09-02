@@ -611,7 +611,7 @@ res <- res %>% filter(!(nick_name %in% names(table(res$nick_name))[table(res$nic
 # need to repeat rows with weights for people who selected multiple plots.
 res_norpt <- res[-grep(",", res$response_no),]  
 res_rpt <- res[grep(",", res$response_no),]  
-res_rpt$response_no
+
 library(stringr)
 # count # of responses (ttr = times to repeat)
 ttr <- str_count(string = res_rpt$response_no, pattern = ",") + 1
@@ -620,15 +620,17 @@ rpt_rows2 <- res_rpt[rpt_rows,]
 rpt_rows2$count_response <- unlist(sapply(ttr, seq_len))
 rpt_rows2$weight <- 1/rep(ttr, ttr)
 split_rows <- strsplit(rpt_rows2$response_no, ",")
+rpt_rows2$tot_response <- rep(ttr, ttr)
 rpt_rows2$response_no2 <- NA
 for(i in 1:nrow(rpt_rows2)){
   rpt_rows2$response_no2[i] <- split_rows[[i]][rpt_rows2$count_response[i]]
 }
 
 res_norpt$count_response <- 1 
+res_norpt$weight <- 1
 res_norpt$response_no2 <- res_norpt$response_no
 res_norpt$tot_response <- 1 
-res_norpt$weight <- 1
+
 # res with weight column   
 new_res <- rbind(res_norpt, rpt_rows2)
 
@@ -642,7 +644,6 @@ more_details <- read.csv("experimentdetails_Aug31.csv", stringsAsFactors = F)
 res3 <- left_join(res2, more_details, by = c("data_name" = "lineup_filename"))
 # higest jtts are: reps 18, 20, 6, 19, 3 with 
               # jtts of 40, 24, 18,17, 9
-head(res3)
 res3$group_name <- paste0(res3$group, " #", res3$group.rep)
 
 # get the weights
@@ -693,12 +694,11 @@ t2 <- t(data.frame(table(tab2$age)))
 rownames(t2) <- c("Age:", "Count:")
 colnames(t2) <- t2[1,]
 t2 <- t2[2,]
-names(t2)
 t2.2 <- t2
 t2.2 <- t2.2[1:7]
 names(t2.2)[6:7] <- c("46-55", "Over 55")
 t2.2[6:7] <- c(sum(as.numeric(t2[6:7])), sum(as.numeric(t2[8:9])))
-kable(t2, format = 'latex')
+kable(t2.2, format = 'latex')
 @
 \end{subfigure}
 \caption{\label{fig:demos} Demographic information on the Amazon Turk users participating in the experiment. Asterisks (*) indicate less than 5 responses.}
