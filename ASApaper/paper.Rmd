@@ -1,0 +1,78 @@
+---
+title: Visual Inference for Goodness-of-Fit for A Network Model
+
+# to produce blinded version set to 1
+blinded: 0
+
+authors: 
+- name: Sam Tyner
+  thanks: The authors gratefully acknowledge ...
+  affiliation: Department of Statistics, Iowa State University
+  
+- name: Heike Hofmann
+  affiliation: Department of Statistics, Iowa State University
+
+keywords:
+- statistics
+- social networks
+- more
+
+abstract: |
+  The text of your abstract.  200 or fewer words.
+
+bibliography: bibliography.bib
+output: rticles::asa_article
+---
+
+# Introduction
+
+# Data
+
+# Model Definition and Choice
+
+
+## Choosing appropriate models
+
+In order to determine which models to explore for application of our novel goodness-of-fit testing method, we first fit many possible models and selected a few significant effects. To determine the significance of the effects, we followed this procedure: 
+
+1. Define the simple effects structure of the data: the rate parameters and the outdegree and reciprocity parameters. 
+2. Add each possible effect one-at-a-time to the model structure, as determined by the effects documentation function.
+3. Fit each model to the data and check for convergence.
+    a. If the model converged, move to 4.
+    b. If the model did not converge, use the previous fitted values as starting values and repeat 5 times or until convergence, whichever comes first.
+4. Test the added parameter for significance using the Wald-type test.
+5. Report out the estimate of the additional parameter, its standard error, Wald $p$ value, and convergence criterion. 
+
+After completing the procedure for all model effects, we selected effects to include that converged and had a Wald $p$-value of less than 0.10, and seemed to have a reasonable interpretation for our data. 
+
+# Simulation Procedure
+
+1. Fit each model 1,000 times and save the parameter estimates, standard errors, and overall convergence criterion.
+2. (From the models that converged ?) Compute the mean of the 1,000 estimates of each parameter.
+3. Use the mean values from step 2 as the parameter values in the model and simulate 100 observations from the model. These simulated networks will become the "true data."
+4. To each simulation, refit the model form from which it was simulated. 
+5. Repeat steps 4-5 for various permutations of model forms and parameter values; e.g. double the parameter values, quadruple the parameter values, change the signs on the parameters, etc.
+6. Simulate additional "alternative data" from the model in step 3 and the fitted model in step 4. 
+7. Place the appropriate node-link diagram of each "true data" observation in a lineup with $M-1$ (M=12? M=9?) "alternative data" node-link diagrams. 
+8. Show the lineups to participants, with no participant seeing the same "true data" or "alternative data" plot twice. 
+
+
+<!--
+This template demonstrates some of the basic latex you'll need to know to create a ASA article.
+
+\section{Verifications}
+\label{sec:verify}
+This section will be just long enough to illustrate what a full page of
+text looks like, for margins and spacing.
+
+@Campbell02 @Schubert13 [@Chi81]
+
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+The quick brown fox jumped over the lazy dog.
+__With this spacing we have 30 lines per page.__
+-->
+
+
+

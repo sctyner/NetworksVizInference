@@ -70,6 +70,7 @@ rownames(nbills_au) <- senateCovars$source
 bills <- varCovar(nbills_au)
 # rsiena objects are party, sex, bills, senateData2
 senateSiena <- sienaDataCreate( senateData2, bills, sex, party )
+save(senateSiena, file = "Data/senate/senateSienaNoHRC.rda")
 senateModelEff <- getEffects(senateSiena)
 #setwd("Data/senate")
 #effectsDocumentation(senateModelEff)
