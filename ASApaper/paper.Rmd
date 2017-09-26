@@ -24,6 +24,14 @@ bibliography: bibliography.bib
 output: rticles::asa_article
 ---
 
+```{r pkgs, echo = FALSE}
+library(tidyverse)
+library(RSienaTest)
+library(RSiena)
+library(geomnet)
+library(GGally)
+```
+
 # Introduction
 
 # Data
@@ -55,6 +63,41 @@ After completing the procedure for all model effects, we selected effects to inc
 6. Simulate additional "alternative data" from the model in step 3 and the fitted model in step 4. 
 7. Place the appropriate node-link diagram of each "true data" observation in a lineup with $M-1$ (M=12? M=9?) "alternative data" node-link diagrams. 
 8. Show the lineups to participants, with no participant seeing the same "true data" or "alternative data" plot twice. 
+
+# Exploratory plots
+
+```{r M1}
+M1senateEsts <- read_csv("../Data/senate/basicModelFitsSenate1000.csv")
+inisdSenateEsts <- read_csv("../Data/senate/inisdModelFitsSenate1000.csv")
+# ggpairs(M1senateEsts, columns = 1:8)
+# M1senateEsts %>% mutate(converged = (maxConv <= 0.25)) %>% 
+#   ggplot() + 
+#   geom_density(aes(x = density, color = converged), adjust = .5) 
+# M1senateEsts %>% mutate(converged = (maxConv <= 0.25)) %>% 
+#   ggplot() + 
+#   geom_histogram(aes(x = density, color = converged), binwidth = .005, fill = NA) + facet_wrap(~converged)
+
+M1senateEsts %>% 
+  select(Rate:recip, maxConv, sim) %>% 
+  gather(parameter, estimate, Rate:recip) -> melt1 
+M1senateEsts %>% 
+  select(se_density:sim) %>% 
+  gather(parameter, se, se_density:se_recip) %>% 
+  mutate(parameter = str_replace(parameter, "se_", "")) -> melt2 
+
+left_join(melt1, melt2) %>% arrange(sim) -> M1SenEstsLong 
+
+
+inisdSenateEsts %>% 
+  select(Rate:inIsDegree, maxConv, sim) %>% 
+  gather(parameter, estimate, Rate:inIsDegree) -> melt1 
+inisdSenateEsts %>% 
+  select(se_density:sim) %>% 
+  gather(parameter, se, se_density:se_inIsDegree) %>% 
+  mutate(parameter = str_replace(parameter, "se_", "")) -> melt2 
+left_join(melt1, melt2) %>% arrange(sim) -> inisdSenEstsLong
+
+```
 
 
 <!--
