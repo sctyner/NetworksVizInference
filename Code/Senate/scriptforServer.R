@@ -1,5 +1,5 @@
 library(RSiena)
-load("senateSienaNoHRC.rda")
+load("Data/senate/senateSienaNoHRC.rda")
 # basic effects structure
 SenBasic <- getEffects(senateSiena)
 # basic algorithm structure
@@ -8,8 +8,8 @@ myalg <- sienaAlgorithmCreate( projname = Sys.time() , n3 = 1000)
 #Senjtt_p <- includeEffects(SenBasic, "jumpXTransTrip", include = TRUE, type = "eval", interaction1 = "party", character = TRUE)
 #Senjtt_s <- includeEffects(SenBasic, "jumpXTransTrip", include = TRUE, type = "eval", interaction1 = "sex", character = TRUE)
 # SeninIsD <- includeEffects(SenBasic, "inIsDegree", include = TRUE, type = "eval", interaction1 = "", character = TRUE)
-# Sensame_p <- includeEffects(SenBasic, "sameX", include = TRUE, type = "eval", interaction1 = "party", character = TRUE)
- Senstt_b <- includeEffects(SenBasic, "simXTransTrip", include = TRUE, type = "eval", interaction1 = "bills", character = TRUE)
+Sensame_p <- includeEffects(SenBasic, "sameX", include = TRUE, type = "eval", interaction1 = "party", character = TRUE)
+# Senstt_b <- includeEffects(SenBasic, "simXTransTrip", include = TRUE, type = "eval", interaction1 = "bills", character = TRUE)
 # Sensimre_p <- includeEffects(SenBasic, "simRecipX", include = TRUE, type = "eval", interaction1 = "party", character = TRUE)
 # Sentt_p <- includeEffects(SenBasic, "transTrip", include = TRUE, type = "eval", interaction1 = "", character = TRUE)
 # Senstt_p <- includeEffects(SenBasic, "sameXTransTrip", include = TRUE, type = "eval", interaction1 = "party", character = TRUE)
@@ -72,8 +72,9 @@ write.csv(simttbFitsSenate, "Data/senate/simttbModelFitsSenate1000.csv")
 # write.csv(samepFitsSenate, "Data/senate/samepModelFitsSenate800.csv")
 # samepFitsSenate <- get_effects_dist(dat = senateSiena, struct = Sensame_p, N = 100)
 # write.csv(samepFitsSenate, "Data/senate/samepModelFitsSenate900.csv")
-# samepFitsSenate <- get_effects_dist(dat = senateSiena, struct = Sensame_p, N = 100)
-# write.csv(samepFitsSenate, "Data/senate/samepModelFitsSenate1000.csv")
+samepFitsSenate <- get_effects_dist(dat = senateSiena, struct = Sensame_p, N = 2)
+samepFitsSenate2 <- get_effects_dist(dat = senateSiena, struct = Sensame_p, N = 98)
+write.csv(samepFitsSenate, "Data/senate/samepModelFitsSenate1000.csv")
 
 
 

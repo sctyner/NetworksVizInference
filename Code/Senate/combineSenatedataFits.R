@@ -51,18 +51,34 @@ jttpSen10 <- read_csv("Data/senate/jttpModelFitsSenate1000.csv")
 
 alljttpsen <- do.call(rbind, list(jttpSen1, jttpSen2, jttpSen3, jttpSen4,
                       jttpSen5,jttpSen6,jttpSen7,jttpSen8,jttpSen9,jttpSen10))
-head(alljttpsen)
-alljttpsen <- alljttpsen[,-1]
+names(alljttpsen)[1] <- "sim"
+alljttpsen$sim <- 1:nrow(alljttpsen)
 #write_csv(alljttpsen, "Data/senate/jttpModelFitsSenateAll1000.csv")
 
 alljttpsen %>% mutate(converged = maxConv <= 0.25) %>% 
 ggplot() + 
   geom_density(aes(x = jumpXTransTrip, color = converged))
 
-
 alljttpsen %>% mutate(lower = jumpXTransTrip - 1.96*se_jumpXTransTrip, 
                    upper = jumpXTransTrip + 1.96*se_jumpXTransTrip,
                    issig = !(0 < upper & 0 > lower)) %>% 
 ggplot() + geom_histogram(aes(jumpXTransTrip, fill = issig), position = "fill")
   
-    ggplot() + geom_density(aes(x = jumpXTransTrip, color = issig))
+# jtts 
+
+jttsSen1 <- read_csv("Data/senate/jttsModelFitsSenate100.csv")
+jttsSen2 <- read_csv("Data/senate/jttsModelFitsSenate200.csv")
+jttsSen3 <- read_csv("Data/senate/jttsModelFitsSenate300.csv")
+jttsSen4 <- read_csv("Data/senate/jttsModelFitsSenate400.csv")
+jttsSen5 <- read_csv("Data/senate/jttsModelFitsSenate500.csv")
+jttsSen6 <- read_csv("Data/senate/jttsModelFitsSenate600.csv")
+jttsSen7 <- read_csv("Data/senate/jttsModelFitsSenate700.csv")
+jttsSen8 <- read_csv("Data/senate/jttsModelFitsSenate800.csv")
+jttsSen9 <- read_csv("Data/senate/jttsModelFitsSenate900.csv")
+jttsSen10 <- read_csv("Data/senate/jttsModelFitsSenate1000.csv")
+
+alljttssen <- do.call(rbind, list(jttsSen1, jttsSen2, jttsSen3, jttsSen4,
+                                  jttsSen5,jttsSen6,jttsSen7,jttsSen8,jttsSen9,jttsSen10))
+names(alljttssen)[1] <- "sim"
+alljttssen$sim <- 1:nrow(alljttssen)
+#write_csv(alljttssen, "Data/senate/jttsModelFitsSenateAll1000.csv")

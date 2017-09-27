@@ -51,7 +51,9 @@ In order to determine which models to explore for application of our novel goodn
 4. Test the added parameter for significance using the Wald-type test.
 5. Report out the estimate of the additional parameter, its standard error, Wald $p$ value, and convergence criterion. 
 
-After completing the procedure for all model effects, we selected effects to include that converged and had a Wald $p$-value of less than 0.10, and seemed to have a reasonable interpretation for our data. 
+After completing the procedure for all model effects, we selected effects to include that converged and had a Wald $p$-value of less than 0.10, and seemed to have a reasonable interpretation for our data.
+
+The most significant effect was the jumping transitive triplet (JTT) parameter for the party covariate, which was estimated to be about -6 with a standard error of 0.11. This effect relies on the number of transitive closures formed between two senators from different parties. Due to the divisive nature of American politics, the party effect is dominant. Another significant effect was the same JTT parameter for the sex covariate, with an estimate of about 3 with a standard error of 0.89. Another significant effect was the covariate-related similarity score-weighted transitive triplets for the number of bills authored by a senator. This effect was estimated at about 10 with standard error of 3.9, and the high positive effect suggests senators tend to collaborate with other senators who author about the same number of bills they do. 
 
 # Simulation Procedure
 
@@ -69,6 +71,8 @@ After completing the procedure for all model effects, we selected effects to inc
 ```{r M1}
 M1senateEsts <- read_csv("../Data/senate/basicModelFitsSenate1000.csv")
 inisdSenateEsts <- read_csv("../Data/senate/inisdModelFitsSenate1000.csv")
+jttpSenateEsts <- read_csv("../Data/senate/jttpModelFitsSenateAll1000.csv")
+jttsSenateEsts <- read_csv("../Data/senate/jttsModelFitsSenateAll1000.csv")
 # ggpairs(M1senateEsts, columns = 1:8)
 # M1senateEsts %>% mutate(converged = (maxConv <= 0.25)) %>% 
 #   ggplot() + 
@@ -77,6 +81,7 @@ inisdSenateEsts <- read_csv("../Data/senate/inisdModelFitsSenate1000.csv")
 #   ggplot() + 
 #   geom_histogram(aes(x = density, color = converged), binwidth = .005, fill = NA) + facet_wrap(~converged)
 
+# make ests long - M1
 M1senateEsts %>% 
   select(Rate:recip, maxConv, sim) %>% 
   gather(parameter, estimate, Rate:recip) -> melt1 
@@ -84,10 +89,9 @@ M1senateEsts %>%
   select(se_density:sim) %>% 
   gather(parameter, se, se_density:se_recip) %>% 
   mutate(parameter = str_replace(parameter, "se_", "")) -> melt2 
-
 left_join(melt1, melt2) %>% arrange(sim) -> M1SenEstsLong 
 
-
+# make ests long - inisd
 inisdSenateEsts %>% 
   select(Rate:inIsDegree, maxConv, sim) %>% 
   gather(parameter, estimate, Rate:inIsDegree) -> melt1 
@@ -96,6 +100,26 @@ inisdSenateEsts %>%
   gather(parameter, se, se_density:se_inIsDegree) %>% 
   mutate(parameter = str_replace(parameter, "se_", "")) -> melt2 
 left_join(melt1, melt2) %>% arrange(sim) -> inisdSenEstsLong
+
+# make ests long - jttp
+jttpSenateEsts %>% 
+  select(Rate:jumpXTransTrip, maxConv, sim) %>% 
+  gather(parameter, estimate, Rate:jumpXTransTrip) -> melt1 
+jttpSenateEsts %>% 
+  select(se_density:maxConv, sim) %>% 
+  gather(parameter, se, se_density:se_jumpXTransTrip) %>% 
+  mutate(parameter = str_replace(parameter, "se_", "")) -> melt2 
+left_join(melt1, melt2) %>% arrange(sim) -> jttpSenLong
+
+# make ests long - jtts
+jttsSenateEsts %>% 
+  select(Rate:jumpXTransTrip, maxConv, sim) %>% 
+  gather(parameter, estimate, Rate:jumpXTransTrip) -> melt1 
+jttsSenateEsts %>% 
+  select(se_density:maxConv, sim) %>% 
+  gather(parameter, se, se_density:se_jumpXTransTrip) %>% 
+  mutate(parameter = str_replace(parameter, "se_", "")) -> melt2 
+left_join(melt1, melt2) %>% arrange(sim) -> jttsSenLong
 
 ```
 
