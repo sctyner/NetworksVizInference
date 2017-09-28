@@ -82,3 +82,21 @@ alljttssen <- do.call(rbind, list(jttsSen1, jttsSen2, jttsSen3, jttsSen4,
 names(alljttssen)[1] <- "sim"
 alljttssen$sim <- 1:nrow(alljttssen)
 #write_csv(alljttssen, "Data/senate/jttsModelFitsSenateAll1000.csv")
+
+samepSen1 <- read_csv("Data/senate/samepModelFitsSenate100.csv")
+samepSen2 <- read_csv("Data/senate/samepModelFitsSenate200.csv")
+samepSen3 <- read_csv("Data/senate/samepModelFitsSenate300.csv")
+samepSen4 <- read_csv("Data/senate/samepModelFitsSenate400.csv")
+samepSen5 <- read_csv("Data/senate/samepModelFitsSenate500.csv")
+samepSen6 <- read_csv("Data/senate/samepModelFitsSenate600.csv")
+samepSen7 <- read_csv("Data/senate/samepModelFitsSenate700.csv")
+samepSen8 <- read_csv("Data/senate/samepModelFitsSenate800.csv")
+samepSen9 <- read_csv("Data/senate/samepModelFitsSenate900.csv")
+samepSen10 <- read_csv("Data/senate/samepModelFitsSenate1000.csv")
+
+head(samepSen5)
+
+allsamepSen <- do.call(rbind, list(samepSen1[,-1], samepSen2[,-1], samepSen3[,-1], samepSen4[,-1], samepSen5[,-1],
+                                   samepSen6[,-1], samepSen7[,-1], samepSen8[,-1], samepSen9[,-1], samepSen10))
+allsamepSen$sim <- 1:nrow(allsamepSen)
+#write_csv(allsamepSen, "Data/senate/samepModelFitsSenateall1000.csv")
