@@ -24,7 +24,7 @@ bibliography: bibliography.bib
 output: rticles::asa_article
 ---
 
-```{r pkgs, echo = FALSE}
+```{r pkgs, echo = FALSE, message=FALSE,warning=FALSE}
 library(tidyverse)
 library(RSienaTest)
 library(RSiena)
@@ -34,41 +34,70 @@ library(GGally)
 
 # Introduction
 
+Talk about goodness-of-fit 
+
+Talk about political networks
+
 # Data
+
+The data we use are of collaboration networks in the United States Senate during the $111^{th}$ through $114^{th}$ Congresses, overlapping with Barack Obama's presidency. These senates began on January 6, 2009 and ended on January 3, 2017.^[Details of how this data can be downloaded are provided by François Briatte at https://github.com/briatte/congress]. In this network, ties are directed from senator $i$ to senator $j$ when senator $i$ signs on as a cosponsor to the bill that senator $j$ authored. There are (somewhat surprisingly) many hundreds of ties between senators when they are connected in this way, so we simplify the network by computing a single value for each senator-senator collaboration called the *weighted propensity to cosponsor* (WPC). This value is defined in @senate as 
+
+\begin{equation}\label{eq:sen1}
+    WPC_{ij} = \dfrac{\sum\limits_{k=1}^{n_j} \frac{Y_{ij(k)}}{c_{j(k)}}}{\sum\limits_{k=1}^{n_j} \frac{1}{c_{j(k)}}}
+\end{equation}
+
+
+where $n_j$ is the number of bills in a congressional session authored by senator $j$, $c_{j(k)}$ is the number of cosponsors on senator $j$'s $k^{th}$ bill, where $k \in \{1,\dots, n_j\}$, and $Y_{ij(k)}$ is a binary variable that is 1 if senator $i$ cosponsored senator $j$'s $k^{th}$ bill, and is 0 otherwise. This measure ranges in value from 0 to 1, where $WPC_{ij} = 1$ if senator $i$ is a cosponsor on every one of senator $j$'s bills and $WPC_{ij} = 0$ if senator $i$ is never a cosponsor any of senator $j$'s bills. 
 
 # Model Definition and Choice
 
+To model family that we apply to the Senate data is the Stochastic Actor-Oriented Model (SAOM) family. This family of models incorporates both network structure and node-level information to describe how a network changes over time. This model was first introduced by Snijders in 1996 [@saompaper]. The two titular properties of SAOMs, stochasticity and actor-orientation, are crucial to understanding networks as they exist naturally: social networks are ever-changing as relationships decay or grow in seemingly random ways, and most actors in them have characteristics that could affect how they change their ties to other nodes in the network. 
+
+In cosponsorship networks, it is well known that party affiliation and reciprocity of relationships are major influences on structure [@legnet].
 
 ## Choosing appropriate models
 
 In order to determine which models to explore for application of our novel goodness-of-fit testing method, we first fit many possible models and selected a few significant effects. To determine the significance of the effects, we followed this procedure: 
 
-1. Define the simple effects structure of the data: the rate parameters and the outdegree and reciprocity parameters. 
-2. Add each possible effect one-at-a-time to the model structure, as determined by the effects documentation function.
-3. Fit each model to the data and check for convergence.
-    a. If the model converged, move to 4.
-    b. If the model did not converge, use the previous fitted values as starting values and repeat 5 times or until convergence, whichever comes first.
-4. Test the added parameter for significance using the Wald-type test.
-5. Report out the estimate of the additional parameter, its standard error, Wald $p$ value, and convergence criterion. 
-
+\begin{enumerate}
+\item Define the simple effects structure of the data: the rate parameters and the outdegree and reciprocity parameters. 
+\item Add each possible effect one-at-a-time to the model structure, as determined by the effects documentation function.
+\item Fit each model to the data and check for convergence.
+    \begin{enumerate}
+    \item If the model converged, move to 4.
+    \item If the model did not converge, use the previous fitted values as starting values and repeat 5 times or until convergence, whichever comes first.
+    \end{enumerate}
+\item Test the added parameter for significance using the Wald-type test.
+\item Report out the estimate of the additional parameter, its standard error, Wald $p$ value, and convergence criterion.
+\end{enumerate}
+ 
 After completing the procedure for all model effects, we selected effects to include that converged and had a Wald $p$-value of less than 0.10, and seemed to have a reasonable interpretation for our data.
 
-The most significant effect was the jumping transitive triplet (JTT) parameter for the party covariate, which was estimated to be about -6 with a standard error of 0.11. This effect relies on the number of transitive closures formed between two senators from different parties. Due to the divisive nature of American politics, the party effect is dominant. Another significant effect was the same JTT parameter for the sex covariate, with an estimate of about 3 with a standard error of 0.89. Another significant effect was the covariate-related similarity score-weighted transitive triplets for the number of bills authored by a senator. This effect was estimated at about 10 with standard error of 3.9, and the high positive effect suggests senators tend to collaborate with other senators who author about the same number of bills they do. 
+The most significant effect was the jumping transitive triplet (JTT) parameter for the party covariate, which was estimated to be about -6 with a standard error of 0.11. This effect relies on the number of transitive closures formed between two senators from different parties. Due to the divisive nature of American politics, the party effect is dominant. Another significant effect was the same JTT parameter for the sex covariate, with an estimate of about 3 with a standard error of 0.89. Another significant effect was the covariate-related similarity score-weighted transitive triplets for the number of bills authored by a senator. This effect was estimated at about 10 with standard error of 3.9, and the high positive effect suggests senators tend to collaborate with other senators who author about the same number of bills they do. Finally, we found the same party transitive triplet effect was also significant, with a fitted value of 1.3 and standard error of 0.7. 
+
+List of effects: 
+\begin{enumerate}
+\item jtt - party
+\item jtt - sex
+\item similiarity trans trip - bills
+\item same tt - party
+\end{enumerate}
 
 # Simulation Procedure
-
-1. Fit each model 1,000 times and save the parameter estimates, standard errors, and overall convergence criterion.
-2. (From the models that converged ?) Compute the mean of the 1,000 estimates of each parameter.
-3. Use the mean values from step 2 as the parameter values in the model and simulate 100 observations from the model. These simulated networks will become the "true data."
-4. To each simulation, refit the model form from which it was simulated. 
-5. Repeat steps 4-5 for various permutations of model forms and parameter values; e.g. double the parameter values, quadruple the parameter values, change the signs on the parameters, etc.
-6. Simulate additional "alternative data" from the model in step 3 and the fitted model in step 4. 
-7. Place the appropriate node-link diagram of each "true data" observation in a lineup with $M-1$ (M=12? M=9?) "alternative data" node-link diagrams. 
-8. Show the lineups to participants, with no participant seeing the same "true data" or "alternative data" plot twice. 
+\begin{enumerate}
+\item Fit each model 1,000 times and save the parameter estimates, standard errors, and overall convergence criterion.
+\item (From the models that converged ?) Compute the mean of the 1,000 estimates of each parameter.
+\item Use the mean values from step 2 as the parameter values in the model and simulate 100 observations from the model. These simulated networks will become the "true data."
+\item To each simulation, refit the model form from which it was simulated. 
+\item Repeat steps 4-5 for various permutations of model forms and parameter values; e.g. double the parameter values, quadruple the parameter values, change the signs on the parameters, etc.
+\item Simulate additional "alternative data" from the model in step 3 and the fitted model in step 4. 
+\item Place the appropriate node-link diagram of each "true data" observation in a lineup with $M-1$ (M=12? M=9?) "alternative data" node-link diagrams. 
+\item Show the lineups to participants, with no participant seeing the same "true data" or "alternative data" plot twice. 
+\end{enumerate}
 
 # Exploratory plots
 
-```{r M1}
+```{r M1, echo = FALSE, message=FALSE,warning=FALSE}
 M1senateEsts <- read_csv("../Data/senate/basicModelFitsSenate1000.csv")
 inisdSenateEsts <- read_csv("../Data/senate/inisdModelFitsSenate1000.csv")
 jttpSenateEsts <- read_csv("../Data/senate/jttpModelFitsSenateAll1000.csv")
@@ -122,7 +151,6 @@ jttsSenateEsts %>%
 left_join(melt1, melt2) %>% arrange(sim) -> jttsSenLong
 
 ```
-
 
 <!--
 This template demonstrates some of the basic latex you'll need to know to create a ASA article.
