@@ -98,57 +98,7 @@ List of effects:
 # Exploratory plots
 
 ```{r M1, echo = FALSE, message=FALSE,warning=FALSE}
-M1senateEsts <- read_csv("../Data/senate/basicModelFitsSenate1000.csv")
-inisdSenateEsts <- read_csv("../Data/senate/inisdModelFitsSenate1000.csv")
-jttpSenateEsts <- read_csv("../Data/senate/jttpModelFitsSenateAll1000.csv")
-jttsSenateEsts <- read_csv("../Data/senate/jttsModelFitsSenateAll1000.csv")
-# ggpairs(M1senateEsts, columns = 1:8)
-# M1senateEsts %>% mutate(converged = (maxConv <= 0.25)) %>% 
-#   ggplot() + 
-#   geom_density(aes(x = density, color = converged), adjust = .5) 
-# M1senateEsts %>% mutate(converged = (maxConv <= 0.25)) %>% 
-#   ggplot() + 
-#   geom_histogram(aes(x = density, color = converged), binwidth = .005, fill = NA) + facet_wrap(~converged)
 
-# make ests long - M1
-M1senateEsts %>% 
-  select(Rate:recip, maxConv, sim) %>% 
-  gather(parameter, estimate, Rate:recip) -> melt1 
-M1senateEsts %>% 
-  select(se_density:sim) %>% 
-  gather(parameter, se, se_density:se_recip) %>% 
-  mutate(parameter = str_replace(parameter, "se_", "")) -> melt2 
-left_join(melt1, melt2) %>% arrange(sim) -> M1SenEstsLong 
-
-# make ests long - inisd
-inisdSenateEsts %>% 
-  select(Rate:inIsDegree, maxConv, sim) %>% 
-  gather(parameter, estimate, Rate:inIsDegree) -> melt1 
-inisdSenateEsts %>% 
-  select(se_density:sim) %>% 
-  gather(parameter, se, se_density:se_inIsDegree) %>% 
-  mutate(parameter = str_replace(parameter, "se_", "")) -> melt2 
-left_join(melt1, melt2) %>% arrange(sim) -> inisdSenEstsLong
-
-# make ests long - jttp
-jttpSenateEsts %>% 
-  select(Rate:jumpXTransTrip, maxConv, sim) %>% 
-  gather(parameter, estimate, Rate:jumpXTransTrip) -> melt1 
-jttpSenateEsts %>% 
-  select(se_density:maxConv, sim) %>% 
-  gather(parameter, se, se_density:se_jumpXTransTrip) %>% 
-  mutate(parameter = str_replace(parameter, "se_", "")) -> melt2 
-left_join(melt1, melt2) %>% arrange(sim) -> jttpSenLong
-
-# make ests long - jtts
-jttsSenateEsts %>% 
-  select(Rate:jumpXTransTrip, maxConv, sim) %>% 
-  gather(parameter, estimate, Rate:jumpXTransTrip) -> melt1 
-jttsSenateEsts %>% 
-  select(se_density:maxConv, sim) %>% 
-  gather(parameter, se, se_density:se_jumpXTransTrip) %>% 
-  mutate(parameter = str_replace(parameter, "se_", "")) -> melt2 
-left_join(melt1, melt2) %>% arrange(sim) -> jttsSenLong
 
 ```
 

@@ -31,6 +31,7 @@ M1senateEsts <- read_csv("Data/senate/basicModelFitsSenate1000.csv")
 jttpSenateEsts <- read_csv("Data/senate/jttpModelFitsSenateAll1000.csv")
 jttsSenateEsts <- read_csv("Data/senate/jttsModelFitsSenateAll1000.csv")
 samepSenateEsts <- read_csv("Data/senate/samepModelFitsSenateall1000.csv")
+simttbSenateEsts <- read_csv("Data/senate/simttbModelFitsSenateAll1000.csv")
 
 M1SenMeans <- M1senateEsts %>% filter(maxConv <=0.25) %>% summarise_at(.cols = 1:5, .funs = mean) %>% as.numeric()
 M1SenNconv <-  M1senateEsts %>% filter(maxConv <=0.25) %>% count() %>% as.numeric
@@ -40,6 +41,10 @@ jttsSenMeans <- jttsSenateEsts %>% filter(maxConv <=0.25) %>% summarise_at(.cols
 jttsSenNconv <- jttsSenateEsts %>% filter(maxConv <=0.25) %>% count() %>% as.numeric
 samepSenMeans <- samepSenateEsts %>% filter(maxConv <=0.25) %>% summarise_at(.cols = 2:7, .funs = mean) %>% as.numeric()
 samePSenNconv <- samepSenateEsts %>% filter(maxConv <=0.25) %>% count() %>% as.numeric
+simttbSenMeans <- simttbSenateEsts %>% filter(maxConv <= 0.25) %>% summarise_at(.cols = 2:7, .funs = mean) %>% as.numeric()
+simttbSenNconv <- simttbSenateEsts %>% filter(maxConv <=0.25) %>% count() %>% as.numeric
+
+
 
 ######################################################################################################
 # Dont need to do again!  
@@ -50,6 +55,8 @@ samePSenNconv <- samepSenateEsts %>% filter(maxConv <=0.25) %>% count() %>% as.n
 #jttpdat <- saom_simulate(dat = senateSiena, struct = Senjtt_p, parms = jttpSenMeans, N = 1000)
 #jttsdat <- saom_simulate(dat = senateSiena, struct = Senjtt_s, parms = jttsSenMeans, N = 1000)
 #samepdat <- saom_simulate(dat = senateSiena, struct = Sensame_p, parms = samepSenMeans, N=1000)
+simttbdat <- saom_simulate(dat = senateSiena, struct = Senstt_b, parms = simttbSenMeans, N=1000)
+
 
 #M1datavgSen2 <- net_avg(sims = M1dat, wave = 1)
 #M1datavgSen3 <- net_avg(sims = M1dat, wave = 2)
@@ -59,11 +66,13 @@ samePSenNconv <- samepSenateEsts %>% filter(maxConv <=0.25) %>% count() %>% as.n
 #jttpdatdf <- sims_to_df(jttpdat)
 #jttsdatdf <- sims_to_df(jttsdat)
 #samepdatdf <- sims_to_df(samepdat) 
+simttbdatdf <- sims_to_df(simttbdat)
 
 #write_csv(M1datdf, 'Data/senate/“TrueData"/M1senSimDat.csv')
 #write_csv(jttpdatdf, 'Data/senate/“TrueData"/jttpSenSimDat.csv')
 #write_csv(jttsdatdf, 'Data/senate/“TrueData"/jttsSenSimDat.csv')
-#write_csv(samepdatdf, 'Data/senate/“TrueData"/samepDenSimDat.csv')
+#write_csv(samepdatdf, 'Data/senate/FauxTrueData/samepSenSimDat.csv')
+#write_csv(simttbdatdf, "Data/senate/FauxTrueData/simttbSenSimDat.csv")
 ######################################################################################################
 
 
