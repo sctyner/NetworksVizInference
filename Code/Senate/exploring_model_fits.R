@@ -127,3 +127,5 @@ ggplot(data = allModelsLong %>% filter(!str_detect(parameter, "Rate") & maxConv 
   geom_point(aes(x = se, y = estimate, color = parameter)) + 
   facet_wrap(~model, scales = 'free')
 
+
+

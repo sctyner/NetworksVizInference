@@ -86,7 +86,7 @@ List of effects:
 # Simulation Procedure
 \begin{enumerate}
 \item Fit each model 1,000 times and save the parameter estimates, standard errors, and overall convergence criterion.
-\item (From the models that converged ?) Compute the mean of the 1,000 estimates of each parameter.
+\item From the models that converged, compute the mean of the 1,000 estimates of each parameter.
 \item Use the mean values from step 2 as the parameter values in the model and simulate 100 observations from the model. These simulated networks will become the "true data."
 \item To each simulation, refit the model form from which it was simulated. 
 \item Repeat steps 4-5 for various permutations of model forms and parameter values; e.g. double the parameter values, quadruple the parameter values, change the signs on the parameters, etc.

@@ -45,6 +45,10 @@ se114adj <- make_se_adjmat(se_no = 114, obamaSenates = senateNet)
 
 remove_sens <- which(!(colnames(se111adj) %in% senators))
 
+allSensAMempty <- startingsemat[-remove_sens, -remove_sens]
+save(allSensAMempty, file = "Data/senate/allSensAdjMatEmpty.RDS")
+
+
 se111adj <- se111adj[-remove_sens, -remove_sens]
 se112adj <- se112adj[-remove_sens, -remove_sens]
 se113adj <- se113adj[-remove_sens, -remove_sens]
