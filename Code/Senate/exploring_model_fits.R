@@ -1,12 +1,12 @@
 # Exploratory Data analyses
 library(tidyverse)
-M1senateEsts <- read_csv("../Data/senate/basicModelFitsSenate1000.csv")
+M1senateEsts <- read_csv("Data/senate/basicModelFitsSenate1000.csv")
 #inisdSenateEsts <- read_csv("../Data/senate/inisdModelFitsSenate1000.csv")
-jttpSenateEsts <- read_csv("../Data/senate/jttpModelFitsSenateAll1000.csv")
-jttsSenateEsts <- read_csv("../Data/senate/jttsModelFitsSenateAll1000.csv")
-samepSenateEsts <- read_csv("../Data/senate/samepModelFitsSenateall1000.csv")
-simttbSenateEsts <- read_csv("../Data/senate/simttbModelFitsSenateAll1000.csv")
-samettpSenateEsts <- read_csv("../Data/senate/samettpModelFitsSenateAll1000.csv")
+jttpSenateEsts <- read_csv("Data/senate/jttpModelFitsSenateAll1000.csv")
+jttsSenateEsts <- read_csv("Data/senate/jttsModelFitsSenateAll1000.csv")
+samepSenateEsts <- read_csv("Data/senate/samepModelFitsSenateall1000.csv")
+simttbSenateEsts <- read_csv("Data/senate/simttbModelFitsSenateAll1000.csv")
+samettpSenateEsts <- read_csv("Data/senate/samettpModelFitsSenateAll1000.csv")
 
 # ggpairs(M1senateEsts, columns = 1:8)
 # M1senateEsts %>% mutate(converged = (maxConv <= 0.25)) %>% 

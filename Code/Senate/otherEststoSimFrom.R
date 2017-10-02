@@ -95,5 +95,5 @@ simstoget$N <- (20-1)*10
 gotsims <- simstoget %>%   
   mutate(sims = pmap(.f = saom_simulate2, 
                      .l = list(dat = dat, struct = structs, parms = inits, N = N)))
-
+save(gotsims, file = "Data/senate/FauxTrueData/M_1_sims_for_fdata.RDS")
 

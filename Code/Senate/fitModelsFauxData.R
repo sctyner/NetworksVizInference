@@ -1,5 +1,6 @@
 # fit every model to the simulated data
-
+library(RSiena)
+library(tidyverse)
 load("Data/senate/senateSienaNoHRC.rda")
 
 SenBasic <- getEffects(senateSiena)
