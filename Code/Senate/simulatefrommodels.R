@@ -32,6 +32,8 @@ jttpSenateEsts <- read_csv("Data/senate/jttpModelFitsSenateAll1000.csv")
 jttsSenateEsts <- read_csv("Data/senate/jttsModelFitsSenateAll1000.csv")
 samepSenateEsts <- read_csv("Data/senate/samepModelFitsSenateall1000.csv")
 simttbSenateEsts <- read_csv("Data/senate/simttbModelFitsSenateAll1000.csv")
+samettpSenateEsts <- read_csv("Data/senate/samettpModelFitsSenateAll1000.csv")
+
 
 # get means 
 M1SenMeans <- M1senateEsts %>% filter(maxConv <=0.25) %>% summarise_at(.cols = 1:5, .funs = mean) %>% as.numeric()

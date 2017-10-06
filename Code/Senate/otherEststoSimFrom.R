@@ -13,6 +13,9 @@ simttbSenNconv <- simttbSenateEsts %>% filter(maxConv <=0.25) %>% count() %>% as
 samettpSenMeans <- samettpSenateEsts %>% filter(maxConv <= 0.25) %>% summarise_at(.cols = 2:7, .funs = mean) %>% as.numeric()
 samettpSenNconv <- samettpSenateEsts %>% filter(maxConv <=0.25) %>% count() %>% as.numeric
 
+modelMeanEsts <- tibble(model = c("basic", "jttp", "jtts", "samep", "samettp", "simttb"), 
+       ests = list(M1SenMeans, jttpSenMeans, jttsSenMeans, samepSenMeans, samettpSenMeans, simttbSenMeans))
+save(modelMeanEsts, file = "Data/senate/allModelMeans.RDS")
 
 basicParms <- (M1SenEstsLong %>% select(parameter) %>% unique())[[1]] 
 jttpParms <- (jttpSenLong %>% select(parameter) %>% unique())[[1]] 
