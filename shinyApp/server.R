@@ -76,7 +76,7 @@ server <- function(input, output) {
         newparms <- c(1,1,1,input$mult, input$mult)
       } else if(input$basicParm == "density"){
         newparms <- c(1,1,1,input$mult, 1)
-      } else if(input$basicParm == "none"){
+      } else if(input$basicParm == "reciprocity"){
         newparms <- c(1,1,1,1,input$mult)
       } else{
         newparms <- c(1,1,1,1,1)
