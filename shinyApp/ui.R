@@ -46,16 +46,16 @@ ui <- fluidPage(
     
     # Main panel for displaying outputs ----
     mainPanel(
-        navbarPage(title = "",
-        # Output: Lineup
-        tabPanel("Lineup", plotOutput(outputId = "lineup")), 
-        # Output: which is the data plot
-        tabPanel("Data plot", textOutput(outputId = "dataPlot")),
-        # Output: data from the lineup
-        tabPanel("Lineup data", dataTableOutput(outputId = "lineupData"),
-                 downloadButton("downloadData", "Download")
-        )
+      navbarPage(title = "",
+                 # Output: Lineup
+                 tabPanel("Lineup", plotOutput(outputId = "lineup", height = 600)), 
+                 # Output: which is the data plot
+                 tabPanel("Data plot", textOutput(outputId = "dataPlot")),
+                 # Output: data from the lineup
+                 tabPanel("Lineup data", dataTableOutput(outputId = "lineupData"),
+                          downloadButton("downloadData", "Download")
+                 )
       )
     )
   )
-)
+  )
