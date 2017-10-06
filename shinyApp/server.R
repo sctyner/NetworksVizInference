@@ -4,11 +4,11 @@ library(tidyverse)
 library(RSiena)
 library(geomnet)
 # senate siena data
-load('../Data/senate/senateSienaNoHRC.rda')
+load('dat/senateSienaNoHRC.rda')
 # all data for the "data plot"
-alldat <- read_csv("../Data/senate/FauxTrueData/alldatasims.csv")
+alldat <- read_csv("dat/alldatasims.csv")
 # get model means that we start with
-load("../Data/senate/allModelMeans.RDS")
+load("dat/allModelMeans.RDS")
 # siena models to simulate from 
 SenBasic <- getEffects(senateSiena)
 Senjtt_p <- includeEffects(SenBasic, "jumpXTransTrip", include = TRUE, type = "eval", interaction1 = "party", character = TRUE)
@@ -29,6 +29,29 @@ saom_simulate2 <- function(dat, struct, parms, N) {
   getsims <- siena07(myalgorithm, data = dat, returnDeps = TRUE, 
                      effects = struct, batch = TRUE, verbose = FALSE, silent = TRUE)
   return(getsims$sims)
+}
+# turn simulation lists into dfs 
+sims_to_df <- function(sims) {
+  N <- length(sims)
+  waves <- length(sims[[1]][[1]][[1]])
+  simsdf <- NULL
+  counter <- 1
+  for (i in 1:N) {
+    for (j in 1:waves) {
+      dat <- as.data.frame(sims[[i]][[1]][[1]][[j]])
+      names(dat) <- c("from", "to", "dep.var.id")
+      ids <- unique(c(unique(dat$from), unique(dat$to)))
+      nodes <- data.frame(id = ids)
+      dat2 <- merge(dat, nodes, by.x = "from", by.y = "id", 
+                    all = T)
+      dat2$wave = j
+      dat2$sim = i
+      simsdf[[counter]] <- dat2
+      counter <- counter + 1
+    }
+  }
+  mydf <- plyr::rbind.fill(simsdf)
+  return(mydf)
 }
 
 # Define server logic required to draw a histogram ----
