@@ -68,7 +68,7 @@ server <- function(input, output) {
     nulldat <- filter(alldat, model == input$model)
     set.seed(input$seed)
     whichdat <- sample(max(nulldat$sim), 1)
-    nulldat <- filter(nulldat, sim == whichdat) %>% mutate(sim = 1001)
+    nulldat <- filter(nulldat, sim == whichdat, wave == input$wave) %>% mutate(sim = 1001)
     
     # make new parameter vectors
     if (input$model == "basic"){
@@ -76,9 +76,12 @@ server <- function(input, output) {
         newparms <- c(1,1,1,input$mult, input$mult)
       } else if(input$basicParm == "density"){
         newparms <- c(1,1,1,input$mult, 1)
-      } else{
+      } else if(input$basicParm == "none"){
         newparms <- c(1,1,1,1,input$mult)
+      } else{
+        newparms <- c(1,1,1,1,1)
       }
+        
     } else {
       newparms <- c(1,1,1,1,1,input$mult)
     }
