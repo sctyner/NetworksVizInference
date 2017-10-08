@@ -35,7 +35,7 @@ ui <- fluidPage(
       # Input: multiplier of effect size
       numericInput(inputId = "mult", 
                    label = "Choose effect multiplier:", 
-                   value = 5, min = -10, max = 10),
+                   value = 5, min = -1000, max = 1000),
       # Input: set a seed
       numericInput(inputId = "seed",
                    label = "Set a random seed:", 
