@@ -67,8 +67,13 @@ server <- function(input, output) {
     # get a null data set
     nulldat <- filter(alldat, model == input$model)
     set.seed(input$seed)
-    whichdat <- sample(max(nulldat$sim), 1)
-    nulldat <- filter(nulldat, sim == whichdat, wave == input$wave) %>% mutate(sim = 1001)
+    if (input$reverse){
+      whichdat <- sample(max(nulldat$sim), input$M-1)
+      nulldat <- filter(nulldat, sim %in% whichdat, wave == input$wave)
+    } else {
+      whichdat <- sample(max(nulldat$sim), 1)
+      nulldat <- filter(nulldat, sim == whichdat, wave == input$wave) %>% mutate(sim = 1001)
+    }
     
     # make new parameter vectors
     if (input$model == "basic"){
@@ -86,16 +91,37 @@ server <- function(input, output) {
       newparms <- c(1,1,1,1,1,input$mult)
     }
     
+    # get effects structure and mean
+    if(input$mult == 0){
+      Struct <- allStructs[which(allStructs$model == "basic"),][[2]][[1]]
+      Means <- modelMeanEsts[which(modelMeanEsts$model == "basic"),][[2]][[1]]
+    } else {
+      Struct <- allStructs[which(allStructs$model == input$model),][[2]][[1]]
+      Means <- modelMeanEsts[which(modelMeanEsts$model == input$model),][[2]][[1]]
+    }
+    
     #simulate alternate data
-    sienaSim <- saom_simulate2(dat = senateSiena,
-                               struct = allStructs[which(allStructs$model == input$model),][[2]][[1]],
-                               parms = modelMeanEsts[which(modelMeanEsts$model == input$model),][[2]][[1]]*newparms,
+    if (input$reverse){
+      sienaSim <- saom_simulate2(dat = senateSiena,
+                                 struct = Struct,
+                                 parms = Means*newparms,
+                                 N = 2)
+      altdat <- sims_to_df(sienaSim)
+      altdat <- altdat %>% filter(wave == input$wave, sim == 2) %>% mutate(sim = -1)
+      altdat$model <- ifelse(input$model == "basic", 
+                             paste0("reverse",input$basicParm,input$mult),
+                             paste0("reverse",input$model, "x", input$mult))
+    } else{
+        sienaSim <- saom_simulate2(dat = senateSiena,
+                               struct = Struct,
+                               parms = Means*newparms,
                                N = input$M - 1)
-    altdat <- sims_to_df(sienaSim)
-    altdat <- altdat %>% filter(wave == input$wave)
-    altdat$model <- ifelse(input$model == "basic", 
+        altdat <- sims_to_df(sienaSim)
+        altdat <- altdat %>% filter(wave == input$wave)
+        altdat$model <- ifelse(input$model == "basic", 
                            paste0(input$basicParm,input$mult),
                            paste0(input$model, "x", input$mult))
+    }
     # combine data 
     dat_for_lu <- bind_rows(altdat, nulldat) %>%  
       mutate(from = paste0("V", from), to = ifelse(is.na(to), to, paste0("V", to))) 
@@ -159,8 +185,11 @@ server <- function(input, output) {
   })
   output$dataPlot <- renderText({
     dat <- dat_for_lu()
-    Mm <- max(dat$ord)
-    expr = which(table(dat$sim, dat$ord)[Mm,] != 0)
+    if (input$reverse){
+      unique(dat$ord[which(dat$sim == -1)])
+    } else{
+      unique(dat$ord[which(dat$sim == 1001)])
+    }
   })
   output$lineupData <- renderDataTable({
     dat <- dat_for_lu()
@@ -169,7 +198,7 @@ server <- function(input, output) {
   
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste(input$model, "x", input$mult,"sd",input$seed, ".csv", sep = "")
+      paste(input$model, "x", input$mult,"sd",input$seed, "rev", input$reverse, ".csv", sep = "")
     },
     content = function(file) {
       dat <- dat_for_lu()

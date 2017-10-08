@@ -40,6 +40,10 @@ ui <- fluidPage(
       numericInput(inputId = "seed",
                    label = "Set a random seed:", 
                    value = 123456, min = 10000, max = 999999, step = 1),
+      # Input: "reverse" the lineup or not? Check box to reverse
+      checkboxInput(inputId = "reverse", 
+                    label = 'Check to "reverse" lineup (1 multiplied plot, M-1 non-multiplied)', 
+                    value = FALSE),
       # Submit button 
       submitButton(text = "Generate lineup!", icon = icon("connectdevelop"))
     ),
