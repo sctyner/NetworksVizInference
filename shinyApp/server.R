@@ -88,7 +88,11 @@ server <- function(input, output) {
       }
         
     } else {
-      newparms <- c(1,1,1,1,1,input$mult)
+      if (input$mult == 0){
+        newparms <- c(1,1,1,1,1)
+      } else{
+        newparms <- c(1,1,1,1,1,input$mult)
+      }
     }
     
     # get effects structure and mean
