@@ -31,7 +31,8 @@ saom_simulate2 <- function(dat, struct, parms, N) {
   return(getsims$sims)
 }
 # turn simulation lists into dfs 
-sims_to_df <- function(sims) {
+sims_to_df <- function(sims, dat) {
+  Nact <- length(dat$nodeSets$Actors)
   N <- length(sims)
   waves <- length(sims[[1]][[1]][[1]])
   simsdf <- NULL
@@ -40,7 +41,7 @@ sims_to_df <- function(sims) {
     for (j in 1:waves) {
       dat <- as.data.frame(sims[[i]][[1]][[1]][[j]])
       names(dat) <- c("from", "to", "dep.var.id")
-      ids <- unique(c(unique(dat$from), unique(dat$to)))
+      ids <- 1:Nact
       nodes <- data.frame(id = ids)
       dat2 <- merge(dat, nodes, by.x = "from", by.y = "id", 
                     all = T)
@@ -50,7 +51,7 @@ sims_to_df <- function(sims) {
       counter <- counter + 1
     }
   }
-  mydf <- plyr::rbind.fill(simsdf)
+  mydf <- dplyr::bind_rows(simsdf)
   return(mydf)
 }
 
@@ -66,13 +67,29 @@ server <- function(input, output) {
   dat_for_lu <- reactive({
     # get a null data set
     nulldat <- filter(alldat, model == input$model)
+    # needed to add singletons in later
+    ids <- 1:length(senateSiena$nodeSets$Actors)
+    #set seed 
     set.seed(input$seed)
-    if (input$reverse){
+    # get the "data"
+    if (input$whichModel == "alt"){
       whichdat <- sample(max(nulldat$sim), input$M-1)
       nulldat <- filter(nulldat, sim %in% whichdat, wave == input$wave)
+      nodes <- data.frame(id = rep(ids, input$M-1), 
+                          sim = rep(unique(nulldat$sim), each = max(ids)),
+                          wave = 1, model = unique(nulldat$model))
+      nulldat <- merge(nulldat, nodes, by.x = c("from", "wave", "sim", "model"), 
+                       by.y = c("id", "wave", "sim", "model"), all = T)
+      nulldat <- select(nulldat, from, to, dep.var.id, wave, sim, model) %>% arrange(sim, from, to)
     } else {
       whichdat <- sample(max(nulldat$sim), 1)
       nulldat <- filter(nulldat, sim == whichdat, wave == input$wave) %>% mutate(sim = 1001)
+      nodes <- data.frame(id = ids, 
+                          sim = 1001,
+                          wave = 1, model = unique(nulldat$model))
+      nulldat <- merge(nulldat, nodes, by.x = c("from", "wave", "sim", "model"), 
+                       by.y = c("id", "wave", "sim", "model"), all = T)
+      nulldat <- select(nulldat, from, to, dep.var.id, wave, sim, model) %>% arrange(sim, from, to)
     }
     
     # make new parameter vectors
@@ -105,22 +122,22 @@ server <- function(input, output) {
     }
     
     #simulate alternate data
-    if (input$reverse){
+    if (input$whichModel == "alt"){
       sienaSim <- saom_simulate2(dat = senateSiena,
                                  struct = Struct,
                                  parms = Means*newparms,
                                  N = 2)
-      altdat <- sims_to_df(sienaSim)
+      altdat <- sims_to_df(sienaSim, senateSiena)
       altdat <- altdat %>% filter(wave == input$wave, sim == 2) %>% mutate(sim = -1)
       altdat$model <- ifelse(input$model == "basic", 
-                             paste0("reverse",input$basicParm,input$mult),
-                             paste0("reverse",input$model, "x", input$mult))
+                             paste0("alt",input$basicParm,input$mult),
+                             paste0("alt",input$model, "x", input$mult))
     } else{
         sienaSim <- saom_simulate2(dat = senateSiena,
                                struct = Struct,
                                parms = Means*newparms,
                                N = input$M - 1)
-        altdat <- sims_to_df(sienaSim)
+        altdat <- sims_to_df(sienaSim, senateSiena)
         altdat <- altdat %>% filter(wave == input$wave)
         altdat$model <- ifelse(input$model == "basic", 
                            paste0(input$basicParm,input$mult),
@@ -189,7 +206,7 @@ server <- function(input, output) {
   })
   output$dataPlot <- renderText({
     dat <- dat_for_lu()
-    if (input$reverse){
+    if (input$whichModel == "alt"){
       unique(dat$ord[which(dat$sim == -1)])
     } else{
       unique(dat$ord[which(dat$sim == 1001)])
@@ -202,7 +219,7 @@ server <- function(input, output) {
   
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste(input$model, "x", input$mult,"sd",input$seed, "rev", input$reverse, ".csv", sep = "")
+      paste(input$model, "x", input$mult,"sd",input$seed, "pick", input$whichModel, ".csv", sep = "")
     },
     content = function(file) {
       dat <- dat_for_lu()
