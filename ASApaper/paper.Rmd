@@ -23,20 +23,35 @@ abstract: |
 bibliography: bibliography.bib
 output: rticles::asa_article
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE, echo = FALSE, message=FALSE,warning=FALSE,
+                      out.width = '\\linewidth')
+```
 
-```{r pkgs, echo = FALSE, message=FALSE,warning=FALSE}
+```{r pkgs}
 library(tidyverse)
 library(RSienaTest)
 library(RSiena)
 library(geomnet)
 library(GGally)
+load("../Data/senate/senateSienaNoHRC.rda")
+
 ```
 
 # Introduction
 
-Talk about goodness-of-fit 
+<!--Talk about SAOMs-->
+XX cleverly worded intro sentences about social networks and ways to model them XX... One such model, introduced by @saompaper, is the *stochastic actor-oriented model* (SAOM). This model is unique among network modeling techniques because it (1) incorporates node-level information into the process in addition the usual network structural information and (2) incorporates two or more observations of a network to capture how relationships between nodes change in time. These unique properties allow for the fitting of some very complicated models to inherently complex data, so it can be exceedingly difficult to interpret parameters and their corresponding estimates. The sheer amount of possible parameters to include in the model combined with the difficulty of interpretation make model selection and goodness-of-fit testing burdensome as well. 
 
-Talk about political networks
+<!--Talk about visual inference-->
+We propose to attack some of the aforementioned difficulties with SAOMs by using a technique known as *visual inference*. This technique was created by @Bujaetal to provide well-defined, statistical rigor to the usual exploratory data analyses and model diagnostics that are typically performed by visualizing the data as opposed to looking at it raw or gathering numerical summaries of it. 
+
+
+<!--Talk about political networks-->
+
+<!--Talk about goodness-of-fit--> 
+
+<!--Talk about significance testings--> 
 
 # Data
 
@@ -48,6 +63,51 @@ The data we use are of collaboration networks in the United States Senate during
 
 
 where $n_j$ is the number of bills in a congressional session authored by senator $j$, $c_{j(k)}$ is the number of cosponsors on senator $j$'s $k^{th}$ bill, where $k \in \{1,\dots, n_j\}$, and $Y_{ij(k)}$ is a binary variable that is 1 if senator $i$ cosponsored senator $j$'s $k^{th}$ bill, and is 0 otherwise. This measure ranges in value from 0 to 1, where $WPC_{ij} = 1$ if senator $i$ is a cosponsor on every one of senator $j$'s bills and $WPC_{ij} = 0$ if senator $i$ is never a cosponsor any of senator $j$'s bills. 
+
+```{r senateAll, fig.cap="The four senate collaboration networks that we estimate "}
+seobama <- read_csv("../Data/senate/senateobamapres_gsw_25.csv")
+to_label <- c("Joseph R. Biden Jr.", "John S. McCain", "Ted Cruz","Marco Rubio",
+  "Lindsey O. Graham","Rand Paul", "Bernard Sanders", "Jim Webb", "Mitch McConnell",
+  "Harry M. Reid", "Hillary Rodham Clinton", "Amy Jean Klobuchar")
+seobama$label <- as.factor(ifelse(seobama$source %in% to_label, seobama$source, ""))
+levels(seobama$label) <- c("", "Amy Klobuchar", "Bernie Sanders", "Harry Reid",
+                           "Hillary Clinton", "Jim Webb", "John McCain", "Joe Biden",
+                           "Lindsey Graham", "Marco Rubio", "Mitch McConnell", 
+                           "Rand Paul", "Ted Cruz")
+se111clint <- filter(seobama, senate == 111)
+se111noclint <- filter(seobama, senate == 111)
+se111noclint$target[which(se111noclint$target == "Hillary Rodham Clinton")] <- NA
+seobama2 <- seobama %>% filter(senate != 111) %>% bind_rows(se111noclint)
+
+set.seed(56049382)
+ggplot(data = seobama2) + 
+  geom_net(directed = T, labelon=T, arrowsize = .25, singletons= T, fiteach = T, linewidth = .25, layout.alg = 'fruchtermanreingold', fontsize = 3, repel=T, 
+           aes(from_id = source, to_id = target, color = party, label = label),
+           size = 1) + 
+  theme_net() + 
+  scale_color_manual(values = c("royalblue", "forestgreen","firebrick")) + 
+  theme(legend.position = 'bottom', strip.text = element_text(size = 14)) + 
+  facet_wrap(~senate, nrow = 2, labeller = "label_both") + 
+  xlim(c(0,1.05)) + 
+  ylim(c(0,1.05))
+```
+```{r senateClinton}
+se111clint$Clinton <- 'Yes'
+se111noclint$Clinton <- 'No'
+clintonSenate <- rbind(se111clint, se111noclint)
+clintonSenate$Clinton <- as.factor(clintonSenate$Clinton)
+clintonSenate$Clinton <- ordered(clintonSenate$Clinton, levels = c("Yes", "No"))
+clintonSenate %>% filter(!(source %in% c("Roland Burris", "Bernard Sanders", "Frank R. Lautenberg", "Judd A. Gregg", "Mary L. Landrieu") & is.na(target))) %>%
+ggplot() + 
+  geom_net(directed = T, labelon=F, arrowsize = .3, singletons= F, fiteach = T, arrowgap = .01, layout.alg = 'fruchtermanreingold',
+           aes(from_id = source, to_id = target, color = party, linewidth = gsw, shape = sex,size = n_au)) + 
+  scale_size_continuous(name="# bills\nauthored") +
+  theme_net() + 
+  scale_shape_manual(values = c(17,16)) + 
+  scale_color_manual(values = c("royalblue", "forestgreen","firebrick")) + 
+  theme(legend.position = 'bottom') + 
+  facet_wrap(~Clinton, nrow = 1, labeller = 'label_both')
+```
 
 # Model Definition and Choice
 
@@ -95,12 +155,13 @@ List of effects:
 \item Show the lineups to participants, with no participant seeing the same "true data" or "alternative data" plot twice. 
 \end{enumerate}
 
-# Exploratory plots
+# Experiment Set-Up
 
-```{r M1, echo = FALSE, message=FALSE,warning=FALSE}
+We want to determine at which point an effect becomes noticeable in a SAOM. By *noticeable*, we mean that the inclusion of the effect alters the appearance of networks simulated from a model. An effect becomes noticeable when as simulation from a model with a noticeable effect appears different from simulations from a model where the same affect is absent. Because the traditional way to visualize a network is a node-link diagram, we will examine the affect of different parameter values using node-link visualizations. 
 
+# Results
 
-```
+# Conclusions & Future Work
 
 <!--
 This template demonstrates some of the basic latex you'll need to know to create a ASA article.
