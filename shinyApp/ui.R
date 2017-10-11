@@ -17,10 +17,10 @@ ui <- fluidPage(
                     label = 'Which model are you designating?', 
                     choices = list("Null (simulate M-1 new plots)" = "null",
                                    "Alternative (simulate 1 new plot)" = "alt"),
-                    selected = "null"),
+                    selected = "alt"),
       # Input: pick a model
       selectInput(inputId = "model",
-                  label = "Select a model:",
+                  label = "Select an effect to test:",
                   choices = list("basic" = "basic", "jttp (-3.45)" = "jttp", "jtts (3.34)"= "jtts", 
                               "samep (.20)" = "samep", "samettp (1.33)" = "samettp", "simttb (10.09)" = "simttb"),
                   selected = "basic"),
@@ -31,7 +31,7 @@ ui <- fluidPage(
       # Input: pick density, reciprocity, or both when basic is selected above 
       selectInput(inputId = "basicParm", 
                   label = "Select a parameter (density, reciprocity, or both)\n
-                  for basic model multiplier. Select none for all other models:",
+                  for basic model to test. Select none for all other models:",
                   choices = list("density (-4.90)"= "density", "reciprocity (4.89)" = "reciprocity", 
                                  "both", "none"), 
                   selected = "none"),
@@ -45,7 +45,7 @@ ui <- fluidPage(
                    value = 5, min = -1000, max = 1000),
       # Input: set a seed
       numericInput(inputId = "seed",
-                   label = "Set a random seed:", 
+                   label = "Set a random seed (10,000-999,999):", 
                    value = 123456, min = 10000, max = 999999, step = 1),
       # Submit button 
       submitButton(text = "Generate lineup!", icon = icon("connectdevelop"))

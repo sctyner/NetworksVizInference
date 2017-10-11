@@ -66,7 +66,9 @@ server <- function(input, output) {
   
   dat_for_lu <- reactive({
     # get a null data set
-    nulldat <- filter(alldat, model == input$model)
+    #nulldat <- filter(alldat, model == input$model)
+    # get a null data set
+    nulldat <- filter(alldat, model == "basic")
     # needed to add singletons in later
     ids <- 1:length(senateSiena$nodeSets$Actors)
     #set seed 
