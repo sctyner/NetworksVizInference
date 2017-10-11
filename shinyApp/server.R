@@ -232,7 +232,7 @@ server <- function(input, output) {
       ggplot(data = dat, aes(from_id=from, to_id=to, colour=log(csize))) + 
         geom_net(arrow = arrow(type = 'open', length = unit(2, "points") ), 
                  linewidth = .25, singletons = T, fiteach = T, directed = T, 
-                 arrowgap = .015, arrowsize = .3, size = 1) + 
+                 arrowgap = .015, arrowsize = .3, size = 1, layout.alg = input$layoutalg) + 
         theme_net() +
         theme(panel.background = element_rect(color = 'black')) +
         scale_colour_gradient(low="#f768a1", high = "#49006a") + facet_wrap(~ord) +
@@ -243,7 +243,7 @@ server <- function(input, output) {
         geom_net(aes(from_id = from, to_id = to), 
                  arrow = arrow(type = 'open', length = unit(2, "points") ), 
                  linewidth = .25, singletons = T, fiteach = T, directed = T, 
-                 color = 'black', arrowgap = .015, arrowsize = .3, size = 1) + 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = 1, layout.alg = input$layoutalg) + 
         theme_net() + 
         theme(panel.background = element_rect(color = 'black')) +
         facet_wrap(~ord)
