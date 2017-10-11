@@ -3,6 +3,7 @@ library(shiny)
 library(tidyverse)
 library(RSiena)
 library(geomnet)
+library(igraph)
 # senate siena data
 load('dat/senateSienaNoHRC.rda')
 # all data for the "data plot"
@@ -75,11 +76,19 @@ server <- function(input, output) {
     set.seed(input$seed)
     # get the "data"
     if (input$whichModel == "alt"){
-      whichdat <- sample(max(nulldat$sim), input$M-1)
-      nulldat <- filter(nulldat, sim %in% whichdat, wave == input$wave)
+      # whichdat <- sample(max(nulldat$sim), input$M-1)
+      # nulldat <- filter(nulldat, sim %in% whichdat, wave == input$wave)
+      # simulate from the basic model 
+      sienaSim <- saom_simulate2(dat = senateSiena,
+                                 struct = SenBasic,
+                                 parms = modelMeanEsts$ests[modelMeanEsts$model == "basic"][[1]],
+                                 N = input$M - 1)
+      nulldat <- sims_to_df(sienaSim, senateSiena)
+      nulldat <- nulldat %>% filter(wave == input$wave)
+      nulldat$model <- "basic"
       nodes <- data.frame(id = rep(ids, input$M-1), 
                           sim = rep(unique(nulldat$sim), each = max(ids)),
-                          wave = 1, model = unique(nulldat$model))
+                          wave = 1, model = "basic")
       nulldat <- merge(nulldat, nodes, by.x = c("from", "wave", "sim", "model"), 
                        by.y = c("id", "wave", "sim", "model"), all = T)
       nulldat <- select(nulldat, from, to, dep.var.id, wave, sim, model) %>% arrange(sim, from, to)
@@ -149,7 +158,29 @@ server <- function(input, output) {
     dat_for_lu <- bind_rows(altdat, nulldat) %>%  
       mutate(from = paste0("V", from), to = ifelse(is.na(to), to, paste0("V", to))) 
     dat_for_lu$ord <- rep(sample(input$M), as.numeric(table(dat_for_lu$sim)))
-    dat_for_lu
+    
+    if (input$color){
+      df <- data.frame(expand.grid(
+        from=paste0("V", 1:155), to = paste0("V", 1:155)), stringsAsFactors = FALSE)
+      netnest <- dat_for_lu %>% group_by(sim) %>% nest()
+      netnest <- netnest %>% mutate(
+        data = data %>% purrr::map(.f = function(d) {
+          adj1 <- d %>% right_join(df) %>% 
+            xtabs(!is.na(dep.var.id)~from+to, data =.) %>% as.matrix()
+          
+          ig1 <- graph_from_adjacency_matrix(adj1)
+          comps <- components(ig1)
+          clu_df <- data.frame(from=names(comps$membership), clu = comps$membership)
+          clu_df$csize=comps$csize[clu_df$clu]
+          d %>% left_join(clu_df, by="from")
+        })
+      )
+      dat_for_lu <- unnest(netnest, data)
+      dat_for_lu
+    } else {
+      dat_for_lu
+    }
+    
   })
   # # subset the data to one plot
   #   Nulldat <- reactive({
@@ -197,14 +228,26 @@ server <- function(input, output) {
   
   output$lineup <- renderPlot({
     dat <- dat_for_lu()
-    ggplot(data = dat) + 
-      geom_net(aes(from_id = from, to_id = to), 
-               arrow = arrow(type = 'open', length = unit(2, "points") ), 
-               linewidth = .25, singletons = T, fiteach = T, directed = T, 
-               color = 'black', arrowgap = .015, arrowsize = .3, size = 1) + 
-      theme_net() + 
-      theme(panel.background = element_rect(color = 'black')) +
-      facet_wrap(~ord)
+    if (sum(names(dat) %>% str_detect("clu")) > 0) {
+      ggplot(data = dat, aes(from_id=from, to_id=to, colour=log(csize))) + 
+        geom_net(arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 arrowgap = .015, arrowsize = .3, size = 1) + 
+        theme_net() +
+        theme(panel.background = element_rect(color = 'black')) +
+        scale_colour_gradient(low="#f768a1", high = "#49006a") + facet_wrap(~ord) +
+        theme(legend.position="none")
+      
+    } else{
+      ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = 1) + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+    }
   })
   output$dataPlot <- renderText({
     dat <- dat_for_lu()

@@ -47,6 +47,10 @@ ui <- fluidPage(
       numericInput(inputId = "seed",
                    label = "Set a random seed (10,000-999,999):", 
                    value = 123456, min = 10000, max = 999999, step = 1),
+      # Input: check a box to color the graphs
+      checkboxInput(inputId = "color", 
+                    label = "Check box to color clusters.",
+                    value = FALSE),
       # Submit button 
       submitButton(text = "Generate lineup!", icon = icon("connectdevelop"))
     ),
