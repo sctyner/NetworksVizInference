@@ -1,0 +1,124 @@
+---
+title: "Applying visual inference to a social network model"
+author: "Sam Tyner"
+date: "10/12/2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, out.width = '100%', message = FALSE, warning = FALSE,
+                      fig.align = 'center')
+```
+
+```{r}
+library(tidyverse)
+library(RSiena)
+library(geomnet)
+```
+
+## Training 1
+
+*Which plot is most different from the others?*
+
+```{r train1}
+dat <- read_csv("LineupData/samepx1sd234567pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5, 
+                 layout.alg = 'fruchtermanreingold') + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
+
+## Training 2
+
+*Which plot is most different from the others?*
+
+```{r train2}
+dat <- read_csv("LineupData/jttsx5sd234567picknull.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5, 
+                 layout.alg = 'fruchtermanreingold') + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
+
+## Trial A
+<!--basic 1.3-->
+```{r trialA}
+dat <- read_csv("LineupData/basicx1.3sd123456pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5, 
+                 layout.alg = 'fruchtermanreingold') + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
+
+## Trial B
+<!--jttp -1.5-->
+
+```{r trialB}
+dat <- read_csv("LineupData/jttpx-1.5sd98765pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
+
+## Trial C
+<!--jtts 2-->
+
+## Trial D
+<!--simttb 2-->
+
+## Trial E
+<!--basic-recip -5-->
+
+## Trial F
+<!--basic -1-->
+
+## Trial G
+<!--samettp 2-->
+
+## Trial H
+<!--basic-density -1-->
+
+## Trial I
+<!--basic-recip 1.5-->
+
+## Trial J
+<!--jtts -5-->
+
+## Trial K
+<!--samettp 2-->
+
+## Trial L
+<!--simttb -1-->
+
+## Trial M
+<!--jttp 4-->
+
+## Trial N
+<!--basic-density 1.2-->
+
+## Trial O
+<!--jttp 4-->
+
+## Trial P
+<!--samettp -1 -->
+
