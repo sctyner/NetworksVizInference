@@ -196,3 +196,13 @@ lineup_details <- senate_lu_storage(details = make_lu_dat, Altsims = gotsims, Nu
 make_lu_dat[which(make_lu_dat$pic_id == 147),]
 
 senate_lu(altsims = gotsims, nullsims = datSims, M = 6, seed = make_lu_dat[which(make_lu_dat$pic_id == 151),"seed"][[1]], w = 1, mod = make_lu_dat[which(make_lu_dat$pic_id == 151),"model"][[1]], cond = make_lu_dat[which(make_lu_dat$pic_id == 151),"condition"][[1]])
+
+# final details 
+
+effectsTest <- c("basic-both", "basic-density", "basic-reciprocity", "jttp", "jtts", "simttb", "samettp")
+condition1 <- c("negative", "positive")
+condition2 <- c("easy", "medium", "hard")
+
+allconditions <- expand.grid(effectsTest, condition1, condition2)
+names(allconditions) <- c("effect", "sign", "difficulty")
+allconditions <- bind_rows(allconditions, allconditions, allconditions) %>% mutate(rep = rep(1:3, each = 42)) %>% arrange()

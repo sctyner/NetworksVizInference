@@ -111,6 +111,21 @@ ggplot(data = dat) +
         facet_wrap(~ord)
 ```
 
+## Trial D2
+
+```{r trialD2}
+#same as K with KK instead of FR layout
+dat <- read_csv("LineupData/samettpx-1sd35792pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+``` 
+
 ## Trial E
 <!--basic-recip -5-->
 
@@ -120,7 +135,8 @@ ggplot(data = dat) +
         geom_net(aes(from_id = from, to_id = to), 
                  arrow = arrow(type = 'open', length = unit(2, "points") ), 
                  linewidth = .25, singletons = T, fiteach = T, directed = T, 
-                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5,
+                 layout.alg = 'fruchtermanreingold') + 
         theme_net() + 
         theme(panel.background = element_rect(color = 'black')) +
         facet_wrap(~ord)
@@ -151,8 +167,7 @@ ggplot(data = dat) +
         geom_net(aes(from_id = from, to_id = to), 
                  arrow = arrow(type = 'open', length = unit(2, "points") ), 
                  linewidth = .25, singletons = T, fiteach = T, directed = T, 
-                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5, 
-                 layout.alg = "fruchtermanreingold") + 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
         theme_net() + 
         theme(panel.background = element_rect(color = 'black')) +
         facet_wrap(~ord)
@@ -215,7 +230,8 @@ ggplot(data = dat) +
         geom_net(aes(from_id = from, to_id = to), 
                  arrow = arrow(type = 'open', length = unit(2, "points") ), 
                  linewidth = .25, singletons = T, fiteach = T, directed = T, 
-                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5, 
+                 layout.alg = 'fruchtermanreingold') + 
         theme_net() + 
         theme(panel.background = element_rect(color = 'black')) +
         facet_wrap(~ord)
