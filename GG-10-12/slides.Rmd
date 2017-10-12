@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = FALSE, out.width = '100%', message = FALSE, warning
 library(tidyverse)
 library(RSiena)
 library(geomnet)
+library(igraph)
 ```
 
 ## Training 1
@@ -83,42 +84,201 @@ ggplot(data = dat) +
 ## Trial C
 <!--jtts 2-->
 
+```{r trialC}
+dat <- read_csv("LineupData/jttsx2sd123456pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
+
 ## Trial D
 <!--simttb 2-->
+
+```{r trialD}
+dat <- read_csv("LineupData/simttbx2sd123456pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
 
 ## Trial E
 <!--basic-recip -5-->
 
+```{r trialE}
+dat <- read_csv("LineupData/basicx-5sd346231pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
+
 ## Trial F
 <!--basic -1-->
+
+```{r trialF}
+dat <- read_csv("LineupData/basicx-1sd346231pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5, 
+                 layout.alg = "fruchtermanreingold") + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
 
 ## Trial G
 <!--samettp 2-->
 
+```{r trialG}
+dat <- read_csv("LineupData/samettpx2sd23452pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5, 
+                 layout.alg = "fruchtermanreingold") + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
+
 ## Trial H
 <!--basic-density -1-->
+
+```{r trialH}
+dat <- read_csv("LineupData/basicx-1sd987234pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5, 
+                 layout.alg = "fruchtermanreingold") + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
 
 ## Trial I
 <!--basic-recip 1.5-->
 
+```{r trialI}
+dat <- read_csv("LineupData/basicx1.5sd232342pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5, 
+                 layout.alg = "fruchtermanreingold") + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
+
 ## Trial J
 <!--jtts -5-->
 
+```{r trialJ}
+dat <- read_csv("LineupData/jttsx-5sd45745pickalt.csv")
+
+ggplot(data = dat, aes(from_id=from, to_id=to, colour=log(csize))) + 
+        geom_net(arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 arrowgap = .015, arrowsize = .3, size = .75, layout.alg = 'fruchtermanreingold') + 
+        theme_net() +
+        theme(panel.background = element_rect(color = 'black')) +
+        scale_colour_gradient(low="#f768a1", high = "#49006a") + facet_wrap(~ord) +
+        theme(legend.position="none")
+```
+
 ## Trial K
-<!--samettp 2-->
+<!--samettp -1-->
+
+```{r trialK}
+dat <- read_csv("LineupData/samettpx-1sd35792pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
 
 ## Trial L
 <!--simttb -1-->
 
+```{r trialL}
+dat <- read_csv("LineupData/simttbx-1sd234624pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
+
 ## Trial M
 <!--jttp 4-->
+
+```{r trialM}
+dat <- read_csv("LineupData/jttpx4sd234624pickalt.csv")
+df <- data.frame(expand.grid(
+        from=paste0("V", 1:155), to = paste0("V", 1:155)), stringsAsFactors = FALSE)
+netnest <- dat %>% group_by(sim) %>% nest()
+netnest <- netnest %>% mutate(
+        data = data %>% purrr::map(.f = function(d) {
+          adj1 <- d %>% right_join(df) %>% 
+            xtabs(!is.na(dep.var.id)~from+to, data =.) %>% as.matrix()
+          
+          ig1 <- graph_from_adjacency_matrix(adj1)
+          comps <- components(ig1)
+          clu_df <- data.frame(from=names(comps$membership), clu = comps$membership)
+          clu_df$csize=comps$csize[clu_df$clu]
+          d %>% left_join(clu_df, by="from")
+        })
+) 
+dat <- unnest(netnest, data)
+ggplot(data = dat, aes(from_id=from, to_id=to, colour=log(csize))) + 
+        geom_net(arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 arrowgap = .015, arrowsize = .3, size = .75, layout.alg = 'fruchtermanreingold') + 
+        theme_net() +
+        theme(panel.background = element_rect(color = 'black')) +
+        scale_colour_gradient(low="#f768a1", high = "#49006a") + facet_wrap(~ord) +
+        theme(legend.position="none")
+```
 
 ## Trial N
 <!--basic-density 1.2-->
 
-## Trial O
-<!--jttp 4-->
-
-## Trial P
-<!--samettp -1 -->
+```{r trialN}
+dat <- read_csv("LineupData/basicx1.2sd34231pickalt.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+```
 
