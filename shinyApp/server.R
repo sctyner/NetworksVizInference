@@ -10,6 +10,8 @@ load('dat/senateSienaNoHRC.rda')
 alldat <- read_csv("dat/alldatasims.csv")
 # get model means that we start with
 load("dat/allModelMeans.RDS")
+modelMeanEsts <- modelMeanEsts %>% add_row(model = "bigmod", ests = NA)
+modelMeanEsts$ests <- list(modelMeanEsts$ests[[1]], modelMeanEsts$ests[[2]],modelMeanEsts$ests[[3]], modelMeanEsts$ests[[4]], modelMeanEsts$ests[[5]],modelMeanEsts$ests[[6]],c(2.4405048,2.4594403,2.2098176,-4.9232775,4.8916183,2.3743720,0.2047038,6.9661589))
 # siena models to simulate from 
 SenBasic <- getEffects(senateSiena)
 Senjtt_p <- includeEffects(SenBasic, "jumpXTransTrip", include = TRUE, type = "eval", interaction1 = "party", character = TRUE)
@@ -17,8 +19,12 @@ Senjtt_s <- includeEffects(SenBasic, "jumpXTransTrip", include = TRUE, type = "e
 Sensame_p <- includeEffects(SenBasic, "sameX", include = TRUE, type = "eval", interaction1 = "party", character = TRUE)
 Senstt_p <- includeEffects(SenBasic, "sameXTransTrip", include = TRUE, type = "eval", interaction1 = "party", character = TRUE)
 Senstt_b <- includeEffects(SenBasic, "simXTransTrip", include = TRUE, type = "eval", interaction1 = "bills", character = TRUE)
-allStructs <- tibble(model = c("basic", "jttp", "jtts", "samep", "simttb", "samettp"),
-       effStruct = list(SenBasic, Senjtt_p, Senjtt_s, Sensame_p, Senstt_b, Senstt_p))
+Sen_bigmod_eff <- includeEffects(SenBasic, "jumpXTransTrip", include = TRUE, type = "eval", interaction1 = "sex", character = TRUE)
+Sen_bigmod_eff <- includeEffects(Sen_bigmod_eff, "sameXTransTrip", include = TRUE, type = "eval", interaction1 = "party", character = TRUE)
+Sen_bigmod_eff <- includeEffects(Sen_bigmod_eff, "simXTransTrip", include = TRUE, type = "eval", interaction1 = "bills", character = TRUE)
+
+allStructs <- tibble(model = c("basic", "jttp", "jtts", "samep", "simttb", "samettp", "bigmod"),
+       effStruct = list(SenBasic, Senjtt_p, Senjtt_s, Sensame_p, Senstt_b, Senstt_p, Sen_bigmod_eff))
 
 # simulation function
 saom_simulate2 <- function(dat, struct, parms, N) {
@@ -115,9 +121,11 @@ server <- function(input, output) {
         newparms <- c(1,1,1,1,1)
       }
         
-    } else {
+    } else {  
       if (input$mult == 0){
         newparms <- c(1,1,1,1,1)
+      } else if (input$model == "bigmod") { 
+        newparms <- c(1,1,1,1,input$mult,input$mult,input$mult,input$mult)
       } else{
         newparms <- c(1,1,1,1,1,input$mult)
       }

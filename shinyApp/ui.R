@@ -22,7 +22,8 @@ ui <- fluidPage(
       selectInput(inputId = "model",
                   label = "Select an effect to test:",
                   choices = list("basic" = "basic", "jttp (-3.45)" = "jttp", "jtts (3.34)"= "jtts", 
-                                 "samep (.20)" = "samep", "samettp (1.33)" = "samettp", "simttb (10.09)" = "simttb"),
+                                 "samep (.20)" = "samep", "samettp (1.33)" = "samettp", "simttb (10.09)" = "simttb", 
+                                 "big model (d + r + jtts + simttb + samettp)" = "bigmod"),
                   selected = "basic"),
       # Input: pick a wave 
       numericInput(inputId = "wave",
