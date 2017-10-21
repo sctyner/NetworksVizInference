@@ -1,0 +1,271 @@
+\newcommand{\st}[1]{{\color{orange} #1}}
+\newcommand{\hh}[1]{{\color{magenta} #1}}
+
+<<setup, echo = FALSE, message = FALSE, warning = FALSE>>=
+options(replace.assign=TRUE,width=70, digits=3)
+require(knitr)
+opts_chunk$set(fig.path='figure/', cache.path='cache/', fig.align='center', fig.pos='h', out.width='.99\\textwidth', par=TRUE, cache=FALSE, concordance=TRUE, autodep=TRUE, message=F, warning=F, echo = FALSE, dev="cairo_pdf", fig.width = 6, fig.height = 6)#, root.dir = "~/Desktop/Dissertation/SAOM-removing-blindfold/")
+@
+
+<<pkgs>>=
+library(tidyverse)
+library(RSienaTest)
+library(RSiena)
+library(geomnet)
+library(GGally)
+library(extrafont)
+loadfonts(quiet = T)
+load("../Data/senate/senateSienaNoHRC.rda")
+ThemeNoNet <- theme_bw() %+replace% 
+            theme(plot.title = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 0, 
+                                            family="Times New Roman"), 
+                  axis.title.x = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 0,
+                                            family="Times New Roman"),
+                  axis.title.y = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 90,
+                                            family="Times New Roman"),
+                  axis.text.x.top = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 0,
+                                            family="Times New Roman"), 
+                  axis.text.x.bottom = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 0,
+                                            family="Times New Roman"), 
+                  axis.text.y.left = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 0,
+                                            family="Times New Roman"),
+                  axis.text.y.right = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 0,
+                                            family="Times New Roman"),
+                  strip.text.x = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 0, 
+                                            family="Times New Roman",
+                                            margin = margin(t = 3, r = 0, b = 3, l = 0, unit = "pt")),
+                  strip.text.y =element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 90,
+                                            family="Times New Roman",
+                                            margin = margin(t = 3, r = 3, b = 3, l = 3, unit = "pt")),
+                  strip.background = element_rect(colour = "black", fill = "white")
+                    )
+ThemeNet <- theme_net() %+replace% 
+            theme(plot.title = element_text(size = 12,
+                                            face = 'plain', angle = 0, family = "Times New Roman"), 
+                  strip.text.x = element_text(size = 12,
+                                            face = 'plain', angle = 0, family = "Times New Roman", 
+                                            margin = margin(t = 3, r = 0, b = 3, l = 0, unit = "pt")),
+                  strip.text.y =element_text(size = 12,
+                                            face = 'plain', angle = 0, family = "Times New Roman",margin = margin(t = 3, r = 0, b = 3, l = 0, unit = "pt")),
+                  panel.border = element_rect(fill = NA, color = 'black'),
+                  strip.background = element_rect(colour = "black", fill = "white"))
+@
+
+\section{Introduction}
+\st{
+\begin{enumerate}
+\item significance testing: what is it and why is it important
+\item goodness-of-fit testing: what is it and why is it important
+\item difficulty of these two for sna, why do vis inf
+\end{enumerate}
+}
+Two of the most imporant pieces of statistical modeling are significance testing of model parameters and goodness-of-fit measures and tests. In the former, the data are usually assumed to come from a simple model under the null hypothesis, and additional parameters are added and tests done to determine if the additional should be included in the model. In the latter, the model of interest is examined to determine how well it fits the data. Both of these aspects of statistical modeling increase greatly in difficulty as the complexity of the model of interest increases. The more complicated the model, the harder it is to determine fit or to include or exclude a parameter. 
+
+Some particularly complicated sets of models are those designed to model network change. A \textit{network} is any set of things, such as people, computers, or neurons, that are connected in some way, through social relations, internet connection, or electrical impulses in the brain. We refer to the ``things" in the network as \textit{nodes}, or \textit{actors} in a social network, and the connections as \textit{edges}, or \textit{ties} in a social network. Network objects are particularly difficult to model due to the dependencies inherent to the data. 
+
+XX smart stuff with more refs XX 
+
+The paper is outlined as follows: Section 2 gives a basic overview of visual inference and the lineup protocal. Section 3 provides an introduction to the our models of interest, stochastic actor-oriented models. Sections 4 and 5 discuss problems with traditional significance tests and goodness-of-fit measures for these models and how visual inference methods can be used as solutions. Section 6 outlines our experimental protocol, and we close with a discussion in Section 7.  
+
+\section{Visual Inference}
+
+Data visualizations are an important component of data analysis, providing a mechanism for discovering patterns in data. Pioneering research by \citet{gelman:2004}, \citet{Bujaetal} and \citet{majumder:2011} provide methods to quantify the significance of discoveries made from visualizations. \citet{Bujaetal} introduced two protocols, the Rorschach and the lineup protocol, which bridge the gulf between traditional statistical inference and exploratory data analysis. %The Rorschach protocol consists of a set of $m$ (usually, $m=20$) plots (called the {\it null plots}) rendered from data that is consistent with a given null model. The Rorschach protocol helps to understand the extent of randomness in the null model. 
+We use line lineup protocol. Under this protocol, a plot of the observed data is placed randomly among a set of $m-1$ null plots, and human observers are then asked to examine the lineup and to identify the most different plot. If observers identify the data plot, this is quantifiable evidence against the null hypothesis.
+
+The lineup protocol places a plot firmly in the framework of hypothesis tests: a plot of the data is considered to be the test statistic, which is compared against the sampling distribution under the null hypothesis represented by the null plots. Obviously, the null generating mechanism, i.e.\ the method of obtaining the data for null plots, is crucial for both the lineup and the Rorschach protocol, as the null hypothesis directly affects the choice of null generating method. Null generating methods are typically based on (a) simulation, if the null hypothesis allows us to directly specify a parametric model, (b) sampling, as for example in the case of large data sets, or (c) permutation of the original data \citep[see e.g.\ ][]{Good05}, which allows for non-parametric testing that preserves marginal distributions  while ensuring independence in higher dimensions. The model of interest here allows us to simulate directly from a parameteric model for dynamic social network data. 
+%In the experimental data that we analyzed the null generating methods used were permutation methods and direct simulation from a null model.
+
+The lineup protocol was formally tested in a head-to-head comparison with the equivalent conventional test in \citet{majumder:2011}. The experiment utilized human subjects from Amazon's Mechanical Turk \citep{turk} and used simulation to control conditions. The results suggest that  visual inference is comparable to conventional tests in a controlled conventional setting. This provides support for its appropriateness for testing in real exploratory situations where no conventional test exists. %Interestingly, the power of a visual test increases with the number of observers engaged to evaluate lineups, and the pattern in results suggests that the power will provide results consistent with practical significance \citep{kirk:1996}.
+
+\section{Stochastic Actor-Oriented Models}
+
+%To model family that we apply to the Senate data is the Stochastic Actor-Oriented Model (SAOM) family. 
+This family of models for dynamic network data, which were first introduced by \citet{saompaper}, incorporates both network structure and node-level information to describe how a network observed on two or more occasions changes in time. The two titular properties of SAOMs, stochasticity and actor-orientation, are crucial to understanding networks as they exist naturally: social networks are ever-changing as relationships decay or grow in seemingly random ways, and most actors in them have characteristics that could affect how they change their ties to other nodes in the network. 
+% Talk about SAOMs
+These unique properties allow for the fitting of some very complicated models to inherently complex data, so it can be exceedingly difficult to interpret parameters and their corresponding estimates. The sheer amount of possible parameters to include in the model combined with the difficulty of interpretation make parameter selection and goodness-of-fit testing burdensome as well. 
+
+Broadly, a SAOM takes network structure and node covariate information into account in two ways: first through a rate function that describes \textit{when} changes in the network occur, and second through an objective function that describes \textit{what} those changes are. As in many other network models, the variables of interest, $x_{ij}$, are the binary edges of the network. For any two nodes $i \neq j$ in the network, $i,j \in \{1, 2, \dots, n=\text{the number of nodes}\}$, 
+  \begin{equation}\label{eq:edgevars}
+  x_{ij} =
+  \begin{cases}
+                                   1 & \text{if an edge from $i$ to $j$ exists} \\
+                                   0 & \text{otherwise}
+  \end{cases}
+  \end{equation}
+The edges are also treated as \textit{directed}, so it is not required that $x_{ij} = x_{ji}$, and self-referencing edges or loops, $x_{ii}$, are not allowed. The entire network at time point $m = 1, 2, \dots M$ for $M$ the number of network observations, is denoted $x(t_m)$. More detail on SAOMs follows, and additional details can be found in \citet{saompaper, snijders01, snijders2010, snijdersetall:2007, snijders:2010, snijders:2017},
+
+\subsection{Rate Function}
+
+All changes in SAOMs are treated as changes made by the nodes, or \textit{actors}, in the network. So, each actor, $i$, gets a chance to make a change according to the rate function, typically denoted $\lambda_i$, which dictates when relationships between nodes in the network can change. In general, the rate function can take the network structure e.g. outdegree of node $i$, and the node covariates into account, but we use the simple rate function, which is constant over all nodes in a given time period. We denote the rate from $t_{m}$ to $t_{m+1}$ as $\alpha_m$ for $m = 1, \dots, M-1$. Using this notation, the waiting time to the next chance for actor $i$ to make a change is exponentially distributed with expected value $\alpha_m^{-1}$. Since the rate is the same for all actors, the waiting time for \textit{any} actor to get the chance to change is exponentially distributed with expected value $(n\alpha_m)^{-1}$.
+
+\subsection{Objective Function}
+
+After actor $i$ has been given the opportunity to change, it probabilistically chooses one of its current ties, $x_{ij}$, to change. The probability that actor $i$ changes its current tie to actor $j$ is determined by the \textit{objective function} of the model and a random component, $U$. The random component is assumed to have log-Weibull distribution with location parameter $\mu = 0$ and scale parameter $\sigma = 0$ (see \citet{modelsSnijders}), so the probability density function of $U$ is
+\begin{equation}\label{eq:logweibull}
+g(u) = \exp\{-(u + \exp\{-u\})\}.
+\end{equation}
+The objective function, $f_i$, is the driving force of a SAOM. Actor $i$ always wants to maximize its objective function given the current state of the network, $x$ and the node-level covariates, $\mathbf{Z}$:% which has the form
+\begin{equation}\label{eq:objective}
+f_i(x, \boldsymbol{\beta}, \mathbf{Z}) = \sum_{k = 1}^K \beta_k s_{ik}(x, \mathbf{Z}),
+\end{equation}
+where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some network statistics calculated with respect to actor $i$, $s_{ik}(x, \mathbf{Z})$. The network statistics range from the simple outdegree, $s_i(x) = \sum_{i\neq j} x_{ij}$, to the more complicated transitive triplets jumping to different covariate, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$, plus many more. At last count, in the software we use to fit these models to network data, \texttt{RSiena}, there are over 80 possible effects that can be included in the objective function \citep{RSiena, RSienamanual}.
+
+
+
+\subsection{Example Data}
+
+The data we use are of collaboration networks in the United States Senate during the $111^{th}$ through $114^{th}$ Congresses, overlapping with Barack Obama's presidency. These senates began on January 6, 2009 and ended on January 3, 2017.\footnote{Details of how this data can be downloaded are provided by François Briatte at \url{https://github.com/briatte/congress}}. In this network, ties are directed from senator $i$ to senator $j$ when senator $i$ signs on as a cosponsor to the bill that senator $j$ authored. There are (somewhat surprisingly) many hundreds of ties between senators when they are connected in this way, so we simplify the network by computing a single value for each senator-senator collaboration called the \textit{weighted propensity to cosponsor} (WPC). This value is defined in \citet{senate} as 
+
+\begin{equation}\label{eq:sen1}
+    WPC_{ij} = \dfrac{\sum\limits_{k=1}^{n_j} \frac{Y_{ij(k)}}{c_{j(k)}}}{\sum\limits_{k=1}^{n_j} \frac{1}{c_{j(k)}}}
+\end{equation}
+
+where $n_j$ is the number of bills in a congressional session authored by senator $j$, $c_{j(k)}$ is the number of cosponsors on senator $j$'s $k^{th}$ bill, where $k \in \{1,\dots, n_j\}$, and $Y_{ij(k)}$ is a binary variable that is 1 if senator $i$ cosponsored senator $j$'s $k^{th}$ bill, and is 0 otherwise. This measure ranges in value from 0 to 1, where $WPC_{ij} = 1$ if senator $i$ is a cosponsor on every one of senator $j$'s bills and $WPC_{ij} = 0$ if senator $i$ is never a cosponsor any of senator $j$'s bills. 
+
+<<senateAll, fig.cap="The four senate collaboration networks that we use as our example data to visually assess the SAOM effects.">>=
+seobama <- read_csv("../Data/senate/senateobamapres_gsw_25.csv")
+to_label <- c("Joseph R. Biden Jr.", "John S. McCain", "Ted Cruz","Marco Rubio",
+  "Lindsey O. Graham","Rand Paul", "Bernard Sanders", "Jim Webb", "Mitch McConnell",
+  "Harry M. Reid", "Hillary Rodham Clinton", "Amy Jean Klobuchar")
+seobama$label <- as.factor(ifelse(seobama$source %in% to_label, seobama$source, ""))
+levels(seobama$label) <- c("", "Amy Klobuchar", "Bernie Sanders", "Harry Reid",
+                           "Hillary Clinton", "Jim Webb", "John McCain", "Joe Biden",
+                           "Lindsey Graham", "Marco Rubio", "Mitch McConnell", 
+                           "Rand Paul", "Ted Cruz")
+se111clint <- filter(seobama, senate == 111)
+se111noclint <- filter(seobama, senate == 111)
+se111noclint$target[which(se111noclint$target == "Hillary Rodham Clinton")] <- NA
+seobama2 <- seobama %>% filter(senate != 111) %>% bind_rows(se111noclint)
+
+set.seed(56049382)
+ggplot(data = seobama2) + 
+  geom_net(directed = T, labelon=T, arrowsize = .25, singletons= T, fiteach = T, linewidth = .25, layout.alg = 'fruchtermanreingold', fontsize = 2, repel=T, 
+           aes(from_id = source, to_id = target, color = party, label = label),
+           size = 1) + 
+  ThemeNet + 
+  scale_color_manual(values = c("royalblue", "forestgreen","firebrick")) + 
+  theme(legend.position = 'bottom', strip.text = element_text(size = 8)) + 
+  facet_wrap(~senate, nrow = 2, labeller = "label_both") + 
+  xlim(c(0,1.05)) + 
+  ylim(c(0,1.05))
+@
+
+For each senate session, we have the WPC value between any two senators in the session, the party affiliation of each senator, the number of bills they authored in each session, their age, and their sex. We explored each of these covariates in the model to determine if they affect the change of the network structure.  
+
+<<senateClinton, fig.cap="We removed Hillary Clinton's ties from the network because she had abnormally high collaboration with senators during the time she was in the 111th senate and before she left office to become Secretary of State.", fig.height=3>>=
+se111clint$Clinton <- 'Yes'
+se111noclint$Clinton <- 'No'
+clintonSenate <- rbind(se111clint, se111noclint)
+clintonSenate$Clinton <- as.factor(clintonSenate$Clinton)
+clintonSenate$Clinton <- ordered(clintonSenate$Clinton, levels = c("Yes", "No"))
+clintonSenate %>% filter(!(source %in% c("Roland Burris", "Bernard Sanders", "Frank R. Lautenberg", "Mary L. Landrieu") & is.na(target))) %>%
+ggplot() + 
+  geom_net(directed = T, labelon=F, arrowsize = .3, singletons= F, fiteach = T, arrowgap = .01, layout.alg = 'fruchtermanreingold',
+           aes(from_id = source, to_id = target, color = party, linewidth = gsw, shape = sex,size = n_au)) + 
+  scale_size_continuous(name="# bills\nauthored") +
+  ThemeNet + 
+  scale_shape_manual(values = c(17,16)) + 
+  scale_color_manual(values = c("royalblue", "forestgreen","firebrick")) + 
+  theme(legend.position = 'bottom') + 
+  facet_wrap(~Clinton, nrow = 1, labeller = 'label_both')
+@
+
+In legislative cosponsorship networks, it is well known that party affiliation and reciprocity of relationships are major influences on structure \citep{legnet}.
+
+\subsection{Models of Interest}
+
+In order to determine which models to explore for application of our novel goodness-of-fit testing method, we first fit many possible models and selected a few significant effects. To determine the significance of the effects, we followed this procedure: 
+
+\begin{enumerate}
+\item Define the simple effects structure of the data: the rate parameters and the outdegree and reciprocity parameters. 
+\item Add each possible effect one-at-a-time to the model structure, as determined by the effects documentation function.
+\item Fit each model to the data and check for convergence.
+    \begin{enumerate}
+    \item If the model converged, move to 4.
+    \item If the model did not converge, use the previous fitted values as starting values and repeat 5 times or until convergence, whichever comes first.
+    \end{enumerate}
+\item Test the added parameter for significance using the Wald-type test.
+\item Report out the estimate of the additional parameter, its standard error, Wald $p$ value, and convergence criterion.
+\end{enumerate}
+ 
+After completing the procedure for all model effects, we selected effects whose estimates converged, had a Wald $p$-value of less than 0.10, and seemed to have a reasonable interpretation for our data according to well-known properties of legislative networks \citep{legnet}.
+
+The most significant effect was the jumping transitive triplet (JTT) parameter for the party covariate, which was estimated to be about -6 with a standard error of 0.11. This effect relies on the number of transitive closures formed between two senators from different parties. The negative estimate is an indication that forming transitive ties between two people from different parties is discouraged, which tracks with the divisive nature of American politics, where party affilitation is dominant. Another significant effect was the same JTT parameter for the sex covariate, with an estimate of about 3 with a standard error of 0.89. Another significant effect was the covariate-related similarity score-weighted transitive triplets for the number of bills authored by a senator. This effect was estimated at about 10 with standard error of 3.9, and the high positive effect suggests senators tend to collaborate with other senators who author about the same number of bills they do. Finally, we found the same party transitive triplet effect was also significant, with a fitted value of 1.3 and standard error of 0.7. 
+
+<<geteffects, eval = FALSE>>=
+# used for table below
+initeff <- read_csv("../Data/senate/sigEffsSenate912.csv")
+initeff %>% filter(shortName == "sameX")
+#density & -- & $\sum_j x_{ij}$ & & & \\
+#reciprocity & -- & $\sum_j x_{ij}x_{ji}$ & & & \\
+@
+
+\begin{table}
+\scalebox{0.9}{
+\begin{tabular}{p{2cm}|p{2.1cm}|c|l|p{1.75cm}|p{2cm}}
+{\bf Effect name} & {\bf Interaction Variable} & {\bf Formula} & {\bf Picture} & {\bf Initial estimate} & {\bf Wald $p$-value} \\
+\hline 
+jumping transitive triplet & party & $\sum_{j\neq h} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(p_i = p_h \neq p_j)$ & \includegraphics[width=.6in]{img/jttp.png} & -5.884 & $<0.0001$\\
+jumping transitive triplet & sex & $\sum_{j\neq h} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(s_i = s_h \neq s_j)$ & \includegraphics[width=.6in]{img/jtts.png}  & 3.335 & 0.0002 \\
+similarity transitive triplet & bills & $\sum_{j} x_{ij}x_{ih}x_{hj}\cdot (sim^b_{ij} - \overline{sim}^b)^*$ & \includegraphics[width=1in]{img/simttb.png} & 9.821 & 0.0128 \\
+same transtive triplet & party & $\sum_{j} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(p_i = p_j)$ & \includegraphics[width=1in]{img/samettp.png}  & 1.306 & 0.0642 \\
+same & party & $\sum_j x_{ij}\mathbb{I}(p_i = p_j)$ & \includegraphics[width=.6in]{img/samep.png}  & 0.363 & 0.0074
+\end{tabular}
+}
+\caption{\label{tab:effects} The additional effects we used in the SAOMs fit to the senate data. * - $sim^b_{ij} = \frac{\max_{hk}|b_h - b_k| - |b_i - b_j|}{\max_{hk}|b_h - b_k|}$ is the similarity score between two senators based on the number of bills authored, and $\overline{sim}^b = \frac{1}{n(n-1)}\sum_{i\neq j} sim^b_{ij}$ is the average bill similarity score between any two senators.}
+\end{table}
+
+\section{Significance Testing}
+
+We propose to attack some of the aforementioned difficulties with SAOMs through visual inference. 
+
+\begin{enumerate}
+\item Fit each model 1,000 times and save the parameter estimates, standard errors, and overall convergence criterion.
+\item From the models that converged, compute the mean of the 1,000 estimates of each parameter.
+\end{enumerate}
+
+We want to determine at which point an effect becomes noticeable in a SAOM. By \textit{noticeable}, we mean that the inclusion of the effect alters the appearance of networks simulated from a model. An effect becomes noticeable when as simulation from a model with a noticeable effect appears different from simulations from a model where the same affect is absent. Because the traditional way to visualize a network is a node-link diagram, we will examine the affect of different parameter values using node-link visualizations. 
+
+
+\section{Goodness-of-Fit Testing}
+
+\section{Experiment Protocol}
+
+\begin{enumerate}
+\item Use the mean values from step 2 as the parameter values in the model and simulate 100 observations from the model. These simulated networks will become the "true data."
+\item To each simulation, refit the model form from which it was simulated. 
+\item Repeat steps 4-5 for various permutations of model forms and parameter values; e.g. double the parameter values, quadruple the parameter values, change the signs on the parameters, etc.
+\item Simulate additional "alternative data" from the model in step 3 and the fitted model in step 4. 
+\item Place the appropriate node-link diagram of each "true data" observation in a lineup with $M-1$ ($M=6$) "alternative data" node-link diagrams. 
+\item Show the lineups to participants, with no participant seeing the same "true data" or "alternative data" plot twice. 
+\end{enumerate}
+
+\section{Discussion}
+
+% Talk about visual inference
+%We propose to attack some of the aforementioned difficulties with SAOMs by using a technique known as \textit{visual inference}. This technique was created by \citet{Bujaetal} to provide well-defined, statistical rigor to the usual exploratory data analyses and model diagnostics that are typically performed by visualizing the data as opposed to looking at it raw or gathering numerical summaries of it. In visual inference there are \textit{null plots} and \textit{data plots}: the null plots are visualizations of data simulated from the model according to the null hypothesis, while the data plots are visualizations of data simulated from the model according to an alternative hypothesis. These two data sources are visualized side-by-side using small multiples using what Buja et al called the \textit{lineup protocol}. The idea behind the lineup protocol is the police lineup, where witnesses to crimes are brought to the police station to observe a group of people, one of whom is suspected to have committed the crime, and are asked to identify the perpetrator of the crime. If the witness identifies the suspect in the lineup, that is taken as evidence the suspect is guilty, whereas if the witness does not identify the suspect, that is taken as evidence the suspect is not guilty. In the visual inference lineup protocol, the \textit{suspect} is the data plot among $M-1$ null plots. If the "witness" can pick the data plot out of the lineup, that is taken as evidence that the null model should be rejected, whereas failing to pick out the data plot is taken as evidence that the null model should not be rejected. In our application of the lineup protocol to SAOMs, we include various effects of varying sizes in the SAOMs we fit to some data and try to \textit{see} those effects in node-link diagram corresponding to simulations from the various models.
+
+%-Talk about political networks-
+
+%-Talk about goodness-of-fit-
+
+%-Talk about significance testings- 
+
