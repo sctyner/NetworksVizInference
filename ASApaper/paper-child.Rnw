@@ -126,29 +126,42 @@ The objective function, $f_i$, is the driving force of a SAOM. Actor $i$ always 
 \begin{equation}\label{eq:objective}
 f_i(x, \boldsymbol{\beta}, \mathbf{Z}) = \sum_{k = 1}^K \beta_k s_{ik}(x, \mathbf{Z}),
 \end{equation}
-where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some network statistics calculated with respect to actor $i$, $s_{ik}(x, \mathbf{Z})$. The network statistics range from the simple outdegree, $s_i(x) = \sum_{i\neq j} x_{ij}$, to the more complicated transitive triplets jumping to different covariate, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$, plus many more. At last count, in the software we use to fit these models to network data, \texttt{RSiena}, there are over 80 possible effects that can be included in the objective function \citep{RSiena, RSienamanual}.
+where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some network statistics calculated with respect to actor $i$, $s_{ik}(x, \mathbf{Z})$. The network statistics range from the simple outdegree, $s_i(x) = \sum_{i\neq j} x_{ij}$, to the more complicated transitive triplets jumping to different covariate, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$, plus many more. At last count, in the software we use to fit these models to network data, \texttt{RSiena}, there are over 80 possible effects that can be included in the objective function \citep{RSiena, RSienamanual}. We discuss these statistics in more detail in Section~\ref{sec:models}. 
+
+The objective function $f_{i}(x, \boldsymbol{\beta}, \mathbf{Z})$ and the random component $U$ combine to form a \textit{transition probability}, $p_{ij}$, of the network changing from its current state $x$ to the state with only the tie $x_{ij}$ changed, which is denoted $x(i \leadsto j)$:
+\begin{equation}\label{eq:transprob}
+p_{ij} = \dfrac{\exp\{f_i(x(i \leadsto j), \boldsymbol{\beta}, \mathbf{Z})\}}{\sum_{h} \exp\{f_i(x(i \leadsto h), \boldsymbol{\beta}, \mathbf{Z})\}}
+\end{equation}
 
 
 
 \subsection{Example Data}
 
-The data we use are of collaboration networks in the United States Senate during the $111^{th}$ through $114^{th}$ Congresses, overlapping with Barack Obama's presidency. These senates began on January 6, 2009 and ended on January 3, 2017.\footnote{Details of how this data can be downloaded are provided by François Briatte at \url{https://github.com/briatte/congress}}. In this network, ties are directed from senator $i$ to senator $j$ when senator $i$ signs on as a cosponsor to the bill that senator $j$ authored. There are (somewhat surprisingly) many hundreds of ties between senators when they are connected in this way, so we simplify the network by computing a single value for each senator-senator collaboration called the \textit{weighted propensity to cosponsor} (WPC). This value is defined in \citet{senate} as 
+The data we use are collaboration networks in the United States Senate during the $111^{th}$ through $114^{th}$ Congresses, overlapping with Barack Obama's presidency. These senates began on January 6, 2009 and ended on January 3, 2017\footnote{Details of how this data can be downloaded are provided by François Briatte at \url{https://github.com/briatte/congress}}. There are three legislative ways that senators can show support for legislation: they can author a bill, cosponsor a bill, and vote for a bill. We use cosponsorship as a metric because it results in a network that is unimodal (all nodes are senators) and directed. In this network, ties are directed from senator $i$ to senator $j$ when senator $i$ signs on as a cosponsor to the bill that senator $j$ authored. There are many hundreds of ties between senators when they are connected in this way, so we simplify the network by computing a single value for each senator-senator collaboration called the \textit{weighted propensity to cosponsor} (WPC). This value is defined in \citet{senate} as 
 
 \begin{equation}\label{eq:sen1}
     WPC_{ij} = \dfrac{\sum\limits_{k=1}^{n_j} \frac{Y_{ij(k)}}{c_{j(k)}}}{\sum\limits_{k=1}^{n_j} \frac{1}{c_{j(k)}}}
 \end{equation}
 
-where $n_j$ is the number of bills in a congressional session authored by senator $j$, $c_{j(k)}$ is the number of cosponsors on senator $j$'s $k^{th}$ bill, where $k \in \{1,\dots, n_j\}$, and $Y_{ij(k)}$ is a binary variable that is 1 if senator $i$ cosponsored senator $j$'s $k^{th}$ bill, and is 0 otherwise. This measure ranges in value from 0 to 1, where $WPC_{ij} = 1$ if senator $i$ is a cosponsor on every one of senator $j$'s bills and $WPC_{ij} = 0$ if senator $i$ is never a cosponsor any of senator $j$'s bills. 
+where $n_j$ is the number of bills in a congressional session authored by senator $j$, $c_{j(k)}$ is the number of cosponsors on senator $j$'s $k^{th}$ bill, where $k \in \{1,\dots, n_j\}$, and $Y_{ij(k)}$ is a binary variable that is 1 if senator $i$ cosponsored senator $j$'s $k^{th}$ bill, and is 0 otherwise. This measure ranges in value from 0 to 1, where $WPC_{ij} = 1$ if senator $i$ is a cosponsor on every one of senator $j$'s bills and $WPC_{ij} = 0$ if senator $i$ is never a cosponsor any of senator $j$'s bills. Because SAOMs require binary edges, we construct the edges as follows: 
+ \begin{equation}\label{eq:edgewpc}
+  x_{ij} =
+\begin{cases}
+                                   1 & WPC_{ij} > 0.25 \\
+                                   0 & WPC_{ij} \leq 0.25
+\end{cases}
+\end{equation}
+For each of the four senate sessions, we have the WPC value between any two senators in the session, the party affiliation of each senator, the number of bills they authored in each session, and their gender. We explored each of these covariates in the model to determine if they affect the overall network structure and how ties are formed between senators. The node-link diagram representations of the data we use for modelling are shown in Figure~\ref{fig:senateAll}. We have labelled some of the nodes in these networks whose names will be familiar to US readers, because they are leaders in their party or they have run for president. The size of the nodes represent how many bills the senator authored in a session, the color represents party affiliation, and the shape represent gender. In each of the four sessions, there is one very large connected component tying many of the prominent senators together, with many smaller groups of two to ten senators surrounding the larger component. In each senate, the structure changes slightly as new senators arrive or come to prominence.
 
-<<senateAll, fig.cap="The four senate collaboration networks that we use as our example data to visually assess the SAOM effects.">>=
+<<senateAll, fig.cap="The four senate collaboration networks that we use as our example data to visually assess the SAOM effects. Color represents party, shape represents gender, and size represents number of bills authored in a session. The Frucherman-Reingold layout is shown. ">>=
 seobama <- read_csv("../Data/senate/senateobamapres_gsw_25.csv")
 to_label <- c("Joseph R. Biden Jr.", "John S. McCain", "Ted Cruz","Marco Rubio",
   "Lindsey O. Graham","Rand Paul", "Bernard Sanders", "Jim Webb", "Mitch McConnell",
-  "Harry M. Reid", "Hillary Rodham Clinton", "Amy Jean Klobuchar")
+  "Harry M. Reid", "Hillary Rodham Clinton", "Amy Jean Klobuchar", "Elizabeth Warren")
 seobama$label <- as.factor(ifelse(seobama$source %in% to_label, seobama$source, ""))
-levels(seobama$label) <- c("", "Amy Klobuchar", "Bernie Sanders", "Harry Reid",
-                           "Hillary Clinton", "Jim Webb", "John McCain", "Joe Biden",
-                           "Lindsey Graham", "Marco Rubio", "Mitch McConnell", 
+levels(seobama$label) <- c("", "Amy Klobuchar", "Bernie Sanders", "Elizabeth Warren",
+                           "Harry Reid", "Hillary Clinton", "Jim Webb", "John McCain", 
+                           "Joe Biden","Lindsey Graham", "Marco Rubio", "Mitch McConnell", 
                            "Rand Paul", "Ted Cruz")
 se111clint <- filter(seobama, senate == 111)
 se111noclint <- filter(seobama, senate == 111)
@@ -158,17 +171,19 @@ seobama2 <- seobama %>% filter(senate != 111) %>% bind_rows(se111noclint)
 set.seed(56049382)
 ggplot(data = seobama2) + 
   geom_net(directed = T, labelon=T, arrowsize = .25, singletons= T, fiteach = T, linewidth = .25, layout.alg = 'fruchtermanreingold', fontsize = 2, repel=T, 
-           aes(from_id = source, to_id = target, color = party, label = label),
-           size = 1) + 
+           aes(from_id = source, to_id = target, color = party, 
+               label = label,shape = sex,size = n_au)) + 
   ThemeNet + 
   scale_color_manual(values = c("royalblue", "forestgreen","firebrick")) + 
+  scale_shape_manual(values = c(17,16)) + 
+  scale_size_continuous(name = "Bills\nauthored", range = c(.75, 3)) + 
   theme(legend.position = 'bottom', strip.text = element_text(size = 8)) + 
   facet_wrap(~senate, nrow = 2, labeller = "label_both") + 
   xlim(c(0,1.05)) + 
   ylim(c(0,1.05))
 @
 
-For each senate session, we have the WPC value between any two senators in the session, the party affiliation of each senator, the number of bills they authored in each session, their age, and their sex. We explored each of these covariates in the model to determine if they affect the change of the network structure.  
+For Senate 111, for instance, we see Hillary Clinton, serving out her second term in the senate until she became Secretary of State. She is isolated in Figure~\ref{fig:senateAll}, but in actuality, she had many cosponsors on two pieces of legislation she authored in that short time, as is shown in Figure~\ref{fig:senateClinton}. We chose to remove Clinton and her edges from the network because they make the overall structure look so different from the other three senates, showing that the pattern is not typical of a senate in any other year. We suspect that because Hillary Clinton had just been appointed Secretary of State, the cosponsorships were largely symbolic, so the $111^{th}$ Senate without Hillary Clinton is more typical than the $111^{th}$ Senate with her. 
 
 <<senateClinton, fig.cap="We removed Hillary Clinton's ties from the network because she had abnormally high collaboration with senators during the time she was in the 111th senate and before she left office to become Secretary of State.", fig.height=3>>=
 se111clint$Clinton <- 'Yes'
@@ -180,7 +195,7 @@ clintonSenate %>% filter(!(source %in% c("Roland Burris", "Bernard Sanders", "Fr
 ggplot() + 
   geom_net(directed = T, labelon=F, arrowsize = .3, singletons= F, fiteach = T, arrowgap = .01, layout.alg = 'fruchtermanreingold',
            aes(from_id = source, to_id = target, color = party, linewidth = gsw, shape = sex,size = n_au)) + 
-  scale_size_continuous(name="# bills\nauthored") +
+  scale_size_continuous(name = "Bills\nauthored", range = c(.75, 3)) + 
   ThemeNet + 
   scale_shape_manual(values = c(17,16)) + 
   scale_color_manual(values = c("royalblue", "forestgreen","firebrick")) + 
@@ -188,27 +203,27 @@ ggplot() +
   facet_wrap(~Clinton, nrow = 1, labeller = 'label_both')
 @
 
-In legislative cosponsorship networks, it is well known that party affiliation and reciprocity of relationships are major influences on structure \citep{legnet}.
+In legislative cosponsorship networks, it is well known that party affiliation and reciprocity of relationships are major influences on structure \citep{legnet}. We focus on these two covariates when choosing which SAO models to fit to the data. 
 
-\subsection{Models of Interest}
+\subsection{Models of Interest}\label{sec:models}
 
-In order to determine which models to explore for application of our novel goodness-of-fit testing method, we first fit many possible models and selected a few significant effects. To determine the significance of the effects, we followed this procedure: 
+In addition to considering already well-known effects in legislative networks for application of our significance and goodness-of-fit methods, we first fit many other possible models and selected a few significant effects. To determine the effects that we would move forward with, we followed this procedure: 
 
 \begin{enumerate}
 \item Define the simple effects structure of the data: the rate parameters and the outdegree and reciprocity parameters. 
-\item Add each possible effect one-at-a-time to the model structure, as determined by the effects documentation function.
+\item Add each additional possible evaluation effect in \texttt{RSiena} one-at-a-time to the model structure, as determined by the effects documentation function \citep{RSiena}.
 \item Fit each model to the data and check for convergence.
     \begin{enumerate}
     \item If the model converged, move to 4.
     \item If the model did not converge, use the previous fitted values as starting values and repeat 5 times or until convergence, whichever comes first.
     \end{enumerate}
-\item Test the added parameter for significance using the Wald-type test.
+\item Test the added parameter for significance using a Wald-type test.
 \item Report out the estimate of the additional parameter, its standard error, Wald $p$ value, and convergence criterion.
 \end{enumerate}
  
 After completing the procedure for all model effects, we selected effects whose estimates converged, had a Wald $p$-value of less than 0.10, and seemed to have a reasonable interpretation for our data according to well-known properties of legislative networks \citep{legnet}.
 
-The most significant effect was the jumping transitive triplet (JTT) parameter for the party covariate, which was estimated to be about -6 with a standard error of 0.11. This effect relies on the number of transitive closures formed between two senators from different parties. The negative estimate is an indication that forming transitive ties between two people from different parties is discouraged, which tracks with the divisive nature of American politics, where party affilitation is dominant. Another significant effect was the same JTT parameter for the sex covariate, with an estimate of about 3 with a standard error of 0.89. Another significant effect was the covariate-related similarity score-weighted transitive triplets for the number of bills authored by a senator. This effect was estimated at about 10 with standard error of 3.9, and the high positive effect suggests senators tend to collaborate with other senators who author about the same number of bills they do. Finally, we found the same party transitive triplet effect was also significant, with a fitted value of 1.3 and standard error of 0.7. 
+The parameters we use for the remainder of the paper are detailed in Table~\ref{tab:effects}.  The most significant effect was the jumping transitive triplet (JTT) parameter for the party covariate, which was estimated to be about -6 with a standard error of 0.11, resulting in a $p$-value of less than 0.0001. This estimate of the parameter associated with this statistic relies on the number of transitive closures formed between two senators from different parties. The negative estimate is an indication that forming transitive ties between two people from different parties is discouraged, which tracks with the divisive nature of American politics, where party affilitation is dominant. Another significant effect was the same JTT parameter for the sex covariate, with an estimate of about 3 with a standard error of 0.89. The covariate-related similarity score-weighted transitive triplets parameter estimate for the number of bills authored by a senator was also significant. This effect was estimated at about 10 with standard error of 3.9, and the high positive effect suggests senators tend to collaborate with other senators who author about the same number of bills they do. This tendency of senators to cosponsor bills written by senators who are similarly ``prolific" corresponds to another well-known property of the U.S. Senate structure: the tendency of senators to be either ``workhorses" or ``showhorses". Senators known as workhorses author many pieces of legislation in a session, and largley stay out of the public arena. The showhorse senators, on the other hand, author relatively few pieces of legislation, and tend to appear on television, radio, and other media a great deal. Finally, we found the same party transitive triplet effect was also significant, with a fitted value of 1.3 and standard error of 0.7, meaning that transitive relationships between senators tend to form when they are from the same party. 
 
 <<geteffects, eval = FALSE>>=
 # used for table below
