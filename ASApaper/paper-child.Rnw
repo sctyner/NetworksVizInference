@@ -100,9 +100,9 @@ The lineup protocol was formally tested in a head-to-head comparison with the eq
 %To model family that we apply to the Senate data is the Stochastic Actor-Oriented Model (SAOM) family. 
 This family of models for dynamic network data, which were first introduced by \citet{saompaper}, incorporates both network structure and node-level information to describe how a network observed on two or more occasions changes in time. The two titular properties of SAOMs, stochasticity and actor-orientation, are crucial to understanding networks as they exist naturally: social networks are ever-changing as relationships decay or grow in seemingly random ways, and most actors in them have characteristics that could affect how they change their ties to other nodes in the network. 
 % Talk about SAOMs
-These unique properties allow for the fitting of some very complicated models to inherently complex data, so it can be exceedingly difficult to interpret parameters and their corresponding estimates. The sheer amount of possible parameters to include in the model combined with the difficulty of interpretation make parameter selection and goodness-of-fit testing burdensome as well. 
+These unique properties allow for the fitting of some very complicated models to inherently complex data, so it can be exceedingly difficult to interpret parameters and their corresponding estimates. The sheer amount of possible parameters to include in the model combined with the difficulty of interpretation make parameter selection and goodness-of-fit testing burdensome as well.
 
-Broadly, a SAOM takes network structure and node covariate information into account in two ways: first through a rate function that describes \textit{when} changes in the network occur, and second through an objective function that describes \textit{what} those changes are. As in many other network models, the variables of interest, $x_{ij}$, are the binary edges of the network. For any two nodes $i \neq j$ in the network, $i,j \in \{1, 2, \dots, n=\text{the number of nodes}\}$, 
+Broadly, a SAOM takes network structure and node covariate information into account in two ways and models the network changes as a continuous time Markov chain (CTMC). First, the rate of change between states is dictated by a rate function that describes \textit{when} changes in the network occur, and secondy, the objective function describes \textit{what} those state changes are. As in many other network models, the variables of interest, $x_{ij}$, are the binary edges of the network. For any two nodes $i \neq j$ in the network, $i,j \in \{1, 2, \dots, n=\text{the number of nodes}\}$, 
   \begin{equation}\label{eq:edgevars}
   x_{ij} =
   \begin{cases}
@@ -133,6 +133,9 @@ The objective function $f_{i}(x, \boldsymbol{\beta}, \mathbf{Z})$ and the random
 p_{ij} = \dfrac{\exp\{f_i(x(i \leadsto j), \boldsymbol{\beta}, \mathbf{Z})\}}{\sum_{h} \exp\{f_i(x(i \leadsto h), \boldsymbol{\beta}, \mathbf{Z})\}}
 \end{equation}
 
+This probability dictates which edge change is made by the acting node. The acting node can also choose to \textit{not} change at all, in which case $j \equiv i$.  
+
+As advised by \citet{RSienamanual}, at least two parameters must be included in the objective function: the density and the reciprocity. We denote the density, or out-degree, parameter by $\beta_1$ and the associated statistic as $s_{i1}(x) = \sum_{j} x_{ij}$. Similarly, we denote the reciprocity parameter by $\beta_2$ and the associated statistic as $s_{i2}(x) = \sum_{j} x_{ij}x_{ji}$. We refer to the model with only these two parameters in the objective function as M1. 
 
 
 \subsection{Example Data}
@@ -234,33 +237,117 @@ initeff %>% filter(shortName == "sameX")
 @
 
 \begin{table}
-\scalebox{0.9}{
-\begin{tabular}{p{2cm}|p{2.1cm}|c|l|p{1.75cm}|p{2cm}}
-{\bf Effect name} & {\bf Interaction Variable} & {\bf Formula} & {\bf Picture} & {\bf Initial estimate} & {\bf Wald $p$-value} \\
+\scalebox{0.8}{
+\begin{tabular}{c|p{2cm}|p{2.1cm}|c|l|p{1.75cm}|p{2cm}}
+$\beta_k$ & {\bf Effect name} & {\bf Interaction Variable} & {\bf Formula} & {\bf Picture} & {\bf Initial estimate} & {\bf Wald $p$-value} \\
 \hline 
-jumping transitive triplet & party & $\sum_{j\neq h} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(p_i = p_h \neq p_j)$ & \includegraphics[width=.6in]{img/jttp.png} & -5.884 & $<0.0001$\\
-jumping transitive triplet & sex & $\sum_{j\neq h} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(s_i = s_h \neq s_j)$ & \includegraphics[width=.6in]{img/jtts.png}  & 3.335 & 0.0002 \\
-similarity transitive triplet & bills & $\sum_{j} x_{ij}x_{ih}x_{hj}\cdot (sim^b_{ij} - \overline{sim}^b)^*$ & \includegraphics[width=1in]{img/simttb.png} & 9.821 & 0.0128 \\
-same transtive triplet & party & $\sum_{j} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(p_i = p_j)$ & \includegraphics[width=1in]{img/samettp.png}  & 1.306 & 0.0642 \\
-same & party & $\sum_j x_{ij}\mathbb{I}(p_i = p_j)$ & \includegraphics[width=.6in]{img/samep.png}  & 0.363 & 0.0074
+$\beta_3$ & jumping transitive triplet & party & $s_{i3}(x, \mathbf{p}) = \sum_{j\neq h} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(p_i = p_h \neq p_j)$ & \includegraphics[width=.6in]{img/jttp.png} & -5.884 & $<0.0001$\\
+$\beta_4$ & jumping transitive triplet & sex & $s_{i4}(x, \mathbf{s}) = \sum_{j\neq h} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(s_i = s_h \neq s_j)$ & \includegraphics[width=.6in]{img/jtts.png}  & 3.335 & 0.0002 \\
+$\beta_5$ & similarity transitive triplet & bills & $s_{i5}(x, \mathbf{b}) = \sum_{j} x_{ij}x_{ih}x_{hj}\cdot (sim^b_{ij} - \overline{sim}^b)^*$ & \includegraphics[width=1in]{img/simttb.png} & 9.821 & 0.0128 \\
+$\beta_6$ & same transtive triplet & party & $s_{i6}(x, \mathbf{p}) =\sum_{j} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(p_i = p_j)$ & \includegraphics[width=1in]{img/samettp.png}  & 1.306 & 0.0642 %\\
+%$\beta_7$ & same & party & $s_{i7}(x, \mathbf{p}) = \sum_j x_{ij}\mathbb{I}(p_i = p_j)$ & \includegraphics[width=.6in]{img/samep.png}  & 0.363 & 0.0074
 \end{tabular}
 }
 \caption{\label{tab:effects} The additional effects we used in the SAOMs fit to the senate data. * - $sim^b_{ij} = \frac{\max_{hk}|b_h - b_k| - |b_i - b_j|}{\max_{hk}|b_h - b_k|}$ is the similarity score between two senators based on the number of bills authored, and $\overline{sim}^b = \frac{1}{n(n-1)}\sum_{i\neq j} sim^b_{ij}$ is the average bill similarity score between any two senators.}
 \end{table}
 
-\section{Significance Testing}
-
-We propose to attack some of the aforementioned difficulties with SAOMs through visual inference. 
-
+We examine a total of six models, each identified by its objective function: 
 \begin{enumerate}
-\item Fit each model 1,000 times and save the parameter estimates, standard errors, and overall convergence criterion.
-\item From the models that converged, compute the mean of the 1,000 estimates of each parameter.
+\item Model M1: $f_{i}(x, \boldsymbol{\beta}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x)$
+\item Model M2: $f_{i}(x, \boldsymbol{\beta}, \mathbf{p}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_3 s_{i3}(x, \mathbf{p})$
+\item Model M3: $f_{i}(x, \boldsymbol{\beta}, \mathbf{s}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_4 s_{i4}(x, \mathbf{s})$
+\item Model M4: $f_{i}(x, \boldsymbol{\beta}, \mathbf{b}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_5 s_{i5}(x, \mathbf{b})$
+\item Model M5: $f_{i}(x, \boldsymbol{\beta}, \mathbf{p}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_6 s_{i6}(x, \mathbf{p})$
+\item Model M6: $f_{i}(x, \boldsymbol{\beta}, \mathbf{p}, \mathbf{b}, \mathbf{s}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_4 s_{i4}(x, \mathbf{s}) + \beta_5 s_{i5}(x, \mathbf{b}) + \beta_6 s_{i6}(x, \mathbf{p})$
 \end{enumerate}
 
-We want to determine at which point an effect becomes noticeable in a SAOM. By \textit{noticeable}, we mean that the inclusion of the effect alters the appearance of networks simulated from a model. An effect becomes noticeable when as simulation from a model with a noticeable effect appears different from simulations from a model where the same affect is absent. Because the traditional way to visualize a network is a node-link diagram, we will examine the affect of different parameter values using node-link visualizations. 
+\section{Significance Testing}\label{sec:sigtest}
+
+<<sigtestWald, eval = FALSE, echo = FALSE>>=
+SenBasic <- getEffects(senateSiena)
+Senjtt_p <- includeEffects(SenBasic, "jumpXTransTrip", include = TRUE, type = "eval", interaction1 = "party", character = TRUE)
+myalg <- sienaAlgorithmCreate( projname = Sys.time() , n3 = 1000)
+fits <- siena07(myalg, data = senateSiena, effects = Senjtt_p, returnDeps = TRUE,
+                                      batch=TRUE, verbose = FALSE, silent = TRUE)
+thet <- fits$theta
+sig <- fits$covtheta
+Wald.RSiena(A = c(0,0,1), fits)
+th <- c(0,0,1) %*% thet
+covmat <- c(0,0,1) %*% sig %*% c(0,0,1)
+csq <- drop(th %*% solve(covmat) %*% th)
+1 - pchisq(csq, 1)
+@
+
+For a SAOM, there are two ways a significance test of the parameters can be performed. In \texttt{RSiena}, there are $t$-type tests and Wald-type test for a single parameter and for multiple parameters. The $t$-type test statistic is simply the parameter estimate divided by its standard error, and compared to a standard normal distribution. The Wald-type test statistic for a single parameter, $\beta_k$ is 
+\begin{equation}\label{eq:wald1}
+\frac{(\hat{\beta_k})^2}{var(\hat{\beta_k})},
+\end{equation}
+which is compared to a Chi-square distribution with one degree of freedom \citep{RSienamanual}. Testing the significance of multiple parameters depends on the hypothesis we wish to test, and a $P \times K$ matrix, $A$, must be appropriately designed to test the $P$ hypotheses of interest. The null hypothesis is that $A\boldsymbol{\beta} = \mathbf{0}$, and the test statistic is    
+\begin{equation}\label{eq:wald2}
+(A\boldsymbol{\hat{\beta}})' \hat{\Sigma}^{-1} A\boldsymbol{\hat{\beta}},
+\end{equation}
+where $\hat{\Sigma}$ is the estimated covariance matrix of $\boldsymbol{\beta}$. This statistic is then compared to a Chi-square distribution with $P$ degrees of freedom. 
+
+We added each parameter to the basic model M1 to create models M2-M5, and then combined three of the four effects to create model M7. We fit these models in \texttt{RSiena} using Markov Chain Monte Carlo (MCMC) methods to approximate the method of moments estimates of the parameters. Because the estimation is done through MCMC simulation, we fit each model to the data 1,000 times to get a better estimate of the true value of $\boldsymbol{\beta}$. From the simulations that converged, which made up over 90\% of the fits for each model, we computed the mean of the 1,000 estimates of each parameter to get our values of $\hat{\boldsymbol{\beta}}$ from which to simulate data.
+
+Through visual inference, we want to determine at which point an effect becomes noticeable in a SAOM. By \textit{noticeable}, we mean that the inclusion of the effect alters the appearance of networks simulated from a model. An effect becomes noticeable when a simulation from a model with a noticeable effect appears different from simulations from a model where the same affect is absent. Because the traditional way to visualize a network is a node-link diagram, we will examine the affect of different parameter values using node-link visualizations. 
+
+For each lineup, we consider two models: model M1 is the null model, and another model, from M2-M5, which is chosen to be the alternative model. To construct a lineup, we simulate five networks from the null model and one network from the alternative model. We chose to expose our participants to only six plots at a time in order to show the node-link diagrams in more detail and to lower their cognitive load. Typically, lineup experiments are done with sets of 20 plots at a time c.f.~\citet{loy:2015, vanderplas:2016}, but we determined that not enough structure could be shown in each plot for 20 node-link diagrams\footnote{If you would like to explore the lineups we use in further detail, please visit \url{https://sctyner.shinyapps.io/saom_lineup_creation/}}. 
+
+To determine the threshold at which the effect becomes noticeable, we examined six different levels of the effect, three negative and three positive. We hypothesized that the perception of the effect by our participants would look something like Figure~\ref{fig:hypothesis}. The higher in absolute value the parameter is, the more likely participants are to choose the alternative model out of the lineup. 
+
+<<hypothesis, fig.height=2, fig.cap="We hypothesize that as the parameter value of interest increases in absolute value, more viewers of the lineup will pick the alternative data out of a lineup.">>=
+x <- seq(-10, 10, .05)
+N <- length(x)
+qplot(x = 1:N, y = pt(x, 1), geom = 'line') + geom_line(aes(x = -(1:N), pt(x,1))) + 
+    scale_x_continuous(name = "Parameter Value", labels = c("very negative", "negative", "0", "positive", "very positive")) + 
+    scale_y_continuous(name = "% detecting the plot from\nthe alternative model", labels = paste0(c(0,25,50,75,100), "%"))
+@
 
 
 \section{Goodness-of-Fit Testing}
+
+Goodness-of-fit testing for network models is notoriously difficult. Most network models, other than the most simple, lack the asymptotics required to develop the goodness-of-fit methods required \citep{goldenberg09}. Some methods have been developed based on what \citeauthor{RSienamanual} call ``auxiliary statistics" such as the indegree or outdegree distribution on the nodes. In \texttt{RSiena}, the \texttt{sienaGOF} function performs goodness-of-fit testing as follows:
+\begin{enumerate}
+\item Auxiliary statistics are computed on the observed data ($\mathbf{u}_d$) and on $N$ simulated observations from the model ($\mathbf{u}_1 \dots \mathbf{u}_N$). (Usually, $N=1000$) 
+\item The mean vector, $\overline{\mathbf{u}}$ and covariance matrix, $\mathbf{S}$ of the statistics on the simulations from the model are computed, and the Mahalanobis distance, $d_M(\mathbf{u})$ from the observed statistics to the distribution of the simulated statistics is computed:
+\begin{equation}\label{eq:mahal}
+d_M(\mathbf{u}) = \sqrt{(\mathbf{u} - \overline{\mathbf{u}})' S^{-1} (\mathbf{u} - \overline{\mathbf{u}})}
+\end{equation}
+\item The Mahalanobis distance for each of the $N$ simulations is calculated and $d_M(\mathbf{u}_d)$ is compared to this distribution of distances.
+\item An empirical $p$-value is found by computing the proportion of simulated distances found in step 4 that are as large or larger than $d_M(\mathbf{u}_d)$. A SAOM is thus considered a good fit to the data if $p$ is large. A plot comparing the data to the simulations is also considered, and a similar plot is shown in Figure~\ref{fig:gofsiena}
+\end{enumerate}
+
+<<gofsiena, fig.height=3, fig.cap="An example of what a goodness-of-fit plot from \\texttt{RSiena} looks like. The overlaid boxplots and violin plots show the distribution of each of the outdegree values on the simulated networks, and the red points and lines are the observed data values.", cache = TRUE>>=
+load("data/ansnullpaper.rda")
+library(lattice)
+gof1 <- sienaGOF(ansnull, OutdegreeDistribution, varName ="friendship", join = FALSE)
+sims1 <- data.frame(gof1$`Period 1`$Simulations)
+dat1 <- gof1$`Period 1`$Observations
+dat1 %>% data.frame() %>% gather(outdegree, val) %>%
+  mutate(outdegree = parse_number(outdegree)-1) -> dat1
+p1 <- sims1 %>%
+  mutate(sim = row_number()) %>%
+  gather(outdegree, val, X1:X9) %>%
+  mutate(outdegree = parse_number(outdegree) - 1) %>%
+  filter(outdegree <= 6) %>%
+  ggplot(aes(x = outdegree, y = val)) + 
+  geom_boxplot(aes(group = outdegree), size = .5, outlier.shape = "x", outlier.size = 5) + 
+  geom_violin(aes(group = outdegree), bw = 2, fill = NA) + 
+  geom_point(data = dat1, color = 'red') + 
+  geom_line(data= dat1, color = 'red') + 
+  geom_text(data = dat1, aes(label = val), hjust = -.5) + 
+  labs(x = "Outdegree (p = 0.154)", y = "Statistic", 
+       title = "Goodness-of-Fit: Outdegree distribution period 1") + 
+  ThemeNoNet
+p1
+@
+
+The \texttt{RSiena} software also provides a Rao score-type test for goodness-of-fit for assessing one or more parameters, the test statistic of which is compared to a Chi-square distribution with $P$ degrees of freedom, where $P$ has the same definition as in Section~\ref{sec:sigtest}. For full detail on the score-type test, see \citet{scoretest}. 
+
+These methods are similar in that they are both restriced: the \texttt{sienaGOF} method only considers one measure on the data and simulations from the model, while the score-type tests only consider subsets of parameters, ``nuisance parameters" in \citet{scoretest}, not the entire set of parameters. By using visual inference instead of more traditional statistical methods, we hope to perform a more holistic goodness-of-fit test. 
+
+Using the lineup protocol, we show Amazon Mechanical Turk workers the data once, in a lineup with five other plots of simulated data from one of the models we chose. 
 
 \section{Experiment Protocol}
 
