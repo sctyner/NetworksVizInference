@@ -83,7 +83,7 @@
 
 \bigskip
 \begin{abstract}
-Abstract goes here.
+Two of the most imporant pieces of statistical modeling are significance testing of model parameters and goodness-of-fit measures and tests. The more complicated the model, the harder it is to determine fit or whether to include or exclude a parameter. Some particularly complicated sets of models are those designed to model network change.  By using the visual inference methodology of \citet{Bujaetal}, we can look at the entire dataset simulated from a network model as opposed to a single metric on the network such as outdegree, or a $p$-value for a single parameter in the model. 
 \end{abstract}
 
 \noindent%

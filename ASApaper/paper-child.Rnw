@@ -9,10 +9,12 @@ opts_chunk$set(fig.path='figure/', cache.path='cache/', fig.align='center', fig.
 
 <<pkgs>>=
 library(tidyverse)
+library(xtable)
 library(RSienaTest)
 library(RSiena)
 library(geomnet)
 library(GGally)
+library(vinference)
 library(extrafont)
 loadfonts(quiet = T)
 load("../Data/senate/senateSienaNoHRC.rda")
@@ -70,18 +72,18 @@ ThemeNet <- theme_net() %+replace%
 @
 
 \section{Introduction}
-\st{
-\begin{enumerate}
-\item significance testing: what is it and why is it important
-\item goodness-of-fit testing: what is it and why is it important
-\item difficulty of these two for sna, why do vis inf
-\end{enumerate}
-}
+% \st{
+% \begin{enumerate}
+% \item significance testing: what is it and why is it important
+% \item goodness-of-fit testing: what is it and why is it important
+% \item difficulty of these two for sna, why do vis inf
+% \end{enumerate}
+% }
 Two of the most imporant pieces of statistical modeling are significance testing of model parameters and goodness-of-fit measures and tests. In the former, the data are usually assumed to come from a simple model under the null hypothesis, and additional parameters are added and tests done to determine if the additional should be included in the model. In the latter, the model of interest is examined to determine how well it fits the data. Both of these aspects of statistical modeling increase greatly in difficulty as the complexity of the model of interest increases. The more complicated the model, the harder it is to determine fit or to include or exclude a parameter. 
 
-Some particularly complicated sets of models are those designed to model network change. A \textit{network} is any set of things, such as people, computers, or neurons, that are connected in some way, through social relations, internet connection, or electrical impulses in the brain. We refer to the ``things" in the network as \textit{nodes}, or \textit{actors} in a social network, and the connections as \textit{edges}, or \textit{ties} in a social network. Network objects are particularly difficult to model due to the dependencies inherent to the data. 
+Some particularly complicated sets of models are those designed to model network change. A \textit{network} is any set of things, such as people, computers, or neurons, that are connected in some way, through social relations, internet connection, or electrical impulses in the brain. We refer to the ``things" in the network as \textit{nodes}, or \textit{actors} in a social network, and the connections as \textit{edges}, or \textit{ties} in a social network. Network objects are particularly difficult to model due to the dependencies inherent to the data. This complexity can increases when, instead of looking at one instance of a network, we consider the dynamics of network change in between those singular observed instances. This type of modelling for dynamic networks is often performed on social network data, such as for friendship networks among students or the spread of HIV in communities of men sleeping with other men. These models lack the asymptotics required to perform many well-known goodness-of-fit tests, and the maximum likelihood estimation of parameters is so difficult that it can make significance testing significant as well \citep{goldenberg09}. 
 
-XX smart stuff with more refs XX 
+We propose new methods for significance and goodness-of-fit testing for a set of social network models, stochastic actor-oriented models for dynamic network data \citep{saompaper}. These new methods use \textit{visual inference} in place of traditional statistical methods for social network models, such as Wald tests for significance of parameters and in- and outdegree distribution metrics for determining goodness-of-fit. By using the visual inference methodology of \citet{Bujaetal}, we can look at the entire dataset simulated from a network model as opposed to a single metric on the network such as outdegree, or a $p$-value for a single parameter in the model. 
 
 The paper is outlined as follows: Section 2 gives a basic overview of visual inference and the lineup protocal. Section 3 provides an introduction to the our models of interest, stochastic actor-oriented models. Sections 4 and 5 discuss problems with traditional significance tests and goodness-of-fit measures for these models and how visual inference methods can be used as solutions. Section 6 outlines our experimental protocol, and we close with a discussion in Section 7.  
 
@@ -294,14 +296,30 @@ Through visual inference, we want to determine at which point an effect becomes 
 
 For each lineup, we consider two models: model M1 is the null model, and another model, from M2-M5, which is chosen to be the alternative model. To construct a lineup, we simulate five networks from the null model and one network from the alternative model. We chose to expose our participants to only six plots at a time in order to show the node-link diagrams in more detail and to lower their cognitive load. Typically, lineup experiments are done with sets of 20 plots at a time c.f.~\citet{loy:2015, vanderplas:2016}, but we determined that not enough structure could be shown in each plot for 20 node-link diagrams\footnote{If you would like to explore the lineups we use in further detail, please visit \url{https://sctyner.shinyapps.io/saom_lineup_creation/}}. 
 
-To determine the threshold at which the effect becomes noticeable, we examined six different levels of the effect, three negative and three positive. We hypothesized that the perception of the effect by our participants would look something like Figure~\ref{fig:hypothesis}. The higher in absolute value the parameter is, the more likely participants are to choose the alternative model out of the lineup. 
+To determine the threshold at which the effect becomes noticeable, we examined six different levels of the effect, three negative and three positive. We hypothesized that the perception of the effect by our participants would look something like Figure~\ref{fig:hypothesis}. The higher in absolute value the parameter is, the more likely participants are to choose the alternative model out of the lineup. To determine the six levels of the effects we want to test, started with the estimates of the parameter at hand as determined by the procedure described in Section~\ref{sec:models}, and multiply it or changing its sign to determine what \textit{we} notice about the effect of the parameter in simulations from the changed models.  
 
 <<hypothesis, fig.height=2, fig.cap="We hypothesize that as the parameter value of interest increases in absolute value, more viewers of the lineup will pick the alternative data out of a lineup.">>=
 x <- seq(-10, 10, .05)
 N <- length(x)
 qplot(x = 1:N, y = pt(x, 1), geom = 'line') + geom_line(aes(x = -(1:N), pt(x,1))) + 
     scale_x_continuous(name = "Parameter Value", labels = c("very negative", "negative", "0", "positive", "very positive")) + 
-    scale_y_continuous(name = "% detecting the plot from\nthe alternative model", labels = paste0(c(0,25,50,75,100), "%"))
+    scale_y_continuous(name = "% detecting plot from\nthe alternative model", labels = paste0(c(0,25,50,75,100), "%"))
+@
+
+We showed participants from Amazon Mechanical Turk a series of lineups containing data simulated from M1 through M5. In model M1, with only two parameters in the objective function, we varied both the density and reciprocity parameteter values one at a time. In models M2 through M5, we vary the additional parameter, $\beta_3$ through $\beta_6$. In the case of both $\beta_4$ and $\beta_6$, we could not determine a value for negative effects that made the data simulated from M3 and M5 look different than null model simulations from model M1. Because we could not detect these effects at these values, we decided that the less experienced Turkers would also not be able to. So instead of testing the negative values of these effects, we examined a different scenario: we placed 5 simulations from positive values of the parameter with one simulation from model M1 in a lineup. We did this to determine if the perception of the effect size would be symmetric: if an effect is noticed $x$\% of the time at value $\beta = 5$ when a simulation from the model is placed among null plots, then when five simulations from the model are put together with one simulation from model M1, the plot from the simpler model should be noticed about $x$\% of the time as well. A summary of the results from our experiment is shown in Figure~\ref{fig:readturk22}. On the $x$ axis, we plot the value of the parameter of interest, and on the $y$ axis, the proportion of times the plot of data simulated from the alternative model was picked out. The results are split into groups based on the sign of the parameter. We can see clear patterns in all of the groups: as the parameter value approaches 0, fewer participants identified the alternamtive plot. 
+
+<<readturk22, fig.height=6, fig.cap="A summary of some results from the Amazon mechanical turk study. On the $x$-axis, the value of the parameter changed in the model of interest, and on the $y$-axis, the proprotion of times turkers identified the different data plot. The pattern as the parameter value approaches zero is clear in all conditions.">>=
+turk22 <- read_csv("data/turk22-sig.csv")
+turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
+                       type2 = ifelse(type == "one", type2, -1)) %>% 
+  group_by(pic_id, size, test_param, sign, type2,alt_model) %>% 
+  summarize(datapick = mean(datapick)) %>%
+  filter(pic_id != 3132) %>% 
+  ggplot(aes(x = size, y = datapick, colour=factor(type2))) + 
+  geom_point() +
+  scale_color_brewer(palette = "Dark2", name = "Parameter Code") + 
+  facet_wrap(~test_param, scales="free", labeller = 'label_both') +
+  geom_smooth(se=FALSE, method="lm") + theme(legend.position = 'bottom')
 @
 
 
@@ -347,7 +365,74 @@ The \texttt{RSiena} software also provides a Rao score-type test for goodness-of
 
 These methods are similar in that they are both restriced: the \texttt{sienaGOF} method only considers one measure on the data and simulations from the model, while the score-type tests only consider subsets of parameters, ``nuisance parameters" in \citet{scoretest}, not the entire set of parameters. By using visual inference instead of more traditional statistical methods, we hope to perform a more holistic goodness-of-fit test. 
 
-Using the lineup protocol, we show Amazon Mechanical Turk workers the data once, in a lineup with five other plots of simulated data from one of the models we chose. 
+Using the lineup protocol, we show each Amazon Mechanical Turk worker the data once, in a lineup with five other plots of simulated data from one of the models we chose. We examined four different models, M2, M3, M4, and M6, and examined three repititons of each, for a total of 12 goodness-of-fit lineups. In each lineup, the ``null model" is one of the four models and the ``alternative" model is the true, unknown model that generated the senate network data The hypotheses for our goodness-of-fit tests are: 
+\begin{description}
+\item $H_0$:  The senate network data come from the null model.
+\item $H_A$: The senate network data do not come from the null model. 
+\end{description}
+If a lineup viewer picks out the data among the five simulations from the null model, that is evidence in favor of the alternative hypothesis. On the contrary, if the lineup viewer picks one of the null plots, that is evidence against the alternative hypothsis. Because the size of the lineups is small, the probability of picking the data by chance is high, $\frac{1}{6}$, but if \textit{many} independent viewers pick out the data from the nulls, the evidence in favor of the alternative hypothesis becomes stronger. Results from our MTurk goodness-of-fit plots are provided in Table~\ref{tab:gofstats}. 
+
+<<goftab, cache = TRUE, results='asis'>>=
+turk22_gof <- read_csv("data/turk22-gof.csv")
+turk22_gof_stats <- turk22_gof %>% group_by(pic_id) %>% 
+  summarize(npickdata = sum(datapick), total = n(), 
+          pvinf = map2_dbl(npickdata, total, pV, m = 6, scenario = 3))
+turk22_gof_stats %>% separate(pic_id, into = c("discard", "model", "rep"), sep = c(2,3)) -> print_gof_stats
+print_gof_stats %>% select(-discard) %>% mutate(model = paste0("M", model))-> print_gof_stats
+names(print_gof_stats) <- c("Model", "Replicate", "Data Picks", "Total Viewers", "p-value")
+print_gof_stats$`p-value` <- ifelse(print_gof_stats$`p-value` < .0001, "< 0.0001", as.character(round(print_gof_stats$`p-value`,4)))
+print(xtable::xtable(print_gof_stats, label = "tab:gofstats", caption = "An overview of the results from our 12 goodness-of-fit lineup tests.", digits = 4), caption.placement = "bottom", include.rownames = FALSE)
+@
+
+The $p$-values were calcluated using the \texttt{vinference} package by \citet{vinference}. This package contains methods to calculate \textit{Visual distributions} for lineup experiment data.  The distribution depends on the number of evaluations of a plot, $K$, the size of the lineup, $m$, and the lineup scenario, which here is that each lineup containing the same data and the same set of null plots is shown to $K$ independent observers.  Using these $p$-values, all but one lineup results in a rejection of the null hypothesis at Type-I error rate of $\alpha = 0.05$. The lineup that resulted in a failure to reject the null hypothesis is shown in Figure~\ref{fig:failgof}. The null model in this lineup is M4, and the senate data is shown in panel number $3^2 - 7$, but the panel most chose was number four, and the most common reasoning for that choice was that it had the most simple structure. 
+
+<<failgof, fig.height=3, fig.cap="The goodness-of-fit lineup that failed to reject the null hypothesis. The null model for this lineup is M4. Only 7 of 21 viewers of this lineup selected the data plot as the most different from the others.">>=
+load("data/se112adjmat.RDS")
+wave2 <- data.frame(se112adj)
+senators <- data.frame(id = colnames(wave2), number = 1:155)
+wave2$from <- colnames(wave2)
+wave2 <- wave2 %>% gather(to, val, Alan.Stuart.Franken:William.Cowan) %>% filter(val > 0)
+wave2 <- merge(wave2, senators, by.x = "from", by.y = "id", all = T)
+wave2$from <- senators$number[match(wave2$from, senators$id)]
+wave2$to <- senators$number[match(wave2$to, senators$id)]
+wave2$from <- paste0("V", wave2$from)
+wave2$to <- ifelse(is.na(wave2$to), NA, paste0("V", wave2$to))
+wave2 <- wave2 %>% mutate(sim = 1001, model = "data", wave = 1) %>% select(-c(val, number))
+dat <- read_csv(paste0("data/jtts_gof_9_2.csv"))
+datplot <- unique(dat$ord[dat$sim == 1001])
+dat <- dat %>% filter(sim != 1001) %>% 
+      bind_rows(wave2) %>% 
+      mutate(ord = ifelse(is.na(ord), datplot, ord))
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+@
+
+The smallest $p$-value for one of the goodness-of-fit lineups was for the third replicate of the null model M4. This contradicts our previous finding that the only lineup to fail to reject the null was also when the null model was M4. The plot of this lineup is shown in Figure~\ref{fig:mostsiggof}. In the remaining replicate of M4 as the null model, 13 of 16 viewers identified the data plot, corresponding to a $p$-values of less than $0.0001$, just like the third replicate. This leads us to believe that the high $p$-value observed in the second replicate is more of a fluke. %This demonstrates some of the problems inherent with network models, such as model degeneracy, as discussed in \citet{degeneracy}. Network models 
+Furthermore, for the first lineup replicate with model M5 as the null model, only 9 of 21 participants were able to pick out the data, but the Visual distribution $p$-value is less than 0.05. This is much higher than the corresponding Binomial probability of $Pr(X = 9|n = 21, p = \frac{1}{6}) = \binom{21}{9}(\frac{1}{6})^9(\frac{5}{6})^{21-9} \approx 0.003$, but we not sure that having fewer than half of our participants identify the data plot is a truly significant result. We could move the threshold from $\alpha = 0.05$ to $\alpha = 0.01$ or $\alpha = 0.001$, but more work needs to be done to determine which, if any of these, is appropriate.  
+
+<<mostsiggof, fig.height = 3, fig.cap="The lineup resulting in the smallest $p$-value rejecting the null hypothesis. Surprisingly, this another repetition for M4 as the null model.">>=
+dat <- read_csv(paste0("data/jtts_gof_9_3.csv"))
+datplot <- unique(dat$ord[dat$sim == 1001])
+dat <- dat %>% filter(sim != 1001) %>% 
+      bind_rows(wave2) %>% 
+      mutate(ord = ifelse(is.na(ord), datplot, ord))
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        theme_net() + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+@
+
+We believe this goodness-of-fit testing method holds promise for the future of social network analysis. The participants in our experiments are very good overall at picking out the data when it is noticeably different from the null plots in the lineups. In addition, as in replicate three for null model M4, when the null plots contain similarly sized structures as the data plot, our participants have a hard time distinguishing the data. We believe that running these tests multiple times using several different sets of null models to adequately explore the possible structures generated by the models is a step in the right direction for a more comprehensive goodness-of-fit test for network models. 
 
 \section{Experiment Protocol}
 
