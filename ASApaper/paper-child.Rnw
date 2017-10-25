@@ -129,22 +129,27 @@ All changes in SAOMs are treated as changes made by the nodes, or \textit{actors
 
 \subsection{Objective Function}\label{of}
 
-After actor $i$ has been given the opportunity to change, it probabilistically chooses one of its current ties, $x_{ij}$, to change. The probability that actor $i$ changes its current tie to actor $j$ is determined by the \textit{objective function} of the model and a random component, $U$. The random component is assumed to have log-Weibull distribution with location parameter $\mu = 0$ and scale parameter $\sigma = 0$ (see \citet{modelsSnijders}), so the probability density function of $U$ is
-\begin{equation}\label{eq:logweibull}
-g(u) = \exp\{-(u + \exp\{-u\})\}.
-\end{equation}
-The objective function, $f_i$, is the driving force of a SAOM. Actor $i$ always wants to maximize its objective function given the current state of the network, $x$ and the node-level covariates, $\mathbf{Z}$:% which has the form
+After actor $i$ has been given the opportunity to change, it probabilistically chooses one of its current ties, $x_{ij}$, to change. The probability that actor $i$ changes its current tie to actor $j$ is determined by the \textit{objective function} of the model and a random component, $U$. \hh{XXX can you paraphrase the purpose of U in half a sentence?}
+%The random component is assumed to have log-Weibull distribution with location parameter $\mu = 0$ and scale parameter $\sigma = 0$ (see \citet{modelsSnijders}), so the probability density function of $U$ is
+%\begin{equation}\label{eq:logweibull}
+%g(u) = \exp\{-(u + \exp\{-u\})\}.
+%\end{equation}
+%The objective function, $f_i$, is the driving force of a SAOM. 
+Actor $i$ is aiming to maximize the objective function $f_i$ given the current state of the network, $x$ and the node-level covariates, $\mathbf{Z}$, given as:% which has the form
 \begin{equation}\label{eq:objective}
 f_i(x, \boldsymbol{\beta}, \mathbf{Z}) = \sum_{k = 1}^K \beta_k s_{ik}(x, \mathbf{Z}),
 \end{equation}
-where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some network statistics calculated with respect to actor $i$, $s_{ik}(x, \mathbf{Z})$. The network statistics range from the simple outdegree, $s_i(x) = \sum_{i\neq j} x_{ij}$, to the more complicated transitive triplets jumping to different covariate, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$, plus many more. At last count, in the software we use to fit these models to network data, \texttt{RSiena}, there are over 80 possible effects that can be included in the objective function \citep{RSiena}. We discuss these statistics in more detail in Section~\ref{sec:models}. 
+where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some network statistics, $s_{ik}(x, \mathbf{Z})$, $s_{ik}(x, \mathbf{Z})$, calculated with respect to actor $i$. Network statistics range from the simple outdegree, $s_i(x) = \sum_{i\neq j} x_{ij}$, to the more complicated {\it transitive triplets jumping to different covariate}, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$. %, plus many more. At last count, in the software we use to fit these models to network data, 
+Version 1.2-3 of \texttt{RSiena} \citep{RSiena}, the software used to fit the models here, provides  over 80 possible effects that can be included in the objective function. We discuss these statistics in more detail in Section~\ref{sec:models}. 
 
-The objective function $f_{i}(x, \boldsymbol{\beta}, \mathbf{Z})$ and the random component $U$ combine to form a \textit{transition probability}, $p_{ij}$, of the network changing from its current state $x$ to the state with only the tie $x_{ij}$ changed, which is denoted $x(i \leadsto j)$:
+Objective function $f_{i}(x, \boldsymbol{\beta}, \mathbf{Z})$ and  random component $U$ are combined to form the \textit{transition probability}, $p_{ij}$, of the network changing from its current state $x$ to the state with changed tie $x_{ij}$, denoted as $x(i \leadsto j)$:
 \begin{equation}\label{eq:transprob}
 p_{ij} = \dfrac{\exp\{f_i(x(i \leadsto j), \boldsymbol{\beta}, \mathbf{Z})\}}{\sum_{h} \exp\{f_i(x(i \leadsto h), \boldsymbol{\beta}, \mathbf{Z})\}}
 \end{equation}
 
 This probability dictates which edge change is made by the acting node. The acting node can also choose to \textit{not} change at all, in which case $j \equiv i$.  
+
+\hh{XXX how is the probability computed in the case that no change is made? Why is the notation $j \equiv i$ used for no change?}
 
 According to Snijders et al in the \texttt{RSiena} manual, at least two parameters must be included in the objective function: the density and the reciprocity. We denote the density, or out-degree, parameter by $\beta_1$ and the associated statistic as $s_{i1}(x) = \sum_{j} x_{ij}$. Similarly, we denote the reciprocity parameter by $\beta_2$ and the associated statistic as $s_{i2}(x) = \sum_{j} x_{ij}x_{ji}$. We refer to the model with only these two parameters in the objective function as M1. 
 
