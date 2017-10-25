@@ -1,7 +1,7 @@
 \newcommand{\st}[1]{{\color{orange} #1}}
 \newcommand{\hh}[1]{{\color{magenta} #1}}
 
-<<setup, echo = FALSE, message = FALSE, warning = FALSE>>=
+<<setup-ch-2, echo = FALSE, message = FALSE, warning = FALSE>>=
 options(replace.assign=TRUE,width=70, digits=3)
 require(knitr)
 opts_chunk$set(fig.path='figure/', cache.path='cache/', fig.align='center', fig.pos='h', out.width='.99\\textwidth', par=TRUE, cache=FALSE, concordance=TRUE, autodep=TRUE, message=F, warning=F, echo = FALSE, dev="cairo_pdf", fig.width = 6, fig.height = 6)#, root.dir = "~/Desktop/Dissertation/SAOM-removing-blindfold/")
@@ -15,6 +15,7 @@ library(RSiena)
 library(geomnet)
 library(GGally)
 library(vinference)
+library(lme4)
 library(extrafont)
 loadfonts(quiet = T)
 load("../Data/senate/senateSienaNoHRC.rda")
@@ -128,7 +129,7 @@ The objective function, $f_i$, is the driving force of a SAOM. Actor $i$ always 
 \begin{equation}\label{eq:objective}
 f_i(x, \boldsymbol{\beta}, \mathbf{Z}) = \sum_{k = 1}^K \beta_k s_{ik}(x, \mathbf{Z}),
 \end{equation}
-where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some network statistics calculated with respect to actor $i$, $s_{ik}(x, \mathbf{Z})$. The network statistics range from the simple outdegree, $s_i(x) = \sum_{i\neq j} x_{ij}$, to the more complicated transitive triplets jumping to different covariate, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$, plus many more. At last count, in the software we use to fit these models to network data, \texttt{RSiena}, there are over 80 possible effects that can be included in the objective function \citep{RSiena, RSienamanual}. We discuss these statistics in more detail in Section~\ref{sec:models}. 
+where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some network statistics calculated with respect to actor $i$, $s_{ik}(x, \mathbf{Z})$. The network statistics range from the simple outdegree, $s_i(x) = \sum_{i\neq j} x_{ij}$, to the more complicated transitive triplets jumping to different covariate, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$, plus many more. At last count, in the software we use to fit these models to network data, \texttt{RSiena}, there are over 80 possible effects that can be included in the objective function \citep{RSiena}. We discuss these statistics in more detail in Section~\ref{sec:models}. 
 
 The objective function $f_{i}(x, \boldsymbol{\beta}, \mathbf{Z})$ and the random component $U$ combine to form a \textit{transition probability}, $p_{ij}$, of the network changing from its current state $x$ to the state with only the tie $x_{ij}$ changed, which is denoted $x(i \leadsto j)$:
 \begin{equation}\label{eq:transprob}
@@ -137,10 +138,10 @@ p_{ij} = \dfrac{\exp\{f_i(x(i \leadsto j), \boldsymbol{\beta}, \mathbf{Z})\}}{\s
 
 This probability dictates which edge change is made by the acting node. The acting node can also choose to \textit{not} change at all, in which case $j \equiv i$.  
 
-As advised by \citet{RSienamanual}, at least two parameters must be included in the objective function: the density and the reciprocity. We denote the density, or out-degree, parameter by $\beta_1$ and the associated statistic as $s_{i1}(x) = \sum_{j} x_{ij}$. Similarly, we denote the reciprocity parameter by $\beta_2$ and the associated statistic as $s_{i2}(x) = \sum_{j} x_{ij}x_{ji}$. We refer to the model with only these two parameters in the objective function as M1. 
+According to Snijders et al in the \texttt{RSiena} manual, at least two parameters must be included in the objective function: the density and the reciprocity. We denote the density, or out-degree, parameter by $\beta_1$ and the associated statistic as $s_{i1}(x) = \sum_{j} x_{ij}$. Similarly, we denote the reciprocity parameter by $\beta_2$ and the associated statistic as $s_{i2}(x) = \sum_{j} x_{ij}x_{ji}$. We refer to the model with only these two parameters in the objective function as M1. 
 
 
-\subsection{Example Data}
+\subsection{Example Data}\label{sec:senatedata}
 
 The data we use are collaboration networks in the United States Senate during the $111^{th}$ through $114^{th}$ Congresses, overlapping with Barack Obama's presidency. These senates began on January 6, 2009 and ended on January 3, 2017\footnote{Details of how this data can be downloaded are provided by François Briatte at \url{https://github.com/briatte/congress}}. There are three legislative ways that senators can show support for legislation: they can author a bill, cosponsor a bill, and vote for a bill. We use cosponsorship as a metric because it results in a network that is unimodal (all nodes are senators) and directed. In this network, ties are directed from senator $i$ to senator $j$ when senator $i$ signs on as a cosponsor to the bill that senator $j$ authored. There are many hundreds of ties between senators when they are connected in this way, so we simplify the network by computing a single value for each senator-senator collaboration called the \textit{weighted propensity to cosponsor} (WPC). This value is defined in \citet{senate} as 
 
@@ -284,7 +285,7 @@ For a SAOM, there are two ways a significance test of the parameters can be perf
 \begin{equation}\label{eq:wald1}
 \frac{(\hat{\beta_k})^2}{var(\hat{\beta_k})},
 \end{equation}
-which is compared to a Chi-square distribution with one degree of freedom \citep{RSienamanual}. Testing the significance of multiple parameters depends on the hypothesis we wish to test, and a $P \times K$ matrix, $A$, must be appropriately designed to test the $P$ hypotheses of interest. The null hypothesis is that $A\boldsymbol{\beta} = \mathbf{0}$, and the test statistic is    
+which is compared to a Chi-square distribution with one degree of freedom. Testing the significance of multiple parameters depends on the hypothesis we wish to test, and a $P \times K$ matrix, $A$, must be appropriately designed to test the $P$ hypotheses of interest. The null hypothesis is that $A\boldsymbol{\beta} = \mathbf{0}$, and the test statistic is    
 \begin{equation}\label{eq:wald2}
 (A\boldsymbol{\hat{\beta}})' \hat{\Sigma}^{-1} A\boldsymbol{\hat{\beta}},
 \end{equation}
@@ -306,10 +307,42 @@ qplot(x = 1:N, y = pt(x, 1), geom = 'line') + geom_line(aes(x = -(1:N), pt(x,1))
     scale_y_continuous(name = "% detecting plot from\nthe alternative model", labels = paste0(c(0,25,50,75,100), "%"))
 @
 
-We showed participants from Amazon Mechanical Turk a series of lineups containing data simulated from M1 through M5. In model M1, with only two parameters in the objective function, we varied both the density and reciprocity parameteter values one at a time. In models M2 through M5, we vary the additional parameter, $\beta_3$ through $\beta_6$. In the case of both $\beta_4$ and $\beta_6$, we could not determine a value for negative effects that made the data simulated from M3 and M5 look different than null model simulations from model M1. Because we could not detect these effects at these values, we decided that the less experienced Turkers would also not be able to. So instead of testing the negative values of these effects, we examined a different scenario: we placed 5 simulations from positive values of the parameter with one simulation from model M1 in a lineup. We did this to determine if the perception of the effect size would be symmetric: if an effect is noticed $x$\% of the time at value $\beta = 5$ when a simulation from the model is placed among null plots, then when five simulations from the model are put together with one simulation from model M1, the plot from the simpler model should be noticed about $x$\% of the time as well. A summary of the results from our experiment is shown in Figure~\ref{fig:readturk22}. On the $x$ axis, we plot the value of the parameter of interest, and on the $y$ axis, the proportion of times the plot of data simulated from the alternative model was picked out. The results are split into groups based on the sign of the parameter. We can see clear patterns in all of the groups: as the parameter value approaches 0, fewer participants identified the alternamtive plot. 
+We showed participants from Amazon Mechanical Turk a series of lineups containing data simulated from M1 through M5. In model M1, with only two parameters in the objective function, we varied both the density and reciprocity parameteter values one at a time. In models M2 through M5, we vary the additional parameter, $\beta_3$ through $\beta_6$. Thus, we have six different parameters of interest to us: $\beta_1, \dots, \beta_6$. We want to determine how the size of these parameters affects the overall structure of the network data simulated from the models M1 through M5, so we also vary the value of the parameters in two directions: positive and negative. 
 
-<<readturk22, fig.height=6, fig.cap="A summary of some results from the Amazon mechanical turk study. On the $x$-axis, the value of the parameter changed in the model of interest, and on the $y$-axis, the proprotion of times turkers identified the different data plot. The pattern as the parameter value approaches zero is clear in all conditions.">>=
+In order to determine which specific values of the parameters we wanted to examine, we constructed an online application that created the lineup protocol for us to be the guinea pigs of our own experiment \citep{shiny}. A screen grab of the app is shown in Figure~\ref{fig:shiny}. On the left side of the screen, the user\footnote{Please visit \url{https://sctyner.shinyapps.io/saom_lineup_creation/} to create lineups for yourself.} can input the information necessary for creating a lineup of the models M1 through M6 for the data in Section~\ref{sec:senatedata}: first, choose to simulate only one plot from the specified model (analogous to changing the alternative model in the lineup protocol) or to simulated $M-1$ plots from the specified model (analogous to changing the null model in the lineup protocol); the model of interest; the wave of the data to examine; if model M1 is selected, whether to alter the density or the reciprocity parameter; the size of the lineup; the amount by which to multiply the effect selected; a random seed for replicability; and a layout algorithm to use for the node-link diagrams. The plot(s) that appear(s) that are \textit{not} from the model specified using the other options are simulations from model M1 with the estimates of the rate parameters, $\beta_1$ and $\beta_2$ as calculated by the procedure described in Section~\ref{sec:models}. 
+
+\begin{figure}
+\includegraphics[width=.9\textwidth]{img/shinyappscreen.png}
+\caption{\label{fig:shiny} A screen grab of the web application we created to design our lineup experiment. In this view, model M4 is selected and one estimate from model M4 with $\beta_5$ set to twice its estimated value given in Table~\ref{tab:effects} is placed at random among five observations simulated from model M1. The other two tabs in the right side of the screen tell you which plot comes from the alternative model, and allow you to view and download the data that is plotted in the lineup.}
+\end{figure}
+
+Using the ``Picking Lineups" web application, we settled on six parameter values to test for each of our six effects, $\beta_1, \dots \beta_6$. The complete details of the parameters tested using the lineup protocol is given in Table~\ref{tab:experdetail}. In the case of both $\beta_4$ and $\beta_6$, we could not determine a value for negative effects that made the data simulated from M3 and M5 look different than null model simulations from model M1. Because we could not detect these effects at these values, we decided that the less experienced Turkers would also not be able to. So instead of testing the negative values of these effects, we examined a different scenario: we placed 5 simulations from positive values of the parameter with one simulation from model M1 in a lineup. We did this to determine if the perception of the effect size would be symmetric: if an effect is noticed $x$\% of the time at value $\beta = 5$ when a simulation from the model is placed among null plots, then when five simulations from the model are put together with one simulation from model M1, the plot from the simpler model should be noticed about $x$\% of the time as well. 
+
+<<getexperdetail, results='asis'>>=
 turk22 <- read_csv("data/turk22-sig.csv")
+modelData_sig <- turk22 %>% 
+  mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
+         type2 = ifelse(type == "one", type2, -1)) %>% 
+  filter(pic_id != 3132) 
+modelData_sig %>% group_by(test_param, type2, difficulty, size) %>%
+  count() %>% ungroup() %>%
+  spread(difficulty, size) -> step1
+step1 %>% select(1:4) %>% filter(!is.na(`1`)) -> step2a
+step1 %>% select(c(1:3,5)) %>% filter(!is.na(`2`)) -> step2b
+step1 %>% select(c(1:3,6)) %>% filter(!is.na(`3`)) -> step2c
+experdet <- step2a %>% mutate(easy = `1`, medium = step2b$`2`, hard = step2c$`3`) %>% select(-c(`1`, n))
+experdet$test_param <- as.factor(experdet$test_param)
+levels(experdet$test_param) <- paste0("beta", c(1,3,4,2,6,5))
+experdet$test_param <- as.character(experdet$test_param)
+names(experdet) <- c("Parameter", "Lineup Type", "Easy Value", "Medium Value", "Hard Value")
+
+print(xtable::xtable(experdet, caption = "All conditions in our MTurk experiment. Note that for $\\beta_4$ and $\\beta_6$, the negative type experiments are the reverse lineups, where 5 plots were simulated from the model with the parameter value given in the table, while 1 plot was simulated from M1.", label = "tab:experdetail", digits = c(0,0,0,3,4,3)))
+@
+
+
+A summary of the results from our experiment is shown in Figure~\ref{fig:readturk22}. On the $x$ axis, we plot the value of the parameter of interest, and on the $y$ axis, the proportion of times the plot of data simulated from the alternative model was picked out. The results are split into groups based on the sign of the parameter. We can see clear patterns in all of the groups: as the parameter value approaches 0, fewer participants identified the alternative plot. 
+
+<<readturk22, fig.height=6, fig.cap="A summary of some results from the Amazon mechanical turk study. On the $x$-axis, the value of the parameter changed in the model of interest, and on the $y$-axis, the proprotion of times turkers identified the different data plot. A simple linear regression is fit to each group. The pattern as the parameter value approaches zero is clear in all conditions.">>=
 turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
                        type2 = ifelse(type == "one", type2, -1)) %>% 
   group_by(pic_id, size, test_param, sign, type2,alt_model) %>% 
@@ -317,15 +350,97 @@ turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
   filter(pic_id != 3132) %>% 
   ggplot(aes(x = size, y = datapick, colour=factor(type2))) + 
   geom_point() +
-  scale_color_brewer(palette = "Dark2", name = "Parameter Code") + 
+  scale_color_brewer(palette = "Dark2", name = "Lineup Type") + 
   facet_wrap(~test_param, scales="free", labeller = 'label_both') +
-  geom_smooth(se=FALSE, method="lm") + theme(legend.position = 'bottom')
+  geom_smooth(se=FALSE, method="lm") + 
+  ThemeNoNet + 
+  theme(legend.position = 'bottom')
 @
+
+We futher explore this relationship between identification of the alternative data in the lineup and the parameter, effect size, and lineuptype with a generalized linear mixed model. The response variable, $Y_{ijk\ell m}$, is binary, indicating whether participant $m$ picked the alternative data plot in lineup $\ell$. The covariate $x_{\ell 1}$ takes on the value -1 or 1 according to the lineup type code in Table~\ref{tab:experdetail}. In most cases, -1 indicates the parameter value is less than original estimate, while 1 indicates the parameter value is at or above the original estimate. The continuous covariate $x_{\ell 2}$ is the centered and scaled size of the effect of interest from which the alternative data were simulated, the values of which are labeled ``easy", ``medium", and ``hard" in Table~\ref{tab:experdetail} according to how difficult we thought the Turk participants would find each lineup. In Equation~\ref{eq:glmm}, $i \in \{1, 2, 3, 4, 5\}$ corresponding to the effects $\beta_3, \beta_4, \beta_2, \beta_6, \beta_5$, respectively. We include random effects in the model for each lineup, $\delta_{\ell}$ and each participant, $\epsilon_m$, and fit a hierarchical model as follows:
+\begin{align}\label{eq:glmm}
+Y_{i\ell m} &\sim \text{Bernoulli}(\pi_{i\ell m}) \\
+\text{logit}(\pi_{i\ell m}) & = \mu + \alpha_{i} + \theta\mathbb{I}(x_{\ell 1} = 1) + \gamma x_{\ell 2} + (\alpha\theta)_i \mathbb{I}(x_{\ell 1} = 1) + (\alpha\gamma)_i x_{\ell 2} + (\theta\gamma)\mathbb{I}(x_{\ell 1} = 1)x_{\ell 2} + (\alpha\theta\gamma)_i\mathbb{I}(x_{\ell 1} = 1) x_{\ell 2} + \delta_{\ell} + \epsilon_{m} \\
+\delta_{\ell} & \sim N(0, \sigma^2_{\delta}) \\
+\epsilon_{m} & \sim N(0, \sigma^2_{\epsilon}) \\
+\end{align}
+The results of fitting this model using \texttt{glmer} from the \texttt{lme4} package are summarized in Table~\ref{tab:glmmests} \citep{lme4}. 
+
+<<glmmres>>=
+load("data/finalglmm.RDA")
+mod <- model0randomscalesize
+res <- summary(mod)[[10]]
+ests <- as.numeric(round(res[,1], 4))
+odds <- round(exp(ests), 4)
+se <- as.numeric(round(res[,2], 4))
+pval <- as.numeric(round(res[,4],4))
+@
+
+\begin{table}
+\centering
+\begin{tabular}{lcccc}
+Parameter & Estimate & Std Error & $p$-value & Odds Multiplier \\
+$\mu$ & \Sexpr{ests[1]} & \Sexpr{se[1]} & \Sexpr{pval[1]} & \Sexpr{odds[1]}\\
+$\alpha_1$ & \Sexpr{ests[2]} & \Sexpr{se[2]} & \Sexpr{pval[2]} & \Sexpr{odds[2]} \\
+$\alpha_2$ & \Sexpr{ests[3]} & \Sexpr{se[3]} & \Sexpr{pval[3]} & \Sexpr{odds[3]}  \\
+$\alpha_3$  & \Sexpr{ests[4]} & \Sexpr{se[4]} & \Sexpr{pval[4]} & \Sexpr{odds[4]} \\
+$\alpha_4$ & \Sexpr{ests[5]} & \Sexpr{se[5]} & \Sexpr{pval[5]} & \Sexpr{odds[5]}  \\
+$\alpha_5$  & \Sexpr{ests[6]} & \Sexpr{se[6]} & \Sexpr{pval[6]} & \Sexpr{odds[6]} \\
+$\theta$  & \Sexpr{ests[7]} & \Sexpr{se[7]} & \Sexpr{pval[7]} & \Sexpr{odds[7]} \\
+$\gamma$  & \Sexpr{ests[8]} & \Sexpr{se[8]} & \Sexpr{pval[8]} & \Sexpr{odds[8]} \\ 
+$(\alpha\theta)_1$  & \Sexpr{ests[9]} & \Sexpr{se[9]} & \Sexpr{pval[9]} & \Sexpr{odds[9]} \\
+$(\alpha\theta)_2$  & \Sexpr{ests[10]} & \Sexpr{se[10]} & \Sexpr{pval[10]} & \Sexpr{odds[10]} \\
+$(\alpha\theta)_3$  & \Sexpr{ests[11]} & \Sexpr{se[11]} & \Sexpr{pval[11]} & \Sexpr{odds[11]} \\
+$(\alpha\theta)_4$  & \Sexpr{ests[12]} & \Sexpr{se[12]} & \Sexpr{pval[12]} & \Sexpr{odds[12]} \\
+$(\alpha\theta)_5$  & \Sexpr{ests[13]} & \Sexpr{se[13]} & \Sexpr{pval[13]} & \Sexpr{odds[13]} \\
+$(\alpha\gamma)_1$  & \Sexpr{ests[14]} & \Sexpr{se[14]} & \Sexpr{pval[14]} & \Sexpr{odds[14]} \\
+$(\alpha\gamma)_2$  & \Sexpr{ests[15]} & \Sexpr{se[15]} & \Sexpr{pval[15]} & \Sexpr{odds[15]} \\
+$(\alpha\gamma)_3$  & \Sexpr{ests[16]} & \Sexpr{se[16]} & \Sexpr{pval[16]} & \Sexpr{odds[16]} \\
+$(\alpha\gamma)_4$  & \Sexpr{ests[17]} & \Sexpr{se[17]} & \Sexpr{pval[17]} & \Sexpr{odds[17]} \\
+$(\alpha\gamma)_5$  & \Sexpr{ests[18]} & \Sexpr{se[18]} & \Sexpr{pval[18]} & \Sexpr{odds[18]} \\
+$\theta\gamma$  & \Sexpr{ests[19]} & \Sexpr{se[19]} & \Sexpr{pval[19]} & \Sexpr{odds[19]} \\
+$(\alpha\theta\gamma)_1$ & \Sexpr{ests[20]} & \Sexpr{se[20]} & \Sexpr{pval[20]} & \Sexpr{odds[20]}  \\
+$(\alpha\theta\gamma)_2$  & \Sexpr{ests[21]} & \Sexpr{se[21]} & \Sexpr{pval[21]} & \Sexpr{odds[21]} \\
+$(\alpha\theta\gamma)_3$  & \Sexpr{ests[22]} & \Sexpr{se[22]} & \Sexpr{pval[22]} & \Sexpr{odds[22]} \\
+$(\alpha\theta\gamma)_4$  & \Sexpr{ests[23]} & \Sexpr{se[23]} & \Sexpr{pval[23]} & \Sexpr{odds[23]} \\
+$(\alpha\theta\gamma)_5$  & \Sexpr{ests[24]} & \Sexpr{se[24]} & \Sexpr{pval[24]} & \Sexpr{odds[24]} \\ 
+$\sigma^2_{\delta}$ & 0.5638 \\
+$\sigma^2_{\epsilon}$ & 0.3416
+\end{tabular}
+\caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}}
+\end{table}
+
+
+<<predictglmm, fig.height=6, fig.cap="Predictions from our generalized linear mixed effects model given in Equation~\ref{eq:glmm}. The lines show the expected probability of detecting the alternative data in a lineup of size 6 for new observers of new lineups is plotted on the $y$-axis, and the size of the parameter of interest is on the $x$-axis. The proportions detected by our Turk participants for each lineup group are shown by the points.">>=
+newdata <- read_csv("data/newdata_pred_glmm.csv")
+plotdata <- turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
+                       type2 = ifelse(type == "one", type2, -1)) %>% 
+  group_by(pic_id, size, test_param, sign, type2,alt_model) %>% summarize(
+    datapick = mean(datapick)
+)
+
+ggplot() + 
+  geom_line(data = newdata, aes(x = size, y = predictfinal, color = as.factor(type2))) + 
+  geom_point(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2))) + 
+  scale_color_brewer(palette = "Dark2", name = "Lineup Type") + 
+  facet_wrap(~test_param, scales = 'free') + 
+  labs(x = "Parameter value", y = "Expected probability of detection in a lineup of size 6") + 
+  ThemeNoNet + 
+  theme(legend.position = 'bottom')
+
+
+#vals <- predict(model1, type = "response")
+#modelData_sig$prediction <- vals
+#ggplot(data = modelData_sig) + 
+#  geom_point(aes(x = size, y = prediction, color = as.factor(type2))) + 
+#  facet_wrap(~test_param, scales = "free")
+@
+
 
 
 \section{Goodness-of-Fit Testing}
 
-Goodness-of-fit testing for network models is notoriously difficult. Most network models, other than the most simple, lack the asymptotics required to develop the goodness-of-fit methods required \citep{goldenberg09}. Some methods have been developed based on what \citeauthor{RSienamanual} call ``auxiliary statistics" such as the indegree or outdegree distribution on the nodes. In \texttt{RSiena}, the \texttt{sienaGOF} function performs goodness-of-fit testing as follows:
+Goodness-of-fit testing for network models is notoriously difficult. Most network models, other than the most simple, lack the asymptotics required to develop the goodness-of-fit methods required \citep{goldenberg09}. Some methods have been developed based on what Snijders et al call ``auxiliary statistics" such as the indegree or outdegree distribution on the nodes. In \texttt{RSiena}, the \texttt{sienaGOF} function performs goodness-of-fit testing as follows:
 \begin{enumerate}
 \item Auxiliary statistics are computed on the observed data ($\mathbf{u}_d$) and on $N$ simulated observations from the model ($\mathbf{u}_1 \dots \mathbf{u}_N$). (Usually, $N=1000$) 
 \item The mean vector, $\overline{\mathbf{u}}$ and covariance matrix, $\mathbf{S}$ of the statistics on the simulations from the model are computed, and the Mahalanobis distance, $d_M(\mathbf{u})$ from the observed statistics to the distribution of the simulated statistics is computed:
@@ -414,7 +529,7 @@ ggplot(data = dat) +
 @
 
 The smallest $p$-value for one of the goodness-of-fit lineups was for the third replicate of the null model M4. This contradicts our previous finding that the only lineup to fail to reject the null was also when the null model was M4. The plot of this lineup is shown in Figure~\ref{fig:mostsiggof}. In the remaining replicate of M4 as the null model, 13 of 16 viewers identified the data plot, corresponding to a $p$-values of less than $0.0001$, just like the third replicate. This leads us to believe that the high $p$-value observed in the second replicate is more of a fluke. %This demonstrates some of the problems inherent with network models, such as model degeneracy, as discussed in \citet{degeneracy}. Network models 
-Furthermore, for the first lineup replicate with model M5 as the null model, only 9 of 21 participants were able to pick out the data, but the Visual distribution $p$-value is less than 0.05. This is much higher than the corresponding Binomial probability of $Pr(X = 9|n = 21, p = \frac{1}{6}) = \binom{21}{9}(\frac{1}{6})^9(\frac{5}{6})^{21-9} \approx 0.003$, but we not sure that having fewer than half of our participants identify the data plot is a truly significant result. We could move the threshold from $\alpha = 0.05$ to $\alpha = 0.01$ or $\alpha = 0.001$, but more work needs to be done to determine which, if any of these, is appropriate.  
+Furthermore, for the first lineup replicate with model M5 as the null model, only 9 of 21 participants were able to pick out the data, but the Visual distribution $p$-value is less than 0.05. This is much higher than the corresponding Binomial probability of $Pr(X = 9|n = 21, p = \frac{1}{6}) = \binom{21}{9}(\frac{1}{6})^9(\frac{5}{6})^{21-9} \approx 0.003$, but we are not sure that having fewer than half of our participants identify the data plot is a truly significant result. We could move the threshold from $\alpha = 0.05$ to $\alpha = 0.01$ or $\alpha = 0.001$, but more work needs to be done to determine which, if any of these, is appropriate.  
 
 <<mostsiggof, fig.height = 3, fig.cap="The lineup resulting in the smallest $p$-value rejecting the null hypothesis. Surprisingly, this another repetition for M4 as the null model.">>=
 dat <- read_csv(paste0("data/jtts_gof_9_3.csv"))
@@ -436,16 +551,13 @@ We believe this goodness-of-fit testing method holds promise for the future of s
 
 \section{Experiment Protocol}
 
-\begin{enumerate}
-\item Use the mean values from step 2 as the parameter values in the model and simulate 100 observations from the model. These simulated networks will become the "true data."
-\item To each simulation, refit the model form from which it was simulated. 
-\item Repeat steps 4-5 for various permutations of model forms and parameter values; e.g. double the parameter values, quadruple the parameter values, change the signs on the parameters, etc.
-\item Simulate additional "alternative data" from the model in step 3 and the fitted model in step 4. 
-\item Place the appropriate node-link diagram of each "true data" observation in a lineup with $M-1$ ($M=6$) "alternative data" node-link diagrams. 
-\item Show the lineups to participants, with no participant seeing the same "true data" or "alternative data" plot twice. 
-\end{enumerate}
+We recruited 250 participants for our experiment through Amazon Mechanical Turk. Each participant read over some brief training material before beginning the experiment. After reading this material and agreeing to participate, the participants saw two trial plots, one where they were required to select the plot that was most different from the others due to its complex structure, and one where they were required to select the plot that was most different from the others due to its very simple structure. Upon getting the trial plots correct, they moved into the experiment. Each participant was randomly assigned 13 lineups to look at. The were asked to select one or more plots that they perceived as ``most different" from the others, and provide a reasoning for their choice. They could select from ``Most simple overall structure," ``Most complex overall structure," or ``Other" and provide their own text description of their reasoning. One of the 13 lineups the participants saw was the true data from the 112th senate shown in Section~\ref{sec:senatedata}. Each participant only saw the data one in order to avoid bias. 
 
 \section{Discussion}
+
+By using visual inference methods, we have developed new ways to perform significance and goodness-of-fit testing for a complicated and intractable set of statistical models for social network data. These new methods can be used to supplement traditional methods and check our assumptions about network models. The traditional methods only look at one piece or one measure of a network model, but our methods look at the models holistically for a broader sense of what it means for a parameter to be significant or a model to be a good fit. By looking at an entire network simulated from a SAOM side-by-side with other instances of networks simulated from another model, we develop an idea of the model in terms of the data itself, instead of in terms of statistical summaries of the data.
+
+We hope to apply these methods further for different types of network data and different types of network models. We accept the limitations of this type of network data visualization, in that even in small instances, the cognitive load of looking at a lineup is very high for the average observer. We would therefore like to explore larger datasets, different layout algorithms, and different ways of visualizing network data, such as adjacency matrix visualizations, through visual inference to see if similar patterns emerge. 
 
 % Talk about visual inference
 %We propose to attack some of the aforementioned difficulties with SAOMs by using a technique known as \textit{visual inference}. This technique was created by \citet{Bujaetal} to provide well-defined, statistical rigor to the usual exploratory data analyses and model diagnostics that are typically performed by visualizing the data as opposed to looking at it raw or gathering numerical summaries of it. In visual inference there are \textit{null plots} and \textit{data plots}: the null plots are visualizations of data simulated from the model according to the null hypothesis, while the data plots are visualizations of data simulated from the model according to an alternative hypothesis. These two data sources are visualized side-by-side using small multiples using what Buja et al called the \textit{lineup protocol}. The idea behind the lineup protocol is the police lineup, where witnesses to crimes are brought to the police station to observe a group of people, one of whom is suspected to have committed the crime, and are asked to identify the perpetrator of the crime. If the witness identifies the suspect in the lineup, that is taken as evidence the suspect is guilty, whereas if the witness does not identify the suspect, that is taken as evidence the suspect is not guilty. In the visual inference lineup protocol, the \textit{suspect} is the data plot among $M-1$ null plots. If the "witness" can pick the data plot out of the lineup, that is taken as evidence that the null model should be rejected, whereas failing to pick out the data plot is taken as evidence that the null model should not be rejected. In our application of the lineup protocol to SAOMs, we include various effects of varying sizes in the SAOMs we fit to some data and try to \textit{see} those effects in node-link diagram corresponding to simulations from the various models.

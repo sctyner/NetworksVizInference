@@ -174,7 +174,6 @@ senate_lu_storage <- function(details, Altsims, Nullsims, m, Wave, url = "http:/
       
     }
   return(picture_details)
-  
 }
 
 library(grid)
