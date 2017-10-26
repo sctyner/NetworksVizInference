@@ -173,7 +173,7 @@ where $n_j$ is the number of bills in a congressional session authored by senato
 For each of the four senate sessions, we have the WPC value between any two senators in the session, the party affiliation of each senator, the number of bills they authored in each session, and their gender. We explored each of these covariates in the model to determine if they affect the overall network structure and how ties are formed between senators. The node-link diagram representations of the data we use for modelling are shown in Figure~\ref{fig:senateAll}. We have labelled some of the nodes in these networks whose names will be familiar to US readers, because they are leaders in their party or they have run for president. The size of the nodes represent how many bills the senator authored in a session, the color represents party affiliation, and the shape represent gender. In each of the four sessions, there is one very large connected component tying many of the prominent senators together, with many smaller groups of two to ten senators surrounding the larger component. In each senate, the structure changes slightly as new senators arrive or come to prominence.
 
 <<senateAll, fig.cap="The four senate collaboration networks that we use as our example data to visually assess the SAOM effects. Color represents party, shape represents gender, and size represents number of bills authored in a session. The Frucherman-Reingold layout is shown. ">>=
-seobama <- read_csv("../Data/senate/senateobamapres_gsw_25.csv")
+seobama <- read_csv("data/senateobamapres_gsw_25.csv")
 to_label <- c("Joseph R. Biden Jr.", "John S. McCain", "Ted Cruz","Marco Rubio",
   "Lindsey O. Graham","Rand Paul", "Bernard Sanders", "Jim Webb", "Mitch McConnell",
   "Harry M. Reid", "Hillary Rodham Clinton", "Amy Jean Klobuchar", "Elizabeth Warren")
@@ -246,7 +246,7 @@ The parameters we use for the remainder of the paper are detailed in Table~\ref{
 
 <<geteffects, eval = FALSE>>=
 # used for table below
-initeff <- read_csv("../Data/senate/sigEffsSenate912.csv")
+initeff <- read_csv("data/sigEffsSenate912.csv")
 initeff %>% filter(shortName == "sameX")
 #density & -- & $\sum_j x_{ij}$ & & & \\
 #reciprocity & -- & $\sum_j x_{ij}x_{ji}$ & & & \\
