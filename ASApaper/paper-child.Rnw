@@ -317,21 +317,25 @@ We use the estimates given in Table~\ref{tab:fittedvalues} to simulate from mode
 We want to explore three different aspects of the SAOM models using the lineup protocol: significance of parameters, goodness-of-fit of a model, and visual detection of additional parameters. Each on of these requires a different setup, which we describe in detail, but we use the lineup protocol to examine each aspect. In each lineup, there are two models shown: the null model and the alternative model. The definition of the null and alternative model will vary according to which aspects of the SAOMs we are exploring. 
 %For each lineup, we consider two models: model M1 is the null model, and another model, from M2-M5, which is chosen to be the alternative model. 
 
-To construct a lineup, we simulate five networks from the null model and one network from the alternative model. We chose to expose our participants to only six plots at a time in order to show the node-link diagrams in more detail and to lower their cognitive load. Typically, lineup experiments are done with sets of 20 plots at a time c.f.~\citet{loy:2015, vanderplas:2016}, but we determined that not enough structure could be shown in each plot for 20 node-link diagrams. An example of a lineup like those shown to our participants is shown on the right side of the image  in Figure~\ref{fig:shiny}.  \footnote{If you would like to explore the lineups we use in further detail, please visit \url{https://sctyner.shinyapps.io/saom_lineup_creation/}}. 
+To construct a lineup, we simulate five networks from the null model and one network from the alternative model. We chose to expose our participants to only six plots at a time in order to show the node-link diagrams in more detail and to lower their cognitive load. Typically, lineup experiments are done with sets of 20 plots at a time c.f.~\citet{loy:2015, vanderplas:2016}, but we determined that not enough structure could be shown in each plot for 20 node-link diagrams. An example of a lineup like those shown to our participants is shown on the right side of the image  in Figure~\ref{fig:shiny}.  In this lineup, model M4 is the alternative model, and model M1 is the null model. To simulate lineups from the models, we set the parameters to the values given in Table~\ref{tab:fitted values} for all parameters within the respective models, with the exception of $\beta_5$. For $\beta_5$, twice the estimated value was used. More detail on why we use twice the fitted value is provided in Section~\ref{sec:setupvd}.\footnote{If you would like to explore the kinds of lineups we use in further detail, please visit \url{https://sctyner.shinyapps.io/saom_lineup_creation/}}. To get the simulations, we used the \tettt{siena07} function in \texttt{RSiena} \citep{RSiena}. 
 
 \begin{figure}
 \includegraphics[width=.9\textwidth]{img/shinyappscreen.png}
-\caption{\label{fig:shiny} A screen grab of the web application we created to design our lineup experiment. In this view, model M4 is selected and one estimate from model M4 with $\beta_5$ set to twice its estimated value given in Table~\ref{tab:effects} is placed at random among five observations simulated from model M1. The other two tabs in the right side of the screen tell you which plot comes from the alternative model, and allow you to view and download the data that is plotted in the lineup.}
+\caption{\label{fig:shiny} A screen grab of the web application we created to design our lineup experiment. More details about this application are given in Section~\ref{sec:setupvd}. In the lineup, M4 is the alternative model and one estimate from model M4 with $\beta_5$ set to twice its estimated value given in Table~\ref{tab:fittedvalues} is placed at random among five observations simulated from the null model, M1. Which plot comes from model M4?  %The other two tabs in the right side of the screen tell you which plot comes from the alternative model, and allow you to view and download the data that is plotted in the lineup.
+}
 \end{figure}
 
-In model M1, with only two parameters in the objective function, we varied both the density and reciprocity parameteter values one at a time. In models M2 through M5, we vary the additional parameter, $\beta_3$ through $\beta_6$. Thus, we have six different parameters of interest to us: $\beta_1, \dots, \beta_6$. We want to determine how the size of these parameters affects the overall structure of the network data simulated from the models M1 through M5, so we also vary the value of the parameters in two directions: positive and negative. 
+We want to explore the role of each of these parameters in the objective functions for each model. 
 
 \subsection{Significance Testing}
 
 \subsection{Goodness-of-Fit}
-\subsection{Visual Detection}
+\subsection{Visual Detection}\label{sec:setupvd}
 
-Through visual inference, we want to determine at which point an effect becomes noticeable in a SAOM. By \textit{noticeable}, we mean that the inclusion of the effect alters the appearance of networks simulated from a model. An effect becomes noticeable when a simulation from a model with a noticeable effect appears different from simulations from a model where the same affect is absent. %Because the traditional way to visualize a network is a node-link diagram, we will examine the effect of different parameter values using node-link visualizations. 
+Through visual inference, we want to determine at which point an effect becomes noticeable in a SAOM. By \textit{noticeable}, we mean that the inclusion of the effect alters the appearance of networks simulated from a model. An effect becomes noticeable when a simulation from a model with a noticeable effect appears different from simulations from a model where the same affect is absent.
+In model M1, with only two parameters in the objective function, we varied both the density and reciprocity parameteter values one at a time. In models M2 through M5, we vary the additional parameter, $\beta_3$ through $\beta_6$. Thus, we have six different parameters of interest to us: $\beta_1, \dots, \beta_6$. We want to determine how the size of these parameters affects the overall structure of the network data simulated from the models M1 through M5, so we also vary the value of the parameters in two directions: positive and negative. 
+
+%Because the traditional way to visualize a network is a node-link diagram, we will examine the effect of different parameter values using node-link visualizations. 
 
 <<hypothesis, fig.height=2, fig.cap="We hypothesize that as the parameter value of interest increases in absolute value, more viewers of the lineup will pick the alternative data out of a lineup.">>=
 x <- seq(-10, 10, .05)
@@ -370,7 +374,7 @@ print(xtable::xtable(experdet, caption = "All conditions in our MTurk experiment
 
 \section{Experiment Results}
 
-We showed participants from Amazon Mechanical Turk a series of lineups containing data simulated from M1 through M5. 
+We recruited 250 participants for our experiment through Amazon Mechanical Turk. Each participant read over some brief training material before beginning the experiment. After reading this material and agreeing to participate, the participants saw two trial plots, one where they were required to select the plot that was most different from the others due to its complex structure, and one where they were required to select the plot that was most different from the others due to its very simple structure. Upon getting the trial plots correct, they moved into the experiment. Each participant was randomly assigned 13 lineups to look at. The were asked to select one or more plots that they perceived as ``most different" from the others, and provide a reasoning for their choice. They could select from ``Most simple overall structure," ``Most complex overall structure," or ``Other" and provide their own text description of their reasoning. One of the 13 lineups the participants saw was the true data from the 112th senate shown in Section~\ref{sec:senatedata}. Each participant only saw the data one in order to avoid bias. 
 
 
 \subsection{Significance Testing}\label{sec:sigtest}
@@ -608,11 +612,6 @@ ggplot() +
 #  facet_wrap(~test_param, scales = "free")
 @
 
-
-
-\section{Experiment Protocol}
-
-We recruited 250 participants for our experiment through Amazon Mechanical Turk. Each participant read over some brief training material before beginning the experiment. After reading this material and agreeing to participate, the participants saw two trial plots, one where they were required to select the plot that was most different from the others due to its complex structure, and one where they were required to select the plot that was most different from the others due to its very simple structure. Upon getting the trial plots correct, they moved into the experiment. Each participant was randomly assigned 13 lineups to look at. The were asked to select one or more plots that they perceived as ``most different" from the others, and provide a reasoning for their choice. They could select from ``Most simple overall structure," ``Most complex overall structure," or ``Other" and provide their own text description of their reasoning. One of the 13 lineups the participants saw was the true data from the 112th senate shown in Section~\ref{sec:senatedata}. Each participant only saw the data one in order to avoid bias. 
 
 \section{Discussion}
 
