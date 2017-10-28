@@ -310,7 +310,7 @@ M6 & \Sexpr{round(M6[1], 3)} & \Sexpr{round(M6[2], 3)} & \Sexpr{round(M6[3], 3)}
 \caption{\label{tab:fittedvalues} The final estimates from repeated estimation of models M1 through M6.}
 \end{table}
 
-We use the estimates given in Table~\ref{tab:fittedvalues} to simulate from models M1 through M6. We discuss the simulation procedure and how we use the simulations in Section~\ref{sec:expersetup}.  
+We want to explore the role of each of these parameters in the objective functions for each model. So, we use the estimates given in Table~\ref{tab:fittedvalues} to simulate from models M1 through M6. We discuss the simulation procedure and how we use the simulations in Section~\ref{sec:expersetup}.  
 
 \section{Experiment Set-Up}\label{sec:expersetup}
 
@@ -325,9 +325,20 @@ To construct a lineup, we simulate five networks from the null model and one net
 }
 \end{figure}
 
-We want to explore the role of each of these parameters in the objective functions for each model. 
+To explore stochastic actor-oriented models through visual inference, we show a series of lineups to independent observers recruited through Amazon Mechanical Turk. We provide more details on the Turk setup in Section~\ref{sec:res}. 
 
 \subsection{Significance Testing}
+
+In the significance testing protocol, a parameter of interest is selected to test, say $\beta_k$. The hypotheses we use to generate lineups are: 
+
+\begin{description}
+\item $H_0$: $\beta_k = 0 $
+\item $H_A$: $\beta_k \neq $
+\end{description}
+
+Under the null hypothesis, we assume that the model that generated the network data is the simplest model presented in Section~\ref{sec:models}, model M1. Thus, the five null plots in the lineup are simulations from M1 with $\beta_1, \beta_2$ set to the estimates given in Table~\ref{tab:fittedvalues} for M1. The alternate model is the model with $\beta_1, \beta_2$, and $\beta_k$ in the objective function, with the remaining plot simulated from the appropriate model. 
+
+The lineup generated under this scenario is shown to independent viewers. If the viewers pick out the alternative data plot, that is evidence in favor of the null hypothesis, while picking one of the null plots is evidence against the null hypothesis. The significance tests that we perform in our experiment are for $\beta_3$ and $\beta_4$, making the alternative models M3 and M4, respectively. 
 
 \subsection{Goodness-of-Fit}
 \subsection{Visual Detection}\label{sec:setupvd}
@@ -372,7 +383,7 @@ names(experdet) <- c("Parameter", "Lineup Type", "Easy Value", "Medium Value", "
 print(xtable::xtable(experdet, caption = "All conditions in our MTurk experiment. Note that for $\\beta_4$ and $\\beta_6$, the negative type experiments are the reverse lineups, where 5 plots were simulated from the model with the parameter value given in the table, while 1 plot was simulated from M1.", label = "tab:experdetail", digits = c(0,0,0,3,4,3)))
 @
 
-\section{Experiment Results}
+\section{Experiment Results}\label{sec:res}
 
 We recruited 250 participants for our experiment through Amazon Mechanical Turk. Each participant read over some brief training material before beginning the experiment. After reading this material and agreeing to participate, the participants saw two trial plots, one where they were required to select the plot that was most different from the others due to its complex structure, and one where they were required to select the plot that was most different from the others due to its very simple structure. Upon getting the trial plots correct, they moved into the experiment. Each participant was randomly assigned 13 lineups to look at. The were asked to select one or more plots that they perceived as ``most different" from the others, and provide a reasoning for their choice. They could select from ``Most simple overall structure," ``Most complex overall structure," or ``Other" and provide their own text description of their reasoning. One of the 13 lineups the participants saw was the true data from the 112th senate shown in Section~\ref{sec:senatedata}. Each participant only saw the data one in order to avoid bias. 
 
