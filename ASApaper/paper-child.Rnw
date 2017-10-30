@@ -84,27 +84,27 @@ Two of the most important pieces of statistical modeling are significance testin
 %The more complicated the model, the harder it is to determine fit or to include or exclude a parameter. 
 
 Some particularly complicated sets of models are those designed to model network change. A \textit{network} is any set of things, such as people, computers, or neurons, that are connected in some way, through social relations, internet connection, or electrical impulses in the brain. We refer to the ``things" in the network as \textit{nodes}, or \textit{actors} in a social network, and the connections as \textit{edges}, or \textit{ties} in a social network. 
-Dependencies inherent to the data make network objects particularly difficult to model. Even more challenging is the situation when we go beyond single instances of a network and consider the dynamics of network change between observed instances. This type of modelling for dynamic networks is often performed on social network data, such as for friendship networks among students or the spread of HIV in  sexually active communities.% of men sleeping with other men. 
-These models lack the asymptotics required to perform many well-known goodness-of-fit tests, and the maximum likelihood estimation of parameters is so difficult that it can make significance testing significant as well \citep{goldenberg09}. 
-\hh{is the previous sentence a quote? I'm not sure that I follow.}
+Dependencies inherent to the data make network objects particularly difficult to model. Even more challenging is the situation when we go beyond single instances of a network and consider the dynamics of network change between observed instances. This type of modelling for dynamic networks is often performed on social network data, such as friendship networks among students or the spread of HIV in \st{drug users sharing needles.} %sexually active communities.% of men sleeping with other men. X ST a bit less jarring hopefully. X 
+These models lack the asymptotics required to perform many well-known goodness-of-fit tests, and the maximum likelihood estimation of parameters is so difficult that it can make significance testing difficult as well \citep{goldenberg09}. 
+\hh{is the previous sentence a quote? I'm not sure that I follow.} \st{it's a paraphrase... shall I make a quote? Also I definitely botched a word. Hopefully makes more sense now? }
 
 We propose new methods for significance and goodness-of-fit testing for a set of social network models, stochastic actor-oriented models for dynamic network data \citep{saompaper}. Specifically, we are using \textit{visual inference} in place of traditional statistical methods for social network models, such as Wald tests for significance of parameters and in- and outdegree distribution metrics for determining goodness-of-fit. Visual inference, introduced by \citet{Bujaetal}, allows us to look at the entire dataset simulated from a network model as opposed to a (set of) usually one-dimensional metric(s) derived from the network such as outdegree, or a $p$-value for a single parameter in the model. 
 
-The paper is outlined as follows: Section~\ref{vi} gives a basic overview of visual inference and the lineup protocol. Section 3 provides an introduction to the our models of interest, stochastic actor-oriented models. Sections 4 and 5 discuss problems with traditional significance tests and goodness-of-fit measures for these models and how visual inference methods can be used as solutions. Section 6 outlines our experimental protocol, and we close with a discussion in Section 7.  
+The paper is outlined as follows: Section~\ref{vi} gives a basic overview of visual inference and the lineup protocol. Section~\ref{sec:saom} provides an introduction to the our models of interest, stochastic actor-oriented models. Section~\ref{sec:expersetup} details how we define significance testing and goodness of fit procedures for SAOMs through visual inference, and Section~\ref{sec:res} details the results of a visual inference survey of Amazon Mechanical Turk workers. We close with a discussion in Section~\ref{sec:concl}.  
 
-\hh{where do the results come in?}
+\hh{where do the results come in?}\st{whoops, forgot to updat this with the reorg. }
 
 \section{Visual Inference}\label{vi}
 
 Data visualizations are an important component of data analysis, providing a mechanism for discovering patterns in data. Pioneering research by \citet{gelman:2004}, \citet{Bujaetal} and \citet{majumder:2011} provide methods to quantify the significance of discoveries made from visualizations. \citet{Bujaetal} introduced two protocols, the Rorschach and the lineup protocol, which bridge the gulf between traditional statistical inference and exploratory data analysis. %The Rorschach protocol consists of a set of $m$ (usually, $m=20$) plots (called the {\it null plots}) rendered from data that is consistent with a given null model. The Rorschach protocol helps to understand the extent of randomness in the null model. 
-Here, we use the lineup protocol. Under this protocol, a plot of the observed data is placed randomly among a set of $m-1$ null plots (where $m =20$, usually), and human observers are then asked to examine the lineup and to identify the most different plot. If an observer identifies the data plot, this is quantifiable evidence against the null hypothesis. \hh{Similarly, an observer has a chance of 1 in $m$ to pick the data plot from the lineup by simply guessing, ie in a situation where the data plot is virtually indistinguishable from the null plots.}
+Here, we use the lineup protocol. Under this protocol, a plot of the observed data is placed randomly among a set of $m-1$ null plots (where $m =20$, usually), and human observers are then asked to examine the lineup and to identify the most different plot. If an observer identifies the data plot, this is quantifiable evidence against the null hypothesis. \hh{Since an observer has a chance of 1 in $m$ to pick the data plot from the lineup by simply guessing, i.e. in a situation where the data plot is virtually indistinguishable from the null plots,} \st{the evidence grows in strength with the number of independent observers identifying the data plot.}
 
 The lineup protocol places a plot firmly in the framework of hypothesis tests: a plot of the data is considered to be the test statistic, which is compared against the sampling distribution under the null hypothesis represented by the null plots. Obviously, the null generating mechanism, i.e.\ the method of obtaining the data for null plots, is crucial for both the lineup and the Rorschach protocol, as the null hypothesis directly affects the choice of null generating method. Null generating methods are typically based on (a) simulation, if the null hypothesis allows us to directly specify a parametric model, (b) sampling, as for example in the case of large data sets, or (c) permutation of the original data \citep[see e.g.\ ][]{Good05}, which allows for non-parametric testing that preserves marginal distributions  while ensuring independence in higher dimensions. The model of interest here allows us to simulate directly from a parameteric model for dynamic social network data. 
 %In the experimental data that we analyzed the null generating methods used were permutation methods and direct simulation from a null model.
 
 The lineup protocol was formally tested in a head-to-head comparison with the equivalent conventional test in \citet{majumder:2011}. The experiment utilized human subjects from Amazon's Mechanical Turk \citep{turk} and used simulation to control conditions. The results suggest that  visual inference is comparable to conventional tests in a controlled conventional setting. This provides support for its appropriateness for testing in real exploratory situations where no conventional test exists. %Interestingly, the power of a visual test increases with the number of observers engaged to evaluate lineups, and the pattern in results suggests that the power will provide results consistent with practical significance \citep{kirk:1996}.
 
-\section{Stochastic Actor-Oriented Models}
+\section{Stochastic Actor-Oriented Models}\label{sec:saom}
 
 %To model family that we apply to the Senate data is the Stochastic Actor-Oriented Model (SAOM) family. 
 Stochastic Actor-Oriented Models (SAOMs) are a family of models for dynamic network data \citep{saompaper} that incorporate both network structure and node-level information to describe how a network observed on two or more occasions changes over time. The two titular properties of SAOMs, stochasticity and actor-orientation, are crucial to understanding networks as they exist naturally: social networks are ever-changing as relationships decay or grow in seemingly random ways, and most actors in them have characteristics that could affect how they change their ties to other nodes in the network. 
@@ -129,7 +129,7 @@ All changes in SAOMs are treated as changes made by the nodes, or \textit{actors
 
 \subsection{Objective Function}\label{of}
 
-After actor $i$ has been given the opportunity to change, it probabilistically chooses one of its current ties, $x_{ij}$, to change. The probability that actor $i$ changes its current tie to actor $j$ is determined by the \textit{objective function} of the model and a random component, $U$. \hh{XXX can you paraphrase the purpose of U in half a sentence?}
+After actor $i$ has been given the opportunity to change, it probabilistically chooses one of its current ties, $x_{ij}$, to change. The probability that actor $i$ changes its current tie to actor $j$ is determined by the \textit{objective function} of the model and a random component, $U$, \st{which can be thought of as encompassing any other factors that may be influencing the changes the node makes not accounted for by the parameters in the model.} \hh{XXX can you paraphrase the purpose of U in half a sentence?}
 %The random component is assumed to have log-Weibull distribution with location parameter $\mu = 0$ and scale parameter $\sigma = 0$ (see \citet{modelsSnijders}), so the probability density function of $U$ is
 %\begin{equation}\label{eq:logweibull}
 %g(u) = \exp\{-(u + \exp\{-u\})\}.
@@ -147,9 +147,9 @@ Objective function $f_{i}(x, \boldsymbol{\beta}, \mathbf{Z})$ and  random compon
 p_{ij} = \dfrac{\exp\{f_i(x(i \leadsto j), \boldsymbol{\beta}, \mathbf{Z})\}}{\sum_{h} \exp\{f_i(x(i \leadsto h), \boldsymbol{\beta}, \mathbf{Z})\}}
 \end{equation}
 
-This probability dictates which edge change is made by the acting node. The acting node can also choose to \textit{not} change at all, in which case $j \equiv i$.  
+This probability dictates which edge change is made by the acting node. The acting node can also choose to \textit{not} change at all. This occurs when the numerator, as calculated for the current state of the network, is larger than for any changes that could be made.  
 
-\hh{XXX how is the probability computed in the case that no change is made? Why is the notation $j \equiv i$ used for no change?}
+\hh{XXX how is the probability computed in the case that no change is made? Why is the notation $j \equiv i$ used for no change?}\st{that's more for the computation. I'll adjust accordingly}
 
 According to Snijders et al in the \texttt{RSiena} manual, at least two parameters must be included in the objective function: the density and the reciprocity. We denote the density, or out-degree, parameter by $\beta_1$ and the associated statistic as $s_{i1}(x) = \sum_{j} x_{ij}$. Similarly, we denote the reciprocity parameter by $\beta_2$ and the associated statistic as $s_{i2}(x) = \sum_{j} x_{ij}x_{ji}$. We refer to the model with only these two parameters in the objective function as M1. 
 
@@ -657,7 +657,7 @@ ggplot() +
 @
 
 
-\section{Discussion}
+\section{Discussion}\label{sec:concl}
 
 By using visual inference methods, we have developed new ways to perform significance and goodness-of-fit testing for a complicated and intractable set of statistical models for social network data. These new methods can be used to supplement traditional methods and check our assumptions about network models. The traditional methods only look at one piece or one measure of a network model, but our methods look at the models holistically for a broader sense of what it means for a parameter to be significant or a model to be a good fit. By looking at an entire network simulated from a SAOM side-by-side with other instances of networks simulated from another model, we develop an idea of the model in terms of the data itself, instead of in terms of statistical summaries of the data.
 
