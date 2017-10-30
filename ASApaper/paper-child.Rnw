@@ -438,7 +438,7 @@ which is compared to a Chi-square distribution with one degree of freedom. Testi
 \end{equation}
 where $\hat{\Sigma}$ is the estimated covariance matrix of $\boldsymbol{\beta}$. This statistic is then compared to a Chi-square distribution with $P$ degrees of freedom. 
 
-All of the parameters we test for significance using the lineup protocol, $\beta_3$ and $\beta_4$, were determined to be statistically significant using Equation~\ref{eq:wald1}. The results from the significance tests we performed using the lineup protocol are given in Table~\ref{tab:sigtesting}
+All of the parameters we test for significance using the lineup protocol, $\beta_3$ and $\beta_4$, were determined to be statistically significant using Equation~\ref{eq:wald1}. The results from the significance tests we performed using the lineup protocol are given in Table~\ref{tab:sigtesting}. \hh{XXX how do we interpret these  visual results? Include the six lineups in an appendix and refer to them from here.}
 
 <<sigtesting, results='asis'>>=
 turk22_sig <- turk22 %>% 
@@ -496,12 +496,12 @@ The \texttt{RSiena} software also provides a Rao score-type test for goodness-of
 
 These methods are similar in that they are both restriced: the \texttt{sienaGOF} method only considers one measure on the data and simulations from the model, while the score-type tests only consider subsets of parameters, ``nuisance parameters" in \citet{scoretest}, not the entire set of parameters. By using visual inference instead of more traditional statistical methods, we hope to perform a more holistic goodness-of-fit test. 
 
-Using the lineup protocol, we show each Amazon Mechanical Turk worker the data once, in a lineup with five other plots of simulated data from one of the models we chose. We examined four different models, M2, M3, M4, and M6, and examined three repititons of each, for a total of 12 goodness-of-fit lineups. In each lineup, the ``null model" is one of the four models and the ``alternative" model is the true, unknown model that generated the senate network data The hypotheses for our goodness-of-fit tests are: 
+Using the lineup protocol, we show each Amazon Mechanical Turk worker the data once, in a lineup with five other plots of simulated data from one of the models we chose. We examined four different models, M2, M3, M4, and M6, and examined three repetitions of each, for a total of 12 goodness-of-fit lineups. In each lineup, the ``null model" is one of the four models and the ``alternative" model is the true, unknown model that generated the senate network data. The hypotheses for our goodness-of-fit tests are: 
 \begin{description}
-\item $H_0$:  The senate network data come from the null model.
+\item $H_0$:  The senate network data come from (or could have come from) the null model.
 \item $H_A$: The senate network data do not come from the null model. 
 \end{description}
-If a lineup viewer picks out the data among the five simulations from the null model, that is evidence in favor of the alternative hypothesis. On the contrary, if the lineup viewer picks one of the null plots, that is evidence against the alternative hypothsis. Because the size of the lineups is small, the probability of picking the data by chance is high, $\frac{1}{6}$, but if \textit{many} independent viewers pick out the data from the nulls, the evidence in favor of the alternative hypothesis becomes stronger. Results from our MTurk goodness-of-fit plots are provided in Table~\ref{tab:gofstats}. 
+If a lineup viewer picks out the data among the five simulations from the null model, it is evidence in favor of the alternative hypothesis. On the contrary, if the lineup viewer picks one of the null plots, that is evidence against the alternative hypothsis. Because the size of the lineups is small, the probability of picking the data by chance is high, $\frac{1}{6}$, but if \textit{many} independent viewers pick out the data from the nulls, the evidence in favor of the alternative hypothesis becomes stronger. Results from our MTurk goodness-of-fit plots are provided in Table~\ref{tab:gofstats}. 
 
 <<goftab, cache = TRUE, results='asis'>>=
 turk22_gof <- read_csv("data/turk22-gof.csv")
@@ -515,7 +515,7 @@ print_gof_stats$`p-value` <- ifelse(print_gof_stats$`p-value` < .0001, "< 0.0001
 print(xtable::xtable(print_gof_stats, label = "tab:gofstats", caption = "An overview of the results from our 12 goodness-of-fit lineup tests.", digits = 4), caption.placement = "bottom", include.rownames = FALSE)
 @
 
-The $p$-values were calcluated using the \texttt{vinference} package by \citet{vinference}. This package contains methods to calculate \textit{Visual distributions} for lineup experiment data.  The distribution depends on the number of evaluations of a plot, $K$, the size of the lineup, $m$, and the lineup scenario, which here is that each lineup containing the same data and the same set of null plots is shown to $K$ independent observers.  Using these $p$-values, all but one lineup results in a rejection of the null hypothesis at Type-I error rate of $\alpha = 0.05$. The lineup that resulted in a failure to reject the null hypothesis is shown in Figure~\ref{fig:failgof}. The null model in this lineup is M4, and the senate data is shown in panel number $3^2 - 7$, but the panel most chose was number four, and the most common reasoning for that choice was that it had the most simple structure. 
+The $p$-values were calculated using the \texttt{vinference} package by \citet{vinference}. This package contains methods to calculate \textit{Visual distributions} for lineup experiment data.  The distribution depends on the number of evaluations of a plot, $K$, the size of the lineup, $m$, and the lineup scenario, which here is that each lineup containing the same data and the same set of null plots is shown to $K$ independent observers.  Using these $p$-values, all but one lineup results in a rejection of the null hypothesis at Type-I error rate of $\alpha = 0.05$. The lineup that resulted in a failure to reject the null hypothesis is shown in Figure~\ref{fig:failgof}. The null model in this lineup is M4, and the senate data is shown in panel number $3^2 - 7$. However, the panel most participants chose was number four, and the most common reasoning for that choice was that it had the most simple structure. 
 
 <<failgof, fig.height=3, fig.cap="The goodness-of-fit lineup that failed to reject the null hypothesis. The null model for this lineup is M4. Only 7 of 21 viewers of this lineup selected the data plot as the most different from the others.">>=
 load("data/se112adjmat.RDS")
@@ -543,6 +543,8 @@ ggplot(data = dat) +
         theme(panel.background = element_rect(color = 'black')) +
         facet_wrap(~ord)
 @
+
+\hh{XXX we need to go throught the logic of the argument below.}
 
 The smallest $p$-value for one of the goodness-of-fit lineups was for the third replicate of the null model M4. This contradicts our previous finding that the only lineup to fail to reject the null was also when the null model was M4. The plot of this lineup is shown in Figure~\ref{fig:mostsiggof}. In the remaining replicate of M4 as the null model, 13 of 16 viewers identified the data plot, corresponding to a $p$-values of less than $0.0001$, just like the third replicate. This leads us to believe that the high $p$-value observed in the second replicate is more of a fluke. %This demonstrates some of the problems inherent with network models, such as model degeneracy, as discussed in \citet{degeneracy}. Network models 
 Furthermore, for the first lineup replicate with model M5 as the null model, only 9 of 21 participants were able to pick out the data, but the Visual distribution $p$-value is less than 0.05. This is much higher than the corresponding Binomial probability of $Pr(X = 9|n = 21, p = \frac{1}{6}) = \binom{21}{9}(\frac{1}{6})^9(\frac{5}{6})^{21-9} \approx 0.003$, but we are not sure that having fewer than half of our participants identify the data plot is a truly significant result. We could move the threshold from $\alpha = 0.05$ to $\alpha = 0.01$ or $\alpha = 0.001$, but more work needs to be done to determine which, if any of these, is appropriate.  
