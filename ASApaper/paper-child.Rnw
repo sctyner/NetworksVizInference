@@ -331,18 +331,21 @@ To simulate lineups from the models, we set the parameters to the values given i
 }
 \end{figure}
 
-To explore stochastic actor-oriented models through visual inference, we show a series of lineups to independent observers recruited through Amazon Mechanical Turk. We provide more details on the Turk setup in Section~\ref{sec:res}. 
+A series of these lineups is shown to independent observers recruited through Amazon Mechanical Turk for feedback (more details on the Turk setup in Section~\ref{sec:res}). 
 
 \subsection{Significance Testing}\label{sec:setupst}
 
 In the significance testing protocol, a parameter of interest is selected to test, say $\beta_k$. The hypotheses we use to generate lineups are: 
 
-\begin{description}
-\item $H_0$: $\beta_k = 0 $
-\item $H_A$: $\beta_k \neq 0$
-\end{description}
+\begin{equation}\label{eq:sig}
+H_0: \beta_k = 0 \ \ \ \text{ versus } \ \ \ H_A: \beta_k \neq 0
+\end{equation}
+%\begin{description}
+%\item $H_0$: $\beta_k = 0 $
+%\item $H_A$: $\beta_k \neq 0$
+%\end{description}
 
-Under the null hypothesis, we assume that the model that generated the network data is the simplest model presented in Section~\ref{sec:models}, model M1. Thus, the five null plots in the lineup are simulations from M1 with $\beta_1, \beta_2$ set to the estimates given in Table~\ref{tab:fittedvalues} for M1. The alternate model is the model with $\beta_1, \beta_2$, and $\beta_k$ in the objective function, with the remaining plot simulated from the appropriate model. 
+Under the null hypothesis, we assume that the model that generated the network data is $M_1$, the simplest model presented in Section~\ref{sec:models}. Thus, the five null plots in the lineup are simulations from M1 with $\beta_1, \beta_2$ set to the estimates given in Table~\ref{tab:fittedvalues} for M1. The alternate model is the model with $\beta_1, \beta_2$, and $\beta_k$ in the objective function, with the remaining plot simulated from the appropriate model. 
 
 The lineup generated under this scenario is shown to a number of independent viewers. If an observer picks out the alternative data plot, that is evidence in favor of the null hypothesis, while picking one of the null plots is evidence against the null hypothesis. The significance tests that we perform in our experiment are for $\beta_3$ and $\beta_4$, making the alternative models M2 and M3, respectively. 
 
