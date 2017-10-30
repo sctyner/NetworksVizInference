@@ -578,14 +578,19 @@ turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
   theme(legend.position = 'bottom')
 @
 
-We futher explore this relationship between identification of the alternative data in the lineup and the parameter, effect size, and lineuptype with a generalized linear mixed model. The response variable, $Y_{ijk\ell m}$, is binary, indicating whether participant $m$ picked the alternative data plot in lineup $\ell$. The covariate $x_{\ell 1}$ takes on the value -1 or 1 according to the lineup type code in Table~\ref{tab:experdetail}. In most cases, -1 indicates the parameter value is less than original estimate, while 1 indicates the parameter value is at or above the original estimate. The continuous covariate $x_{\ell 2}$ is the centered and scaled size of the effect of interest from which the alternative data were simulated, the values of which are labeled ``easy", ``medium", and ``hard" in Table~\ref{tab:experdetail} according to how difficult we thought the Turk participants would find each lineup. In Equation~\ref{eq:glmm}, $i \in \{1, 2, 3, 4, 5\}$ corresponding to the effects $\beta_3, \beta_4, \beta_2, \beta_6, \beta_5$, respectively. We include random effects in the model for each lineup, $\delta_{\ell}$ and each participant, $\epsilon_m$, and fit a hierarchical model as follows:
-\begin{align}\label{eq:glmm}
+We futher explore this relationship between identification of the alternative data in the lineup and the parameter, effect size, and lineuptype with a generalized linear mixed model. The response variable, $Y_{i\ell m}$, is binary, indicating whether participant $m$ picked the alternative data plot in lineup $\ell$. The covariate $x_{\ell 1}$ takes on the value -1 or 1 according to the lineup type code in Table~\ref{tab:experdetail}. In most cases, -1 indicates the parameter value is less than original estimate, while 1 indicates the parameter value is at or above the original estimate. The continuous covariate $x_{\ell 2}$ is the centered and scaled size of the effect of interest from which the alternative data were simulated, the values of which are labeled ``easy", ``medium", and ``hard" in Table~\ref{tab:experdetail} according to how difficult we thought the Turk participants would find each lineup. In Equation~\ref{eq:glmm}, $i \in \{1, 2, 3, 4, 5\}$ corresponding to the effects $\beta_3, \beta_4, \beta_2, \beta_6, \beta_5$, respectively. We include random effects in the model for each lineup, $\delta_{\ell}$ and each participant, $\epsilon_m$, and fit a hierarchical model as follows:
+\begin{align}
+\begin{split}
 Y_{i\ell m} &\sim \text{Bernoulli}(\pi_{i\ell m}) \\
-\text{logit}(\pi_{i\ell m}) & = \mu + \alpha_{i} + \theta\mathbb{I}(x_{\ell 1} = 1) + \gamma x_{\ell 2} + \\ & (\alpha\theta)_i \mathbb{I}(x_{\ell 1} = 1) + (\alpha\gamma)_i x_{\ell 2} + (\theta\gamma)\mathbb{I}(x_{\ell 1} = 1)x_{\ell 2} + \\ & (\alpha\theta\gamma)_i\mathbb{I}(x_{\ell 1} = 1) x_{\ell 2} + \delta_{\ell} + \epsilon_{m} \\
+\text{logit}(\pi_{i\ell m}) & = \mu + \alpha_{i} + \theta\mathbb{I}(x_{\ell 1} = 1) + \gamma x_{\ell 2} + \\ & (\alpha\theta)_i \mathbb{I}(x_{\ell 1} = 1) + (\alpha\gamma)_i x_{\ell 2} + (\theta\gamma)\mathbb{I}(x_{\ell 1} = 1)x_{\ell 2} + \\ & (\alpha\theta\gamma)_i\mathbb{I}(x_{\ell 1} = 1) x_{\ell 2} + \delta_{\ell} + \epsilon_{m} \label{eq:glmm} \\
 \delta_{\ell} & \sim N(0, \sigma^2_{\delta}) \\
-\epsilon_{m} & \sim N(0, \sigma^2_{\epsilon}) \\
+\epsilon_{m} & \sim N(0, \sigma^2_{\epsilon})
+\end{split}
 \end{align}
-The results of fitting this model using \texttt{glmer} from the \texttt{lme4} package are summarized in Table~\ref{tab:glmmests} \citep{lme4}. 
+The results of fitting this model using \texttt{glmer} from the \texttt{lme4} package are summarized in Table~\ref{tab:glmmests} \citep{lme4}. The baseline condition for this model against which all other experimental conditions are compared is the first condition in Table~\ref{tab:experdetail}, for parameter $\beta_1$ and lineup type -1. The expected value of the link function for this scenario with $\beta_1 = 0$ is $\mu$, and the expected probability that a new observer will pick out the data plot in a new lineup generated from this scenario is $\frac{\exp(\mu)}{1+\exp{\mu}}$. Similarly, for a new lineup generated from the tenth condition in in Table~\ref{tab:experdetail}, with $\beta_6 = 1$, and lineup type 1, the expected value of the link function is $\mu + \alpha_{4} + \theta + \gamma + (\alpha\theta)_4 + (\alpha\gamma)_4  + (\theta\gamma) + (\alpha\theta\gamma)_4$. The corresponding expected probability that a new observer viewing a new lineup from this scenario is: 
+\begin{equation}
+\frac{\exp\{\mu + \alpha_{4} + \theta + \gamma + (\alpha\theta)_4 + (\alpha\gamma)_4  + (\theta\gamma) + (\alpha\theta\gamma)_4\}}{1 + \exp\{\mu + \alpha_{4} + \theta + \gamma + (\alpha\theta)_4 + (\alpha\gamma)_4  + (\theta\gamma) + (\alpha\theta\gamma)_4\}}
+\end{equation}
 
 <<glmmres>>=
 load("data/finalglmm.RDA")
@@ -631,7 +636,7 @@ $\sigma^2_{\epsilon}$ & 0.3416
 \caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}}
 \end{table}
 
-<<predictglmm, fig.height=6, fig.cap="Predictions from our generalized linear mixed effects model given in Equation~\ref{eq:glmm}. The lines show the expected probability of detecting the alternative data in a lineup of size 6 for new observers of new lineups is plotted on the $y$-axis, and the size of the parameter of interest is on the $x$-axis. The proportions detected by our Turk participants for each lineup group are shown by the points.">>=
+<<predictglmm, fig.height=6, fig.cap='Predictions from our generalized linear mixed effects model given in Equation~\ref{eq:glmm}. The lines show the expected probability of detecting the alternative data in a lineup of size 6 for new observers of new lineups is plotted on the $y$-axis, and the size of the parameter of interest is on the $x$-axis. The proportions detected by our Turk participants for each lineup group are shown by the points. The lineup marked as ``outlier" was removed from modeling. The ``recip" panel is also presented in Figure~\\ref{fig:recipzoom} in more detail.'>>=
 newdata <- read_csv("data/newdata_pred_glmm.csv")
 plotdata <- turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
                        type2 = ifelse(type == "one", type2, -1)) %>% 
@@ -639,11 +644,15 @@ plotdata <- turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
     datapick = mean(datapick)
 )
 
+labdat <- data_frame(test_param = "jttp", type2 = -1, x = -5, y = .9, label = "outlier")
+
 ggplot() + 
   geom_line(data = newdata, aes(x = size, y = predictfinal, color = as.factor(type2))) + 
   geom_point(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2))) + 
+  geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
+            show.legend = F) + 
   scale_color_brewer(palette = "Dark2", name = "Lineup Type") + 
-  facet_wrap(~test_param, scales = 'free') + 
+  facet_wrap(~test_param, scales = 'free_x') + 
   labs(x = "Parameter value", y = "Expected probability of detection in a lineup of size 6") + 
   ThemeNoNet + 
   theme(legend.position = 'bottom')
@@ -655,6 +664,20 @@ ggplot() +
 #  geom_point(aes(x = size, y = prediction, color = as.factor(type2))) + 
 #  facet_wrap(~test_param, scales = "free")
 @
+
+<<recipzoom, fig.height=2.5, fig.cap='The bottom left panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. For this parameter, as its value approaches zero, the probability of identifying the alternate data model decreases, then increases, which is noticeably different from the pattern exhibited by the others.'>>=
+ggplot() + 
+  geom_line(data = newdata %>% filter(test_param == "recip"), aes(x = size, y = predictfinal, color = as.factor(type2))) + 
+  geom_point(data = plotdata %>% filter(test_param == "recip"), aes(x = size, y = datapick, color = as.factor(type2))) + 
+  scale_color_brewer(palette = "Dark2", name = "Lineup Type") + 
+  facet_wrap(~type2, scales = 'free_x') + 
+  labs(x = "Parameter value (recip)", y = "Expected probability of detection in a lineup of size 6") + 
+  ThemeNoNet + 
+  theme(legend.position = 'bottom')
+@
+
+In Figure~\ref{fig:predictglmm} 
+
 
 
 \section{Discussion}\label{sec:concl}
