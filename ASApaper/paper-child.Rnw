@@ -463,7 +463,7 @@ levels(summ_sig$parameter) <- c("beta3", "beta4")
 print(xtable::xtable(summ_sig, caption = "Experiment results for the two parameters for which we performed significance tests. There were three lineups for each parameter, so there are three results for each plot.", label = "tab:sigtesting", digits = c(0,0,0,0,0,5)), include.rownames = FALSE)
 @
 
-We see that the $p$-values from visual inference, which are calculated using the \texttt{vinference} \texttt{R} package by \citet{vinference}), are highly variable. This variability is introduced through the null plots generated from M1, since not all simulations look alike. In addition, the necessarily small number of null plots do not give the viewer as complete of a view of the null model as the usual 19 null plots would. The results of the significance tests for $\beta_3$ and $\beta_4$ are not clear cut. Thus, unlike the Wald-type tests described at the beginning of this section, there is no way to flat out reject or to fail to reject the null hypothesis that the parameter value is 0. We include all of the lineups shown to our participants in the appendix. 
+We see that the $p$-values from visual inference, which are calculated using the \texttt{vinference} \texttt{R} package by \citet{vinference}, are highly variable. This variability is introduced through the null plots generated from M1, since not all simulations look alike. In addition, the necessarily small number of null plots do not give the viewer as complete of a view of the null model as the usual 19 null plots would. The results of the significance tests for $\beta_3$ and $\beta_4$ are not clear cut. Thus, unlike the Wald-type tests described at the beginning of this section, there is no way to flat out reject or to fail to reject the null hypothesis that the parameter value is 0. We include all of the lineups shown to our participants in the appendix. 
 
 \subsection{Goodness-of-Fit Testing}
 
@@ -600,40 +600,54 @@ turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
   theme(legend.position = 'bottom')
 @
 
-We futther explore this relationship between identification of the alternative data in the lineup and the parameter, effect size, and lineup type with a generalized linear mixed model that provides us with an estimate of the power of the visual test. The response variable, $Y_{i\ell m}$, is binary, indicating whether participant $m$ picked the alternative data plot in lineup $\ell$ for effect $i$. The covariate $x_{\ell 1}$ takes on the value -1 or 1 according to the lineup type code in Table~\ref{tab:experdetail}. In most cases, -1 indicates the parameter value is less than original estimate, while 1 indicates the parameter value is at or above the original estimate. The continuous covariate $x_{\ell 2}$ is the centered and scaled size of the effect of interest from which the alternative data were simulated, the values of which are labeled ``easy", ``medium", and ``hard" in Table~\ref{tab:experdetail} according to how difficult we thought the Turk participants would find each lineup. In Equation~\ref{eq:glmm}, $i \in \{1, 2, 3, 4, 5\}$ corresponding to the effects $\beta_3, \beta_4, \beta_2, \beta_6, \beta_5$, respectively. We include random effects in the model for each lineup, $\delta_{\ell}$ and each participant, $\epsilon_m$, and fit a hierarchical model as follows:
+We further explore this relationship between identification of the alternative data in the lineup and the parameter, effect size, and lineup type with a generalized linear mixed model that provides us with an estimate of the power of the visual test. The response variable, $Y_{ijkm}$, is binary, indicating whether participant $m$ picked the alternative data plot in lineup $j$, rep $k$, for effect $i$. The continuous covariate $x$ is the centered and scaled size of the effect of interest from which the alternative data were simulated, the values of which are labeled ``easy", ``medium", and ``hard" in Table~\ref{tab:experdetail} according to how difficult we thought the Turk participants would find each lineup. In Equation~\ref{eq:glmm}, $i \in \{1, 2, 3, 4, 6\}$ corresponds to the effects $\beta_1, \beta_3, \beta_4, \beta_2, \beta_6, \beta_5$, respectively. We include random effects in the model for each lineup, $\delta_{ijk}$ and each participant, $\epsilon_m$, and fit a hierarchical model as follows:
 
 \begin{align}
 \begin{split}
-Y_{\ell m} &\sim \text{Bernoulli}(\pi_{\ell m}) \\
-\text{logit}(\pi_{\ell m}) & = \alpha_{\ell} + \beta_{\ell} x + \delta_{\ell} + \epsilon_{m} \label{eq:glmm} \\
-\delta_{\ell} & \sim N(0, \sigma^2_{\delta}) \\
-\epsilon_{m} & \sim N(0, \sigma^2_{\epsilon})
+Y_{ijkm} &\sim \text{Bernoulli}(\pi_{ijkm}) \\
+\text{logit}(\pi_{ijkm}) & = \alpha_{ij} + \beta_{ij} x + \delta_{ijk} + \epsilon_{m} \label{eq:glmm} \\
+\delta_{ijk} & \stackrel{iid}{\sim} N(0, \sigma^2_{\delta}) \\
+\epsilon_{m} & \stackrel{iid}{\sim} N(0, \sigma^2_{\epsilon})
 \end{split}
 \end{align}
 
-\hh{
-$\ell$ encompasses all 12 combinations of parameter and positive/negative direction of the effect size.
-}
+% \hh{
+% $\ell$ encompasses all 12 combinations of parameter and positive/negative direction of the effect size.
+% }
 
-\begin{align}
-\begin{split}
-Y_{i\ell m} &\sim \text{Bernoulli}(\pi_{i\ell m}) \\
-\text{logit}(\pi_{i\ell m}) & = \mu + \alpha_{i} + \theta\mathbb{I}(x_{\ell 1} = 1) + \gamma x_{\ell 2} + \\ & (\alpha\theta)_i \mathbb{I}(x_{\ell 1} = 1) + (\alpha\gamma)_i x_{\ell 2} + (\theta\gamma)\mathbb{I}(x_{\ell 1} = 1)x_{\ell 2} + \\ & (\alpha\theta\gamma)_i\mathbb{I}(x_{\ell 1} = 1) x_{\ell 2} + \delta_{\ell} + \epsilon_{m} \label{eq:glmm} \\
-\delta_{\ell} & \sim N(0, \sigma^2_{\delta}) \\
-\epsilon_{m} & \sim N(0, \sigma^2_{\epsilon})
-\end{split}
-\end{align}
+% \begin{align}
+% \begin{split}
+% Y_{i\ell m} &\sim \text{Bernoulli}(\pi_{i\ell m}) \\
+% \text{logit}(\pi_{i\ell m}) & = \mu + \alpha_{i} + \theta\mathbb{I}(x_{\ell 1} = 1) + \gamma x_{\ell 2} + \\ & (\alpha\theta)_i \mathbb{I}(x_{\ell 1} = 1) + (\alpha\gamma)_i x_{\ell 2} + (\theta\gamma)\mathbb{I}(x_{\ell 1} = 1)x_{\ell 2} + \\ & (\alpha\theta\gamma)_i\mathbb{I}(x_{\ell 1} = 1) x_{\ell 2} + \delta_{\ell} + \epsilon_{m} \label{eq:glmm} \\
+% \delta_{\ell} & \sim N(0, \sigma^2_{\delta}) \\
+% \epsilon_{m} & \sim N(0, \sigma^2_{\epsilon})
+% \end{split}
+% \end{align}
 
-\hh{XXX define all of the parameters above XXX}
+%\hh{XXX define all of the parameters above XXX}
+%\st{
+%This model estimates, as a function of the parameter size, the expected value of $\text{logit}(\pi_{ijkm})$ for each of the 12 lineup conditions, repitions, and participants. The inverse logit of the estimates are the prediction lines drawn in Figure~\ref{fig:predictglmm}.
 
-The results of fitting this model using \texttt{glmer} from the \texttt{lme4} package are summarized in Table~\ref{tab:glmmests} \citep{lme4}. The baseline condition for this model against which all other experimental conditions are compared is the first condition in Table~\ref{tab:experdetail}, for parameter $\beta_1$ and lineup type -1. The expected value of the link function for this scenario with $\beta_1 = 0$ is $\mu$, and the expected probability that a new observer will pick out the data plot in a new lineup generated from this scenario is $\frac{\exp(\mu)}{1+\exp{\mu}}$. Similarly, for a new lineup generated from the tenth condition in in Table~\ref{tab:experdetail}, with $\beta_6 = 1$, and lineup type 1, the expected value of the link function is $\mu + \alpha_{4} + \theta + \gamma + (\alpha\theta)_4 + (\alpha\gamma)_4  + (\theta\gamma) + (\alpha\theta\gamma)_4$. The corresponding expected probability that a new observer viewing a new lineup from this scenario is: 
+The results of fitting this model using \texttt{glmer} from the \texttt{lme4} package are summarized in Table~\ref{tab:glmmests} \citep{lme4}. The baseline condition for this model against which all other experimental conditions are compared is the first condition in Table~\ref{tab:experdetail}, for parameter $\beta_1$ and lineup type -1. The expected value of the link function for this scenario with $\beta_1 = x_{12}$ is $\mu + \gamma x_{12}$, and the expected probability that a new observer will pick out the data plot in a new lineup generated from this scenario is $\frac{\exp(\mu + \gamma x_{12})}{1+\exp{\mu + \gamma x_{12}}}$. Similarly, for a new lineup generated from the second condition in in Table~\ref{tab:experdetail}, with $\beta_1 = x_{12}$, and lineup type 1, the expected value of the link function is $\mu + \theta + (\gamma + (\theta\gamma))x_{12}$ and corresponding probability a new observer will pick out the data plot in a new lineup is $\exp\{\mu + \theta + (\gamma + (\theta\gamma))x_{12}\} / 1+\exp\{\mu + \theta + (\gamma + (\theta\gamma))x_{12}\}$. 
+
+For any of the remaining parameters, $\beta_2, \dots, \beta_6$, with lineup type -1, the expectation of the link function as a function of the parameter value, $x_{\ell 2}$ is: 
+\begin{equation}\label{eq:predneg1}
+\mu + \alpha_{i} +  (\gamma + (\alpha\gamma)_i)x_{\ell 2}  
+\end{equation}
+where $i \in \{1,2,3,4,5\}$ corresponds to $\beta_3, \beta_4, \beta_2, \beta_6, \beta_5$, respectively. Similarly, for lineup type 1, the expectation of the link function as a function of the parameter value is: \begin{equation}\label{eq:predpos1}
+\mu + \alpha_{i} + \theta + (\alpha\theta)_i  +  (\gamma + (\alpha\gamma)_i + (\gamma\theta) + (\alpha\theta\gamma)_i)x_{\ell 2}  
+\end{equation}
+Thus, the first 24 parameters 
+
+
+The corresponding expected probability that a new observer viewing a new lineup from this scenario is: 
 \begin{equation}
 \frac{\exp\{\mu + \alpha_{4} + \theta + \gamma + (\alpha\theta)_4 + (\alpha\gamma)_4  + (\theta\gamma) + (\alpha\theta\gamma)_4\}}{1 + \exp\{\mu + \alpha_{4} + \theta + \gamma + (\alpha\theta)_4 + (\alpha\gamma)_4  + (\theta\gamma) + (\alpha\theta\gamma)_4\}}
 \end{equation}
 
 <<glmmres>>=
-load("data/finalglmm.RDA")
-mod <- model0randomscalesize
+load("data/finalglmm31.RDA")
+mod <- model1randomscalesize
 res <- summary(mod)[[10]]
 ests <- as.numeric(round(res[,1], 4))
 odds <- round(exp(ests), 4)
@@ -641,39 +655,39 @@ se <- as.numeric(round(res[,2], 4))
 pval <- as.numeric(round(res[,4],4))
 @
 
-\begin{table}
-\centering
-\begin{tabular}{lcccc}
-Parameter & Estimate & Std Error & $p$-value & Odds Multiplier \\
-$\mu$ & \Sexpr{ests[1]} & \Sexpr{se[1]} & \Sexpr{pval[1]} & \Sexpr{odds[1]}\\
-$\alpha_1$ & \Sexpr{ests[2]} & \Sexpr{se[2]} & \Sexpr{pval[2]} & \Sexpr{odds[2]} \\
-$\alpha_2$ & \Sexpr{ests[3]} & \Sexpr{se[3]} & \Sexpr{pval[3]} & \Sexpr{odds[3]}  \\
-$\alpha_3$  & \Sexpr{ests[4]} & \Sexpr{se[4]} & \Sexpr{pval[4]} & \Sexpr{odds[4]} \\
-$\alpha_4$ & \Sexpr{ests[5]} & \Sexpr{se[5]} & \Sexpr{pval[5]} & \Sexpr{odds[5]}  \\
-$\alpha_5$  & \Sexpr{ests[6]} & \Sexpr{se[6]} & \Sexpr{pval[6]} & \Sexpr{odds[6]} \\
-$\theta$  & \Sexpr{ests[7]} & \Sexpr{se[7]} & \Sexpr{pval[7]} & \Sexpr{odds[7]} \\
-$\gamma$  & \Sexpr{ests[8]} & \Sexpr{se[8]} & \Sexpr{pval[8]} & \Sexpr{odds[8]} \\ 
-$(\alpha\theta)_1$  & \Sexpr{ests[9]} & \Sexpr{se[9]} & \Sexpr{pval[9]} & \Sexpr{odds[9]} \\
-$(\alpha\theta)_2$  & \Sexpr{ests[10]} & \Sexpr{se[10]} & \Sexpr{pval[10]} & \Sexpr{odds[10]} \\
-$(\alpha\theta)_3$  & \Sexpr{ests[11]} & \Sexpr{se[11]} & \Sexpr{pval[11]} & \Sexpr{odds[11]} \\
-$(\alpha\theta)_4$  & \Sexpr{ests[12]} & \Sexpr{se[12]} & \Sexpr{pval[12]} & \Sexpr{odds[12]} \\
-$(\alpha\theta)_5$  & \Sexpr{ests[13]} & \Sexpr{se[13]} & \Sexpr{pval[13]} & \Sexpr{odds[13]} \\
-$(\alpha\gamma)_1$  & \Sexpr{ests[14]} & \Sexpr{se[14]} & \Sexpr{pval[14]} & \Sexpr{odds[14]} \\
-$(\alpha\gamma)_2$  & \Sexpr{ests[15]} & \Sexpr{se[15]} & \Sexpr{pval[15]} & \Sexpr{odds[15]} \\
-$(\alpha\gamma)_3$  & \Sexpr{ests[16]} & \Sexpr{se[16]} & \Sexpr{pval[16]} & \Sexpr{odds[16]} \\
-$(\alpha\gamma)_4$  & \Sexpr{ests[17]} & \Sexpr{se[17]} & \Sexpr{pval[17]} & \Sexpr{odds[17]} \\
-$(\alpha\gamma)_5$  & \Sexpr{ests[18]} & \Sexpr{se[18]} & \Sexpr{pval[18]} & \Sexpr{odds[18]} \\
-$\theta\gamma$  & \Sexpr{ests[19]} & \Sexpr{se[19]} & \Sexpr{pval[19]} & \Sexpr{odds[19]} \\
-$(\alpha\theta\gamma)_1$ & \Sexpr{ests[20]} & \Sexpr{se[20]} & \Sexpr{pval[20]} & \Sexpr{odds[20]}  \\
-$(\alpha\theta\gamma)_2$  & \Sexpr{ests[21]} & \Sexpr{se[21]} & \Sexpr{pval[21]} & \Sexpr{odds[21]} \\
-$(\alpha\theta\gamma)_3$  & \Sexpr{ests[22]} & \Sexpr{se[22]} & \Sexpr{pval[22]} & \Sexpr{odds[22]} \\
-$(\alpha\theta\gamma)_4$  & \Sexpr{ests[23]} & \Sexpr{se[23]} & \Sexpr{pval[23]} & \Sexpr{odds[23]} \\
-$(\alpha\theta\gamma)_5$  & \Sexpr{ests[24]} & \Sexpr{se[24]} & \Sexpr{pval[24]} & \Sexpr{odds[24]} \\ 
-$\sigma^2_{\delta}$ & 0.5638 \\
-$\sigma^2_{\epsilon}$ & 0.3416
-\end{tabular}
-\caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}}
-\end{table}
+% \begin{table}
+% \centering
+% \begin{tabular}{lcccc}
+% Parameter & Estimate & Std Error & $p$-value & Odds Multiplier \\
+% $\mu$ & \Sexpr{ests[1]} & \Sexpr{se[1]} & \Sexpr{pval[1]} & \Sexpr{odds[1]}\\
+% $\alpha_1$ & \Sexpr{ests[2]} & \Sexpr{se[2]} & \Sexpr{pval[2]} & \Sexpr{odds[2]} \\
+% $\alpha_2$ & \Sexpr{ests[3]} & \Sexpr{se[3]} & \Sexpr{pval[3]} & \Sexpr{odds[3]}  \\
+% $\alpha_3$  & \Sexpr{ests[4]} & \Sexpr{se[4]} & \Sexpr{pval[4]} & \Sexpr{odds[4]} \\
+% $\alpha_4$ & \Sexpr{ests[5]} & \Sexpr{se[5]} & \Sexpr{pval[5]} & \Sexpr{odds[5]}  \\
+% $\alpha_5$  & \Sexpr{ests[6]} & \Sexpr{se[6]} & \Sexpr{pval[6]} & \Sexpr{odds[6]} \\
+% $\theta$  & \Sexpr{ests[7]} & \Sexpr{se[7]} & \Sexpr{pval[7]} & \Sexpr{odds[7]} \\
+% $\gamma$  & \Sexpr{ests[8]} & \Sexpr{se[8]} & \Sexpr{pval[8]} & \Sexpr{odds[8]} \\ 
+% $(\alpha\theta)_1$  & \Sexpr{ests[9]} & \Sexpr{se[9]} & \Sexpr{pval[9]} & \Sexpr{odds[9]} \\
+% $(\alpha\theta)_2$  & \Sexpr{ests[10]} & \Sexpr{se[10]} & \Sexpr{pval[10]} & \Sexpr{odds[10]} \\
+% $(\alpha\theta)_3$  & \Sexpr{ests[11]} & \Sexpr{se[11]} & \Sexpr{pval[11]} & \Sexpr{odds[11]} \\
+% $(\alpha\theta)_4$  & \Sexpr{ests[12]} & \Sexpr{se[12]} & \Sexpr{pval[12]} & \Sexpr{odds[12]} \\
+% $(\alpha\theta)_5$  & \Sexpr{ests[13]} & \Sexpr{se[13]} & \Sexpr{pval[13]} & \Sexpr{odds[13]} \\
+% $(\alpha\gamma)_1$  & \Sexpr{ests[14]} & \Sexpr{se[14]} & \Sexpr{pval[14]} & \Sexpr{odds[14]} \\
+% $(\alpha\gamma)_2$  & \Sexpr{ests[15]} & \Sexpr{se[15]} & \Sexpr{pval[15]} & \Sexpr{odds[15]} \\
+% $(\alpha\gamma)_3$  & \Sexpr{ests[16]} & \Sexpr{se[16]} & \Sexpr{pval[16]} & \Sexpr{odds[16]} \\
+% $(\alpha\gamma)_4$  & \Sexpr{ests[17]} & \Sexpr{se[17]} & \Sexpr{pval[17]} & \Sexpr{odds[17]} \\
+% $(\alpha\gamma)_5$  & \Sexpr{ests[18]} & \Sexpr{se[18]} & \Sexpr{pval[18]} & \Sexpr{odds[18]} \\
+% $\theta\gamma$  & \Sexpr{ests[19]} & \Sexpr{se[19]} & \Sexpr{pval[19]} & \Sexpr{odds[19]} \\
+% $(\alpha\theta\gamma)_1$ & \Sexpr{ests[20]} & \Sexpr{se[20]} & \Sexpr{pval[20]} & \Sexpr{odds[20]}  \\
+% $(\alpha\theta\gamma)_2$  & \Sexpr{ests[21]} & \Sexpr{se[21]} & \Sexpr{pval[21]} & \Sexpr{odds[21]} \\
+% $(\alpha\theta\gamma)_3$  & \Sexpr{ests[22]} & \Sexpr{se[22]} & \Sexpr{pval[22]} & \Sexpr{odds[22]} \\
+% $(\alpha\theta\gamma)_4$  & \Sexpr{ests[23]} & \Sexpr{se[23]} & \Sexpr{pval[23]} & \Sexpr{odds[23]} \\
+% $(\alpha\theta\gamma)_5$  & \Sexpr{ests[24]} & \Sexpr{se[24]} & \Sexpr{pval[24]} & \Sexpr{odds[24]} \\ 
+% $\sigma^2_{\delta}$ & 0.5638 \\
+% $\sigma^2_{\epsilon}$ & 0.3416
+% \end{tabular}
+% \caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}}
+% \end{table}
 
 <<predictglmm, fig.height=6, fig.cap='Predictions from our generalized linear mixed effects model given in Equation~\ref{eq:glmm}. The lines show the expected probability of detecting the alternative data in a lineup of size 6 for new observers of new lineups is plotted on the $y$-axis, and the size of the parameter of interest is on the $x$-axis. The proportions detected by our Turk participants for each lineup group are shown by the points, with the probability of picking out the data plot at random shown by a horizontal line at 1/6. The lineup marked as ``outlier" was removed from modeling. The panel for the reciprocity parameter, $\\beta_2$ is also presented in Figure~\\ref{fig:recipzoom} in more detail.'>>=
 newdata <- read_csv("data/newdata_pred_glmm.csv")
@@ -764,9 +778,9 @@ By using visual inference methods, we have developed new ways to perform signifi
 
 We have found the visual power of some effects in the object function of a SAOM for this particular senate data example,  and we have shown that, for the same effects, there is a lot of variability in results from significance and goodness of fit tests. Because the visual tests we performed show a great deal of variability, we can see that the decisions with respect to the significance of a parameter or the goodness of fit of a model to data are not as cut-and-dried as the traditional methods would have us believe. 
 
-These results do not come without limitations. In visual inference, the null plots are supposed to play the role of good representatives of the null model. Here, the number of null plots is reduced to five, which increases the variability seen from a single lineup dramatically, and can unfortunately lead to different conclusions for the same lineup scenario. Furthermore, these results do not generalize yet. The lineups shown are made for only one test case, and it is not clear whether the power results transfer, nor is it clear to what degree if they do transfer, to other situations with different number of actors and different edge density. 
+These results do not come without limitations. In visual inference, the null plots are supposed to play the role of good representatives of the null model. Here, the number of null plots is reduced to five, which increases the variability seen from a single lineup dramatically, and can unfortunately lead to different conclusions for the same lineup scenario. Furthermore, these results do not generalize yet. The lineups shown are made for only one set of data, and it is not clear whether the power results transfer, nor is it clear to what degree if they do transfer, to other situations with different number of actors, different edge densities, or different layout algorithm of the node-link diagram. 
 
-We hope to apply these methods further for different types of network data and different types of network models. We accept the limitations of this type of network data visualization, in that even in small instances, the cognitive load of looking at a lineup is very high for the average observer. We would therefore like to explore larger datasets, different layout algorithms, and different ways of visualizing network data, such as adjacency matrix visualizations, through visual inference to see if similar patterns emerge. 
+We hope to apply these methods further for different types of network data and different types of network models. We accept the limitations of this type of network data visualization, in that even in small instances, the cognitive load of looking at a lineup is very high for the average observer. We would therefore like to explore larger datasets, different layout algorithms, and different ways of visualizing network data, such as changing the layout algorithm or using adjacency matrix visualizations, through visual inference to see if similar patterns emerge. 
 
 \hh{Best results: visual detection/ power analysis, a lot of variability in goodness of fit and significance tests. BUT: visualizations show that a decision of significance/ goodness of fit are not as clear cut as the traditional tests want us to believe.
 
