@@ -1,5 +1,5 @@
-\newcommand{\st}[1]{{\color{orange} #1}}
-\newcommand{\hh}[1]{{\color{magenta} #1}}
+%\newcommand{\st}[1]{{\color{orange} #1}}
+%\newcommand{\hh}[1]{{\color{magenta} #1}}
 
 <<setup-ch-2, echo = FALSE, message = FALSE, warning = FALSE>>=
 options(replace.assign=TRUE,width=70, digits=3)
@@ -88,24 +88,24 @@ ThemeNet <- theme_net() %+replace%
 % \item difficulty of these two for sna, why do vis inf
 % \end{enumerate}
 % }
-\st{Three} of the most important pieces of statistical modeling are significance testing of model parameters, goodness-of-fit tests, and power of a test. In the first, the data are usually assumed to come from a simple model under the null hypothesis, and additional parameters are tested whether they significantly contribute to explaining variability in the data. In the second, the model of interest is examined to determine how well it fits the data. \st{In the final, the ability of the  hypothesis test in question to detect the difference between the null and alternative hypothesis is determined.}  All three of these aspects of statistical modeling increase greatly in difficulty as the complexity of the model of interest increases. 
+Three of the most important pieces of statistical modeling are significance testing of model parameters, goodness-of-fit tests, and power of a test. In the first, the data are usually assumed to come from a simple model under the null hypothesis, and additional parameters are tested whether they significantly contribute to explaining variability in the data. In the second, the model of interest is examined to determine how well it fits the data. In the final, the ability of the hypothesis test in question to detect the difference between the null and alternative hypothesis is determined.  All three of these aspects of statistical modeling increase greatly in difficulty as the complexity of the model of interest increases. 
 %The more complicated the model, the harder it is to determine fit or to include or exclude a parameter. 
 
 Some particularly complicated sets of models are those designed to model network change. A \textit{network} is any set of things, such as people, computers, or neurons, that are connected in some way, through social relations, internet connection, or electrical impulses in the brain. We refer to the ``things" in the network as \textit{nodes}, or \textit{actors} in a social network, and the connections as \textit{edges}, or \textit{ties} in a social network. 
-Dependencies inherent to the data make network objects particularly difficult to model. Even more challenging is the situation when we go beyond single instances of a network and consider the dynamics of network change between observed instances. This type of modelling for dynamic networks is often performed on social network data, such as friendship networks among students or the spread of HIV in \st{drug users sharing needles.} %sexually active communities.% of men sleeping with other men. X ST a bit less jarring hopefully. X 
+Dependencies inherent to the data make network objects particularly difficult to model. Even more challenging is the situation when we go beyond single instances of a network and consider the dynamics of network change between observed instances. This type of modelling for dynamic networks is often performed on social network data, such as friendship networks among students or the spread of HIV in drug users sharing needles. %sexually active communities.% of men sleeping with other men. X ST a bit less jarring hopefully. X 
 These models lack the asymptotics required to perform many well-known goodness-of-fit tests, and the maximum likelihood estimation of parameters is so difficult that it can make significance testing difficult as well \citep{goldenberg09}. 
-\hh{is the previous sentence a quote? I'm not sure that I follow.} \st{it's a paraphrase... shall I make a quote? Also I definitely botched a word. Hopefully makes more sense now? }
+%\hh{is the previous sentence a quote? I'm not sure that I follow.} %\st{it's a paraphrase... shall I make a quote? Also I definitely botched a word. Hopefully makes more sense now? }
 
 We propose new methods for significance and goodness-of-fit testing and power calculation of these for a set of social network models, stochastic actor-oriented models for dynamic network data \citep{saompaper}. Specifically, we are using \textit{visual inference} in place of traditional statistical methods for social network models, such as Wald tests for significance of parameters and in- and outdegree distribution metrics for determining goodness-of-fit. Visual inference, introduced by \citet{Bujaetal}, allows us to look at the entire dataset simulated from a network model as opposed to a (set of) usually one-dimensional metric(s) derived from the network such as outdegree, or a $p$-value for a single parameter in the model. %In addition, we use visual inference to better understand some parameters in a social network model, by looking at how different values for parameters affect the networks simulated from these models.   
 
 The paper is outlined as follows: Section~\ref{vi} gives a basic overview of visual inference and the lineup protocol. Section~\ref{sec:saom} provides an introduction to the our models of interest, stochastic actor-oriented models. Section~\ref{sec:expersetup} details how we define significance testing and goodness of fit procedures for SAOMs through visual inference, and Section~\ref{sec:res} details the results of a visual inference survey of Amazon Mechanical Turk workers. We close with a discussion in Section~\ref{sec:concl}.  
 
-\hh{where do the results come in?}\st{whoops, forgot to updat this with the reorg. }
+%\hh{where do the results come in?}\st{whoops, forgot to updat this with the reorg. }
 
 \section{Visual Inference}\label{vi}
 
 Data visualizations are an important component of data analysis, providing a mechanism for discovering patterns in data. Pioneering research by \citet{gelman:2004}, \citet{Bujaetal} and \citet{majumder:2011} provide methods to quantify the significance of discoveries made from visualizations. \citet{Bujaetal} introduced two protocols, the Rorschach and the lineup protocol, which bridge the gulf between traditional statistical inference and exploratory data analysis. %The Rorschach protocol consists of a set of $m$ (usually, $m=20$) plots (called the {\it null plots}) rendered from data that is consistent with a given null model. The Rorschach protocol helps to understand the extent of randomness in the null model. 
-Here, we use the lineup protocol. Under this protocol, a plot of the observed data is placed randomly among a set of $m-1$ null plots (where $m =20$, usually), and human observers are then asked to examine the lineup and to identify the most different plot. If an observer identifies the data plot, this is quantifiable evidence against the null hypothesis. \hh{Since an observer has a chance of 1 in $m$ to pick the data plot from the lineup by simply guessing, i.e. in a situation where the data plot is virtually indistinguishable from the null plots,} \st{the evidence grows in strength with the number of independent observers identifying the data plot.}
+Here, we use the lineup protocol. Under this protocol, a plot of the observed data is placed randomly among a set of $m-1$ null plots (where $m =20$, usually), and human observers are then asked to examine the lineup and to identify the most different plot. If an observer identifies the data plot, this is quantifiable evidence against the null hypothesis. Since an observer has a chance of 1 in $m$ to pick the data plot from the lineup by simply guessing, i.e. in a situation where the data plot is virtually indistinguishable from the null plots, the evidence grows in strength with the number of independent observers identifying the data plot.
 
 The lineup protocol places a plot firmly in the framework of hypothesis tests: a plot of the data is considered to be the test statistic, which is compared against the sampling distribution under the null hypothesis represented by the null plots. Obviously, the null generating mechanism, i.e.\ the method of obtaining the data for null plots, is crucial for both the lineup and the Rorschach protocol, as the null hypothesis directly affects the choice of null generating method. Null generating methods are typically based on (a) simulation, if the null hypothesis allows us to directly specify a parametric model, (b) sampling, as for example in the case of large data sets, or (c) permutation of the original data \citep[see e.g.\ ][]{Good05}, which allows for non-parametric testing that preserves marginal distributions  while ensuring independence in higher dimensions. The model of interest here allows us to simulate directly from a parameteric model for dynamic social network data. 
 %In the experimental data that we analyzed the null generating methods used were permutation methods and direct simulation from a null model.
@@ -137,7 +137,7 @@ All changes in SAOMs are treated as changes made by the nodes, or \textit{actors
 
 \subsection{Objective Function}\label{of}
 
-After actor $i$ has been given the opportunity to change, it probabilistically chooses one of its current ties, $x_{ij}$, to change. The probability that actor $i$ changes its current tie to actor $j$ is determined by the \textit{objective function} of the model and a random component, $U$, \st{which can be thought of as encompassing any other factors that may be influencing the changes the node makes not accounted for by the parameters in the model.} \hh{XXX can you paraphrase the purpose of U in half a sentence?}
+After actor $i$ has been given the opportunity to change, it probabilistically chooses one of its current ties, $x_{ij}$, to change. The probability that actor $i$ changes its current tie to actor $j$ is determined by the \textit{objective function} of the model and a random component, $U$, which can be thought of as encompassing any other factors that may be influencing the changes the node makes not accounted for by the parameters in the model. %\hh{XXX can you paraphrase the purpose of U in half a sentence?}
 %The random component is assumed to have log-Weibull distribution with location parameter $\mu = 0$ and scale parameter $\sigma = 0$ (see \citet{modelsSnijders}), so the probability density function of $U$ is
 %\begin{equation}\label{eq:logweibull}
 %g(u) = \exp\{-(u + \exp\{-u\})\}.
@@ -157,7 +157,7 @@ p_{ij} = \dfrac{\exp\{f_i(x(i \leadsto j), \boldsymbol{\beta}, \mathbf{Z})\}}{\s
 
 This probability dictates which edge change is made by the acting node. The acting node can also choose to \textit{not} change at all. This occurs when the numerator, as calculated for the current state of the network, is larger than for any changes $x(i \leadsto j)$ that could be made.  
 
-\hh{XXX how is the probability computed in the case that no change is made? Why is the notation $j \equiv i$ used for no change?}\st{that's more for the computation. I'll adjust accordingly}
+%\hh{XXX how is the probability computed in the case that no change is made? Why is the notation $j \equiv i$ used for no change?}\st{that's more for the computation. I'll adjust accordingly}
 
 According to \citet{RSienamanual}, at least two parameters must be included in the objective function: the density and the reciprocity. We denote the density, or out-degree, parameter by $\beta_1$ and the associated statistic as $s_{i1}(x) = \sum_{j} x_{ij}$. Similarly, we denote the reciprocity parameter by $\beta_2$ and the associated statistic as $s_{i2}(x) = \sum_{j} x_{ij}x_{ji}$. We refer to the model with only these two parameters in the objective function as M1. 
 
@@ -370,7 +370,7 @@ To generate the null plots, we simulate five networks from model M\textit{i} usi
 \subsection{Visual Power}\label{sec:setupvp}
 
 %Visual detection does not fit into the typical statistical testing framework as easily as the significance and goodness-of-fit tests we perform do. 
-Through visual inference, we want to determine at which point an effect becomes noticeable in a SAOM. By \textit{noticeable}, we mean that the inclusion of the effect alters the appearance of networks simulated from a model to a degree that viewers are able to reliably pick out a node-link diagram rendered from data simulated from a model with the effect from a lineup of plots without the effect. \st{This is a way to determine the power of the visual test.}  We explore all parameters in the objective function, $\beta_1, \dots, \beta_6$ in this way. 
+Through visual inference, we want to determine at which point an effect becomes noticeable in a SAOM. By \textit{noticeable}, we mean that the inclusion of the effect alters the appearance of networks simulated from a model to a degree that viewers are able to reliably pick out a node-link diagram rendered from data simulated from a model with the effect from a lineup of plots without the effect. This is a way to determine the power of the visual test.  We explore all parameters in the objective function, $\beta_1, \dots, \beta_6$ in this way. 
 
 In model M1, with only two parameters in the objective function, we varied both the density and reciprocity parameter values one at a time. In models M2 through M5, we vary the additional parameter, $\beta_3$ through $\beta_6$. Thus, we have six different parameters of interest to us: $\beta_1, \dots, \beta_6$. We want to determine how the size of these parameters affects the overall structure of the network data simulated from the models M1 through M5, so we also vary the value of the parameters in both negative and positive directions. 
 
@@ -417,7 +417,8 @@ print(xtable::xtable(experdet, caption = "All conditions in our MTurk experiment
 \section{Experiment Results}\label{sec:res}
 
 We recruited 250 participants for our experiment through Amazon Mechanical Turk. Each participant was peresented with some brief training material before beginning the experiment. After agreeing to participate, the participants were shown two trial plots, one where the data plot was the most different from the others due to its complex structure, while the other trial included a data plot that was most different from the others due to its very simple structure. Only when participants were able to correctly identify the data plot from the trial lineups, they were allowed to begin the experiment. Each participant was randomly assigned 13 lineups to look at. The were asked to select one or more plots that they perceived as ``most different" from the others, and provide a reasoning for their choice. They could select from ``Most simple overall structure," ``Most complex overall structure," or ``Other" and provide their own text description of their reasoning. 
-\st{Twelve of the 13 lineups that the participants saw were used for the significance testing and the visual power methods discussed in Sections~\ref{sec:setupst} and \ref{sec:setupvp}. The six parameters, $\beta_1, \dots, \beta_6$ were set to three different values according to how difficult we thought picking the data plot from the lineup would be for our participants, and were also set to be less than or greater than the initial estimate, creating the lineup type variable.}\hh{what about the first 12 plots? 6 parameters, 3 levels, 2 directions}
+
+Twelve of the 13 lineups that the participants saw were used for the significance testing and the visual power methods discussed in Sections~\ref{sec:setupst} and \ref{sec:setupvp}. The six parameters, $\beta_1, \dots, \beta_6$ were set to three different values according to how difficult we thought picking the data plot from the lineup would be for our participants, and were also set to be less than or greater than the initial estimate, creating the lineup type variable.%\hh{what about the first 12 plots? 6 parameters, 3 levels, 2 directions}
 One of the 13 lineups the participants saw was the true data from the 112th senate shown in Section~\ref{sec:senatedata}. Each participant only saw the data one time in order to avoid bias. Upon completion of the 13 lineups, each participant was paid \$1.75.   
 
 \subsection{Significance Testing}\label{sec:sigtest}
@@ -447,7 +448,7 @@ which is compared to a Chi-square distribution with one degree of freedom. Testi
 \end{equation}
 where $\hat{\Sigma}$ is the estimated covariance matrix of $\boldsymbol{\beta}$. This statistic is then compared to a Chi-square distribution with $P$ degrees of freedom. 
 
-All of the parameters we test for significance using the lineup protocol, $\beta_3$ and $\beta_4$, were determined to be statistically significant using Equation~\ref{eq:wald1}. The results from the significance tests we performed using the lineup protocol are given in Table~\ref{tab:sigtesting}. \hh{XXX how do we interpret these  visual results? Include the six lineups in an appendix and refer to them from here.} \st{XXX should be taken care of in next paragraph now.}
+All of the parameters we test for significance using the lineup protocol, $\beta_3$ and $\beta_4$, were determined to be statistically significant using Equation~\ref{eq:wald1}. The results from the significance tests we performed using the lineup protocol are given in Table~\ref{tab:sigtesting}. %\hh{XXX how do we interpret these  visual results? Include the six lineups in an appendix and refer to them from here.} \st{XXX should be taken care of in next paragraph now.}
 
 <<sigtesting, results='asis'>>=
 turk22_sig <- turk22 %>% 
@@ -526,7 +527,7 @@ print_gof_stats$`p-value` <- ifelse(print_gof_stats$`p-value` < .0001, "< 0.0001
 print(xtable::xtable(print_gof_stats, label = "tab:gofstats", caption = "An overview of the results from our 12 goodness-of-fit lineup tests.", digits = 4), caption.placement = "bottom", include.rownames = FALSE)
 @
 
-The $p$-values were calculated using the \texttt{vinference} package by \citet{vinference}. This package contains methods to calculate \textit{Visual distributions} for lineup experiment data.  The distribution depends on the number of evaluations of a plot, $K$, the size of the lineup, $m$, and the lineup scenario, which here is that each lineup containing the same data and the same set of null plots is shown to $K$ independent observers. \st{The visual inference family of distributions is similar to the binomial distribution, but takes the dependency among the $m$ plots in a signle lineup shown to multiple viewers into account. } Using these $p$-values, all but one lineup results in a rejection of the null hypothesis at Type-I error rate of $\alpha = 0.05$. The lineup that resulted in a failure to reject the null hypothesis is shown in Figure~\ref{fig:failgof}. The null model in this lineup is M4, and the senate data is shown in panel number $3^2 - 7$. However, the panel most participants chose was number four, and the most common reasoning for that choice was that it had the most simple structure. 
+The $p$-values were calculated using the \texttt{vinference} package by \citet{vinference}. This package contains methods to calculate \textit{Visual distributions} for lineup experiment data.  The distribution depends on the number of evaluations of a plot, $K$, the size of the lineup, $m$, and the lineup scenario, which here is that each lineup containing the same data and the same set of null plots is shown to $K$ independent observers. The visual inference family of distributions is similar to the binomial distribution, but takes the dependency among the $m$ plots in a signle lineup shown to multiple viewers into account. Using these $p$-values, all but one lineup results in a rejection of the null hypothesis at Type-I error rate of $\alpha = 0.05$. The lineup that resulted in a failure to reject the null hypothesis is shown in Figure~\ref{fig:failgof}. The null model in this lineup is M4, and the senate data is shown in panel number $3^2 - 7$. However, the panel most participants chose was number four, and the most common reasoning for that choice was that it had the most simple structure. 
 
 <<failgof, fig.height=4, fig.cap="The goodness-of-fit lineup that failed to reject the null hypothesis. The null model for this lineup is M4. Only 7 of 20 viewers of this lineup selected the data plot as the most different from the others.">>=
 load("data/se112adjmat.RDS")
@@ -559,9 +560,7 @@ The smallest $p$-value for one of the goodness-of-fit lineups was for the third 
 %Furthermore, for the first lineup replicate with model M5 as the null model, only 9 of 21 participants were able to pick out the data, but the Visual distribution $p$-value is less than 0.05. %This is much higher than the corresponding Binomial probability of $Pr(X = 9|n = 21, p = \frac{1}{6}) = \binom{21}{9}(\frac{1}{6})^9(\frac{5}{6})^{21-9} \approx 0.003$, but we are not sure that having fewer than half of our participants identify the data plot is a truly significant result. We could move the threshold from $\alpha = 0.05$ to $\alpha = 0.01$ or $\alpha = 0.001$, but more work needs to be done to determine which, if any of these, is appropriate.  
 For the other models for which we tested goodness-of-fit, however, we do have significant evidence from all three replicates to reject the null hypothesis that the null model generated the data. All of the goodness-of-fit lineups are provided in the appendix. 
 
-\hh{XXX we need to go throught the logic of the argument below.}\st{ XXX I reformulated the discussion per our convo today.  }
-
-
+%\hh{XXX we need to go throught the logic of the argument below.}\st{ XXX I reformulated the discussion per our convo today.  }
 
 <<mostsiggof, fig.height = 4, fig.cap="The lineup resulting in the smallest $p$-value rejecting the null hypothesis. Surprisingly, this another repetition for M4 as the null model.">>=
 dat <- read_csv(paste0("data/jtts_gof_9_3.csv"))
@@ -600,7 +599,7 @@ turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
   theme(legend.position = 'bottom')
 @
 
-We further explore this relationship between identification of the alternative data in the lineup and the parameter, effect size, and lineup type with a generalized linear mixed model that provides us with an estimate of the power of the visual test. The response variable, $Y_{ijkm}$, is binary, indicating whether participant $m$ picked the alternative data plot in lineup $j$, rep $k$, for effect $i$. The continuous covariate $x$ is the centered and scaled size of the effect of interest from which the alternative data were simulated, the values of which are labeled ``easy", ``medium", and ``hard" in Table~\ref{tab:experdetail} according to how difficult we thought the Turk participants would find each lineup. In Equation~\ref{eq:glmm}, $i \in \{1, 2, 3, 4, 6\}$ corresponds to the effects $\beta_1, \beta_3, \beta_4, \beta_2, \beta_6, \beta_5$, respectively. We include random effects in the model for each lineup, $\delta_{ijk}$ and each participant, $\epsilon_m$, and fit a hierarchical model as follows:
+We further explore this relationship between identification of the alternative data in the lineup and the parameter, effect size, and lineup type with a generalized linear mixed model that provides us with an estimate of the power of the visual test. The response variable, $Y_{ijkm}$, is binary, indicating whether participant $m$ picked the alternative data plot in lineup type $j$, rep $k$, for effect $i$. The continuous covariate $x$ is the centered and scaled size of the effect of interest from which the alternative data were simulated, the values of which are labeled ``easy", ``medium", and ``hard" in Table~\ref{tab:experdetail} according to how difficult we thought the Turk participants would find each lineup. In Equation~\ref{eq:glmm}, $i \in \{1, 2, 3, 4, 6\}$ corresponds to the effects $\beta_1, \beta_3, \beta_4, \beta_2, \beta_6, \beta_5$, respectively, $j \in \{-1,1\}$, and $k \in \{1,2,3\}$. We include random effects in the model for each lineup, $\delta_{ijk}$ and each participant, $\epsilon_m$, and fit a hierarchical model as follows:
 
 \begin{align}
 \begin{split}
@@ -628,32 +627,81 @@ Y_{ijkm} &\sim \text{Bernoulli}(\pi_{ijkm}) \\
 %\st{
 %This model estimates, as a function of the parameter size, the expected value of $\text{logit}(\pi_{ijkm})$ for each of the 12 lineup conditions, repitions, and participants. The inverse logit of the estimates are the prediction lines drawn in Figure~\ref{fig:predictglmm}.
 
-The results of fitting this model using \texttt{glmer} from the \texttt{lme4} package are summarized in Table~\ref{tab:glmmests} \citep{lme4}. The baseline condition for this model against which all other experimental conditions are compared is the first condition in Table~\ref{tab:experdetail}, for parameter $\beta_1$ and lineup type -1. The expected value of the link function for this scenario with $\beta_1 = x_{12}$ is $\mu + \gamma x_{12}$, and the expected probability that a new observer will pick out the data plot in a new lineup generated from this scenario is $\frac{\exp(\mu + \gamma x_{12})}{1+\exp{\mu + \gamma x_{12}}}$. Similarly, for a new lineup generated from the second condition in in Table~\ref{tab:experdetail}, with $\beta_1 = x_{12}$, and lineup type 1, the expected value of the link function is $\mu + \theta + (\gamma + (\theta\gamma))x_{12}$ and corresponding probability a new observer will pick out the data plot in a new lineup is $\exp\{\mu + \theta + (\gamma + (\theta\gamma))x_{12}\} / 1+\exp\{\mu + \theta + (\gamma + (\theta\gamma))x_{12}\}$. 
-
-For any of the remaining parameters, $\beta_2, \dots, \beta_6$, with lineup type -1, the expectation of the link function as a function of the parameter value, $x_{\ell 2}$ is: 
-\begin{equation}\label{eq:predneg1}
-\mu + \alpha_{i} +  (\gamma + (\alpha\gamma)_i)x_{\ell 2}  
-\end{equation}
-where $i \in \{1,2,3,4,5\}$ corresponds to $\beta_3, \beta_4, \beta_2, \beta_6, \beta_5$, respectively. Similarly, for lineup type 1, the expectation of the link function as a function of the parameter value is: \begin{equation}\label{eq:predpos1}
-\mu + \alpha_{i} + \theta + (\alpha\theta)_i  +  (\gamma + (\alpha\gamma)_i + (\gamma\theta) + (\alpha\theta\gamma)_i)x_{\ell 2}  
-\end{equation}
-Thus, the first 24 parameters 
-
-
-The corresponding expected probability that a new observer viewing a new lineup from this scenario is: 
+The results of fitting this model, including estimates of parameters, standard errors, $p$-values, and the odds ratio multipliers, using \texttt{glmer} from the \texttt{lme4} package are summarized in Table~\ref{tab:glmmests} \citep{lme4}. For each combination of parameter and lineup type, the expected value of the link function for a new lineup and a new observer with parameter value $x$ is 
 \begin{equation}
-\frac{\exp\{\mu + \alpha_{4} + \theta + \gamma + (\alpha\theta)_4 + (\alpha\gamma)_4  + (\theta\gamma) + (\alpha\theta\gamma)_4\}}{1 + \exp\{\mu + \alpha_{4} + \theta + \gamma + (\alpha\theta)_4 + (\alpha\gamma)_4  + (\theta\gamma) + (\alpha\theta\gamma)_4\}}
+E[\text{logit}(\pi_{ij})] = \alpha_{ij} + \beta_{ij}x
 \end{equation}
+and the corresponding probability of picking out the alternative data plot is 
+\begin{equation}
+\pi_{ij} = \frac{\exp\{\alpha_{ij} + \beta_{ij}x\}}{1 + \exp\{\alpha_{ij} + \beta_{ij}x\}}
+\end{equation}
+
+%The baseline condition for this model against which all other experimental conditions are compared is the first condition in Table~\ref{tab:experdetail}, for parameter $\beta_1$ and lineup type -1. The expected value of the link function for this scenario with $\beta_1 = x_{12}$ is $\mu + \gamma x_{12}$, and the expected probability that a new observer will pick out the data plot in a new lineup generated from this scenario is $\frac{\exp(\mu + \gamma x_{12})}{1+\exp{\mu + \gamma x_{12}}}$. Similarly, for a new lineup generated from the second condition in in Table~\ref{tab:experdetail}, with $\beta_1 = x_{12}$, and lineup type 1, the expected value of the link function is $\mu + \theta + (\gamma + (\theta\gamma))x_{12}$ and corresponding probability a new observer will pick out the data plot in a new lineup is $\exp\{\mu + \theta + (\gamma + (\theta\gamma))x_{12}\} / 1+\exp\{\mu + \theta + (\gamma + (\theta\gamma))x_{12}\}$. 
+
+% For any of the remaining parameters, $\beta_2, \dots, \beta_6$, with lineup type -1, the expectation of the link function as a function of the parameter value, $x_{\ell 2}$ is: 
+% \begin{equation}\label{eq:predneg1}
+% \mu + \alpha_{i} +  (\gamma + (\alpha\gamma)_i)x_{\ell 2}  
+% \end{equation}
+% where $i \in \{1,2,3,4,5\}$ corresponds to $\beta_3, \beta_4, \beta_2, \beta_6, \beta_5$, respectively. Similarly, for lineup type 1, the expectation of the link function as a function of the parameter value is: \begin{equation}\label{eq:predpos1}
+% \mu + \alpha_{i} + \theta + (\alpha\theta)_i  +  (\gamma + (\alpha\gamma)_i + (\gamma\theta) + (\alpha\theta\gamma)_i)x_{\ell 2}  
+% \end{equation}
+% 
+% The corresponding expected probability that a new observer viewing a new lineup from this scenario is: 
+% \begin{equation}
+% \frac{\exp\{\mu + \alpha_{4} + \theta + \gamma + (\alpha\theta)_4 + (\alpha\gamma)_4  + (\theta\gamma) + (\alpha\theta\gamma)_4\}}{1 + \exp\{\mu + \alpha_{4} + \theta + \gamma + (\alpha\theta)_4 + (\alpha\gamma)_4  + (\theta\gamma) + (\alpha\theta\gamma)_4\}}
+% \end{equation}
 
 <<glmmres>>=
-load("data/finalglmm31.RDA")
-mod <- model1randomscalesize
+load("data/finalglmm31-2.RDA")
+mod <- model2randomscalesize
 res <- summary(mod)[[10]]
 ests <- as.numeric(round(res[,1], 4))
+oddsidx <- which(exp(ests) < .0001)
+oddsidx2 <- which(exp(ests) > 1000000)
 odds <- round(exp(ests), 4)
+odds[oddsidx] <- "$<$0.0001"
+odds[oddsidx2] <- "$>$1e+06"
 se <- as.numeric(round(res[,2], 4))
+pvalidx <- which(res[,4] < .0001)
 pval <- as.numeric(round(res[,4],4))
+pval[pvalidx] <- "$<$0.0001"
+sigma_epsilon <- summary(model2randomscalesize)[[13]]$nick_name[[1]]
+sigma_delta <- summary(model2randomscalesize)[[13]]$pic_id[[1]]
 @
+
+\begin{table}
+\centering
+\begin{tabular}{lrrrr}
+Parameter & Estimate & Std Error & $p$-value & Odds Multiplier \\
+$\alpha_{1-1}$ & \Sexpr{ests[1]} & \Sexpr{se[1]} & \Sexpr{pval[1]} & \Sexpr{odds[1]}\\
+$\alpha_{2-1}$ & \Sexpr{ests[2]} & \Sexpr{se[2]} & \Sexpr{pval[2]} & \Sexpr{odds[2]} \\
+$\alpha_{3-1}$ & \Sexpr{ests[3]} & \Sexpr{se[3]} & \Sexpr{pval[3]} & \Sexpr{odds[3]}  \\
+$\alpha_{4-1}$  & \Sexpr{ests[4]} & \Sexpr{se[4]} & \Sexpr{pval[4]} & \Sexpr{odds[4]} \\
+$\alpha_{5-1}$ & \Sexpr{ests[5]} & \Sexpr{se[5]} & \Sexpr{pval[5]} & \Sexpr{odds[5]}  \\
+$\alpha_{6-1}$  & \Sexpr{ests[6]} & \Sexpr{se[6]} & \Sexpr{pval[6]} & \Sexpr{odds[6]} \\
+$\alpha_{11}$ & \Sexpr{ests[7]} & \Sexpr{se[7]} & \Sexpr{pval[7]} & \Sexpr{odds[7]} \\
+$\alpha_{21}$  & \Sexpr{ests[8]} & \Sexpr{se[8]} & \Sexpr{pval[8]} & \Sexpr{odds[8]} \\ 
+$\alpha_{31}$ & \Sexpr{ests[9]} & \Sexpr{se[9]} & \Sexpr{pval[9]} & \Sexpr{odds[9]} \\
+$\alpha_{41}$  & \Sexpr{ests[10]} & \Sexpr{se[10]} & \Sexpr{pval[10]} & \Sexpr{odds[10]} \\
+$\alpha_{51}$  & \Sexpr{ests[11]} & \Sexpr{se[11]} & \Sexpr{pval[11]} & \Sexpr{odds[11]} \\
+$\alpha_{61}$  & \Sexpr{ests[12]} & \Sexpr{se[12]} & \Sexpr{pval[12]} & \Sexpr{odds[12]} \\
+$\beta_{1-1}$  & \Sexpr{ests[13]} & \Sexpr{se[13]} & \Sexpr{pval[13]} & \Sexpr{odds[13]} \\
+$\beta_{2-1}$   & \Sexpr{ests[14]} & \Sexpr{se[14]} & \Sexpr{pval[14]} & \Sexpr{odds[14]} \\
+$\beta_{3-1}$  & \Sexpr{ests[15]} & \Sexpr{se[15]} & \Sexpr{pval[15]} & \Sexpr{odds[15]} \\
+$\beta_{4-1}$  & \Sexpr{ests[16]} & \Sexpr{se[16]} & \Sexpr{pval[16]} & \Sexpr{odds[16]} \\
+$\beta_{5-1}$ & \Sexpr{ests[17]} & \Sexpr{se[17]} & \Sexpr{pval[17]} & \Sexpr{odds[17]} \\
+$\beta_{6-1}$ & \Sexpr{ests[18]} & \Sexpr{se[18]} & \Sexpr{pval[18]} & \Sexpr{odds[18]} \\
+$\beta_{11}$ & \Sexpr{ests[19]} & \Sexpr{se[19]} & \Sexpr{pval[19]} & \Sexpr{odds[19]} \\
+$\beta_{21}$ & \Sexpr{ests[20]} & \Sexpr{se[20]} & \Sexpr{pval[20]} & \Sexpr{odds[20]}  \\
+$\beta_{31}$ & \Sexpr{ests[21]} & \Sexpr{se[21]} & \Sexpr{pval[21]} & \Sexpr{odds[21]} \\
+$\beta_{41}$ & \Sexpr{ests[22]} & \Sexpr{se[22]} & \Sexpr{pval[22]} & \Sexpr{odds[22]} \\
+$\beta_{51}$ & \Sexpr{ests[23]} & \Sexpr{se[23]} & \Sexpr{pval[23]} & \Sexpr{odds[23]} \\
+$\beta_{61}$ & \Sexpr{ests[24]} & \Sexpr{se[24]} & \Sexpr{pval[24]} & \Sexpr{odds[24]} \\ 
+$\sigma^2_{\delta}$ & \Sexpr{round(sigma_delta, 4)} & -- & -- & --\\
+$\sigma^2_{\epsilon}$ &  \Sexpr{round(sigma_epsilon, 4)}  & -- & -- & --
+\end{tabular}
+\caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}}
+\end{table}
 
 % \begin{table}
 % \centering
@@ -770,8 +818,6 @@ ggplot(data = dat) +
 
 For $\beta_4$ and $\beta_6$, where one plot simulated from M1 was placed among five plots from the corresponding model, we see that the predictions for the reverse lineup type (-1), are less than the standard lineup type (1) for all values of the parameter that we have. This contradicts our hypothesis for this scenario, which was that these two scenarios would perform similarly. One of the lineups for the $\beta_4 = 6.681$, lineup type 1 scenario is given in Figure~\ref{fig:beta41}, and a corresponding lineup for the lineup type -1 scenario is given in Figure~\ref{fig:beta4neg1}. For identical values of the parameter, viewers had a harder time identifying the different plot when they were selected the most ``simple" structure, detecting M1 in five plots from the more complicated model, than they did identifying the most ``complex" structure, the plot from the more complicated model, from the five plots from M1.  
 
-
-
 \section{Discussion}\label{sec:concl}
 
 By using visual inference methods, we have developed new ways to perform significance and goodness-of-fit testing for a complicated and intractable set of statistical models for social network data. These new methods can be used to supplement traditional methods and check our assumptions about network models. The traditional methods only look at one piece or one measure of a network model, but our methods look at the models holistically for a broader sense of what it means for a parameter to be significant or a model to be a good fit. By looking at an entire network simulated from a SAOM side-by-side with other instances of networks simulated from another model, instead of one-dimensional derived features, we develop an idea of the model in terms of the data itself, instead of in terms of statistical summaries of the data.
@@ -782,13 +828,13 @@ These results do not come without limitations. In visual inference, the null plo
 
 We hope to apply these methods further for different types of network data and different types of network models. We accept the limitations of this type of network data visualization, in that even in small instances, the cognitive load of looking at a lineup is very high for the average observer. We would therefore like to explore larger datasets, different layout algorithms, and different ways of visualizing network data, such as changing the layout algorithm or using adjacency matrix visualizations, through visual inference to see if similar patterns emerge. 
 
-\hh{Best results: visual detection/ power analysis, a lot of variability in goodness of fit and significance tests. BUT: visualizations show that a decision of significance/ goodness of fit are not as clear cut as the traditional tests want us to believe.
+%\hh{Best results: visual detection/ power analysis, a lot of variability in goodness of fit and significance tests. BUT: visualizations show that a decision of significance/ goodness of fit are not as clear cut as the traditional tests want us to believe.
 
-Limitations: 
-\begin{itemize}
-\item number of null plots: null plots are representatives of the null distribution of all possible node-link diagrams of data sampled from the null model. Here, the number of null plots is  reduced to five, which increases the variability seen from a single lineup dramatically and unfortunately leads to different conclusions.
-\item ability to generalize: the lineups are made for only one test case - it is not clear, whether and how far, power results transfer to other situations with different number of actors and different edge density.
-\end{itemize}}
+%Limitations: 
+%\begin{itemize}
+%\item number of null plots: null plots are representatives of the null %distribution of all possible node-link diagrams of data sampled from the %null model. Here, the number of null plots is  reduced to five, which %increases the variability seen from a single lineup dramatically and %unfortunately leads to different conclusions.
+%\item ability to generalize: the lineups are made for only one test case %- it is not clear, whether and how far, power results transfer to other %situations with different number of actors and different edge density.
+%\end{itemize}}
 
 % Talk about visual inference
 %We propose to attack some of the aforementioned difficulties with SAOMs by using a technique known as \textit{visual inference}. This technique was created by \citet{Bujaetal} to provide well-defined, statistical rigor to the usual exploratory data analyses and model diagnostics that are typically performed by visualizing the data as opposed to looking at it raw or gathering numerical summaries of it. In visual inference there are \textit{null plots} and \textit{data plots}: the null plots are visualizations of data simulated from the model according to the null hypothesis, while the data plots are visualizations of data simulated from the model according to an alternative hypothesis. These two data sources are visualized side-by-side using small multiples using what Buja et al called the \textit{lineup protocol}. The idea behind the lineup protocol is the police lineup, where witnesses to crimes are brought to the police station to observe a group of people, one of whom is suspected to have committed the crime, and are asked to identify the perpetrator of the crime. If the witness identifies the suspect in the lineup, that is taken as evidence the suspect is guilty, whereas if the witness does not identify the suspect, that is taken as evidence the suspect is not guilty. In the visual inference lineup protocol, the \textit{suspect} is the data plot among $M-1$ null plots. If the "witness" can pick the data plot out of the lineup, that is taken as evidence that the null model should be rejected, whereas failing to pick out the data plot is taken as evidence that the null model should not be rejected. In our application of the lineup protocol to SAOMs, we include various effects of varying sizes in the SAOMs we fit to some data and try to \textit{see} those effects in node-link diagram corresponding to simulations from the various models.
