@@ -593,6 +593,20 @@ turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
 @
 
 We futther explore this relationship between identification of the alternative data in the lineup and the parameter, effect size, and lineup type with a generalized linear mixed model that provides us with an estimate of the power of the visual test. The response variable, $Y_{i\ell m}$, is binary, indicating whether participant $m$ picked the alternative data plot in lineup $\ell$ for effect $i$. The covariate $x_{\ell 1}$ takes on the value -1 or 1 according to the lineup type code in Table~\ref{tab:experdetail}. In most cases, -1 indicates the parameter value is less than original estimate, while 1 indicates the parameter value is at or above the original estimate. The continuous covariate $x_{\ell 2}$ is the centered and scaled size of the effect of interest from which the alternative data were simulated, the values of which are labeled ``easy", ``medium", and ``hard" in Table~\ref{tab:experdetail} according to how difficult we thought the Turk participants would find each lineup. In Equation~\ref{eq:glmm}, $i \in \{1, 2, 3, 4, 5\}$ corresponding to the effects $\beta_3, \beta_4, \beta_2, \beta_6, \beta_5$, respectively. We include random effects in the model for each lineup, $\delta_{\ell}$ and each participant, $\epsilon_m$, and fit a hierarchical model as follows:
+
+\begin{align}
+\begin{split}
+Y_{\ell m} &\sim \text{Bernoulli}(\pi_{\ell m}) \\
+\text{logit}(\pi_{\ell m}) & = \alpha_{\ell} + \beta_{\ell} x + \delta_{\ell} + \epsilon_{m} \label{eq:glmm} \\
+\delta_{\ell} & \sim N(0, \sigma^2_{\delta}) \\
+\epsilon_{m} & \sim N(0, \sigma^2_{\epsilon})
+\end{split}
+\end{align}
+
+\hh{
+$\ell$ encompasses all 12 combinations of parameter and positive/negative direction of the effect size.
+}
+
 \begin{align}
 \begin{split}
 Y_{i\ell m} &\sim \text{Bernoulli}(\pi_{i\ell m}) \\
