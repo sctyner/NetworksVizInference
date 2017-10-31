@@ -32,22 +32,30 @@ ThemeNoNet <- theme_bw() %+replace%
                                             face = 'plain', 
                                             angle = 90,
                                             family="Times New Roman"),
-                  axis.text.x.top = element_text(size = 12,
+                  axis.text.x = element_text(size = 12,
                                             face = 'plain', 
                                             angle = 0,
                                             family="Times New Roman"), 
-                  axis.text.x.bottom = element_text(size = 12,
-                                            face = 'plain', 
-                                            angle = 0,
-                                            family="Times New Roman"), 
-                  axis.text.y.left = element_text(size = 12,
+                  # axis.text.x.top = element_text(size = 12,
+                  #                           face = 'plain', 
+                  #                           angle = 0,
+                  #                           family="Times New Roman"), 
+                  # axis.text.x.bottom = element_text(size = 12,
+                  #                           face = 'plain', 
+                  #                           angle = 0,
+                  #                           family="Times New Roman"), 
+                  axis.text.y = element_text(size = 12,
                                             face = 'plain', 
                                             angle = 0,
                                             family="Times New Roman"),
-                  axis.text.y.right = element_text(size = 12,
-                                            face = 'plain', 
-                                            angle = 0,
-                                            family="Times New Roman"),
+                  # axis.text.y.left = element_text(size = 12,
+                  #                           face = 'plain', 
+                  #                           angle = 0,
+                  #                           family="Times New Roman"),
+                  # axis.text.y.right = element_text(size = 12,
+                  #                           face = 'plain', 
+                  #                           angle = 0,
+                  #                           family="Times New Roman"),
                   strip.text.x = element_text(size = 12,
                                             face = 'plain', 
                                             angle = 0, 
@@ -655,8 +663,8 @@ $\sigma^2_{\epsilon}$ & 0.3416
 newdata <- read_csv("data/newdata_pred_glmm.csv")
 newdata$param <- newdata$test_param
 newdata$param <- as.factor(newdata$test_param)
-levels(newdata$param) <- c("beta[1]", "beta[3]", "beta[4]", "beta[2]", "beta[6]", "beta[5]")
-newdata$param <-as.character(newdata$param)
+levels(newdata$param) <-  c(1,3,4,2,6,5) 
+newdata$param <- as.integer(as.character(newdata$param))
 plotdata <- turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
                        type2 = ifelse(type == "one", type2, -1)) %>% 
   group_by(pic_id, size, test_param, sign, type2,alt_model) %>% summarize(
@@ -664,9 +672,9 @@ plotdata <- turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
 )
 plotdata$param <- plotdata$test_param
 plotdata$param <- as.factor(plotdata$param)
-levels(plotdata$param) <- c("beta[1]", "beta[3]", "beta[4]", "beta[2]", "beta[6]", "beta[5]")
-plotdata$param <- as.character(plotdata$param)
-labdat <- data_frame(test_param = "jttp", param = "beta[3]", type2 = -1, x = -5, y = .9, label = "jttp_neg_hard_2")
+levels(plotdata$param) <- c(1,3,4,2,6,5) 
+plotdata$param <- as.integer(as.character(plotdata$param))
+labdat <- data_frame(test_param = "jttp", param = 3, type2 = -1, x = -5, y = .9, label = "jttp_neg_hard_2")
 
 ggplot() + 
   geom_line(data = newdata, aes(x = size, y = predictfinal, color = as.factor(type2))) + 
@@ -676,7 +684,8 @@ ggplot() +
             show.legend = F) + 
   geom_hline(yintercept = 1/6, linetype='dashed') +
   scale_color_brewer(palette = "Dark2", name = "Lineup Type") + 
-  facet_wrap(~param, scales = 'free_x', labeller = label_parsed) + 
+  facet_wrap(~param, scales = 'free_x', 
+             labeller = label_bquote(beta [.(param)])) + 
   labs(x = "Parameter value", y = "Expected probability of detection in a lineup of size 6") + 
   ThemeNoNet + 
   theme(legend.position = 'bottom')
