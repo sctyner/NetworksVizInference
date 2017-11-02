@@ -523,9 +523,13 @@ turk22_gof_stats <- turk22_gof %>% group_by(pic_id) %>%
 turk22_gof_stats %>% separate(pic_id, into = c("discard", "model", "rep"), sep = c(2,3)) -> print_gof_stats
 print_gof_stats %>% select(-discard) %>% mutate(model = paste0("M", (as.integer(model)-1)))-> print_gof_stats
 names(print_gof_stats) <- c("Model", "Replicate", "Data Picks", "Total Viewers", "p-value")
+print_gof_stats$Model[c(2:3,5:6,8:9,11:12)] <- ""
+print_gof_stats$Model[2] <- "jtt party"
+print_gof_stats$Model[5] <- "jtt sex"
+print_gof_stats$Model[8] <- "stt party"
 print_gof_stats$`p-value` <- ifelse(print_gof_stats$`p-value` < .0001, "< 0.0001", sprintf("%.4f", print_gof_stats$`p-value`))
 print(xtable::xtable(print_gof_stats, label = "tab:gofstats", caption = "An overview of the results from the 12 goodness-of-fit lineup tests.", digits = 4,
-                      align="rllrrr"), caption.placement = "bottom", include.rownames = FALSE)
+                      align="rlrrrr"), caption.placement = "bottom", include.rownames = FALSE, hline.after = c(-1,0,0,3,6,9,nrow(print_gof_stats)))
 @
 
 The $p$-values were calculated using the \texttt{vinference} package by \citet{vinference}. This package contains methods to calculate \textit{Visual distributions} for lineup experiment data.  The distribution depends on the number of evaluations of a plot, $K$, the size of the lineup, $m$, and the lineup scenario, which here is that each lineup containing the same data and the same set of null plots is shown to $K$ independent observers. The visual inference family of distributions is similar to the binomial distribution, but takes the dependency among the $m$ plots in a signle lineup shown to multiple viewers into account. Using these $p$-values, all but one lineup results in a rejection of the null hypothesis at Type-I error rate of $\alpha = 0.05$. The lineup that resulted in a failure to reject the null hypothesis is shown in Figure~\ref{fig:failgof}. The null model in this lineup is M4, and the senate data is shown in panel number $3^2 - 7$. However, the panel most participants chose was number four, and the most common reasoning for that choice was that it had the most simple structure. 
