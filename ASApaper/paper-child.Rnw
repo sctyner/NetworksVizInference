@@ -410,10 +410,15 @@ step1 %>% select(c(1:3,6)) %>% filter(!is.na(`3`)) -> step2c
 experdet <- step2a %>% mutate(easy = `1`, medium = step2b$`2`, hard = step2c$`3`) %>% select(-c(`1`, n))
 experdet$test_param <- as.factor(experdet$test_param)
 levels(experdet$test_param) <- paste0("beta", c(1,3,4,2,6,5))
+experdet$test_param <- factor(experdet$test_param, levels=paste0("beta", c(1,2,3,5,4,6)))
+experdet <- experdet %>% arrange(test_param)
 experdet$test_param <- as.character(experdet$test_param)
-names(experdet) <- c("Parameter", "Lineup Type", "Easy Value", "Medium Value", "Hard Value")
+experdet$test_param[c(2,4,6,8,10,12)] <- NA
+experdet$type2 <- c(rep(c("neg", "pos"), 4), rep(c("regular", "reverse"), 2))
+names(experdet) <- c("Parameter", "Condition", "Easy Value", "Medium Value", "Hard Value")
 
-print(xtable::xtable(experdet, caption = "All conditions in our MTurk experiment. Note that for $\\beta_4$ and $\\beta_6$, the negative type experiments are the reverse lineups, where 5 plots were simulated from the model with the parameter value given in the table, while 1 plot was simulated from M1.", label = "tab:experdetail", digits = c(0,0,0,3,4,3)))
+print(xtable::xtable(experdet, caption = "All conditions used for the MTurk experiment. For parameters $\beta_1, \beta_2, \beta_3,$ and $\beta_5$ M1 served as null model. For $\\beta_4$ and $\\beta_6$, null model M1 and the alternative model switch roles in the reversed lineups, i.e. five plots show data simluated from the laternative model and only one plot shows data from M1.", label = "tab:experdetail", digits = c(0,0,0,3,4,3)), include.rownames=FALSE, 
+      hline.after = c(-1,0,0,8,8,12))
 @
 
 \section{Experiment Results}\label{sec:res}
@@ -525,8 +530,13 @@ turk22_gof_stats <- turk22_gof %>% group_by(pic_id) %>%
 turk22_gof_stats %>% separate(pic_id, into = c("discard", "model", "rep"), sep = c(2,3)) -> print_gof_stats
 print_gof_stats %>% select(-discard) %>% mutate(model = paste0("M", (as.integer(model)-1)))-> print_gof_stats
 names(print_gof_stats) <- c("Model", "Replicate", "Data Picks", "Total Viewers", "p-value")
-print_gof_stats$`p-value` <- ifelse(print_gof_stats$`p-value` < .0001, "< 0.0001", as.character(round(print_gof_stats$`p-value`,4)))
-print(xtable::xtable(print_gof_stats, label = "tab:gofstats", caption = "An overview of the results from our 12 goodness-of-fit lineup tests.", digits = 4), caption.placement = "bottom", include.rownames = FALSE)
+print_gof_stats$Model[c(2:3,5:6,8:9,11:12)] <- ""
+print_gof_stats$Model[2] <- "jtt party"
+print_gof_stats$Model[5] <- "jtt sex"
+print_gof_stats$Model[8] <- "stt party"
+print_gof_stats$`p-value` <- ifelse(print_gof_stats$`p-value` < .0001, "< 0.0001", sprintf("%.4f", print_gof_stats$`p-value`))
+print(xtable::xtable(print_gof_stats, label = "tab:gofstats", caption = "An overview of the results from the 12 goodness-of-fit lineup tests.", digits = 4,
+                      align="rlrrrr"), caption.placement = "bottom", include.rownames = FALSE, hline.after = c(-1,0,0,3,6,9,nrow(print_gof_stats)))
 @
 
 The $p$-values were calculated using the \texttt{vinference} package by \citet{vinference}. This package contains methods to calculate \textit{Visual distributions} for lineup experiment data.  The distribution depends on the number of evaluations of a plot, $K$, the size of the lineup, $m$, and the lineup scenario, which here is that each lineup containing the same data and the same set of null plots is shown to $K$ independent observers. The visual inference family of distributions is similar to the binomial distribution, but takes the dependency among the $m$ plots in a signle lineup shown to multiple viewers into account. Using these $p$-values, all but one lineup results in a rejection of the null hypothesis at Type-I error rate of $\alpha = 0.05$. The lineup that resulted in a failure to reject the null hypothesis is shown in Figure~\ref{fig:failgof}. The null model in this lineup is M4, and the senate data is shown in panel number $3^2 - 7$. However, the panel most participants chose was number four, and the most common reasoning for that choice was that it had the most simple structure. 
@@ -665,42 +675,48 @@ odds[oddsidx] <- "$<$0.0001"
 odds[oddsidx2] <- "$>$1e+06"
 se <- as.numeric(round(res[,2], 4))
 pvalidx <- which(res[,4] < .0001)
-pval <- as.numeric(round(res[,4],4))
+pval <- sprintf("%.4f",round(res[,4],4))
 pval[pvalidx] <- "$<$0.0001"
 sigma_epsilon <- summary(model2randomscalesize)[[13]]$nick_name[[1]]
 sigma_delta <- summary(model2randomscalesize)[[13]]$pic_id[[1]]
 @
 
+
+\npdecimalsign{.}
+%\nprounddigits{3}
+
 \begin{table}
 \centering
-\begin{tabular}{lrrrr}
-Parameter & Estimate & Std Error & $p$-value & Odds Multiplier \\
-$\alpha_{1-1}$ & \Sexpr{ests[1]} & \Sexpr{se[1]} & \Sexpr{pval[1]} & \Sexpr{odds[1]}\\
-$\alpha_{2-1}$ & \Sexpr{ests[2]} & \Sexpr{se[2]} & \Sexpr{pval[2]} & \Sexpr{odds[2]} \\
-$\alpha_{3-1}$ & \Sexpr{ests[3]} & \Sexpr{se[3]} & \Sexpr{pval[3]} & \Sexpr{odds[3]}  \\
-$\alpha_{4-1}$  & \Sexpr{ests[4]} & \Sexpr{se[4]} & \Sexpr{pval[4]} & \Sexpr{odds[4]} \\
-$\alpha_{5-1}$ & \Sexpr{ests[5]} & \Sexpr{se[5]} & \Sexpr{pval[5]} & \Sexpr{odds[5]}  \\
-$\alpha_{6-1}$  & \Sexpr{ests[6]} & \Sexpr{se[6]} & \Sexpr{pval[6]} & \Sexpr{odds[6]} \\
-$\alpha_{11}$ & \Sexpr{ests[7]} & \Sexpr{se[7]} & \Sexpr{pval[7]} & \Sexpr{odds[7]} \\
-$\alpha_{21}$  & \Sexpr{ests[8]} & \Sexpr{se[8]} & \Sexpr{pval[8]} & \Sexpr{odds[8]} \\ 
-$\alpha_{31}$ & \Sexpr{ests[9]} & \Sexpr{se[9]} & \Sexpr{pval[9]} & \Sexpr{odds[9]} \\
-$\alpha_{41}$  & \Sexpr{ests[10]} & \Sexpr{se[10]} & \Sexpr{pval[10]} & \Sexpr{odds[10]} \\
-$\alpha_{51}$  & \Sexpr{ests[11]} & \Sexpr{se[11]} & \Sexpr{pval[11]} & \Sexpr{odds[11]} \\
-$\alpha_{61}$  & \Sexpr{ests[12]} & \Sexpr{se[12]} & \Sexpr{pval[12]} & \Sexpr{odds[12]} \\
-$\beta_{1-1}$  & \Sexpr{ests[13]} & \Sexpr{se[13]} & \Sexpr{pval[13]} & \Sexpr{odds[13]} \\
-$\beta_{2-1}$   & \Sexpr{ests[14]} & \Sexpr{se[14]} & \Sexpr{pval[14]} & \Sexpr{odds[14]} \\
-$\beta_{3-1}$  & \Sexpr{ests[15]} & \Sexpr{se[15]} & \Sexpr{pval[15]} & \Sexpr{odds[15]} \\
-$\beta_{4-1}$  & \Sexpr{ests[16]} & \Sexpr{se[16]} & \Sexpr{pval[16]} & \Sexpr{odds[16]} \\
-$\beta_{5-1}$ & \Sexpr{ests[17]} & \Sexpr{se[17]} & \Sexpr{pval[17]} & \Sexpr{odds[17]} \\
-$\beta_{6-1}$ & \Sexpr{ests[18]} & \Sexpr{se[18]} & \Sexpr{pval[18]} & \Sexpr{odds[18]} \\
-$\beta_{11}$ & \Sexpr{ests[19]} & \Sexpr{se[19]} & \Sexpr{pval[19]} & \Sexpr{odds[19]} \\
-$\beta_{21}$ & \Sexpr{ests[20]} & \Sexpr{se[20]} & \Sexpr{pval[20]} & \Sexpr{odds[20]}  \\
-$\beta_{31}$ & \Sexpr{ests[21]} & \Sexpr{se[21]} & \Sexpr{pval[21]} & \Sexpr{odds[21]} \\
-$\beta_{41}$ & \Sexpr{ests[22]} & \Sexpr{se[22]} & \Sexpr{pval[22]} & \Sexpr{odds[22]} \\
-$\beta_{51}$ & \Sexpr{ests[23]} & \Sexpr{se[23]} & \Sexpr{pval[23]} & \Sexpr{odds[23]} \\
-$\beta_{61}$ & \Sexpr{ests[24]} & \Sexpr{se[24]} & \Sexpr{pval[24]} & \Sexpr{odds[24]} \\ 
-$\sigma^2_{\delta}$ & \Sexpr{round(sigma_delta, 4)} & -- & -- & --\\
-$\sigma^2_{\epsilon}$ &  \Sexpr{round(sigma_epsilon, 4)}  & -- & -- & --
+\begin{tabular}{cn{5}{2}n{5}{3}rr}\hline
+Parameter & \multicolumn{1}{r}{Estimate} & \multicolumn{1}{r}{Std Error} & $p$-value & Odds Multiplier \\ \hline\hline
+$\alpha_{1+}$ & \Sexpr{ests[7]} & \Sexpr{se[7]} & \Sexpr{pval[7]} & \Sexpr{odds[7]} \\
+$\alpha_{1-}$ & \Sexpr{ests[1]} & \Sexpr{se[1]} & \Sexpr{pval[1]} & \Sexpr{odds[1]}\\
+$\beta_{1+}$ & \Sexpr{ests[19]} & \Sexpr{se[19]} & \Sexpr{pval[19]} & \Sexpr{odds[19]} \\
+$\beta_{1-}$  & \Sexpr{ests[13]} & \Sexpr{se[13]} & \Sexpr{pval[13]} & \Sexpr{odds[13]} \\ \hline
+$\alpha_{2+}$  & \Sexpr{ests[8]} & \Sexpr{se[8]} & \Sexpr{pval[8]} & \Sexpr{odds[8]} \\ 
+$\alpha_{2-}$ & \Sexpr{ests[2]} & \Sexpr{se[2]} & \Sexpr{pval[2]} & \Sexpr{odds[2]} \\
+$\beta_{2+}$ & \Sexpr{ests[20]} & \Sexpr{se[20]} & \Sexpr{pval[20]} & \Sexpr{odds[20]}  \\
+$\beta_{2-}$   & \Sexpr{ests[14]} & \Sexpr{se[14]} & \Sexpr{pval[14]} & \Sexpr{odds[14]} \\ \hline
+$\alpha_{3+}$ & \Sexpr{ests[9]} & \Sexpr{se[9]} & \Sexpr{pval[9]} & \Sexpr{odds[9]} \\
+$\alpha_{3-}$ & \Sexpr{ests[3]} & \Sexpr{se[3]} & \Sexpr{pval[3]} & \Sexpr{odds[3]}  \\
+$\beta_{3+}$ & \Sexpr{ests[21]} & \Sexpr{se[21]} & \Sexpr{pval[21]} & \Sexpr{odds[21]} \\ 
+$\beta_{3-}$  & \Sexpr{ests[15]} & \Sexpr{se[15]} & \Sexpr{pval[15]} & \Sexpr{odds[15]} \\ \hline\hline
+$\alpha_{5+}$  & \Sexpr{ests[11]} & \Sexpr{se[11]} & \Sexpr{pval[11]} & \Sexpr{odds[11]} \\
+$\alpha_{5-}$ & \Sexpr{ests[5]} & \Sexpr{se[5]} & \Sexpr{pval[5]} & \Sexpr{odds[5]}  \\
+$\beta_{5+}$ & \Sexpr{ests[23]} & \Sexpr{se[23]} & \Sexpr{pval[23]} & \Sexpr{odds[23]} \\
+$\beta_{5-}$ & \Sexpr{ests[17]} & \Sexpr{se[17]} & \Sexpr{pval[17]} & \Sexpr{odds[17]} \\ \hline
+$\alpha_{4+}$  & \Sexpr{ests[10]} & \Sexpr{se[10]} & \Sexpr{pval[10]} & \Sexpr{odds[10]} \\
+$\alpha_{4-}$  & \Sexpr{ests[4]} & \Sexpr{se[4]} & \Sexpr{pval[4]} & \Sexpr{odds[4]} \\
+$\beta_{4+}$ & \Sexpr{ests[22]} & \Sexpr{se[22]} & \Sexpr{pval[22]} & \Sexpr{odds[22]} \\
+$\beta_{4-}$  & \Sexpr{ests[16]} & \Sexpr{se[16]} & \Sexpr{pval[16]} & \Sexpr{odds[16]} \\ \hline
+$\alpha_{6+}$  & \Sexpr{ests[12]} & \Sexpr{se[12]} & \Sexpr{pval[12]} & \Sexpr{odds[12]} \\
+$\alpha_{6-}$  & \Sexpr{ests[6]} & \Sexpr{se[6]} & \Sexpr{pval[6]} & \Sexpr{odds[6]} \\
+$\beta_{6+}$ & \Sexpr{ests[24]} & \Sexpr{se[24]} & \Sexpr{pval[24]} & \Sexpr{odds[24]} \\ 
+$\beta_{6-}$ & \Sexpr{ests[18]} & \Sexpr{se[18]} & \Sexpr{pval[18]} & \Sexpr{odds[18]} \\
+\hline\hline
+$\sigma^2_{\delta}$ & \Sexpr{round(sigma_delta, 4)} & \multicolumn{1}{r}{--} & -- & --\\
+$\sigma^2_{\epsilon}$ &  \Sexpr{round(sigma_epsilon, 4)}  & \multicolumn{1}{r}{--} & -- & --\\
+\hline 
 \end{tabular}
 \caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}}
 \end{table}
