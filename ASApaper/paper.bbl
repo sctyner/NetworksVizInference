@@ -1,22 +1,122 @@
-\begin{thebibliography}{xx}
+\begin{thebibliography}{24}
+\newcommand{\enquote}[1]{``#1''}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
-\harvarditem{Campbell \harvardand\ Austin}{2002}{Campbell02}
-Campbell, J.~I. \harvardand\ Austin, S.  \harvardyearleft 2002\harvardyearright
-  , `Effects of response time deadlines on adults' strategy choices for simple
-  addition', {\em Memory \& Cognition} {\bf 30}(6),~988--994.
+\bibitem[{Amazon(2010)}]{turk}
+Amazon (2010).
 
-\harvarditem[Chi et~al.]{Chi, Feltovich \harvardand\ Glaser}{1981}{Chi81}
-Chi, M.~T., Feltovich, P.~J. \harvardand\ Glaser, R.  \harvardyearleft
-  1981\harvardyearright , `Categorization and representation of physics
-  problems by experts and novices', {\em Cognitive science} {\bf
-  5}(2),~121--152.
+\bibitem[{Bates et~al.(2015)Bates, M{\"a}chler, Bolker, and Walker}]{lme4}
+Bates, D., M{\"a}chler, M., Bolker, B., and Walker, S. (2015), \enquote{Fitting
+  Linear Mixed-Effects Models Using {lme4},} \textit{Journal of Statistical
+  Software}, 67, 1--48.
 
-\harvarditem[Schubert et~al.]{Schubert, Denmark, Crandall, Grome \harvardand\
-  Pappas}{2013}{Schubert13}
-Schubert, C.~C., Denmark, T.~K., Crandall, B., Grome, A. \harvardand\ Pappas,
-  J.  \harvardyearleft 2013\harvardyearright , `Characterizing novice-expert
-  differences in macrocognition: an exploratory study of cognitive work in the
-  emergency department', {\em Annals of emergency medicine} {\bf
-  61}(1),~96--109.
+\bibitem[{Buja et~al.(2009)Buja, Cook, Hofmann, Lawrence, Lee, Swayne, and
+  Wickham}]{Bujaetal}
+Buja, A., Cook, D., Hofmann, H., Lawrence, M., Lee, E., Swayne, D., and
+  Wickham, H. (2009), \enquote{{S}tatistical {I}nference for {E}xploratory
+  {D}ata {A}nalysis and {M}odel {D}iagnostics,} \textit{Royal Society
+  Philosophical Transactions A}, 367, 4361--4383.
+
+\bibitem[{Chang et~al.(2017)Chang, Cheng, Allaire, Xie, and McPherson}]{shiny}
+Chang, W., Cheng, J., Allaire, J., Xie, Y., and McPherson, J. (2017),
+  \textit{shiny: Web Application Framework for R}, r package version 1.0.3.
+
+\bibitem[{Gelman(2004)}]{gelman:2004}
+Gelman, A. (2004), \enquote{Exploratory {D}ata {A}nalysis for {C}omplex
+  {M}odels,} \textit{Journal of Computational and Graphical Statistics}, 13,
+  755--779.
+
+\bibitem[{Goldenberg et~al.(2010)Goldenberg, Zheng, Fienberg, and
+  Airoldi}]{goldenberg09}
+Goldenberg, A., Zheng, A.~X., Fienberg, S.~E., and Airoldi, E.~M. (2010),
+  \enquote{A Survey of Statistical Network Models,} \textit{Foundations and
+  Trends in Machine Learning}, 2, 129--233.
+
+\bibitem[{Good(2005)}]{Good05}
+Good, P. (2005), \textit{{P}ermutation, {P}arametric, and {B}ootstrap {T}ests
+  of {H}ypotheses}, New York: Springer.
+
+\bibitem[{Gross et~al.(2008)Gross, Kirkland, and Shalizi}]{senate}
+Gross, J.~H., Kirkland, J.~H., and Shalizi, C.~R. (2008),
+  \enquote{Cosponsorship in the {U.S.} Senate: A Multilevel Two-Mode Approach
+  to Detecting Subtle Social Predictors of Legislative Support,}
+  \textit{Unpublished Manuscript}.
+
+\bibitem[{Harrison et~al.(2014)Harrison, Yan, Franconeri, and Chang}]{corrviz}
+Harrison, L., Yan, F., Franconeri, S., and Chang, R. (2014), \enquote{Ranking
+  {V}isualizations of {C}orrelation {U}sing {W}eber's {L}aw,} \textit{IEEE
+  Transactions on Visualization and Computer Graphics}, 20, 1943--1952.
+
+\bibitem[{Hofmann and R\"ottger(2016)}]{vinference}
+Hofmann, H. and R\"ottger, C. (2016), \textit{vinference: Inference under the
+  lineup protocol}, r package version 0.1.1.
+
+\bibitem[{Loy et~al.(2015)Loy, Follett, and Hofmann}]{loy:2015}
+Loy, A., Follett, L., and Hofmann, H. (2015), \enquote{{Variations of Q-Q Plots
+  -- the Power of our Eyes!}} \textit{The American Statistician}, 2015, 1--36.
+
+\bibitem[{Majumder et~al.(2013)Majumder, Hofmann, and Cook}]{majumder:2011}
+Majumder, M., Hofmann, H., and Cook, D. (2013), \enquote{{V}alidation of
+  {V}isual {S}tatistical {I}nference, {A}pplied to {L}inear {M}odels,}
+  \textit{Journal of American Statistical Association}, 108, 942--956.
+
+\bibitem[{Ringe et~al.(2016)Ringe, Victor, and Cho}]{legnet}
+Ringe, N., Victor, J.~N., and Cho, W.~T. (2016), \textit{The Oxford Handbook of
+  Political Networks}, Oxford University Press, chap. Legislative Networks.
+
+\bibitem[{Ripley et~al.(2013)Ripley, Boitmanis, and Snijders}]{RSiena}
+Ripley, R., Boitmanis, K., and Snijders, T.~A. (2013), \textit{{RSiena: Siena -
+  Simulation Investigation for Empirical Network Analysis}}, r packa ge version
+  1.1-232.
+
+\bibitem[{Ripley et~al.(2017)Ripley, Snijders, Boda, V{\"{o}}r{\"{o}}s, and
+  Preciado}]{RSienamanual}
+Ripley, R.~M., Snijders, T.~A., Boda, Z., V{\"{o}}r{\"{o}}s, A., and Preciado,
+  P. (2017), \enquote{Manual for RSiena,} Tech. rep.,
+  \url{https://www.stats.ox.ac.uk/~snijders/siena/RSiena_Manual.pdf}.
+
+\bibitem[{Schweinberger(2012)}]{scoretest}
+Schweinberger, M. (2012), \enquote{Statistical modelling of network panel data:
+  Goodness of fit,} \textit{British Journal of Mathematical and Statistical
+  Psychology}, 65, 262--281.
+
+\bibitem[{Snijders et~al.(2007)Snijders, Steglich, and
+  Schweinberger}]{snijdersetall:2007}
+Snijders, T., Steglich, C., and Schweinberger, M. (2007), \textit{Longitudinal
+  Models in the Behavioral and Related Sciences}, Lawrence Erlbaum Associates,
+  chap. Modeling the Coevolution of Networks and Behavior.
+
+\bibitem[{Snijders(2001)}]{snijders01}
+Snijders, T.~A. (2001), \enquote{The Statistical Evaluation of Social Network
+  Dynamics,} \textit{Sociological Methodology}, 31, 361--395.
+
+\bibitem[{Snijders(2017)}]{snijders:2017}
+--- (2017), \enquote{Stochastic Actor-Oriented Models for Network Dynamics,}
+  \textit{Annual Review of Statistics and Its Application}, 4, 343--63.
+
+\bibitem[{Snijders et~al.(2010{\natexlab{a}})Snijders, van~de Bunt, and
+  Steglich}]{snijders:2010}
+Snijders, T.~A., van~de Bunt, G.~G., and Steglich, C.~E. (2010{\natexlab{a}}),
+  \enquote{Introduction to stochastic actor-based models for network dynamics,}
+  \textit{Social Networks}, 32, 44 -- 60, dynamics of Social Networks.
+
+\bibitem[{Snijders(1996)}]{saompaper}
+Snijders, T. A.~B. (1996), \enquote{{Stochastic actor-oriented models for
+  network change},} \textit{Journal of Mathematical Sociology}, 21, 149--172.
+
+\bibitem[{Snijders et~al.(2010{\natexlab{b}})Snijders, Koskinen, and
+  Schweinberger}]{snijders2010}
+Snijders, T. A.~B., Koskinen, J., and Schweinberger, M. (2010{\natexlab{b}}),
+  \enquote{{Maximum likelihood estimation for social network dynamics},}
+  \textit{The Annals of Applied Statistics}, 4, 567--588.
+
+\bibitem[{Swan(2013)}]{theqs}
+Swan, M. (2013), \enquote{The Quantified Self: Fundamental Disruption in Big
+  Data Science and Biological Discovery,} \textit{Big Data}, 1, 85--99.
+
+\bibitem[{{Vander Plas} and Hofmann(2015)}]{vanderplas:2016}
+{Vander Plas}, S. and Hofmann, H. (2015), \enquote{Clusters beat Trend!?
+  Testing feature hierarchy in statistical graphics,} \textit{Journal of
+  Computational and Graphical Statistics}, submitted.
 
 \end{thebibliography}
