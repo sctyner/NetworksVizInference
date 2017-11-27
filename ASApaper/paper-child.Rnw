@@ -490,9 +490,8 @@ ggplot(data = dat) +
                  arrow = arrow(type = 'open', length = unit(2, "points") ), 
                  linewidth = .25, singletons = T, fiteach = T, directed = T, 
                  color = 'black', arrowgap = .015, arrowsize = .3, size =1) + 
-        theme_net() + 
-        theme(panel.background = element_rect(color = 'black'),
-              strip.text = element_text(size = 20)) +
+        ThemeNet + 
+        theme(panel.background = element_rect(color = 'black')) +
         facet_wrap(~ord)
 @
 
@@ -503,9 +502,8 @@ ggplot(data = dat) +
                  arrow = arrow(type = 'open', length = unit(2, "points") ), 
                  linewidth = .25, singletons = T, fiteach = T, directed = T, 
                  color = 'black', arrowgap = .015, arrowsize = .3, size =1) + 
-        theme_net() + 
-        theme(panel.background = element_rect(color = 'black'),
-              strip.text = element_text(size = 20)) +
+        ThemeNet + 
+        theme(panel.background = element_rect(color = 'black')) +
         facet_wrap(~ord)
 @
 
@@ -620,9 +618,8 @@ ggplot(data = dat) +
                  arrow = arrow(type = 'open', length = unit(2, "points") ), 
                  linewidth = .25, singletons = T, fiteach = T, directed = T, 
                  color = 'black', arrowgap = .015, arrowsize = .3, size =1) + 
-        theme_net() + 
-        theme(panel.background = element_rect(color = 'black'),
-              strip.text = element_text(size = 20)) +
+        ThemeNet + 
+        theme(panel.background = element_rect(color = 'black')) +
         facet_wrap(~ord)
 @
 For the other models for which we tested goodness-of-fit, however, we \textit{do} have significant evidence from all three replicates to reject the null hypothesis that the null model generated the data. \st{For models M3, M5, and M7, these goodness-of-fit tests have rejected the null hypotheses that the senate data come from these models. We hypothesized that the model with the most effects, M7, would be the best fit. However, as shown in Figure~\ref{fig:gofm71}, the model does not capture the overall structure very well at all.} The rest of the goodness-of-fit lineups as shown to participants are provided in the appendix. 
@@ -745,36 +742,35 @@ sigma_delta <- summary(model2randomscalesize)[[13]]$pic_id[[1]]
 \centering
 \begin{tabular}{cn{5}{2}n{5}{3}rr}\hline
 Parameter & \multicolumn{1}{r}{Estimate} & \multicolumn{1}{r}{Std Error} & $p$-value & Odds Multiplier \\ \hline\hline
-$\alpha_{1+}$ & \Sexpr{ests[7]} & \Sexpr{se[7]} & \Sexpr{pval[7]} & \Sexpr{odds[7]} \\
-$\alpha_{1-}$ & \Sexpr{ests[1]} & \Sexpr{se[1]} & \Sexpr{pval[1]} & \Sexpr{odds[1]}\\
-$\gamma_{1+}$ & \Sexpr{ests[19]} & \Sexpr{se[19]} & \Sexpr{pval[19]} & \Sexpr{odds[19]} \\
-$\gamma_{1-}$  & \Sexpr{ests[13]} & \Sexpr{se[13]} & \Sexpr{pval[13]} & \Sexpr{odds[13]} \\ \hline
-$\alpha_{2+}$  & \Sexpr{ests[8]} & \Sexpr{se[8]} & \Sexpr{pval[8]} & \Sexpr{odds[8]} \\ 
-$\alpha_{2-}$ & \Sexpr{ests[2]} & \Sexpr{se[2]} & \Sexpr{pval[2]} & \Sexpr{odds[2]} \\
-$\gamma_{2+}$ & \Sexpr{ests[20]} & \Sexpr{se[20]} & \Sexpr{pval[20]} & \Sexpr{odds[20]}  \\
-$\gamma_{2-}$   & \Sexpr{ests[14]} & \Sexpr{se[14]} & \Sexpr{pval[14]} & \Sexpr{odds[14]} \\ \hline
-$\alpha_{3+}$ & \Sexpr{ests[9]} & \Sexpr{se[9]} & \Sexpr{pval[9]} & \Sexpr{odds[9]} \\
-$\alpha_{3-}$ & \Sexpr{ests[3]} & \Sexpr{se[3]} & \Sexpr{pval[3]} & \Sexpr{odds[3]}  \\
-$\gamma_{3+}$ & \Sexpr{ests[21]} & \Sexpr{se[21]} & \Sexpr{pval[21]} & \Sexpr{odds[21]} \\ 
-$\gamma_{3-}$  & \Sexpr{ests[15]} & \Sexpr{se[15]} & \Sexpr{pval[15]} & \Sexpr{odds[15]} \\ \hline\hline
-$\alpha_{5+}$  & \Sexpr{ests[11]} & \Sexpr{se[11]} & \Sexpr{pval[11]} & \Sexpr{odds[11]} \\
-$\alpha_{5-}$ & \Sexpr{ests[5]} & \Sexpr{se[5]} & \Sexpr{pval[5]} & \Sexpr{odds[5]}  \\
-$\gamma_{5+}$ & \Sexpr{ests[23]} & \Sexpr{se[23]} & \Sexpr{pval[23]} & \Sexpr{odds[23]} \\
-$\gamma_{5-}$ & \Sexpr{ests[17]} & \Sexpr{se[17]} & \Sexpr{pval[17]} & \Sexpr{odds[17]} \\ \hline
-$\alpha_{4+}$  & \Sexpr{ests[10]} & \Sexpr{se[10]} & \Sexpr{pval[10]} & \Sexpr{odds[10]} \\
-$\alpha_{4-}$  & \Sexpr{ests[4]} & \Sexpr{se[4]} & \Sexpr{pval[4]} & \Sexpr{odds[4]} \\
-$\gamma_{4+}$ & \Sexpr{ests[22]} & \Sexpr{se[22]} & \Sexpr{pval[22]} & \Sexpr{odds[22]} \\
-$\gamma_{4-}$  & \Sexpr{ests[16]} & \Sexpr{se[16]} & \Sexpr{pval[16]} & \Sexpr{odds[16]} \\ \hline
-$\alpha_{6+}$  & \Sexpr{ests[12]} & \Sexpr{se[12]} & \Sexpr{pval[12]} & \Sexpr{odds[12]} \\
-$\alpha_{6-}$  & \Sexpr{ests[6]} & \Sexpr{se[6]} & \Sexpr{pval[6]} & \Sexpr{odds[6]} \\
-$\gamma_{6+}$ & \Sexpr{ests[24]} & \Sexpr{se[24]} & \Sexpr{pval[24]} & \Sexpr{odds[24]} \\ 
-$\gamma_{6-}$ & \Sexpr{ests[18]} & \Sexpr{se[18]} & \Sexpr{pval[18]} & \Sexpr{odds[18]} \\
-\hline\hline
+$\alpha_{1+}$ & \Sexpr{ests[7]} & \Sexpr{se[7]} & \Sexpr{pval[7]}$^{\ddagger}$ & \Sexpr{odds[7]} \\
+$\alpha_{1-}$ & \Sexpr{ests[1]} & \Sexpr{se[1]} & \Sexpr{pval[1]}$^{\dagger}$ & \Sexpr{odds[1]}\\
+$\gamma_{1+}$ & \Sexpr{ests[19]} & \Sexpr{se[19]} & \Sexpr{pval[19]}$^{\ddagger}$ & \Sexpr{odds[19]} \\
+$\gamma_{1-}$  & \Sexpr{ests[13]} & \Sexpr{se[13]} & \Sexpr{pval[13]}$^{\dagger}$ & \Sexpr{odds[13]} \\ \hline
+$\alpha_{2+}$  & \Sexpr{ests[10]} & \Sexpr{se[10]} & \Sexpr{pval[10]} & \Sexpr{odds[10]} \\
+$\alpha_{2-}$  & \Sexpr{ests[4]} & \Sexpr{se[4]} & \Sexpr{pval[4]}$^{\ddagger}$ & \Sexpr{odds[4]} \\
+$\gamma_{2+}$ & \Sexpr{ests[22]} & \Sexpr{se[22]} & \Sexpr{pval[22]}$^{*}$ & \Sexpr{odds[22]} \\
+$\gamma_{2-}$  & \Sexpr{ests[16]} & \Sexpr{se[16]} & \Sexpr{pval[16]}$^{\ddagger}$ & \Sexpr{odds[16]} \\ \hline
+$\alpha_{3+}$  & \Sexpr{ests[8]} & \Sexpr{se[8]} & \Sexpr{pval[8]}$^{\dagger}$ & \Sexpr{odds[8]} \\ 
+$\alpha_{3-}$ & \Sexpr{ests[2]} & \Sexpr{se[2]} & \Sexpr{pval[2]}$^{\dagger}$ & \Sexpr{odds[2]} \\
+$\gamma_{3+}$ & \Sexpr{ests[20]} & \Sexpr{se[20]} & \Sexpr{pval[20]}$^{\dagger}$ & \Sexpr{odds[20]}  \\
+$\gamma_{3-}$   & \Sexpr{ests[14]} & \Sexpr{se[14]} & \Sexpr{pval[14]}$^{*}$ & \Sexpr{odds[14]} \\ \hline
+$\alpha_{4+}$ & \Sexpr{ests[9]} & \Sexpr{se[9]} & \Sexpr{pval[9]}$^{**}$ & \Sexpr{odds[9]} \\
+$\alpha_{4-}$ & \Sexpr{ests[3]} & \Sexpr{se[3]} & \Sexpr{pval[3]}$^{**}$ & \Sexpr{odds[3]}  \\
+$\gamma_{4+}$ & \Sexpr{ests[21]} & \Sexpr{se[21]} & \Sexpr{pval[21]}$^{**}$ & \Sexpr{odds[21]} \\ 
+$\gamma_{4-}$  & \Sexpr{ests[15]} & \Sexpr{se[15]} & \Sexpr{pval[15]} & \Sexpr{odds[15]} \\ \hline
+$\alpha_{5+}$  & \Sexpr{ests[12]} & \Sexpr{se[12]} & \Sexpr{pval[12]}$^{*}$ & \Sexpr{odds[12]} \\
+$\alpha_{5-}$  & \Sexpr{ests[6]} & \Sexpr{se[6]} & \Sexpr{pval[6]}$^{\ddagger}$ & \Sexpr{odds[6]} \\
+$\gamma_{5+}$ & \Sexpr{ests[24]} & \Sexpr{se[24]} & \Sexpr{pval[24]}$^{*}$ & \Sexpr{odds[24]} \\ 
+$\gamma_{5-}$ & \Sexpr{ests[18]} & \Sexpr{se[18]} & \Sexpr{pval[18]}$^{\ddagger}$ & \Sexpr{odds[18]} \\ \hline
+$\alpha_{6+}$  & \Sexpr{ests[11]} & \Sexpr{se[11]} & \Sexpr{pval[11]} & \Sexpr{odds[11]} \\
+$\alpha_{6-}$ & \Sexpr{ests[5]} & \Sexpr{se[5]} & \Sexpr{pval[5]}$^{\ddagger}$ & \Sexpr{odds[5]}  \\
+$\gamma_{6+}$ & \Sexpr{ests[23]} & \Sexpr{se[23]} & \Sexpr{pval[23]} & \Sexpr{odds[23]} \\
+$\gamma_{6-}$ & \Sexpr{ests[17]} & \Sexpr{se[17]} & \Sexpr{pval[17]}$^{\ddagger}$ & \Sexpr{odds[17]} \\ \hline
 $\sigma^2_{\delta}$ & \Sexpr{round(sigma_delta, 4)} & \multicolumn{1}{r}{--} & -- & --\\
 $\sigma^2_{\epsilon}$ &  \Sexpr{round(sigma_epsilon, 4)}  & \multicolumn{1}{r}{--} & -- & --\\
 \hline 
 \end{tabular}
-\caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}}
+\caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}. Significance levels: * - $< 0.10$; ** - $<0.05$; $\dagger$ - $<0.01$; $\ddagger$ - $<0.001$}
 \end{table}
 
 % \begin{table}
@@ -850,19 +846,91 @@ ggplot() +
 #  facet_wrap(~test_param, scales = "free")
 @
 
-<<recipzoom, fig.height=2.5, fig.cap='The top middle panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The square root of the estimate is shown on the $x$-axis. For this parameter, as its value approaches zero, the probability of identifying the alternate data model decreases, then increases, which is noticeably different from the pattern exhibited by the others. Again, a horizontal line is drawn at 1/6, the chance of selecting the data plot at random.'>>=
-ggplot() + 
-  geom_line(data = newdata %>% filter(test_param == "recip"), aes(x = sqrt(size), y = predictfinal, color = as.factor(type2))) + 
-  geom_point(data = plotdata %>% filter(test_param == "recip"), aes(x = sqrt(size), y = datapick, color = as.factor(type2))) + 
-  scale_color_brewer(palette = "Dark2", name = "Lineup Type") + 
-  geom_hline(yintercept = 1/6, linetype='dashed') + 
-  facet_wrap(~type2, scales = 'free_x') + 
-  labs(x = "Square root of parameter value (recip)", y = "Expected probability of detection\nin a lineup of size 6") + 
-  ThemeNoNet + 
-  theme(legend.position = 'bottom')
+In Figure~\ref{fig:predictglmm}, we see a clear trend in all parameters except $\beta_1$ and $\beta_2$ that as the parameter value approaches zero from either side, the probability of picking the data plot in a lineup of size six descreases. For $\beta_3$ and $\beta_5$, the slope of the fitted line is \textit{much} steeper for positive values of the parameter than for negative values, meaning that our participants perceived differences more often for postitive parameter values than for negative parameter values. This finding is similar to that of \citet{corrviz}, who found that people detect positive correlations sooner and better than negative correlations. 
+
+<<morepredicts>>=
+alphas <- (coef(mod)[[1]][,-1] %>% unique())[1:12] 
+betas <- (coef(mod)[[1]][,-1] %>% unique())[13:24] 
+names(betas) <- str_replace(str_replace(names(betas), "lps_param", ""), ":centersize", "")
+names(betas) <- str_replace(names(betas), ".-1", "neg")
+names(betas) <- str_replace(names(betas), ".1", "pos")
+names(alphas) <- str_replace(names(alphas), "lps_param", "")
+names(alphas) <- str_replace(names(alphas), ".-1", "neg")
+names(alphas) <- str_replace(names(alphas), ".1", "pos")
+source("code/newpredictions.R")
+newdata <- newdata3
+newdata$param <- newdata$test_param
+newdata$param <- as.factor(newdata$test_param)
+#levels(newdata$param) <-  c(1,3,4,2,6,5) 
+#newdata$param <- as.integer(as.character(newdata$param))
+plotdata <- turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
+                       type2 = ifelse(type == "one", type2, -1)) %>% 
+  group_by(pic_id, size, test_param, sign, type2,alt_model) %>% summarize(
+    datapick = mean(datapick)
+)
+plotdata$param <- plotdata$test_param
+plotdata$param <- as.factor(plotdata$param)
+#levels(plotdata$param) <- c(1,3,4,2,6,5) 
+#plotdata$param <- as.integer(as.character(plotdata$param))
+labdat <- data_frame(test_param = "jttp", param = 3, type2 = -1, x = -5, y = .9, label = "jttp_neg_hard_2")
 @
 
-In Figure~\ref{fig:predictglmm}, we see a clear trend in all parameters except $\beta_1$ and $\beta_2$ that as the parameter value approaches zero from either side, the probability of picking the data plot in a lineup of size six descreases. For $\beta_3$ and $\beta_5$, the slope of the fitted line is much steeper for positive values of the parameter than form negative values, meaning that our participants perceived differences more often for postitive parameter values than for negative parameter values. This finding is similar to that of \citet{corrviz}, who found that people detect positive correlations sooner and better than negative correlations. 
+<<recipzoom, fig.height=3, fig.cap='The top middle panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The square root of the parameter value is shown on the $x$-axis. For this parameter, as its value approaches zero, the probability of identifying the alternate data model decreases, then increases, which is noticeably different from the pattern exhibited by the others. Again, a horizontal line is drawn at 1/6, the chance of selecting the data plot at random.'>>=
+ggplot() + 
+  geom_line(data = newdata %>% filter(test_param == "recip", category == "inside"), aes(x = sqrt(size), y = predictfinal, color = as.factor(type2)), size = 1.25) + 
+  geom_point(data = plotdata %>% filter(test_param=="recip"), aes(x = sqrt(size), y = datapick, color = as.factor(type2)), size = 2) + 
+  geom_line(data = newdata %>% filter(test_param == "recip", category == "outside"), aes(x = sqrt(size), y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  geom_line(data = newdata %>% filter(test_param == "recip", category == "outside2"), aes(x = sqrt(size), y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
+  #geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
+  #          show.legend = F) + 
+  geom_vline(xintercept = sqrt(4.893)) + 
+  geom_hline(yintercept = 1/6, linetype='dotted') +
+  scale_color_brewer(palette = "Dark2", name = "Lineup Type", labels = c("-", "+")) +  
+  facet_grid(~param) + 
+  labs(x = "Square root of parameter value", y = "Expected probability of detection\nin a lineup of size 6") + 
+  ThemeNoNet + 
+  theme(legend.position = 'bottom', strip.text = element_text(size = 10), text = element_text(size = rel(3)), legend.text = element_text(size = rel(3)), legend.key.size = unit(.25, "inches"))
+@
+
+<<beta5zoom, fig.height=3, fig.cap="The bottom middle panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The parameter value is shown on the $x$-axis. This parameter most closely follows our hypothesis shown in Figure~\\ref{fig:hypothesis}. However, the result is not symmetric. According to the model, people will detect the effect at lower values and with greater frequency as the value increases when it is positive instead of negative.">>=
+ggplot() + 
+  geom_line(data = newdata %>% filter(test_param == "simttb", category == "inside"), aes(x = size, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
+  geom_point(data = plotdata %>% filter(test_param=="simttb"), aes(x = size, y = datapick, color = as.factor(type2)), size = 2) + 
+  geom_line(data = newdata %>% filter(test_param == "simttb", category == "outside"), aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  geom_line(data = newdata %>% filter(test_param == "simttb", category == "outside2"), aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60",  alpha = .7) +
+  #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
+  #geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
+  #          show.legend = F) + 
+  geom_vline(xintercept = 10.090829) + 
+  geom_hline(yintercept = 1/6, linetype='dotted') +
+  scale_color_brewer(palette = "Dark2", name = "Lineup Type", labels = c("-", "+")) +
+  facet_grid(~param) + 
+  labs(x = "Parameter value", y = "Expected probability of detection in a lineup of size 6") + 
+  ThemeNoNet + 
+  theme(legend.position = 'bottom', strip.text = element_text(size = 10), text = element_text(size = rel(3)), legend.text = element_text(size = rel(3)), legend.key.size = unit(.25, "inches"))
+@
+
+<<beta4zoom, fig.height=3, fig.cap='The bottom left panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The parameter value is shown on the $x$-axis. The ``reverse" lineup has a much flatter slope than the ``regular" lineup, which means the participants had a harder time detecting a more simple M1 structure among many more complex M4 structures. Reversing the lineup scenario was not symmetric as we hypothesized.'>>=
+ggplot() + 
+  geom_line(data = newdata %>% filter(test_param == "jtts", category == "inside"), aes(x = size, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
+  geom_point(data = plotdata %>% filter(test_param=="jtts"), aes(x = size, y = datapick, color = as.factor(type2)), size = 2) + 
+  geom_line(data = newdata %>% filter(test_param == "jtts", category == "outside"), aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  geom_line(data = newdata %>% filter(test_param == "jtts", category == "outside2"), aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
+  #geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
+  #          show.legend = F) + 
+  geom_vline(xintercept = 3.340302) + 
+  geom_hline(yintercept = 1/6, linetype='dotted') +
+  scale_color_brewer(palette = "Dark2", name = "Lineup Condition", labels = c("reverse", "regular")) +
+  facet_grid(~param) + 
+  labs(x = "Parameter value", y = "Expected probability of detection in a lineup of size 6") + 
+  ThemeNoNet + 
+  theme(legend.position = 'bottom', strip.text = element_text(size = 10), text = element_text(size = rel(3)), legend.text = element_text(size = rel(3)), legend.key.size = unit(.25, "inches"))
+@
+
+\st{We expand portions of Figure~\ref{fig:predictglmm} in Figures~\ref{fig:recipzoom}-\ref{fig:beta4zoom}. These figures show the same prediction regions as in Figure~\ref{fig:predictglmm}, plus some additional predictions outside of the data range shown in gray. Again, the points represent the results from the experiment. In all three of these figures, the lack of symmetry is apparent. In the reverse lineup scenario shown in Figure~\ref{fig:beta4zoom}, the probability of prediction is consistently far less than the probability of prediction in the regular lineup scenario. This demonstrates that the visual signal of one plot from M4 among five plots from M1 is much stronger than that of one plot from M1 among five plots from M4. We posit that the latter is a more difficult task because it involves noticing a \textit{lack of structure} as opposed to the presence of more structure. We can see a similar effect in Figure~\ref{fig:beta5zoom}. At a value of $\beta_5 = 20$, the model predicts a probability of about 0.60 that a new viewer of a new lineup will identify the alternative data plot. At a value of $\beta_5 = -20$, however, the model predicts this same probability to be about 0.40. This again demonstrates that the presence of structure is detected sooner and more frequently than the absence of strucutre. }
+
 
 <<beta41, fig.height = 4, fig.cap='In our experiment, 52.8\\% of viewers of this plot selected the plot from the alternative model, M4. The ``reverse" of this lineup is given in Figure~\\ref{fig:beta4neg1}, where 41.4\\% of viewers selected the plot from the alternative model, M1. Here, the alternative plot is $\\sqrt{25} - 3$.'>>=
 dat <- read_csv("data/jtts_pos_easy_3.csv")
@@ -872,7 +940,7 @@ ggplot(data = dat) +
                  arrow = arrow(type = 'open', length = unit(2, "points") ), 
                  linewidth = .25, singletons = T, fiteach = T, directed = T, 
                  color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
-        theme_net() + 
+        ThemeNet + 
         theme(panel.background = element_rect(color = 'black')) +
         facet_wrap(~ord)
 @
@@ -885,22 +953,23 @@ ggplot(data = dat) +
                  arrow = arrow(type = 'open', length = unit(2, "points") ), 
                  linewidth = .25, singletons = T, fiteach = T, directed = T, 
                  color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
-        theme_net() + 
+        ThemeNet + 
         theme(panel.background = element_rect(color = 'black')) +
         facet_wrap(~ord)
 @
 
-For $\beta_4$ and $\beta_6$, where one plot simulated from M1 was placed among five plots from the corresponding model, we see that the predictions for the reverse lineup type (-1), are less than the standard lineup type (1) for all values of the parameter that we have. This contradicts our hypothesis for this scenario, which was that these two scenarios would perform similarly. One of the lineups for the $\beta_4 = 6.681$, lineup type 1 scenario is given in Figure~\ref{fig:beta41}, and a corresponding lineup for the lineup type -1 scenario is given in Figure~\ref{fig:beta4neg1}. For identical values of the parameter, viewers had a harder time identifying the different plot when they were selected the most ``simple" structure, detecting M1 in five plots from the more complicated model, than they did identifying the most ``complex" structure, the plot from the more complicated model, from the five plots from M1.  
+For $\beta_4$ and $\beta_6$, where one plot simulated from M1 was placed among five plots from the corresponding model, we see that the predictions for the reverse lineup type (-1), are less than the standard lineup type (1) for all values of the parameter that we have. This contradicts our hypothesis for this scenario, which was that these two scenarios would perform similarly. One of the lineups for the $\beta_4 = 6.681$, lineup type 1 scenario is given in Figure~\ref{fig:beta41}, and a corresponding lineup for the lineup type -1 scenario is given in Figure~\ref{fig:beta4neg1}. For identical values of the parameter, viewers had a harder time identifying the different plot when they were selected the most ``simple" structure, detecting M1 in five plots from the more complicated model, than they did identifying the most ``complex" structure, the plot from the more complicated model, from the five plots from M1. \st{This result is also similar to that of \citet{corrviz} because it emphasizes the difficulty of picking out the absence of an effect relative to picking out the presence of an effect.}
 
 \section{Discussion}\label{sec:concl}
 
-By using visual inference methods, we have developed new ways to perform significance and goodness-of-fit testing for a complicated and intractable set of statistical models for social network data. These new methods can be used to supplement traditional methods and check our assumptions about network models. The traditional methods only look at one piece or one measure of a network model, but our methods look at the models holistically for a broader sense of what it means for a parameter to be significant or a model to be a good fit. By looking at an entire network simulated from a SAOM side-by-side with other instances of networks simulated from another model, instead of one-dimensional derived features, we develop an idea of the model in terms of the data itself, instead of in terms of statistical summaries of the data.
+By using visual inference methods, we have developed new ways to perform significance and goodness-of-fit testing for a complicated and intractable set of statistical models for social network data. \st{We have also developed a way to determine the power of these new visual tests.} Our methods can be used to supplement traditional methods and check our assumptions about network models. The traditional methods only look at one piece or derived measure of a network model, whereas our methods look at the models holistically for a broader sense of what it means for a parameter to be significant or a model to be a good fit. By looking at an entire network simulated from a SAOM side-by-side with other instances of networks simulated from another model, instead of singular %one-dimensional derived 
+features, we develop an idea of the model in terms of the \textit{data} itself, instead of in terms of statistical summaries of the data. \st{These methods place the model in the data space, instead of summarizing or compressing the data to place it in the model space.}
 
-We have found the visual power of some effects in the object function of a SAOM for this particular senate data example,  and we have shown that, for the same effects, there is a lot of variability in results from significance and goodness of fit tests. Because the visual tests we performed show a great deal of variability, we can see that the decisions with respect to the significance of a parameter or the goodness of fit of a model to data are not as cut-and-dried as the traditional methods would have us believe. 
+Furthermore, we have found the visual power of some effects in the object function of a SAOM for this particular senate data example,  and we have shown that, for the same effects, there is a lot of variability in results from significance and goodness of fit tests. Because the visual tests we performed show a great deal of variability, we can see that the decisions with respect to the significance of a parameter or the goodness of fit of a model to data are not as cut-and-dried as the \st{more} traditional methods would have us believe. 
 
-These results do not come without limitations. In visual inference, the null plots are supposed to play the role of good representatives of the null model. Here, the number of null plots is reduced to five, which increases the variability seen from a single lineup dramatically, and can unfortunately lead to different conclusions for the same lineup scenario. Furthermore, these results do not generalize yet. The lineups shown are made for only one set of data, and it is not clear whether the power results transfer, nor is it clear to what degree if they do transfer, to other situations with different number of actors, different edge densities, or different layout algorithm of the node-link diagram. 
+These results do not come without limitations. In visual inference, the null plots are supposed to play the role of good representatives of the null model. Here, the number of null plots is reduced to five, which increases the variability seen in a single lineup dramatically, and can unfortunately lead to very different conclusions for the same lineup scenario. Furthermore, these results do not generalize to all SAOMs or to some subset of SAOMs. The lineups shown are made for only one set of data, and it is not clear whether the power results transfer, nor is it clear to what degree if they do transfer, to other situations with different number of actors, different edge densities, or different layout algorithm of the node-link diagram. \st{We can make some generalizations about what participants are picking up on in the lineups based on their feedback and previous research, but we cannot apply our hierarchical model directly to lineups constructed for new data or new models or parameters.}  
 
-We hope to apply these methods further for different types of network data and different types of network models. We accept the limitations of this type of network data visualization, in that even in small instances, the cognitive load of looking at a lineup is very high for the average observer. We would therefore like to explore larger datasets, different layout algorithms, and different ways of visualizing network data, such as changing the layout algorithm or using adjacency matrix visualizations, through visual inference to see if similar patterns emerge. 
+We hope to apply these methods further for different types of network data and different types of network models. We accept the limitations of this type of network data visualization, in that even in small instances, the cognitive load of looking at a lineup is very high for the average observer. We would therefore like to explore larger datasets, different layout algorithms, and different ways of visualizing network data, such adjacency matrix visualizations, using visual inference to see if similar patterns emerge. 
 
 %\hh{Best results: visual detection/ power analysis, a lot of variability in goodness of fit and significance tests. BUT: visualizations show that a decision of significance/ goodness of fit are not as clear cut as the traditional tests want us to believe.
 
