@@ -4,13 +4,13 @@
 %\usepackage{graphicx}
 \usepackage[font=small,skip=5pt]{caption}
 \usepackage{subcaption}
-\usepackage{animate}
+%\usepackage{animate}
 \usepackage{afterpage}
 \usepackage{amssymb}
 \usepackage{natbib}
 \usepackage{amsmath}
 \usepackage{amsfonts}
-% \usepackage{color}
+%\usepackage{color}
 \usepackage{multirow}
 \usepackage{rotating}
 \usepackage[dvipsnames,svgnames,table]{xcolor}
@@ -65,7 +65,7 @@
 
 \if0\blind
 {
-  \title{\bf Visual Inference for Significance and Goodness-of-Fit Testing for a Social Network Model}
+  \title{\bf Visual Inference for a Social Network Model}
   \author{Samantha Tyner\thanks{
     The authors gratefully acknowledge funding from the National Science Foundation Grant \# DMS 1007697. All data collection has been conducted with approval from the Institutional Review Board IRB 10-347}\hspace{.2cm}\\
     Department of Statistics and Statistical Laboratory, Iowa State University\\
@@ -81,16 +81,14 @@
   \bigskip
   \bigskip
   \begin{center}
-    {\LARGE\bf Visual Inference for Significance and Goodness-of-Fit Testing for a Social Network Model}
+    {\LARGE\bf Visual Inference for a Social Network Model}
 \end{center}
   \medskip
 } \fi
 
 \bigskip
 \begin{abstract}
-\st{
-Three of the most important pieces of statistical modeling are significance testing of model parameters, goodness-of-fit tests, and power of a test. All three of these aspects of statistical modeling increase greatly in difficulty as the complexity of the model of interest increases. Some particularly complicated sets of models are those designed to model network change. We propose new methods for significance and goodness-of-fit testing, and power calculation of these for a set of social network models, stochastic actor-oriented models for dynamic network data \citep{saompaper}. By using the visual inference methodology of \citet{Bujaetal}, we can look at the entire dataset simulated from a network model as opposed to a single metric on the network such as outdegree, or a $p$-value for a single parameter in the model. 
-}
+Three of the most important assessments of a statistical model are significance tests of parameters, goodness-of-fit tests, and power calculations of the tests. All three tasks become more difficult as the model becomes more complex. We will explore the three assessments of one particularly complex set of models, continuous time Markov chain (CTMC) models, for dynamic social networks  \citep{saompaper}. In this paper, we propose new methods for significance and goodness-of-fit testing, as well as power calculation for CTMC models via the visual inference (VI) paradigm of \citet{Bujaetal}. With VI, we can look at entire datasets simulated from a model, instead of relying a single metric such as a $p$-value for a single parameter in the model or goodness-of-fit assessed by looking at outdegree. We conducted an experiment through Amazon Mechanical Turk to assess the significance of parameters, the fit of a model, and the visual power of parameters.  
 \end{abstract}
 
 \noindent%
@@ -100,10 +98,10 @@ Three of the most important pieces of statistical modeling are significance test
 \newpage
 \spacingset{1.45} % DON'T change the spacing!
 
-\tableofcontents
+%\tableofcontents
 \newpage
 
-<<child-demo, child='paper-child.Rnw'>>=
+<<child-demo, child='paper-child-thesis-ch-2.Rnw'>>=
 @
 
 \bibliographystyle{asa}
