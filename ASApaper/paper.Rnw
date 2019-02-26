@@ -101,7 +101,7 @@ Three of the most important assessments of a statistical model are significance 
 %\tableofcontents
 \newpage
 
-<<child-demo, child='paper-child-thesis-ch-2.Rnw'>>=
+<<child-demo, child='paper-child.Rnw'>>=
 @
 
 \bibliographystyle{asa}
