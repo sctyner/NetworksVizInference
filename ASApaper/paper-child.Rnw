@@ -135,10 +135,10 @@ Actor $i$ aims to maximize the objective function $f_i$ given the current state 
 \begin{equation}\label{eq:objective}
 f_i(x, \boldsymbol{\beta}, \mathbf{Z}) = \sum_{k = 1}^K \beta_k s_{ik}(x, \mathbf{Z}),
 \end{equation}
-where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some statistics, $s_{i1}(x, \mathbf{Z})$, \dots, s_{iK}(x, \mathbf{Z})$, calculated for actor $i$ at the current network state $x$. The statistics can be very simple, like outdegree of the node, $s_i(x) = \sum_{i\neq j} x_{ij}$, or more complicated, like the {\it transitive triplets jumping to different covariate} statistic, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$. %, plus many more. At last count, in the software we use to fit these models to network data, 
+where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some statistics, $s_{i1}(x, \mathbf{Z}), \dots, s_{iK}(x, \mathbf{Z})$, calculated for actor $i$ at the current network state $x$. The statistics can be very simple, like outdegree of the node, $s_i(x) = \sum_{i\neq j} x_{ij}$, or more complicated, like the {\it transitive triplets jumping to different covariate} statistic, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$. %, plus many more. At last count, in the software we use to fit these models to network data, 
 Version 1.2-3 of \texttt{RSiena} \citep{RSiena}, the software used to fit the models here, provides over 80 possible effects that can be included in the objective function. We discuss these and other statistics in more detail in Section~\ref{sec:models}. 
 
-The objective function $f_{i}(x, \boldsymbol{\beta}, \mathbf{Z})$ and  random component $U$ combine to form the \textit{transition probability}, $p_{ij}$ of the network changing from its current state $x$ to the state $x(i\leadstoj)$, which is identical to $x$ except for $x_{ij}$: $x_{ij}(i \leadsto j) = 1 - x_{ij}$. The transition probability is
+The objective function $f_{i}(x, \boldsymbol{\beta}, \mathbf{Z})$ and  random component $U$ combine to form the \textit{transition probability}, $p_{ij}$ of the network changing from its current state $x$ to the state $x(i\leadsto j)$, which is identical to $x$ except for $x_{ij}$: $x_{ij}(i \leadsto j) = 1 - x_{ij}$. The transition probability is
 \begin{equation}\label{eq:transprob}
 p_{ij} = \dfrac{\exp\{f_i(x(i \leadsto j), \boldsymbol{\beta}, \mathbf{Z})\}}{\sum_{h} \exp\{f_i(x(i \leadsto h), \boldsymbol{\beta}, \mathbf{Z})\}}
 \end{equation}
@@ -176,7 +176,7 @@ where $B_j$ is the number of bills in a congressional session authored by senato
 so that only strong relationships between senators are examined.
 For each of the four senate sessions, we have three node covariates: the party affiliation of each senator, the number of bills they authored in each session, and their gender. We use each of these covariates in CTMC models to try to explain how ties are formed between senators over time. The node-link diagram for the senate network is shown in Figure~\ref{fig:senateAll}. We have labelled some of the nodes in the network whose names will be familiar to US readers, either because they are leaders in their party or they have run for president. The size of the nodes represents how many bills the senator authored in a session, the color represents party affiliation, and the shape represents gender. In each of the four sessions, there is one very large connected component tying many of the prominent senators together, with many smaller connected groups surrounding the larger component. In each senate, the structure changes slightly as new senators arrive or come to prominence.
 
-<<senateAll, fig.cap="The US senate collaboration network observed at four time points. Color represents party, shape represents gender, and size represents number of bills authored in a session. The Frucherman-Reingold layout is shown \citep{fr}. Drawn with the \\texttt{geomnet} R package. \\citep{geomnet, rstats}">>=
+<<senateAll, fig.cap="The US senate collaboration network observed at four time points. Color represents party, shape represents gender, and size represents number of bills authored in a session. The Fruchterman-Reingold layout is shown \\citep{fr}. Drawn with the \\texttt{geomnet} R package. \\citep{geomnet, rstats}">>=
 seobama <- read_csv("data/senateobamapres_gsw_25.csv")
 to_label <- c("Joseph R. Biden Jr.", "John S. McCain", "Ted Cruz","Marco Rubio",
   "Lindsey O. Graham","Rand Paul", "Bernard Sanders", "Jim Webb", "Mitch McConnell",
@@ -290,7 +290,7 @@ $\beta_6$ & same transtive triplet & party & $s_{i6}(x, \mathbf{p}) =\sum_{j} x_
 %$\beta_7$ & same & party & $s_{i7}(x, \mathbf{p}) = \sum_j x_{ij}\mathbb{I}(p_i = p_j)$ & \includegraphics[width=.6in]{img/samep.png}  & 0.363 & 0.0074
 \end{tabular}
 }
-\caption{\label{tab:effects} The effects we used in the CTMC models fit to the senate data. In the picture which represents each effect, the dotted tie is encouraged to form if the estimate is positive, and discouraged to form if the estimate is negative.  $^*$ - $sim^b_{ij} is defined in Equation~\ref{eq:similar} and $\overline{sim}^b = \frac{1}{n(n-1)}\sum_{i\neq j} sim^b_{ij}$ is the average bill similarity score between two senators.}
+\caption{\label{tab:effects} The effects we used in the CTMC models fit to the senate data. In the picture which represents each effect, the dotted tie is encouraged to form if the estimate is positive, and discouraged to form if the estimate is negative.  $^*$ - $sim^b_{ij}$ is defined in Equation~\ref{eq:similar} and $\overline{sim}^b = \frac{1}{n(n-1)}\sum_{i\neq j} sim^b_{ij}$ is the average bill similarity score between two senators.}
 \end{table}
 
 We fit all six of our models in \texttt{RSiena} using Markov Chain Monte Carlo (MCMC) methods to approximate the method of moments estimates of the parameters. Because the estimation is done through MCMC simulation, we fit each model to the data 1,000 times. From the simulations in which the MC converged, which made up over 90\% of the fits for each model, we computed the mean of the the estimates of each parameter to get final estimates of $\hat{\boldsymbol{\beta}}$ for each model, which are given in Table~\ref{tab:fittedvalues}. 
@@ -475,7 +475,7 @@ The last lineups shown to participants contained the true data from the 112th se
 
 \section{Results}\label{sec:res}
 
-Because the size of the lineups is small, the probability of picking the data by chance is high, $\frac{1}{6}$, but if \textit{many} independent viewers pick out the data from the nulls, the evidence in favor of the alternative hypothesis becomes stronger.
+In this section, we present the results from our experiment and compare them to traditional statistical tests where applicable.  Because each lineup shown to participants has only six plots, the probability of picking the data by chance is high, $\frac{1}{6}$, but if \textit{many} independent viewers pick out the data from the nulls, the evidence in favor of the alternative hypothesis becomes stronger. The $p$-values from the lineups were calculated using the \texttt{vinference} package by \citet{vinference}. This package contains methods to calculate \textit{Visual distributions} for lineup experiment data.  The distribution depends on the number of evaluations of a plot, $L$, the size of the lineup, $P$, and the lineup scenario, which here is that each lineup containing the same data and the same set of null plots is shown to $L$ independent observers. The visual inference family of distributions is similar to the binomial distribution, but takes the dependency among the $P$ plots in a single lineup shown to multiple viewers into account.
 
 \subsection{Significance Testing}\label{sec:sigtest}
 
@@ -514,13 +514,13 @@ turk22_sig <- turk22 %>%
 summ_sig <- turk22_sig %>% group_by(pic_id, test_param) %>% 
   summarize(npick = sum(datapick), n = n(), 
             pv = map2_dbl(npick, n, pV, m=6, scenario=3))
-names(summ_sig) <- c("Lineup ID", "parameter", "# Alt. Model Picks", "Total Views", "p-value")
+names(summ_sig) <- c("Lineup ID", "parameter", "\\# Alt. Model Picks", "Total Views", "p-value")
 summ_sig$parameter <- as.factor(summ_sig$parameter)
 levels(summ_sig$parameter) <- c("$ \\beta_3 $", "$ \\beta_4$ ")
 xtable::print.xtable(xtable::xtable(summ_sig, caption = "Experiment results for the two parameters for which we performed significance tests. There were three lineups for each parameter, so there are three results for each plot.", label = "tab:sigtesting", digits = c(0,0,0,0,0,5)), include.rownames = FALSE, sanitize.text.function=function(x){x})
 @
 
-The $p$-values were calculated using the \texttt{vinference} package by \citet{vinference}. This package contains methods to calculate \textit{Visual distributions} for lineup experiment data.  The distribution depends on the number of evaluations of a plot, $L$, the size of the lineup, $P$, and the lineup scenario, which here is that each lineup containing the same data and the same set of null plots is shown to $L$ independent observers. The visual inference family of distributions is similar to the binomial distribution, but takes the dependency among the $P$ plots in a single lineup shown to multiple viewers into account. %Using these $p$-values, all but one lineup results in a rejection of the null hypothesis at Type-I error rate of $\alpha = 0.05$. 
+ %Using these $p$-values, all but one lineup results in a rejection of the null hypothesis at Type-I error rate of $\alpha = 0.05$. 
 We see in Table~\ref{tab:sigtesting} that the $p$-values for visual inference here are highly variable.
 
 <<lineup3132, fig.height=4, fig.cap="Lineup 3132, which led to rejection of the null hypothesis that $\\beta_3$ = 0. The network simulated from model M3 is found in panel $\\sqrt{16} - 1$, and the remaining panels show networks simulated from model M1.">>=
@@ -566,7 +566,8 @@ d_M(\mathbf{u}_d) = \sqrt{(\mathbf{u}_d - \overline{\mathbf{u}})' \mathbf{S}^{-1
 <<gofsiena, fig.height=2.5, fig.cap="An example of what a goodness-of-fit plot from \\texttt{RSiena} looks like. The overlaid boxplots and violin plots show the distribution of each of the outdegree count values on the simulated networks, and the red points and lines are the observed data values.", cache = TRUE>>=
 load("data/ansnullpaper.rda")
 library(lattice)
-gof1 <- sienaGOF(ansnull, OutdegreeDistribution, varName ="friendship", join = FALSE)
+#gof1 <- sienaGOF(ansnull, OutdegreeDistribution, varName ="friendship", join = FALSE)
+gof1 <- readr::read_rds("data/gof-data.rds")
 sims1 <- data.frame(gof1$`Period 1`$Simulations)
 dat1 <- gof1$`Period 1`$Observations
 dat1 %>% data.frame() %>% gather(outdegree, val) %>%
@@ -848,7 +849,7 @@ $\sigma^2_{\epsilon}$ &  \Sexpr{round(sigma_epsilon, 4)}  & \multicolumn{1}{r}{-
 % \caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}}
 % \end{table}
 
-<<predictglmm, fig.height=6, fig.cap='Predictions from our generalized linear mixed effects model given in Equation~\ref{eq:glmm}. The lines show the expected probability of detecting the alternative data in a lineup of size 6 for new observers of new lineups is plotted on the $y$-axis, and the size of the parameter of interest is on the $x$-axis. The proportions detected by our Turk participants for each lineup group are shown by the points, with the probability of picking out the data plot at random shown by a horizontal line at 1/6. The lineup marked as ``outlier" was removed from modeling. The panel for the reciprocity parameter, $\\beta_2$ is also presented in Figure~\\ref{fig:recipzoom} in more detail.'>>=
+<<predictglmm, fig.height=6, fig.cap='Predictions from our GLMM given in Equation~\\ref{eq:glmm}. For new observers of new lineups, the lines show the expected probability of detecting the alternative data in a lineup of size 6 as a function of the parameter value. The proportions detected by our Turk participants for each lineup group are shown by the points, with the probability of picking out the data plot at random shown by a horizontal line at 1/6. The lineup marked as ``outlier" was removed from modeling. Estimated parameter values shown by vertical dotted lines.'>>=
 newdata <- read_csv("data/newdata_pred_glmm.csv")
 newdata$param <- newdata$test_param
 newdata$param <- as.factor(newdata$test_param)
@@ -863,14 +864,17 @@ plotdata$param <- plotdata$test_param
 plotdata$param <- as.factor(plotdata$param)
 levels(plotdata$param) <- c(1,3,4,2,6,5) 
 plotdata$param <- as.integer(as.character(plotdata$param))
-labdat <- data_frame(test_param = "jttp", param = 3, type2 = -1, x = -5, y = .9, label = "jttp_neg_hard_2")
+labdat <- data_frame(test_param = "jttp", param = 3, type2 = -1, x = -5, y = .9, label = "outlier")
+betahat <- tibble(param = 1:6, size = c(-4.903, 4.893, -3.45, 3.34, 10.091, 1.329))
 
 ggplot() + 
+  geom_vline(data = betahat, aes(xintercept = size), linetype = "dotted", color = "grey60") + 
+  geom_text(data = betahat, aes(x = size, y = .9, label = paste0("hat(beta)[", param, "]")), parse = T, hjust = 0, color = "grey60") + 
   geom_line(data = newdata, aes(x = size, y = predictfinal, color = as.factor(type2))) + 
   geom_point(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2))) + 
   #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
   geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
-            show.legend = F) + 
+            show.legend = F, vjust = 2) + 
   geom_hline(yintercept = 1/6, linetype='dashed') +
   scale_color_brewer(palette = "Dark2", name = "Lineup Type") + 
   facet_wrap(~param, scales = 'free_x', 
@@ -917,55 +921,73 @@ labdat <- data_frame(test_param = "jttp", param = 3, type2 = -1, x = -5, y = .9,
 @
 
 <<recipzoom, fig.height=3, fig.cap='The top middle panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The square root of the parameter value is shown on the $x$-axis. For this parameter, as its value approaches zero, the probability of identifying the alternate data model decreases, then increases, which is noticeably different from the pattern exhibited by the others. Again, a horizontal line is drawn at 1/6, the chance of selecting the data plot at random.'>>=
+newdatabeta2 <- newdata %>% filter(test_param == "recip", category == "inside") %>% mutate(param2 = "beta[2]", size2 = sqrt(size)) %>% as.tibble()
+plotdatabeta2 <- plotdata %>% filter(test_param=="recip")%>% mutate(param2 = "beta[2]", size2 = sqrt(size)) %>% as.tibble()
+newdatabeta22 <-  newdata %>% filter(test_param == "recip", category == "outside")%>% mutate(param2 = "beta[2]", size2 = sqrt(size)) %>% as.tibble()
+newdatabeta23 <- newdata %>% filter(test_param == "recip", category == "outside2")%>% mutate(param2 = "beta[2]", size2 = sqrt(size)) %>% filter(!is.nan(size2)) %>% as.tibble()
+interceptlabel <- tibble(x = sqrt(4.893), y = .05, label = "hat(beta)[2]")
 ggplot() + 
-  geom_line(data = newdata %>% filter(test_param == "recip", category == "inside"), aes(x = sqrt(size), y = predictfinal, color = as.factor(type2)), size = 1.25) + 
-  geom_point(data = plotdata %>% filter(test_param=="recip"), aes(x = sqrt(size), y = datapick, color = as.factor(type2)), size = 2) + 
-  geom_line(data = newdata %>% filter(test_param == "recip", category == "outside"), aes(x = sqrt(size), y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
-  geom_line(data = newdata %>% filter(test_param == "recip", category == "outside2"), aes(x = sqrt(size), y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  geom_line(data = newdatabeta2, aes(x = size2, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
+  geom_point(data = plotdatabeta2, aes(x = size2, y = datapick, color = as.factor(type2)), size = 2) + 
+  geom_line(data =newdatabeta22, aes(x = size2, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  geom_line(data = newdatabeta23, aes(x = size2, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
   #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
   #geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
   #          show.legend = F) + 
-  geom_vline(xintercept = sqrt(4.893)) + 
+  geom_vline(xintercept = sqrt(4.893),  linetype = "dotted", color = "grey60") + 
+  geom_text(data = interceptlabel, aes(x =x, y = y, label = label), parse = T, inherit.aes = F, hjust = -.2) + 
   geom_hline(yintercept = 1/6, linetype='dotted') +
   scale_color_brewer(palette = "Dark2", name = "Lineup Type", labels = c("-", "+")) +  
-  facet_grid(~param) + 
-  labs(x = "Square root of parameter value", y = "Expected probability of detection\nin a lineup of size 6") + 
+  facet_wrap(~param2, labeller = label_parsed) + 
+  labs(x = "Square root of parameter value", y = "Expected probability of detection\nin a lineup of size 6", title = ) + 
   ThemeNoNet + 
-  theme(legend.position = 'bottom', strip.text = element_text(size = 10), text = element_text(size = rel(3)), legend.text = element_text(size = rel(3)), legend.key.size = unit(.25, "inches"))
+  theme(legend.position = 'bottom')
 @
 
 <<beta5zoom, fig.height=3, fig.cap="The bottom middle panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The parameter value is shown on the $x$-axis. This parameter most closely follows our hypothesis shown in Figure~\\ref{fig:hypothesis}. However, the result is not symmetric. According to the model, people will detect the effect at lower values and with greater frequency as the value increases when it is positive instead of negative.">>=
+newdatabeta5 <- newdata %>% filter(test_param == "simttb", category == "inside") %>% mutate(param = "beta[5]")
+plotdatabeta5 <- plotdata %>% filter(test_param=="simttb")%>% mutate(param = "beta[5]")
+newdatabeta52 <- newdata %>% filter(test_param == "simttb", category == "outside") %>% mutate(param = "beta[5]")
+newdatabeta53 <- newdata %>% filter(test_param == "simttb", category == "outside2") %>% mutate(param = "beta[5]")
+interceptdata <- tibble(x = 10.090829, y= .05, label = "hat(beta)[5]")
 ggplot() + 
-  geom_line(data = newdata %>% filter(test_param == "simttb", category == "inside"), aes(x = size, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
-  geom_point(data = plotdata %>% filter(test_param=="simttb"), aes(x = size, y = datapick, color = as.factor(type2)), size = 2) + 
-  geom_line(data = newdata %>% filter(test_param == "simttb", category == "outside"), aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
-  geom_line(data = newdata %>% filter(test_param == "simttb", category == "outside2"), aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60",  alpha = .7) +
+  geom_line(data = newdatabeta5, aes(x = size, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
+  geom_point(data = plotdatabeta5, aes(x = size, y = datapick, color = as.factor(type2)), size = 2) + 
+  geom_line(data = newdatabeta52, aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  geom_line(data = newdatabeta53, aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60",  alpha = .7) +
   #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
   #geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
   #          show.legend = F) + 
-  geom_vline(xintercept = 10.090829) + 
+  geom_vline(xintercept = 10.090829, linetype = "dotted", color = "grey60") + 
+  geom_text(data = interceptdata, aes(x=x,y=y,label=label), parse = T, hjust = -.2) + 
   geom_hline(yintercept = 1/6, linetype='dotted') +
   scale_color_brewer(palette = "Dark2", name = "Lineup Type", labels = c("-", "+")) +
-  facet_grid(~param) + 
-  labs(x = "Parameter value", y = "Expected probability of detection in a lineup of size 6") + 
+  facet_grid(~param, labeller = label_parsed) + 
+  labs(x = "Parameter value", y = "Expected probability of detection\nin a lineup of size 6") + 
   ThemeNoNet + 
   theme(legend.position = 'bottom', strip.text = element_text(size = 10), text = element_text(size = rel(3)), legend.text = element_text(size = rel(3)), legend.key.size = unit(.25, "inches"))
 @
 
-<<beta4zoom, fig.height=3, fig.cap='The bottom left panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The parameter value is shown on the $x$-axis. The ``reverse" lineup has a much flatter slope than the ``regular" lineup, which means the participants had a harder time detecting a more simple M1 structure among many more complex M4 structures. Reversing the lineup scenario was not symmetric as we hypothesized.'>>=
+<<beta4zoom, fig.height=3, fig.cap='The bottom right panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The parameter value is shown on the $x$-axis. The ``reverse" lineup has a much flatter slope than the ``regular" lineup, which means the participants had a harder time detecting a more simple M1 structure among many more complex M4 structures. Reversing the lineup scenario was not symmetric as we hypothesized.'>>=
+newdatabeta6 <- newdata %>% filter(test_param == "jtts", category == "inside") %>% mutate(param = "beta[6]")
+plotdatabeta6 <- plotdata %>% filter(test_param=="jtts") %>% mutate(param = "beta[6]")
+newdatabeta62 <- newdata %>% filter(test_param == "jtts", category == "outside")%>% mutate(param = "beta[6]")
+newdatabeta63 <- newdata %>% filter(test_param == "jtts", category == "outside2") %>% mutate(param = "beta[6]")
+labellerdata <- tibble(x = 3.340302, y = .8, label = "hat(beta)[6]")
 ggplot() + 
-  geom_line(data = newdata %>% filter(test_param == "jtts", category == "inside"), aes(x = size, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
-  geom_point(data = plotdata %>% filter(test_param=="jtts"), aes(x = size, y = datapick, color = as.factor(type2)), size = 2) + 
-  geom_line(data = newdata %>% filter(test_param == "jtts", category == "outside"), aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
-  geom_line(data = newdata %>% filter(test_param == "jtts", category == "outside2"), aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  geom_vline(xintercept = 3.340302, linetype = "dotted", color = "grey60") + 
+  geom_text(data = labellerdata, aes(x = x, y = y, label = label), parse =T, hjust = 1) + 
+  geom_line(data = newdatabeta6, aes(x = size, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
+  geom_point(data = plotdatabeta6, aes(x = size, y = datapick, color = as.factor(type2)), size = 2) + 
+  geom_line(data = newdatabeta62, aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  geom_line(data = newdatabeta63, aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
   #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
   #geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
   #          show.legend = F) + 
-  geom_vline(xintercept = 3.340302) + 
   geom_hline(yintercept = 1/6, linetype='dotted') +
   scale_color_brewer(palette = "Dark2", name = "Lineup Condition", labels = c("reverse", "regular")) +
-  facet_grid(~param) + 
-  labs(x = "Parameter value", y = "Expected probability of detection in a lineup of size 6") + 
+  facet_grid(~param, labeller = label_parsed) + 
+  labs(x = "Parameter value", y = "Expected probability of detection\nin a lineup of size 6") + 
   ThemeNoNet + 
   theme(legend.position = 'bottom', strip.text = element_text(size = 10), text = element_text(size = rel(3)), legend.text = element_text(size = rel(3)), legend.key.size = unit(.25, "inches"))
 @
@@ -1011,11 +1033,11 @@ Furthermore, we have found the visual power of some effects in the object functi
 
 % what are the limitations of these findings 
 
-These results do not come without limitations. In VI, the null plots are supposed to play the role of good representatives of the null model. Here, the number of null plots is reduced to five, which increases the variability seen in a single lineup dramatically, and can unfortunately lead to very different conclusions for the same lineup scenario, as we have seen. Furthermore, these results do not generalize to all CTMC models or to one particular subset of CTMC models. The lineups shown are made for only one set of data, and it is not clear that the visual power results will transfer to other situations with different number of actors, different edge densities, or different layout algorithm of the node-link diagram. We can make some generalizations about what participants are picking up on in the lineups based on their feedback and previous research, but we cannot apply our hierarchical model directly to lineups constructed for new data or new models or parameters. 
+These results do not come without limitations. In VI, the null plots are supposed to play the role of good representatives of the null model. Here, the number of null plots is reduced to five, which has lead to very different conclusions for the same lineup scenario. Furthermore, these results do not generalize to all CTMC models or to one particular subset of CTMC models. The lineups shown are made for only one set of data, and it is not clear that the visual power results will transfer to other situations with different number of actors, different edge densities, or different layout algorithm of the node-link diagram. We can make some generalizations about what participants are picking up on in the lineups based on their feedback and previous research, but we cannot apply our hierarchical model directly to lineups constructed for new data or new models or parameters. 
 
 % what is the future of this research? 
 
-We these methods will be applied to different types of network data and different types of network models. But given the limitations of the node-link visualization, the cognitive load of looking at a lineup is very high for the average observer. We would therefore like to explore larger datasets, different layout algorithms, and different ways of visualizing network data, such adjacency matrix visualizations, using visual inference to see if similar patterns emerge. 
+We these methods will be applied to different types of network data and different types of network models. But given the limitations of the node-link visualization, the cognitive load of looking at a lineup is very high for the average observer. More research is needed to apply these methods to larger datasets, different layout algorithms, and different ways of visualizing network data, such as adjacency matrix visualizations, using visual inference to see if similar findings emerge. 
 
 %\hh{Best results: visual detection/ power analysis, a lot of variability in goodness of fit and significance tests. BUT: visualizations show that a decision of significance/ goodness of fit are not as clear cut as the traditional tests want us to believe.
 
