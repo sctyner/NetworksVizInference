@@ -88,18 +88,18 @@ ThemeNet <- theme_net() %+replace%
 % \item difficulty of these two for sna, why do vis inf
 % \end{enumerate}
 % }
-When selecting and fitting statistical models, there are typically three key assessments of interest: significance tests of parameters, goodness-of-fit tests, and power calculations of the tests. With significance testing, the null hypothesis assumes that the data come from a simple model nested within the model of interest. We then conduct significance tests of one or more additional parameters to determine if they can explain some of the variability in the data. For goodness-of-fit tests, we examine one or more models of interest to assess how well they fit the data. Power then quantifies the ability of the hypothesis test to detect the difference between the null and alternative hypothesis.  All three of these elements of statistical modeling are vital for inference. 
+When selecting and fitting statistical models, there are typically three key assessments of interest: significance tests of parameters, goodness-of-fit tests, and power calculations. With significance testing, the null hypothesis assumes that the data come from a simple model nested within the model of interest. We then conduct significance tests of one or more additional parameters to determine how much of the variability in the data they explain. For goodness-of-fit tests, we examine one or more models of interest to assess how well these models explain the data. Power then quantifies the ability of the hypothesis test to detect the difference between the null and alternative hypothesis.  All three of these elements of statistical modeling are vital to ensure that we can draw valid conclusions from a model. 
 %The more complicated the model, the harder it is to determine fit or to include or exclude a parameter. 
 
-The more complex the model, however, the harder it is to assess significance, power, and goodness-of-fit. One particularly complicated family of models are those designed to model networks. A \textit{network} is any set of things, such as people, or computers, that are connected in some way, through social relations or the Internet. In a social network, the people are the \textit{nodes} or \textit{actors}, and the relationships between the people are \textit{edges} or \textit{ties}. In this paper we use nodes and edges interchangeably with actors and ties, respectively. Models for networks are particularly complex, as 
+The more complex the model, however, the harder it typically is to assess significance, power, and goodness-of-fit. One particularly complicated family of models are those designed to model networks. A \textit{network} is any set of things, such as people, or computers, that are connected in some way, through social relations or the Internet. In a social network, the people are the \textit{nodes} or \textit{actors}, and the relationships between the people are \textit{edges} or \textit{ties}. In this paper we use nodes and edges interchangeably with actors and ties, respectively. Models for networks are particularly complex, as 
 dependencies inherent to network data make them  difficult to model. %Even more challenging is the situation 
-This difficulty only increases when studying \textit{dynamic networks}, the same set of nodes and their changing relationships observed at many points in time, because of the added temporal dependence. Yet, researchers are often interested in modeling dynamic social networks, such as friendship networks among students or collaboration networks between legislators. %
-Even some of the simplest network models, however, lack the asymptotics required to perform traditional goodness-of-fit tests \citep{holland81}. In addition, direct maximum likelihood estimation of model parameters is frequently impossible due to the intractability of the models \citep{hummeletal}. 
+This difficulty increases further when studying \textit{dynamic networks}, the same set of nodes and their changing relationships observed at many points in time, because of the added temporal dimension. Yet, researchers are often interested in modeling dynamic social networks, such as friendship networks among students or collaboration networks between legislators. %
+Even some of the simplest network models, however, lack the asymptotics required to perform traditional goodness-of-fit tests \citep{holland81}. In addition, a direct maximum likelihood estimation of model parameters is frequently impossible due to the intractability of the models \citep{hummeletal}. 
 %\hh{is the previous sentence a quote? I'm not sure that I follow.} %\st{it's a paraphrase... shall I make a quote? Also I definitely botched a word. Hopefully makes more sense now? }
 % stop 4pm on 1/28/19
 
-In order to circumvent some of these difficulties, we propose new methods for significance testing of parameters, goodness-of-fit testing, and power calculations %of these 
-for one family social network models: continuous time Markov-chain (CTMC) models for dynamic network data, as described in \citet{saompaper}. We use \textit{visual inference} in place of traditional statistical methods for social network models, such as $t$-tests for significance of parameters or outdegree distributions for goodness-of-fit tests. Visual inference (VI), introduced by \citet{Bujaetal}, will allow us to look at the \textit{entire} dataset simulated from a network model, whereas traditional methods use one-dimensional metrics derived from the network or a $p$-value for a parameter in the model. By using VI to supplement traditional statistical tests, we gain insight into the role of the parameters in these CTMC models, and we gain the ability to assess the fit of the CTMCs to dynamic network data.%In addition, we use visual inference to better understand some parameters in a social network model, by looking at how different values for parameters affect the networks simulated from these models.   
+In order to circumvent some of these difficulties, we propose a new approach for significance testing of parameters, goodness-of-fit testing, and power calculations %of these 
+for one family social network models: continuous time Markov-chain (CTMC) models for dynamic network data, as described in \citet{saompaper}. We use \textit{visual inference} in place of traditional statistical methods for social network models, such as $t$-tests for significance of parameters or outdegree distributions for goodness-of-fit tests. Visual inference (VI), introduced by \citet{Bujaetal}, allows us to look at the \textit{entire} dataset simulated from a network model, whereas traditional methods use one-dimensional metrics derived from the network or a $p$-value for a parameter in the model. By using VI to supplement traditional statistical tests, we gain insight into the role of the parameters in these CTMC models, and we gain the ability to assess the fit of the CTMCs to dynamic network data.%In addition, we use visual inference to better understand some parameters in a social network model, by looking at how different values for parameters affect the networks simulated from these models.   
 
 The paper is outlined as follows: Section~\ref{subsec:saom} provides an introduction to the CTMC familty of models. Section~\ref{subsec:vi} gives a basic overview of visual inference and the lineup protocol. In Section~\ref{sec:models}, we describe our example data and define our models of interst that we used to develop our VI methods. Section~\ref{sec:expersetup} details how we designed a VI experiment for significance testing and goodness of fit procedures for CTMC models, and Section~\ref{sec:res} details the results of our experiment. We close with a discussion in Section~\ref{sec:concl}.  
 
@@ -108,22 +108,22 @@ The paper is outlined as follows: Section~\ref{subsec:saom} provides an introduc
 \subsection{CTMC Models for Dynamic Social Network Data}\label{subsec:saom}
 
 %To model family that we apply to the Senate data is the Stochastic Actor-Oriented Model (SAOM) family. 
-We define CTMC models for dynamic social network data here in their barest form. Full details on these models can be found in \citet{saompaper, snijders01, snijders:2010, snijders2010, snijdersetall:2007, snijders:2017}. These CTMCs are a family of models for dynamic network data that incorporate both network structure and node-level covariates to describe how a network changes over time \citep{saompaper}. Traditional network models, such as exponential random graph models, usually only consider network structure.  Social networks are ever-changing as relationships decay or grow in seemingly random ways, and the actors in them have characteristics that affect how they change their ties to other nodes in the network. 
+We define CTMC models for dynamic social network data here in their barest form. Full details on these models can be found in \citet{saompaper, snijders01, snijders:2010, snijders2010, snijdersetall:2007, snijders:2017}. CTMCs are a family of models for dynamic network data that incorporate both network structure and node-level covariates to describe how a network changes over time \citep{saompaper}. Traditional network models, such as exponential random graph models, usually only consider network structure.  Social networks are ever-changing as relationships decay or grow over time, and each actor in a network has characteristics that affect ties to other actors in the network. 
 % Talk about SAOMs
 CTMC models use the network structure and the node covariate information, and as such can be very complicated models. As network data are inherently complex, it can be difficult to interpret model parameters and their estimates. There are also many possible parameters to include in a CTMC, which makes parameter selection and goodness-of-fit testing challenging.
 
-CTMC models use network structure and node covariates to model the network change one tie at a time. There are two model pieces: a \textit{rate function} that dictates \textit{how often} changes in the network occur and an \textit{objective function} that determines \textit{what} those changes are. The variables of interest are the edges of the network, $x_{ij}$ between nodes $i$ and $j$, where $i \neq j \in \{1, 2, \dots, n\}$ and $n$ the number of nodes in the network. The $x_{ij}$ are directed and binary, i.e.
-  \begin{equation}\label{eq:edgevars}
-  x_{ij} =
-  \begin{cases}
-                                   1 & \text{if an edge from $i$ to $j$ exists} \\
-                                   0 & \text{otherwise}
-  \end{cases}
-  \end{equation}
-and self-referencing edges or loops are not allowed, i.e.  $x_{ii} = 0$ for all $i=1, 2, \dots, n$. 
-The network is observed $M \geq 2$ times at time points  $t_1 < ... < t_M$, and the entire network at time point $t_m$ is denoted as $x(t_m)$ for $m \in \{1, \dots, M\}$.
+CTMC models use network structure and node covariates to model the network change one tie at a time. There are two model pieces: a \textit{rate function} that dictates \textit{how often} changes in the network occur and an \textit{objective function} that determines \textit{what} those changes are.% The variables of interest are the edges of the network, $x_{ij}$ between nodes $i$ and $j$, where $i \neq j \in \{1, 2, \dots, n\}$ and $n$ the number of nodes in the network. The $x_{ij}$ are directed and binary, i.e.
+%   \begin{equation}\label{eq:edgevars}
+%   x_{ij} =
+%   \begin{cases}
+%                                    1 & \text{if an edge from $i$ to $j$ exists} \\
+%                                    0 & \text{otherwise}
+%   \end{cases}
+%   \end{equation}
+% and self-referencing edges or loops are not allowed, i.e.  $x_{ii} = 0$ for all $i=1, 2, \dots, n$. 
+% The network is observed $M \geq 2$ times at time points  $t_1 < ... < t_M$, and the entire network at time point $t_m$ is denoted as $x(t_m)$ for $m \in \{1, \dots, M\}$.
 
-\noindent \textbf{Rate Function:} All changes in the network variables $x_{ij}$ are treated as choices made by the actors in the network. The rate function dictates when changes are made and which actor can make them. When chosen, the actor, $i$, gets a chance to make a change to one of the other nodes $j$. In general, the rate function can include structural and node covariate parameters into account so that each actor has a different rate of change. However, we choose a simple rate function that is constant over all nodes in a given time period, because we want to focus on interpreting the parameters of the objective function. We denote the rate from $t_{m}$ to $t_{m+1}$ as $\alpha_m$ for $m = 1, \dots, M-1$. Using this notation, the \textit{waiting time} to the next chance for actor $i$ to make a change is exponentially distributed with expected value $\alpha_m^{-1}$. Since the rate is the same for all actors, the waiting time for \textit{any} actor to get the opportunity to change its set of ties is exponentially distributed with expected value $(n\alpha_m)^{-1}$.
+\noindent \textbf{Rate Function:} All changes in the network are treated as choices made by the actors in the network. The rate function dictates when changes are made and which actor can make them. When chosen, the actor, $i$, gets a chance to make a change to one of the other nodes $j$. In general, the rate function can include structural and node covariate parameters into account so that each actor has a different rate of change. However, we choose a simple rate function that is constant over all nodes in a given time period, because we focus on interpreting the parameters of the objective function. We denote the rate from $t_{m}$ to $t_{m+1}$ as $\alpha_m$ for $m = 1, \dots, M-1$. Using this notation, the \textit{waiting time} to the next chance for actor $i$ to make a change is exponentially distributed with expected value $\alpha_m^{-1}$. Since the rate is the same for all actors, the waiting time for \textit{any} actor to get the opportunity to change its set of ties is also exponentially distributed with expected value $(n\alpha_m)^{-1}$.
 
 \noindent \textbf{Objective Function:} After actor $i$ has been selected by the rate function to change, it randomly picks one of its current ties, $x_{ij}$, to change. The probability that actor $i$ changes its current tie to actor $j$ is determined by the \textit{objective function} of the model and a random error term $U$ with log-Weibull distribution \citep{modelsSnijders}.  %\hh{XXX can you paraphrase the purpose of U in half a sentence?}
 %The random component is assumed to have log-Weibull distribution with location parameter $\mu = 0$ and scale parameter $\sigma = 0$ (see \citet{modelsSnijders}), so the probability density function of $U$ is
@@ -135,37 +135,38 @@ Actor $i$ aims to maximize the objective function $f_i$ given the current state 
 \begin{equation}\label{eq:objective}
 f_i(x, \boldsymbol{\beta}, \mathbf{Z}) = \sum_{k = 1}^K \beta_k s_{ik}(x, \mathbf{Z}),
 \end{equation}
-where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some statistics, $s_{i1}(x, \mathbf{Z}), \dots, s_{iK}(x, \mathbf{Z})$, calculated for actor $i$ at the current network state $x$. The statistics can be very simple, like outdegree of the node, $s_i(x) = \sum_{i\neq j} x_{ij}$, or more complicated, like the {\it transitive triplets jumping to different covariate} statistic, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$. %, plus many more. At last count, in the software we use to fit these models to network data, 
-Version 1.2-3 of \texttt{RSiena} \citep{RSiena}, the software used to fit the models here, provides over 80 possible effects that can be included in the objective function. We discuss these and other statistics in more detail in Section~\ref{sec:models}. 
+where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some statistics, $s_{i1}(x, \mathbf{Z}), \dots, s_{iK}(x, \mathbf{Z})$, calculated for actor $i$ at the current network state $x$. T%he statistics can be very simple, like outdegree of the node, $s_{i1}(x) = \sum_{i\neq j} x_{ij}$, or more complicated, like the {\it transitive triplets jumping to different covariate} statistic, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$. 
+At least two parameters must be included in the objective function: density and reciprocity \citep{RSienamanual}. We denote the density, or out-degree, parameter by $\beta_1$ and the associated statistic as $s_{i1}(x)$ and we denote the reciprocity parameter by $\beta_2$ and the associated statistic as $s_{i2}(x) = \sum_{j} x_{ij}x_{ji}$. We will refer to the very simple model with only these two parameters in the objective function as model M1. We define additional parameters and models of interest in Section~\ref{sec:models}  %, plus many more. At last count, in the software we use to fit these models to network data, 
+Version 1.2-3 of \texttt{RSiena} \citep{RSiena}, the software we use to fit CTMC models to data, provides over 80 possible effects that can be included in the objective function. %We discuss these and other statistics in more detail in Section~\ref{sec:models}. 
 
 The objective function $f_{i}(x, \boldsymbol{\beta}, \mathbf{Z})$ and  random component $U$ combine to form the \textit{transition probability}, $p_{ij}$ of the network changing from its current state $x$ to the state $x(i\leadsto j)$, which is identical to $x$ except for $x_{ij}$: $x_{ij}(i \leadsto j) = 1 - x_{ij}$. The transition probability is
 \begin{equation}\label{eq:transprob}
-p_{ij} = \dfrac{\exp\{f_i(x(i \leadsto j), \boldsymbol{\beta}, \mathbf{Z})\}}{\sum_{h} \exp\{f_i(x(i \leadsto h), \boldsymbol{\beta}, \mathbf{Z})\}}
+p_{ij} = \dfrac{\exp\{f_i(x(i \leadsto j), \boldsymbol{\beta}, \mathbf{Z})\}}{\sum_{h} \exp\{f_i(x(i \leadsto h), \boldsymbol{\beta}, \mathbf{Z})\}},
 \end{equation}
-This probability dictates which edge change is made by the node $i$. Node $i$ can also choose to \textit{not} change at all, which is most likely when the value of Equation~\ref{eq:objective} is larger for $x$ than for any $x(i \leadsto j)$.  
+dictating which edge node $i$ changes. %Node $i$ can also choose to \textit{not} change at all, which is most likely when the value of Equation~\ref{eq:objective} is larger for $x$ than for any $x(i \leadsto j)$.  
 
 %\hh{XXX how is the probability computed in the case that no change is made? Why is the notation $j \equiv i$ used for no change?}\st{that's more for the computation. I'll adjust accordingly}
 
-According to \citet{RSienamanual}, at least two parameters must be included in the objective function: density and reciprocity. We denote the density, or out-degree, parameter by $\beta_1$ and the associated statistic as $s_{i1}(x) = \sum_{j} x_{ij}$. Similarly, we denote the reciprocity parameter by $\beta_2$ and the associated statistic as $s_{i2}(x) = \sum_{j} x_{ij}x_{ji}$. We will refer to the very simple model with only these two parameters in the objective function as model M1. We define additional models of interest in Section~\ref{sec:models} 
+
 
 \subsection{Visual Inference}\label{subsec:vi}
 
 Data visualizations are an important component of data analysis, providing a mechanism for discovering patterns in data. Pioneering research by \citet{gelman:2004}, \citet{Bujaetal} and \citet{majumder:2011} provide methods to quantify the significance of discoveries made from visualizations. \citet{Bujaetal} introduced two protocols, the Rorschach and the lineup protocol, which bridge the gulf between traditional statistical inference and exploratory data analysis. %The Rorschach protocol consists of a set of $m$ (usually, $m=20$) plots (called the {\it null plots}) rendered from data that is consistent with a given null model. The Rorschach protocol helps to understand the extent of randomness in the null model. 
-Here, we use the lineup protocol to design significance, goodness-of-fit (GoF) and power tests. Under the protocol, we begin with a data set of interest to us, such as a network, a visualization of this data, such as a node-link diagram, and a model of interest that we think generated this data. There are two hypotheses considered: the null hypothes that the model of interest generated the data, and the alternative hypothesis that the data were not generated under this model. Then, $P-1$ sets of data are simulated from the null model, where $P$ is the lineup size. Each of the $P-1$ simulated datasets are visualized in the same way as the data, and the plot of the data is placed randomly among the set of $P-1$ \textit{null plots}. Human observers then examine the lineup and identify the plot(s) that look most different from the others. If an observer identifies the data plot, this is evidence against the null hypothesis. Since an observer has a chance of $\frac{1}{P}$ to pick the data plot from the lineup by simply guessing, the evidence grows in strength with the number of independent observers identifying the data plot.
+Here, we use the lineup protocol to design significance, goodness-of-fit (GoF) and power tests. Under the protocol, we begin with a data set of interest to us, such as a network, a visualization of this data, such as a node-link diagram, and a model of interest. We consider two hypotheses: the null hypothesis that the model of interest generated the data, and the alternative hypothesis that the data were not generated under this model. To construct a lineup of size $P$, $P-1$ sets of data are simulated from the null model. Each of the $P-1$ simulated datasets are visualized in the same way as the data, and the plot of the data is placed randomly among the set of $P-1$ \textit{null plots}. Human observers then examine the lineup and identify the plot(s) that look(s) most different from the others. If an observer identifies the data plot, this is evidence against the null hypothesis. An observer has a chance of $P^{-1}$ to pick the data plot from the lineup by simply guessing. The evidence grows in strength with the number of independent observers identifying the data plot.
 
 The lineup protocol places a \textit{plot} in the framework of hypothesis tests: the plot of the data is the test statistic, which is compared against the null plots, representing the sampling distribution under the null hypothesis. %Obviously, the null generating mechanism, i.e.\ the method of obtaining the data for null plots, is crucial for the lineup protocol, as the null hypothesis directly affects the choice of null generating method. Null generating methods are typically based on (a) simulation, if the null hypothesis allows us to directly specify a parametric model, (b) sampling, as in the case of large data sets, or (c) permutation of the original data \citep[see e.g.\ ][]{Good05}s. The network model of interest here allows us to simulate directly from a parametric model for dynamic social network data. 
 %In the experimental data that we analyzed the null generating methods used were permutation methods and direct simulation from a null model.
-The lineup protocol was formally tested in a head-to-head comparison with the equivalent conventional test in \citet{majumder:2011}. The experiment utilized human subjects from Amazon's Mechanical Turk \citep{turk} and used simulation to control conditions. The results suggest that VI done in a controlled setting gives the same results as conventional tests. This is evidence that VI can be used when no conventional tests exist or when testing is difficult. %Interestingly, the power of a visual test increases with the number of observers engaged to evaluate lineups, and the pattern in results suggests that the power will provide results consistent with practical significance \citep{kirk:1996}.
+The lineup protocol was formally tested for linear models in a head-to-head comparison with the equivalent conventional test in \citet{majumder:2011}. The experiment utilized human subjects from Amazon's Mechanical Turk \citep{turk} and used simulation to control conditions. The results suggest that VI done in a controlled setting gives similar results to conventional tests. This is evidence that VI can be used when no conventional tests exist or when testing is difficult. %Interestingly, the power of a visual test increases with the number of observers engaged to evaluate lineups, and the pattern in results suggests that the power will provide results consistent with practical significance \citep{kirk:1996}.
 
 
 \section{Example Data and Models}\label{sec:models}
 
-\noindent \textbf{Data:} The data we use are collaboration networks in the United States Senate during the $111^{th}$ through $114^{th}$ Congresses. These senates began on January 6, 2009, the start date of the $111^{th}$ Congress, and ended on January 3, 2017, the last date of the $114^{th}$ Congress Details of how this data can be downloaded are provided by François Briatte at \url{github.com/briatte/congress}. In the US Senate, senators often show support for a piece of legislation by cosponsoring a bill authored by one of their colleagues. In a cosponsorship network, ties are directed from senator $i$ to senator $j$ when senator $i$ signs on as a cosponsor to the bill that senator $j$ authored. There are many hundreds of ties between senators when they are connected in this way, so we simplify the network by computing a single value for each senator-senator collaboration called the \textit{weighted propensity to cosponsor} (WPC). This value is defined in \citet{senate} as 
+The data we use are collaboration networks in the United States Senate during the $111^{th}$ through $114^{th}$ Congresses. These senates began on January 6, 2009, the start date of the $111^{th}$ Congress, and ended on January 3, 2017, the last date of the $114^{th}$ Congress Details of how this data can be downloaded are provided by François Briatte at \url{github.com/briatte/congress}. In the US Senate, senators often show support for a piece of legislation by co-sponsoring a bill authored by one of their colleagues. In a co-sponsorship network, ties are directed from senator $i$ to senator $j$ when senator $i$ signs on as a co-sponsor to the bill that senator $j$ authored. There are many hundreds of ties between senators when they are connected in this way, so we simplify the network by computing a single value for each senator-senator collaboration called the \textit{weighted propensity to co-sponsor} (WPC). This value is defined in \citet{senate} as 
 
 \begin{equation}\label{eq:sen1}
-    WPC_{ij} = \dfrac{\sum\limits_{b=1}^{B_j} \frac{Y_{ij(b)}}{c_{j(b)}}}{\sum\limits_{b=1}^{B_j} \frac{1}{c_{j(b)}}}
+    WPC_{ij} = \sum\limits_{b=1}^{B_j} \frac{Y_{ij(b)}}{c_{j(b)}}\left(\sum\limits_{b=1}^{B_j} \frac{1}{c_{j(b)}}\right)^{-1}
 \end{equation}
-where $B_j$ is the number of bills in a congressional session authored by senator $j$, $c_{j(b)}$ is the number of cosponsors on senator $j$'s $b^{th}$ bill, where $b \in \{1,\dots, B_j\}$, and $Y_{ij(b)}$ is an indicator variable that senator $i$ cosponsored senator $j$'s $b^{th}$ bill. This measure ranges in value from 0 to 1, where $WPC_{ij} = 1$ if senator $i$ is a cosponsor on every one of senator $j$'s bills and $WPC_{ij} = 0$ if senator $i$ is never a cosponsor any of senator $j$'s bills. Because CTMC models require binary edges, we construct the edges as follows: 
+where $B_j$ is the number of bills in a congressional session authored by senator $j$, $c_{j(b)}$ is the number of co-sponsors on senator $j$'s $b^{th}$ bill, where $b \in \{1,\dots, B_j\}$, and $Y_{ij(b)}$ is an indicator variable that senator $i$ co-sponsored senator $j$'s $b^{th}$ bill. This measure ranges in value from 0 to 1, where $WPC_{ij} = 1$ if senator $i$ is a co-sponsor on every one of senator $j$'s bills and $WPC_{ij} = 0$ if senator $i$ is never a co-sponsor any of senator $j$'s bills. Because CTMC models require binary edges, we construct the edges as follows: 
  \begin{equation}\label{eq:edgewpc}
   x_{ij} =
 \begin{cases}
@@ -174,16 +175,16 @@ where $B_j$ is the number of bills in a congressional session authored by senato
 \end{cases}
 \end{equation}
 so that only strong relationships between senators are examined.
-For each of the four senate sessions, we have three node covariates: the party affiliation of each senator, the number of bills they authored in each session, and their gender. We use each of these covariates in CTMC models to try to explain how ties are formed between senators over time. The node-link diagram for the senate network is shown in Figure~\ref{fig:senateAll}. We have labelled some of the nodes in the network whose names will be familiar to US readers, either because they are leaders in their party or they have run for president. The size of the nodes represents how many bills the senator authored in a session, the color represents party affiliation, and the shape represents gender. In each of the four sessions, there is one very large connected component tying many of the prominent senators together, with many smaller connected groups surrounding the larger component. In each senate, the structure changes slightly as new senators arrive or come to prominence.
+For each of the four senate sessions, we have three node covariates: the party affiliation of each senator, the number of bills they authored in each session, and their gender. We use each of these covariates in CTMC models to try to explain how ties are formed between senators over time. The node-link diagram for the senate network is shown in Figure~\ref{fig:senateAll}. We have labelled some of the nodes in the network whose names we think will be familiar the reader, either because they are leaders in their party or they have run for president. The size of the nodes represents how many bills the senator authored in a session, the color represents party affiliation, and the shape represents gender. In each of the four sessions, there is one very large connected component tying many of the prominent senators together, with many smaller connected groups surrounding the larger component. In each senate, the structure changes slightly as new senators arrive or come to prominence.
 
-<<senateAll, fig.cap="The US senate collaboration network observed at four time points. Color represents party, shape represents gender, and size represents number of bills authored in a session. The Fruchterman-Reingold layout is shown \\citep{fr}. Drawn with the \\texttt{geomnet} R package. \\citep{geomnet, rstats}">>=
+<<senateAll, fig.height = 5, fig.cap="The US senate collaboration network observed at four time points. Color represents party, shape represents gender, and size represents number of bills authored in a session. The Fruchterman-Reingold layout is shown \\citep{fr}. Drawn with the \\texttt{geomnet} R package. \\citep{geomnet}">>=
 seobama <- read_csv("data/senateobamapres_gsw_25.csv")
 to_label <- c("Joseph R. Biden Jr.", "John S. McCain", "Ted Cruz","Marco Rubio",
   "Lindsey O. Graham","Rand Paul", "Bernard Sanders", "Jim Webb", "Mitch McConnell",
-  "Harry M. Reid", "Hillary Rodham Clinton", "Amy Jean Klobuchar", "Elizabeth Warren")
+  "Harry M. Reid", "Amy Jean Klobuchar", "Elizabeth Warren")
 seobama$label <- as.factor(ifelse(seobama$source %in% to_label, seobama$source, ""))
 levels(seobama$label) <- c("", "Amy Klobuchar", "Bernie Sanders", "Elizabeth Warren",
-                           "Harry Reid", "Hillary Clinton", "Jim Webb", "John McCain", 
+                           "Harry Reid", "Jim Webb", "John McCain", 
                            "Joe Biden","Lindsey Graham", "Marco Rubio", "Mitch McConnell", 
                            "Rand Paul", "Ted Cruz")
 se111clint <- filter(seobama, senate == 111)
@@ -203,14 +204,14 @@ ggplot(data = seobama2) +
   scale_color_manual(values = c("royalblue", "forestgreen","firebrick")) + 
   scale_shape_manual(values = c(17,16)) + 
   scale_size_continuous(name = "Bills\nauthored", range = c(.75, 3)) + 
-  theme(legend.position = 'bottom', strip.text = element_text(size = 8)) + 
+  theme(strip.text = element_text(size = 8)) + 
   facet_wrap(~senate, nrow = 2, labeller = "label_both") + 
   xlim(c(0,1.05)) + 
   ylim(c(0,1.05))
 @
 
-%For Senate 111, for instance, we see Hillary Clinton, serving out her second term in the senate until she became Secretary of State. She is isolated in Figure~\ref{fig:senateAll}, but in actuality, she had many cosponsors on only two pieces of legislation she authored in that short time.%, as is shown in Figure~\ref{fig:senateClinton}. 
-%We chose to remove Clinton and her edges from the network because they make the overall structure look vastly more connected than the other three senates. We suspect that because she had just recently run for President and had been selected by President-Elect Obama to be Secretary of State, the cosponsorships she garnered at the start of the new congress were largely symbolic, so the $111^{th}$ Senate without Hillary Clinton is more typical than the $111^{th}$ Senate with her. In fact, she had several co-sponsors on both of her pieces of legislation, which meant she had the maximum WPC value of one with about a dozen other senators. Thus, though she is in the Senate for a time, subsequent analyses will not include her, and will instead include her replacement, Kirsten Gillibrand.  
+%For Senate 111, for instance, we see Hillary Clinton, serving out her second term in the senate until she became Secretary of State. She is isolated in Figure~\ref{fig:senateAll}, but in actuality, she had many co-sponsors on only two pieces of legislation she authored in that short time.%, as is shown in Figure~\ref{fig:senateClinton}. 
+%We chose to remove Clinton and her edges from the network because they make the overall structure look vastly more connected than the other three senates. We suspect that because she had just recently run for President and had been selected by President-Elect Obama to be Secretary of State, the co-sponsorships she garnered at the start of the new congress were largely symbolic, so the $111^{th}$ Senate without Hillary Clinton is more typical than the $111^{th}$ Senate with her. In fact, she had several co-sponsors on both of her pieces of legislation, which meant she had the maximum WPC value of one with about a dozen other senators. Thus, though she is in the Senate for a time, subsequent analyses will not include her, and will instead include her replacement, Kirsten Gillibrand.  
 
 <<senateClinton, fig.cap="We removed Hillary Clinton's ties from the network because she had abnormally high collaboration with senators during the time she was in the 111th senate and before she left office to become Secretary of State.", fig.height=3, eval=FALSE>>=
 se111clint$Clinton <- 'Yes'
@@ -230,19 +231,57 @@ ggplot() +
   facet_wrap(~Clinton, nrow = 1, labeller = 'label_both')
 @
 
-In legislative cosponsorship networks, it is known that party affiliation, reciprocity of relationships, and whether senators are ``workhorses" who author many bills or ``showhorses" who author few bills, are major influences on structure \citep{legnet}. We focus on these covariates, plus the additional gender covariate when choosing which CTMC models to fit to the data. 
+In legislative co-sponsorship networks, it is known that party affiliation, reciprocity of relationships, and whether senators are ``workhorses" who author many bills or ``showhorses" who author few bills, are major influences on structure \citep{legnet}. We focus on these covariates, plus the additional gender covariate when choosing which CTMC models to fit to the data. 
 
 
-\noindent \textbf{Models:} %In order to determine which models to examine, we first consider already well-known effects in legislative networks. We also selected some effects which were significant according to the built-in Wald-type tests in \texttt{RSiena} for application of our significance and goodness-of-fit methods. 
-We examine a total of six models, each identified by its objective function below. The parameters in the objective function, $\beta_1, \dots, \beta_6$ are defined in Table~\ref{tab:effects}.
-\begin{enumerate}
-\item Model M1: $f_{i}(x, \boldsymbol{\beta}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x)$
-\item Model M3: $f_{i}(x, \boldsymbol{\beta}, \mathbf{p}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_3 s_{i3}(x, \mathbf{p})$
-\item Model M4: $f_{i}(x, \boldsymbol{\beta}, \mathbf{s}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_4 s_{i4}(x, \mathbf{s})$
-\item Model M5: $f_{i}(x, \boldsymbol{\beta}, \mathbf{b}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_5 s_{i5}(x, \mathbf{b})$
-\item Model M6: $f_{i}(x, \boldsymbol{\beta}, \mathbf{p}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_6 s_{i6}(x, \mathbf{p})$
-\item Model M7: $f_{i}(x, \boldsymbol{\beta}, \mathbf{p}, \mathbf{b}, \mathbf{s}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_4 s_{i4}(x, \mathbf{s}) + \beta_5 s_{i5}(x, \mathbf{b}) + \beta_6 s_{i6}(x, \mathbf{p})$
-\end{enumerate}
+\begin{table}
+\centering
+\scalebox{0.7}{
+\begin{tabular}{c|p{2cm}|p{2.1cm}|c|l|p{1.75cm}|p{2cm}}
+\toprule
+$\beta_k$ & Effect name & Interaction Variable & Formula & Picture &  Initial estimate &  Wald $p$-value \\
+\midrule
+$\beta_1$ & density & -- & $s_{i1}(x) = \sum_{j} x_{ij}$ & \includegraphics[width=.6in]{img/density.png} & 2.204 & NA \\ 
+$\beta_2$ & reciprocity & -- & $s_{i2}(x) = \sum_{j} x_{ij}x_{ji}$ & \includegraphics[width=.6in]{img/recip.png} & -4.903 & NA \\
+$\beta_3$ & jumping transitive triplet & party & $s_{i3}(x, \mathbf{p}) = \sum_{j\neq h} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(p_i = p_h \neq p_j)$ & \includegraphics[width=.6in]{img/jttp.png} & -5.884 & $<0.0001$\\
+$\beta_4$ & jumping transitive triplet & sex & $s_{i4}(x, \mathbf{s}) = \sum_{j\neq h} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(s_i = s_h \neq s_j)$ & \includegraphics[width=.6in]{img/jtts.png}  & 3.335 & 0.0002 \\
+$\beta_5$ & similarity transitive triplet & bills & $s_{i5}(x, \mathbf{b}) = \sum_{j} x_{ij}x_{ih}x_{hj}\cdot (sim^b_{ij} - \overline{sim}^b)^*$ & \includegraphics[width=1in]{img/simttb.png} & 9.821 & 0.0128 \\
+$\beta_6$ & same transtive triplet & party & $s_{i6}(x, \mathbf{p}) =\sum_{j} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(p_i = p_j)$ & \includegraphics[width=1in]{img/samettp.png}  & 1.306 & 0.0642 \\
+\bottomrule
+%\\
+%$\beta_7$ & same & party & $s_{i7}(x, \mathbf{p}) = \sum_j x_{ij}\mathbb{I}(p_i = p_j)$ & \includegraphics[width=.6in]{img/samep.png}  & 0.363 & 0.0074
+\end{tabular}
+}
+\caption{\label{tab:effects} The effects we used in the CTMC models fit to the senate data. In the picture which represents each effect, the dotted tie is encouraged to form if the estimate is positive, and discouraged to form if the estimate is negative.  $^*$ - $sim^b_{ij}$ is defined in Equation~\ref{eq:similar} and $\overline{sim}^b = \frac{1}{n(n-1)}\sum_{i\neq j} sim^b_{ij}$ is the average bill similarity score between two senators.}
+\end{table}
+
+
+
+\begin{table}
+\centering
+\begin{tabular}{lcccccc}
+\toprule 
+Model & $s_{i1}$ & $s_{i2}$ & $s_{i3}$ & $s_{i4}$ & $s_{i5}$ & $s_{i6}$ \\
+\midrule
+M1 & 	\checkmark & 	\checkmark & -- & -- & -- & -- \\
+M3 & \checkmark & 	\checkmark & \checkmark & -- & -- & -- \\
+M4 & \checkmark & 	\checkmark & -- & \checkmark & -- & -- \\
+M5 & \checkmark & 	\checkmark & -- & -- & \checkmark & -- \\
+M6 & \checkmark & 	\checkmark & -- & -- & -- & \checkmark \\
+M7 & \checkmark & 	\checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\caption{\label{tab:models}The models we use defined by the statistics in their objective functions. The corresponding parameter for $s_{ik}$ is $\beta_k$. Note there is no model M2.}
+\end{table}
+% 
+% \begin{enumerate}
+% \item Model M1: $f_{i}(x, \boldsymbol{\beta}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x)$
+% \item Model M3: $f_{i}(x, \boldsymbol{\beta}, \mathbf{p}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_3 s_{i3}(x, \mathbf{p})$
+% \item Model M4: $f_{i}(x, \boldsymbol{\beta}, \mathbf{s}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_4 s_{i4}(x, \mathbf{s})$
+% \item Model M5: $f_{i}(x, \boldsymbol{\beta}, \mathbf{b}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_5 s_{i5}(x, \mathbf{b})$
+% \item Model M6: $f_{i}(x, \boldsymbol{\beta}, \mathbf{p}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_6 s_{i6}(x, \mathbf{p})$
+% \item Model M7: $f_{i}(x, \boldsymbol{\beta}, \mathbf{p}, \mathbf{b}, \mathbf{s}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x) + \beta_4 s_{i4}(x, \mathbf{s}) + \beta_5 s_{i5}(x, \mathbf{b}) + \beta_6 s_{i6}(x, \mathbf{p})$
+% \end{enumerate}
 
 
 %To determine the effects that we would move forward with, we followed this procedure: 
@@ -262,11 +301,13 @@ We examine a total of six models, each identified by its objective function belo
 % After completing the procedure for all model effects, we selected effects whose estimates converged, had a Wald $p$-value of less than 0.10, and seemed to have a reasonable interpretation for our data according to well-known properties of legislative networks \citep{legnet}.
 
 %The parameters we use for the remainder of the paper are detailed in Table~\ref{tab:effects}.
-All models have the first two structural parameters, $\beta_1 and \beta_2$, included. Other effects were added one at a time so that the simplest model $M1$ is nested in each of the other models. The largest model is  M7: each of the other five models is nested in it. We used Wald tests in \texttt{RSiena} as described in Section~\ref{sec:res} to perform significance tests on $\beta_3, \dots, \beta_6$ in models M3, ..., M6. The most significant effect is $\beta_3$, the jumping transitive triplet (JTT) parameter for the party covariate, which was estimated to be about -5.9 with a standard error of 0.11, resulting in a Wald $p$-value of less than 0.0001. This parameter considers the number of transitive closures formed between two senators from different parties. The large negative estimate is an indication that forming transitive ties between two people from different parties is strongly discouraged, which comports with the divisive nature of American politics. Another significant effect is $\beta_4$, the same JTT parameter for the sex covariate, with an estimate of about 3.3 with a standard error of 0.89. This parameter also considers transitive closures, but for senators of different genders. The positive value indicates that transitive ties between senators of different genders are more likley to form. Next, we consider $\beta_5$, the covariate-related similarity score-weighted transitive triplets parameter for the number of bills authored by a senator. We chose to look at similarity instead of raw covariate value because the number of bills authored is more continuous than gender or party. The similarity measure is computed as: 
+
+\noindent \textbf{Models:} %In order to determine which models to examine, we first consider already well-known effects in legislative networks. We also selected some effects which were significant according to the built-in Wald-type tests in \texttt{RSiena} for application of our significance and goodness-of-fit methods. 
+We examine a total of six models, each identified by its objective function. The parameters in the objective function, $\beta_1, \dots, \beta_6$ are defined in Table~\ref{tab:effects}. All models have the outdegree and reciprocity parameters, $\beta_1$ and $\beta_2$, included. Other effects were added one at a time so that the simplest model $M1$ is nested in each of the other models. The largest model is M7: each of the other five models is nested in it. We used Wald tests in \texttt{RSiena} as described in Section~\ref{sec:res} to perform significance tests on $\beta_3, \dots, \beta_6$ in models M3, ..., M6. The most significant effect is $\beta_3$, the jumping transitive triplet (JTT) parameter for the party covariate, which was estimated to be about -5.9 with a standard error of 0.11, resulting in a Wald $p$-value of less than 0.0001. This parameter considers the number of transitive closures formed between two senators from different parties. The large negative estimate is an indication that forming transitive ties between two people from different parties is strongly discouraged, which comports with the divisive nature of American politics. Another significant effect is $\beta_4$, the same JTT parameter for the sex covariate, with an estimate of about 3.3 with a standard error of 0.89. This parameter also considers transitive closures, but for senators of different genders. The positive value indicates that transitive ties between senators of different genders are more likely to form. Next, we consider $\beta_5$, the covariate-related similarity score-weighted transitive triplets parameter for the number of bills authored by a senator. We chose to look at similarity instead of raw covariate value because the number of bills authored is more continuous than gender or party. The similarity measure is computed as: 
 \begin{equation}\label{eq:similar}
 sim^b_{ij} = \frac{\max_{hk}|b_h - b_k| - |b_i - b_j|}{\max_{hk}|b_h - b_k|} 
 \end{equation}
-where $\max_{hk}|b_h - b_k|$ is the range of number of bills authored by senators, and $b_i$, $b_j$ are the number of bills authored by senators $i,j$ repectively in the senate period. This effect was estimated at about 9.8 with standard error of 3.9. The high positive estimate suggests senators are encouraged to collaborate with other senators who author about the same number of bills they do. This tendency of senators to cosponsor bills written by senators who are similarly ``prolific" corresponds to the tendency of senators to be either ``workhorses" or ``showhorses". Senators known as workhorses author many pieces of legislation in a session, and largely stay out of the public arena. The showhorse senators, on the other hand, author relatively few pieces of legislation, and tend to appear in the media very frequently. Finally, we found $\beta_6$, the same party transitive triplet effect to be significant, with a fitted value of 1.3 and standard error of 0.7, meaning that transitive relationships between senators tend to form when they are from the same party, exactly as we would expect in a legislative body in a country with deeply entrenched partisan divides. 
+where $\max_{hk}|b_h - b_k|$ is the range of number of bills authored by senators, and $b_i$, $b_j$ are the number of bills authored by senators $i,j$ repectively in the senate period. This effect was estimated at about 9.8 with standard error of 3.9. The high positive estimate suggests senators are encouraged to collaborate with other senators who author about the same number of bills they do. This tendency of senators to co-sponsor bills written by senators who are similarly ``prolific" corresponds to the tendency of senators to be either ``workhorses" or ``showhorses". Senators known as workhorses author many pieces of legislation in a session, and largely stay out of the public arena. The showhorse senators, on the other hand, author relatively few pieces of legislation, and tend to appear in the media very frequently. Finally, we found $\beta_6$, the same party transitive triplet effect to be significant, with a fitted value of 1.3 and standard error of 0.7, meaning that transitive relationships between senators tend to form when they are from the same party, exactly as we would expect in a legislative body in a country with deeply entrenched partisan divides. 
 
 <<geteffects, eval = FALSE>>=
 # used for table below
@@ -276,24 +317,9 @@ initeff %>% filter(shortName == "sameX")
 #reciprocity & -- & $\sum_j x_{ij}x_{ji}$ & & & \\
 @
 
-\begin{table}
-\scalebox{0.8}{
-\begin{tabular}{c|p{2cm}|p{2.1cm}|c|l|p{1.75cm}|p{2cm}}
-$\beta_k$ & {\bf Effect name} & {\bf Interaction Variable} & {\bf Formula} & {\bf Picture} & {\bf Initial estimate} & {\bf Wald $p$-value} \\
-\hline 
-$\beta_1$ & density & -- & $s_{i1}(x) = \sum_{j} x_{ij}$ & \includegraphics[width=.6in]{img/density.png} & 2.204 & NA \\ 
-$\beta_2$ & reciprocity & -- & $s_{i2}(x) = \sum_{j} x_{ij}x_{ji}$ & \includegraphics[width=.6in]{img/recip.png} & -4.903 & NA \\
-$\beta_3$ & jumping transitive triplet & party & $s_{i3}(x, \mathbf{p}) = \sum_{j\neq h} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(p_i = p_h \neq p_j)$ & \includegraphics[width=.6in]{img/jttp.png} & -5.884 & $<0.0001$\\
-$\beta_4$ & jumping transitive triplet & sex & $s_{i4}(x, \mathbf{s}) = \sum_{j\neq h} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(s_i = s_h \neq s_j)$ & \includegraphics[width=.6in]{img/jtts.png}  & 3.335 & 0.0002 \\
-$\beta_5$ & similarity transitive triplet & bills & $s_{i5}(x, \mathbf{b}) = \sum_{j} x_{ij}x_{ih}x_{hj}\cdot (sim^b_{ij} - \overline{sim}^b)^*$ & \includegraphics[width=1in]{img/simttb.png} & 9.821 & 0.0128 \\
-$\beta_6$ & same transtive triplet & party & $s_{i6}(x, \mathbf{p}) =\sum_{j} x_{ij}x_{ih}x_{hj}\cdot \mathbb{I}(p_i = p_j)$ & \includegraphics[width=1in]{img/samettp.png}  & 1.306 & 0.0642 %\\
-%$\beta_7$ & same & party & $s_{i7}(x, \mathbf{p}) = \sum_j x_{ij}\mathbb{I}(p_i = p_j)$ & \includegraphics[width=.6in]{img/samep.png}  & 0.363 & 0.0074
-\end{tabular}
-}
-\caption{\label{tab:effects} The effects we used in the CTMC models fit to the senate data. In the picture which represents each effect, the dotted tie is encouraged to form if the estimate is positive, and discouraged to form if the estimate is negative.  $^*$ - $sim^b_{ij}$ is defined in Equation~\ref{eq:similar} and $\overline{sim}^b = \frac{1}{n(n-1)}\sum_{i\neq j} sim^b_{ij}$ is the average bill similarity score between two senators.}
-\end{table}
 
-We fit all six of our models in \texttt{RSiena} using Markov Chain Monte Carlo (MCMC) methods to approximate the method of moments estimates of the parameters. Because the estimation is done through MCMC simulation, we fit each model to the data 1,000 times. From the simulations in which the MC converged, which made up over 90\% of the fits for each model, we computed the mean of the the estimates of each parameter to get final estimates of $\hat{\boldsymbol{\beta}}$ for each model, which are given in Table~\ref{tab:fittedvalues}. 
+
+We fit all six of our models in \texttt{RSiena} using Markov Chain Monte Carlo (MCMC) methods to approximate the method of moments estimates of the parameters. Because the estimation is done through MCMC simulation, we fit each model to the data 1,000 times. From the simulations in which the MC converged, which made up over 90\% of the fits for each model, we computed the mean of the estimates of each parameter to get final estimates of $\hat{\boldsymbol{\beta}}$ for each model, which are shown in Table~\ref{tab:fittedvalues}. 
 
 <<modelestimates>>=
 load("data/allModelMeans.RDS")

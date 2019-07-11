@@ -16,6 +16,7 @@
 \usepackage[dvipsnames,svgnames,table]{xcolor}
 \usepackage{hyperref}
 \usepackage{numprint}
+\usepackage{booktabs}
 
 \graphicspath{{figure/}}
 % \usepackage{endfloat} % Figures to the end of the document
@@ -88,7 +89,7 @@
 
 \bigskip
 \begin{abstract}
-Three of the most important assessments of a statistical model are significance tests of parameters, goodness-of-fit tests, and power calculations of the tests. All three tasks become more difficult as the model becomes more complex. We will explore these three assessments of one particularly complex set of models, continuous time Markov chain (CTMC) models, for dynamic social networks  \citep{saompaper}. In this paper, we propose new methods for significance and goodness-of-fit testing, as well as power calculations for CTMC models via the visual inference (VI) paradigm of \citet{Bujaetal}. With VI, we can look at entire datasets simulated from a model, instead of relying a single metric such as a $p$-value. We conducted a VI experiment, with participants recruited via Amazon Mechanical Turk, to assess the significance of CTMC parameters, the fit of a CTMC model, and the visual power of CTMC parameters.  
+Three of the most important assessments of a statistical model are significance tests of parameters, goodness-of-fit tests, and power calculations of the tests. All three tasks become more difficult as the model becomes more complex. We will explore these three assessments of one particularly complex set of models, continuous time Markov chain (CTMC) models, for dynamic social networks  \citep{saompaper}. In this paper, we propose new methods for significance and goodness-of-fit testing, as well as power calculations for CTMC models via the visual inference (VI) paradigm of \citet{Bujaetal}. With VI, we can look at entire datasets simulated from a model, instead of relying a single metric such as a $p$-value. We conducted a VI experiment, with participants recruited via Amazon Mechanical Turk, to assess the significance of CTMC parameters, the fit of a CTMC model, and the visual power of CTMC parameters, and found that ... TBD 
 \end{abstract}
 
 \noindent%
