@@ -126,32 +126,6 @@ CTMC models use network structure and node covariates to model the network chang
 % and self-referencing edges or loops are not allowed, i.e.  $x_{ii} = 0$ for all $i=1, 2, \dots, n$. 
 % The network is observed $M \geq 2$ times at time points  $t_1 < ... < t_M$, and the entire network at time point $t_m$ is denoted as $x(t_m)$ for $m \in \{1, \dots, M\}$.
 
-\noindent \textbf{Rate Function:}  The rate function dictates when network changes are made and which actor can make them. An actor, $i$, is chosen make a change in its ties one of the other nodes $j$. In general, the rate function can include structural and node covariate parameters into account so that each actor has a different rate of change. However, we choose a simple rate function that is constant over all nodes in a given time period, because we focus on interpreting the parameters of the objective function which directly impact the overall network structure. We denote the rate from $t_{m}$ to $t_{m+1}$ as $\alpha_m$ for $m = 1, \dots, M-1$, where $M$ is the number of time points at which the network was observed. Using this notation, the \textit{waiting time} to the next chance for actor $i$ to make a change is exponentially distributed with expected value $\alpha_m^{-1}$. Since the rate is the same for all actors, the waiting time for \textit{any} actor to get the opportunity to change its set of ties is also exponentially distributed with expected value $(n\alpha_m)^{-1}$.
-
-\noindent \textbf{Objective Function:} After actor $i$ is selected to make a change, it randomly picks one of its current ties, $x_{ij}$, to change. %The probability that actor $i$ changes its current tie to actor $j$ is determined by the \textit{objective function} of the model and a random error term $U$ with log-Weibull distribution \citep{modelsSnijders}.  %\hh{XXX can you paraphrase the purpose of U in half a sentence?}
-%The random component is assumed to have log-Weibull distribution with location parameter $\mu = 0$ and scale parameter $\sigma = 0$ (see \citet{modelsSnijders}), so the probability density function of $U$ is
-%\begin{equation}\label{eq:logweibull}
-%g(u) = \exp\{-(u + \exp\{-u\})\}.
-%\end{equation}
-%The objective function, $f_i$, is the driving force of a SAOM. 
-Actor $i$ aims to maximize the objective function $f_i$ given the current state of the network, $x$ and the node-level covariates, $\mathbf{Z}$. This function is defined as:% which has the form
-\begin{equation}\label{eq:objective}
-f_i(x, \boldsymbol{\beta}, \mathbf{Z}) = \sum_{k = 1}^K \beta_k s_{ik}(x, \mathbf{Z}),
-\end{equation}
-where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some statistics, $s_{i1}(x, \mathbf{Z}), \dots, s_{iK}(x, \mathbf{Z})$, calculated for actor $i$ at the current network state $x$. %The statistics can be very simple, like outdegree of the node, $s_{i1}(x) = \sum_{i\neq j} x_{ij}$, or more complicated, like the {\it transitive triplets jumping to different covariate} statistic, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$. 
-At least two parameters must be included in the objective function: density and reciprocity \citep{RSienamanual}. We denote the density, or out-degree, parameter by $\beta_1$ and the associated statistic as $s_{i1}(x)=\sum_{j} x_{ij}$ and we denote the reciprocity parameter by $\beta_2$ and the associated statistic as $s_{i2}(x) = \sum_{j} x_{ij}x_{ji}$. We will refer to the very simple model with only these two parameters in the objective function as model M1. We define additional parameters and models of interest in Section~\ref{sec:models}  %, plus many more. At last count, in the software we use to fit these models to network data, 
-Version 1.2-3 of \texttt{RSiena} \citep{RSiena}, the software we use to fit CTMC models to data, provides over 80 possible effects that can be included in the objective function. %We discuss these and other statistics in more detail in Section~\ref{sec:models}. 
-
-The objective function $f_{i}(x, \boldsymbol{\beta}, \mathbf{Z})$ dictates the \textit{transition probability}, $p_{ij}$ of the network changing from its current state $x$ to the state $x(i\leadsto j)$, which is identical to $x$ except for $x_{ij}$: $x_{ij}(i \leadsto j) = 1 - x_{ij}$. The transition probability is
-\begin{equation}\label{eq:transprob}
-p_{ij} = \dfrac{\exp\{f_i(x(i \leadsto j), \boldsymbol{\beta}, \mathbf{Z})\}}{\sum_{h} \exp\{f_i(x(i \leadsto h), \boldsymbol{\beta}, \mathbf{Z})\}},
-\end{equation}
-dictating which edge node $i$ changes. Thus, the actor is more likely to make changes that increase the value of their objective function, and no change is most likely when any change decreases the value of the objective function.%Node $i$ can also choose to \textit{not} change at all, which is most likely when the value of Equation~\ref{eq:objective} is larger for $x$ than for any $x(i \leadsto j)$.  
-
-%\hh{XXX how is the probability computed in the case that no change is made? Why is the notation $j \equiv i$ used for no change?}\st{that's more for the computation. I'll adjust accordingly}
-
-
-
 \subsection{Visual Inference}\label{subsec:vi}
 
 Data visualization is an important component of data analysis, providing a mechanism for discovering patterns in data. Pioneering research by \citet{gelman:2004}, \citet{Bujaetal} and \citet{majumder:2011} provide methods to quantify the significance of discoveries made from visualizations. \citet{Bujaetal} introduced two protocols, the Rorschach and the lineup protocol, which bridge the gulf between traditional statistical inference and exploratory data analysis. %The Rorschach protocol consists of a set of $m$ (usually, $m=20$) plots (called the {\it null plots}) rendered from data that is consistent with a given null model. The Rorschach protocol helps to understand the extent of randomness in the null model. 
