@@ -93,7 +93,7 @@ turk22 <- read_csv("data/turk22-sig.csv")
 When selecting and fitting statistical models, there are typically three key assessments of interest: significance tests of parameters, goodness-of-fit tests, and power calculations. With significance testing, the null hypothesis assumes that the data come from a simple model nested within the model of interest. We then conduct significance tests of one or more additional parameters to determine how much of the variability in the data they explain. For goodness-of-fit tests, we examine one or more models of interest to assess how well these models explain the data. Power then quantifies the ability of the hypothesis test to detect the difference between the null and alternative hypothesis.  All three of these elements of statistical modeling are vital to ensure that we can draw valid conclusions from a model. 
 %The more complicated the model, the harder it is to determine fit or to include or exclude a parameter. 
 
-The more complex the model, however, the harder it typically is to assess significance, power, and goodness-of-fit. \st{Citation?} One particularly complicated family of models are those designed to model networks. A \textit{network} is any set of things, such as people, or computers, that are connected in some way, through social relations or the Internet. In a social network, people are \textit{nodes} or \textit{actors} connected by relationships, which are \textit{edges} or \textit{ties}. We use nodes and edges interchangeably with actors and ties, respectively. Models for networks are particularly complex, as 
+The more complex the model, however, the harder it typically is to assess significance, power, and goodness-of-fit. One particularly complicated family of models are those designed to model networks. A \textit{network} is any set of things, such as people, or computers, that are connected in some way, through social relations or the Internet. In a social network, people are \textit{nodes} or \textit{actors} connected by relationships, which are \textit{edges} or \textit{ties}. We use nodes and edges interchangeably with actors and ties, respectively. Models for networks are particularly complex, as 
 dependencies inherent to network data make them  difficult to model. %Even more challenging is the situation 
 This difficulty increases further when studying \textit{dynamic networks}, the same set of nodes and their changing relationships observed at many points in time, because of the added temporal dimension. Yet, researchers are often interested in modeling dynamic social networks, such as friendship networks among students or collaboration networks between legislators. %
 Even some of the simplest network models, however, lack the asymptotics required to perform traditional goodness-of-fit tests \citep{holland81}. In addition, direct maximum likelihood estimation of model parameters is frequently impossible due to the intractability of the models \citep{hummeletal}. 
@@ -101,7 +101,7 @@ Even some of the simplest network models, however, lack the asymptotics required
 % stop 4pm on 1/28/19
 
 In order to circumvent some of these difficulties, we propose a new approach for significance testing of parameters, goodness-of-fit testing, and power calculations %of these 
-for one family social network models: continuous time Markov-chain (CTMC) models for dynamic network data, as described in \citet{saompaper}. We use \textit{visual inference} \st{to complement}%in place of 
+for one family social network models: continuous time Markov-chain (CTMC) models for dynamic network data, as described in \citet{saompaper}. We use \textit{visual inference} \st{to complement} %in place of 
 traditional statistical methods for social network models, such as $t$-tests for significance of parameters or outdegree distributions for goodness-of-fit tests. Visual inference (VI), introduced by \citet{Bujaetal}, allows us to look at the \textit{entire} dataset simulated from a network model, whereas traditional methods use one-dimensional metrics derived from the network or a $p$-value for a parameter in the model. By using VI to supplement traditional statistical tests, we gain insight into the role of the parameters in these CTMC models, and we gain the ability to assess the fit of the CTMCs to dynamic network data.%In addition, we use visual inference to better understand some parameters in a social network model, by looking at how different values for parameters affect the networks simulated from these models.   
 
 The paper is outlined as follows: Section~\ref{subsec:saom} provides an introduction to the CTMC family of models. Section~\ref{subsec:vi} gives a basic overview of visual inference and the lineup protocol. In Section~\ref{sec:models}, we describe our example data and define our models of interest that we used to develop our VI methods. Section~\ref{sec:expersetup} details how we designed a VI experiment for significance testing and goodness of fit procedures for CTMC models, and Section~\ref{sec:res} details the results of our experiment. We close with a discussion in Section~\ref{sec:concl}.  
@@ -164,20 +164,7 @@ The lineup protocol was formally tested for linear models in a head-to-head comp
 
 \section{Example Data and Models}\label{sec:models}
 
-The data we use are collaboration networks in the United States Senate during the $111^{th}$ through $114^{th}$ Congresses. These senates began on January 6, 2009, the start date of the $111^{th}$ Congress, and ended on January 3, 2017, the last date of the $114^{th}$ Congress Details of how this data can be downloaded are provided by François Briatte at \url{github.com/briatte/congress}. In the US Senate, senators often show support for a piece of legislation by co-sponsoring a bill authored by one of their colleagues. In a co-sponsorship network, ties are directed from senator $i$ to senator $j$ when senator $i$ signs on as a co-sponsor to the bill that senator $j$ authored. There are many hundreds of ties between senators when they are connected in this way, so we simplify the network by computing a single value for each senator-senator collaboration called the \textit{weighted propensity to co-sponsor} (WPC). This value is defined in \citet{senate} as 
-
-\begin{equation}\label{eq:sen1}
-    WPC_{ij} = \sum\limits_{b=1}^{B_j} \frac{Y_{ij(b)}}{c_{j(b)}}\left(\sum\limits_{b=1}^{B_j} \frac{1}{c_{j(b)}}\right)^{-1}
-\end{equation}
-where $B_j$ is the number of bills in a congressional session authored by senator $j$, $c_{j(b)}$ is the number of co-sponsors on senator $j$'s $b^{th}$ bill, where $b \in \{1,\dots, B_j\}$, and $Y_{ij(b)}$ is an indicator variable that senator $i$ co-sponsored senator $j$'s $b^{th}$ bill. This measure ranges in value from 0 to 1, where $WPC_{ij} = 1$ if senator $i$ is a co-sponsor on every one of senator $j$'s bills and $WPC_{ij} = 0$ if senator $i$ is never a co-sponsor any of senator $j$'s bills. To simplify the problem, we construct a network with binary edges as follows: 
- \begin{equation}\label{eq:edgewpc}
-  x_{ij} =
-\begin{cases}
-                                   1 & WPC_{ij} > 0.25 \\
-                                   0 & WPC_{ij} \leq 0.25
-\end{cases}
-\end{equation}
-so that only strong ties between senators are in the network.
+The data we use are collaboration networks in the United States Senate during the $111^{th}$ through $114^{th}$ Congresses. These senates began on January 6, 2009, the start date of the $111^{th}$ Congress, and ended on January 3, 2017, the last date of the $114^{th}$ Congress.
 For each of the four senate sessions, we have three node covariates: the party affiliation of each senator, the number of bills they authored in each session, and their gender. We use each of these covariates in CTMC models to try to explain how ties are formed between senators over time. The node-link diagram for the senate network is shown in Figure~\ref{fig:senateAll}. We labelled some of the nodes in the network whose names we think will be familiar the reader, either because they are leaders in their party or they have run for president. The size of the nodes represents how many bills the senator authored in a session, the color represents party affiliation, and the shape represents gender. In each of the four sessions, there is one very large connected component tying many of the prominent senators together, with many smaller connected groups surrounding the larger component. In each senate, the structure changes slightly as new senators arrive or come to prominence.
 
 <<senateAll, fig.height = 5, fig.cap="The US senate collaboration network observed at four time points. Color represents party, shape represents gender, and size represents number of bills authored in a session. The Fruchterman-Reingold layout is shown \\citep{fr}. Drawn with the \\texttt{geomnet} R package. \\citep{geomnet}">>=
@@ -200,7 +187,7 @@ seobama2$label <- mynames$last
 
 set.seed(93654)
 ggplot(data = seobama2) + 
-  geom_net(directed = T, labelon=T, arrowsize = .25, singletons= T, fiteach = T, linewidth = .25, layout.alg = 'fruchtermanreingold', fontsize = 2, repel=T, labelcolour = "grey40", 
+  geom_net(directed = T, labelon=T, arrowsize = .25, singletons= T, fiteach = T, linewidth = .25, layout.alg = 'fruchtermanreingold', fontsize = 2.5, repel=F, labelcolour = "black", vjust = -.8,
            aes(from_id = source, to_id = target, color = party, 
                label = label,shape = sex,size = n_au)) + 
   ThemeNet + 
@@ -257,9 +244,8 @@ $\beta_6$ & same transitive triplet & party & $s_{i6}(x, \mathbf{p}) =\sum_{j} x
 \end{table}
 
 
-
+%\begin{wraptable}{r}{6.5cm}
 \begin{table}
-\centering
 \begin{tabular}{lcccccc}
 \toprule 
 Model & $\beta_{1}$ & $\beta_{2}$ & $\beta_{3}$ & $\beta_{4}$ & $\beta_{5}$ & $\beta_{6}$ \\
@@ -269,11 +255,12 @@ M3 & \checkmark & 	\checkmark & \checkmark & -- & -- & -- \\
 M4 & \checkmark & 	\checkmark & -- & \checkmark & -- & -- \\
 M5 & \checkmark & 	\checkmark & -- & -- & \checkmark & -- \\
 M6 & \checkmark & 	\checkmark & -- & -- & -- & \checkmark \\
-M7 & \checkmark & 	\checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+M7 & \checkmark & 	\checkmark & -- & \checkmark & \checkmark & \checkmark \\
 \bottomrule
 \end{tabular}
 \caption{\label{tab:models}The models we use defined by the parameters in their objective functions. The corresponding parameter for $s_{ik}$ is $\beta_k$. Note there is no model M2.}
 \end{table}
+%\end{wraptable}
 % 
 % \begin{enumerate}
 % \item Model M1: $f_{i}(x, \boldsymbol{\beta}) = \beta_1 s_{i1}(x) + \beta_2 s_{i2}(x)$
@@ -355,7 +342,7 @@ We fit all six of our models in \texttt{RSiena} using Markov Chain Monte Carlo (
 
 We want to determine the role that each of these parameters plays in the objective functions for the different models. We use the estimates given in Table~\ref{tab:fittedvalues} to simulate from models M1 through M6. Then, we examine the effects on the structure of the simulated networks with a large visual inference experiment to determine significant effects, goodness-of-fit, and visual power. 
 
-\section{Experiment Design}\label{sec:expersetup}
+\section{Methodology}\label{sec:expersetup}
 
 We want to assess CTMC models for the senate network data using the lineup protocol in three ways: with significance tests of parameters,  goodness-of-fit tests of a model, and determination of the visual power of the effects.
 Each one of these situations requires a different setup, which we describe in detail, making use of the lineup protocol defined in \citet{Bujaetal}. In each lineup, we include plots from two models: a null model and an alternative model. The definition of the null and alternative model varies with the model and the assessment we explore. 
@@ -368,6 +355,14 @@ Several lineups shown to our participants are presented and discussed in Section
 To simulate lineups from the models we used the \texttt{siena07} function in \texttt{RSiena} \citep{RSiena}. For the purposes of our experiment, we focus on simulating the second ``wave" of data, the $112^{th}$ Senate network, and we condition on the first wave of data, $111^{th}$ Senate network.  Sections~\ref{sec:setupst} through~\ref{sec:setupvp} describe in detail how we constructed the lineups, which parameter values used, and why. Lineups we created were shown to independent observers recruited through Amazon Mechanical Turk for feedback, and we provide more detail on the Turk setup in Section~\ref{sec:res}. %, we set the parameters to the values given in Table~\ref{tab:fittedvalues} for all parameters within the respective models, with the exception of $\beta_5$. For $\beta_5$, twice the estimated value was used. More detail on why we use twice the fitted value is provided in Section~\ref{sec:setupvp}.\footnote{If you would like to explore the kinds of lineups we use in further detail, please visit \url{https://sctyner.shinyapps.io/saom_lineup_creation/}}. To get the simulations,
 
 
+We recruited 250 participants for our experiment through Amazon Mechanical Turk. Each participant was first presented with some brief training material. Before presenting the lineups for the hypothesis tests, each participant was shown two trial plots: one where the alternative plot was the most different from the others due to its relatively \textit{complex} structure, while the other trial included an alternative plot that was most different from the others due to its comparatively \textit{simple} structure. Only when participants were able to correctly identify the alternative plot from the trial lineups were they allowed to begin the experiment. 
+
+Each participant was randomly assigned 13 lineups to look at. They were asked to select one or more plots that they perceived as ``most different" from the others, and provide a reasoning for their choice: ``most simple overall structure",``most complex overall structure", or ``other". If they selected ``other", they were required to describe their reasoning. The language in the reasoning is purposefully vague to avoid contextual bias. 
+
+Twelve of the 13 lineups that the participants saw were used for the significance testing and the visual power methods discussed in Sections~\ref{sec:setupst} and \ref{sec:setupvp}. Among the 12 lineups were four from each difficulty level (easy, medium, and hard), and two of the four were from each condition (negative-positive, or positive-reverse). Each participant saw each of the six models twice at some combination of difficulty and condition.   %The six parameters, $\beta_1, \dots, \beta_6$ were set to three different values according to how difficult we thought picking the data plot from the lineup would be for our participants, and were also set to be less than or greater than the initial estimate, creating the lineup type variable.%\hh{what about the first 12 plots? 6 parameters, 3 levels, 2 directions}
+The last lineups shown to participants contained the true data from the 112th senate shown in Section~\ref{sec:models} placed among five other plots from  one of the models M3, M4, M5, and M7 as discussed in Section~\ref{sec:gofsetup}. Upon completion of the 13 lineups, each participant was paid \$1.75    
+
+% future:  which took an average of 308 seconds per person, 
 \subsection{Significance Testing}\label{sec:setupst}
 
 In the significance testing protocol, a parameter of interest $\beta_k$ is selected to test. The hypotheses we use to generate lineups are: 
@@ -499,14 +494,8 @@ names(experdet) <- c("Parameter", "Condition", "Easy Value", "Medium Value", "Ha
 #       hline.after = c(-1,0,0,8,8,12), sanitize.text.function = function(x){x})
 @
 
-\subsection{Execution}
+%\subsection{Execution}
 
-We recruited 250 participants for our experiment through Amazon Mechanical Turk. Each participant was first presented with some brief training material. Before presenting the lineups for the hypothesis tests, each participant was shown two trial plots: one where the alternative plot was the most different from the others due to its relatively \textit{complex} structure, while the other trial included an alternative plot that was most different from the others due to its comparatively \textit{simple} structure. Only when participants were able to correctly identify the alternative plot from the trial lineups were they allowed to begin the experiment. 
-
-Each participant was randomly assigned 13 lineups to look at. They were asked to select one or more plots that they perceived as ``most different" from the others, and provide a reasoning for their choice: ``most simple overall structure",``most complex overall structure", or ``other". If they selected ``other", they were required to describe their reasoning. The language in the reasoning is purposefully vague to avoid contextual bias. 
-
-Twelve of the 13 lineups that the participants saw were used for the significance testing and the visual power methods discussed in Sections~\ref{sec:setupst} and \ref{sec:setupvp}. Among the 12 lineups were four from each difficulty level (easy, medium, and hard), and two of the four were from each condition (negative-positive, or positive-reverse). Each participant saw each of the six models twice at some combination of difficulty and condition.   %The six parameters, $\beta_1, \dots, \beta_6$ were set to three different values according to how difficult we thought picking the data plot from the lineup would be for our participants, and were also set to be less than or greater than the initial estimate, creating the lineup type variable.%\hh{what about the first 12 plots? 6 parameters, 3 levels, 2 directions}
-The last lineups shown to participants contained the true data from the 112th senate shown in Section~\ref{sec:models} placed among five other plots from  one of the models M3, M4, M5, and M7 as discussed in Section~\ref{sec:gofsetup}. Upon completion of the 13 lineups, which took an average of 308 seconds per person, each participant was paid \$1.75    
 
 \section{Results}\label{sec:res}
 
@@ -587,40 +576,7 @@ The results of the significance tests given in Table~\ref{tab:sigtesting} for $\
 
 \subsection{Goodness-of-Fit Testing}
 
-Goodness-of-fit testing for network models is notoriously difficult. Most network models, other than the most simple, lack the necessary asymptotics for developing goodness-of-fit methods \citep{goldenberg09}. Some simulation-based methods have been developed using what auxiliary statistics such as the indegree or outdegree distribution on the nodes \citep{RSienamanual}. In \texttt{RSiena}, the \texttt{sienaGOF} function performs goodness-of-fit testing as follows:
-\begin{enumerate}
-\item Auxiliary statistics, such as the cumulative outdegree distribution on the nodes, are computed on the observed data ($\mathbf{u}_d$) and on $N$ observations simulated from the model ($\mathbf{u}_1 \dots \mathbf{u}_N$). 
-\item The mean $\overline{\mathbf{u}}$ and covariance matrix $\mathbf{S}$ are computed from the $N$ simulations, and the Mahalanobis distance, $d_M(\mathbf{u}_d)$ from the observed statistics to the distribution of the simulated statistics is computed:
-\begin{equation}\label{eq:mahal}
-d_M(\mathbf{u}_d) = \sqrt{(\mathbf{u}_d - \overline{\mathbf{u}})' \mathbf{S}^{-1} (\mathbf{u}_d - \overline{\mathbf{u}})}
-\end{equation}
-\item The Mahalanobis distance for each of the $N$ simulations is calculated and $d_M(\mathbf{u}_d)$ is compared to this distribution of distances.
-\item An empirical $p$-value is found by computing the proportion of simulated distances found in step 4 that are as large or larger than $d_M(\mathbf{u}_d)$.% A model is thus considered a good fit to the data if $p$ is large.
-\end{enumerate}
-<<gofsiena, fig.height=2.5, fig.cap="An example of what a goodness-of-fit plot from \\texttt{RSiena} looks like. The overlaid boxplots and violin plots show the distribution of each of the outdegree count values on the simulated networks, and the red points and lines are the observed data values.", cache = TRUE, eval=FALSE>>=
-load("data/ansnullpaper.rda")
-library(lattice)
-#gof1 <- sienaGOF(ansnull, OutdegreeDistribution, varName ="friendship", join = FALSE)
-gof1 <- readr::read_rds("data/gof-data.rds")
-sims1 <- data.frame(gof1$`Period 1`$Simulations)
-dat1 <- gof1$`Period 1`$Observations
-dat1 %>% data.frame() %>% gather(outdegree, val) %>%
-  mutate(outdegree = parse_number(outdegree)-1) -> dat1
-p1 <- sims1 %>%
-  mutate(sim = row_number()) %>%
-  gather(outdegree, val, X1:X9) %>%
-  mutate(outdegree = parse_number(outdegree) - 1) %>%
-  filter(outdegree <= 6) %>%
-  ggplot(aes(x = outdegree, y = val)) + 
-  geom_boxplot(aes(group = outdegree), size = .5, outlier.shape = "x", outlier.size = 5) + 
-  geom_violin(aes(group = outdegree), bw = 2, fill = NA) + 
-  geom_point(data = dat1, color = 'red') + 
-  geom_line(data= dat1, color = 'red') + 
-  geom_text(data = dat1, aes(label = val), hjust = -.5) + 
-  labs(x = "Outdegree (p = 0.154)", y = "Statistic", 
-       title = "Goodness-of-Fit: Outdegree distribution period 1") + 
-  ThemeNoNet
-p1
+Goodness-of-fit testing for network models is notoriously difficult. Most network models, other than the most simple, lack the necessary asymptotics for developing goodness-of-fit methods \citep{goldenberg09}. Some simulation-based methods have been developed using what auxiliary statistics such as the indegree or outdegree distribution on the nodes \citep{RSienamanual}. In \texttt{RSiena}, 
 @
 %A plot comparing the data to the simulations is also considered, and a similar plot is shown in Figure~\ref{fig:gofsiena} for the outdegree distribution of small data set, shown in the points and connected lines, with the simulated values of $\mathbf{u}_d$ shown in box plots and overlaid violin plots.
 %The \texttt{RSiena} software also provides a Rao score-type test for goodness-of-fit for assessing one or more parameters, the test statistic of which is compared to a Chi-square distribution with $H$ degrees of freedom, where $H$ has the same definition as in Section~\ref{sec:sigtest}. For full detail on the score-type test, see \citet{scoretest}. 
@@ -811,78 +767,6 @@ sigma_epsilon <- summary(model2randomscalesize)[[13]]$nick_name[[1]]
 sigma_delta <- summary(model2randomscalesize)[[13]]$pic_id[[1]]
 @
 
-
-\npdecimalsign{.}
-%\nprounddigits{3}
-
-\begin{table}
-\centering
-\begin{tabular}{cn{5}{2}n{5}{3}rr}\hline
-Parameter & \multicolumn{1}{r}{Estimate} & \multicolumn{1}{r}{Std Error} & $p$-value & Odds Multiplier \\ \hline\hline
-$\eta_{1+}$ & \Sexpr{ests[7]} & \Sexpr{se[7]} & \Sexpr{pval[7]}$^{\ddagger}$ & \Sexpr{odds[7]} \\
-$\eta_{1-}$ & \Sexpr{ests[1]} & \Sexpr{se[1]} & \Sexpr{pval[1]}$^{\dagger}$ & \Sexpr{odds[1]}\\
-$\gamma_{1+}$ & \Sexpr{ests[19]} & \Sexpr{se[19]} & \Sexpr{pval[19]}$^{\ddagger}$ & \Sexpr{odds[19]} \\
-$\gamma_{1-}$  & \Sexpr{ests[13]} & \Sexpr{se[13]} & \Sexpr{pval[13]}$^{\dagger}$ & \Sexpr{odds[13]} \\ \hline
-$\eta_{2+}$  & \Sexpr{ests[10]} & \Sexpr{se[10]} & \Sexpr{pval[10]} & \Sexpr{odds[10]} \\
-$\eta_{2-}$  & \Sexpr{ests[4]} & \Sexpr{se[4]} & \Sexpr{pval[4]}$^{\ddagger}$ & \Sexpr{odds[4]} \\
-$\gamma_{2+}$ & \Sexpr{ests[22]} & \Sexpr{se[22]} & \Sexpr{pval[22]}$^{*}$ & \Sexpr{odds[22]} \\
-$\gamma_{2-}$  & \Sexpr{ests[16]} & \Sexpr{se[16]} & \Sexpr{pval[16]}$^{\ddagger}$ & \Sexpr{odds[16]} \\ \hline
-$\eta_{3+}$  & \Sexpr{ests[8]} & \Sexpr{se[8]} & \Sexpr{pval[8]}$^{\dagger}$ & \Sexpr{odds[8]} \\ 
-$\eta_{3-}$ & \Sexpr{ests[2]} & \Sexpr{se[2]} & \Sexpr{pval[2]}$^{\dagger}$ & \Sexpr{odds[2]} \\
-$\gamma_{3+}$ & \Sexpr{ests[20]} & \Sexpr{se[20]} & \Sexpr{pval[20]}$^{\dagger}$ & \Sexpr{odds[20]}  \\
-$\gamma_{3-}$   & \Sexpr{ests[14]} & \Sexpr{se[14]} & \Sexpr{pval[14]}$^{*}$ & \Sexpr{odds[14]} \\ \hline
-$\eta_{4+}$ & \Sexpr{ests[9]} & \Sexpr{se[9]} & \Sexpr{pval[9]}$^{**}$ & \Sexpr{odds[9]} \\
-$\eta_{4-}$ & \Sexpr{ests[3]} & \Sexpr{se[3]} & \Sexpr{pval[3]}$^{**}$ & \Sexpr{odds[3]}  \\
-$\gamma_{4+}$ & \Sexpr{ests[21]} & \Sexpr{se[21]} & \Sexpr{pval[21]}$^{**}$ & \Sexpr{odds[21]} \\ 
-$\gamma_{4-}$  & \Sexpr{ests[15]} & \Sexpr{se[15]} & \Sexpr{pval[15]} & \Sexpr{odds[15]} \\ \hline
-$\eta_{5+}$  & \Sexpr{ests[12]} & \Sexpr{se[12]} & \Sexpr{pval[12]}$^{*}$ & \Sexpr{odds[12]} \\
-$\eta_{5-}$  & \Sexpr{ests[6]} & \Sexpr{se[6]} & \Sexpr{pval[6]}$^{\ddagger}$ & \Sexpr{odds[6]} \\
-$\gamma_{5+}$ & \Sexpr{ests[24]} & \Sexpr{se[24]} & \Sexpr{pval[24]}$^{*}$ & \Sexpr{odds[24]} \\ 
-$\gamma_{5-}$ & \Sexpr{ests[18]} & \Sexpr{se[18]} & \Sexpr{pval[18]}$^{\ddagger}$ & \Sexpr{odds[18]} \\ \hline
-$\eta_{6+}$  & \Sexpr{ests[11]} & \Sexpr{se[11]} & \Sexpr{pval[11]} & \Sexpr{odds[11]} \\
-$\eta_{6-}$ & \Sexpr{ests[5]} & \Sexpr{se[5]} & \Sexpr{pval[5]}$^{\ddagger}$ & \Sexpr{odds[5]}  \\
-$\gamma_{6+}$ & \Sexpr{ests[23]} & \Sexpr{se[23]} & \Sexpr{pval[23]} & \Sexpr{odds[23]} \\
-$\gamma_{6-}$ & \Sexpr{ests[17]} & \Sexpr{se[17]} & \Sexpr{pval[17]}$^{\ddagger}$ & \Sexpr{odds[17]} \\ \hline
-$\sigma^2_{\delta}$ & \Sexpr{round(sigma_delta, 4)} & \multicolumn{1}{r}{--} & -- & --\\
-$\sigma^2_{\epsilon}$ &  \Sexpr{round(sigma_epsilon, 4)}  & \multicolumn{1}{r}{--} & -- & --\\
-\hline 
-\end{tabular}
-\caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}. Significance levels: * - $< 0.10$; ** - $<0.05$; $\dagger$ - $<0.01$; $\ddagger$ - $<0.001$}
-\end{table}
-
-% \begin{table}
-% \centering
-% \begin{tabular}{lcccc}
-% Parameter & Estimate & Std Error & $p$-value & Odds Multiplier \\
-% $\mu$ & \Sexpr{ests[1]} & \Sexpr{se[1]} & \Sexpr{pval[1]} & \Sexpr{odds[1]}\\
-% $\alpha_1$ & \Sexpr{ests[2]} & \Sexpr{se[2]} & \Sexpr{pval[2]} & \Sexpr{odds[2]} \\
-% $\alpha_2$ & \Sexpr{ests[3]} & \Sexpr{se[3]} & \Sexpr{pval[3]} & \Sexpr{odds[3]}  \\
-% $\alpha_3$  & \Sexpr{ests[4]} & \Sexpr{se[4]} & \Sexpr{pval[4]} & \Sexpr{odds[4]} \\
-% $\alpha_4$ & \Sexpr{ests[5]} & \Sexpr{se[5]} & \Sexpr{pval[5]} & \Sexpr{odds[5]}  \\
-% $\alpha_5$  & \Sexpr{ests[6]} & \Sexpr{se[6]} & \Sexpr{pval[6]} & \Sexpr{odds[6]} \\
-% $\theta$  & \Sexpr{ests[7]} & \Sexpr{se[7]} & \Sexpr{pval[7]} & \Sexpr{odds[7]} \\
-% $\gamma$  & \Sexpr{ests[8]} & \Sexpr{se[8]} & \Sexpr{pval[8]} & \Sexpr{odds[8]} \\ 
-% $(\alpha\theta)_1$  & \Sexpr{ests[9]} & \Sexpr{se[9]} & \Sexpr{pval[9]} & \Sexpr{odds[9]} \\
-% $(\alpha\theta)_2$  & \Sexpr{ests[10]} & \Sexpr{se[10]} & \Sexpr{pval[10]} & \Sexpr{odds[10]} \\
-% $(\alpha\theta)_3$  & \Sexpr{ests[11]} & \Sexpr{se[11]} & \Sexpr{pval[11]} & \Sexpr{odds[11]} \\
-% $(\alpha\theta)_4$  & \Sexpr{ests[12]} & \Sexpr{se[12]} & \Sexpr{pval[12]} & \Sexpr{odds[12]} \\
-% $(\alpha\theta)_5$  & \Sexpr{ests[13]} & \Sexpr{se[13]} & \Sexpr{pval[13]} & \Sexpr{odds[13]} \\
-% $(\alpha\gamma)_1$  & \Sexpr{ests[14]} & \Sexpr{se[14]} & \Sexpr{pval[14]} & \Sexpr{odds[14]} \\
-% $(\alpha\gamma)_2$  & \Sexpr{ests[15]} & \Sexpr{se[15]} & \Sexpr{pval[15]} & \Sexpr{odds[15]} \\
-% $(\alpha\gamma)_3$  & \Sexpr{ests[16]} & \Sexpr{se[16]} & \Sexpr{pval[16]} & \Sexpr{odds[16]} \\
-% $(\alpha\gamma)_4$  & \Sexpr{ests[17]} & \Sexpr{se[17]} & \Sexpr{pval[17]} & \Sexpr{odds[17]} \\
-% $(\alpha\gamma)_5$  & \Sexpr{ests[18]} & \Sexpr{se[18]} & \Sexpr{pval[18]} & \Sexpr{odds[18]} \\
-% $\theta\gamma$  & \Sexpr{ests[19]} & \Sexpr{se[19]} & \Sexpr{pval[19]} & \Sexpr{odds[19]} \\
-% $(\alpha\theta\gamma)_1$ & \Sexpr{ests[20]} & \Sexpr{se[20]} & \Sexpr{pval[20]} & \Sexpr{odds[20]}  \\
-% $(\alpha\theta\gamma)_2$  & \Sexpr{ests[21]} & \Sexpr{se[21]} & \Sexpr{pval[21]} & \Sexpr{odds[21]} \\
-% $(\alpha\theta\gamma)_3$  & \Sexpr{ests[22]} & \Sexpr{se[22]} & \Sexpr{pval[22]} & \Sexpr{odds[22]} \\
-% $(\alpha\theta\gamma)_4$  & \Sexpr{ests[23]} & \Sexpr{se[23]} & \Sexpr{pval[23]} & \Sexpr{odds[23]} \\
-% $(\alpha\theta\gamma)_5$  & \Sexpr{ests[24]} & \Sexpr{se[24]} & \Sexpr{pval[24]} & \Sexpr{odds[24]} \\ 
-% $\sigma^2_{\delta}$ & 0.5638 \\
-% $\sigma^2_{\epsilon}$ & 0.3416
-% \end{tabular}
-% \caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}}
-% \end{table}
 
 <<predictglmm, fig.height=6, fig.cap='Predictions from our GLMM given in Equation~\\ref{eq:glmm}. For new observers of new lineups, the lines show the expected probability of detecting the alternative data in a lineup of size 6 as a function of the parameter value. The proportions detected by our Turk participants for each lineup group are shown by the points, with the probability of picking out the data plot at random shown by a horizontal line at 1/6. The lineup marked as ``outlier" was removed from modeling. Estimated parameter values shown by vertical dotted lines.'>>=
 newdata <- read_csv("data/newdata_pred_glmm.csv")

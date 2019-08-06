@@ -1,0 +1,245 @@
+\documentclass[12pt]{article}
+% \usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+% \geometry{letterpaper}                   % ... or a4paper or a5paper or ...
+%\usepackage{graphicx}
+\usepackage[font=small,skip=5pt]{caption}
+\usepackage{subcaption}
+%\usepackage{animate}
+\usepackage{afterpage}
+\usepackage{amssymb}
+\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+%\usepackage{color}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage[dvipsnames,svgnames,table]{xcolor}
+\usepackage{xr}
+\usepackage{xr-hyper}
+\usepackage{hyperref}
+\usepackage{numprint}
+\usepackage{booktabs}
+
+%\usepackage{appendix}
+
+\graphicspath{{sm-figure/}}
+% \usepackage{endfloat} % Figures to the end of the document
+\newcommand{\st}[1]{{\color{orange} #1}}
+\newcommand{\hh}[1]{{\color{magenta} #1}}
+
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+%---------------------------------------------------
+%                 Editing Commands
+%\newcommand{\hh}[1]{{\color{magenta} #1}}
+%\newcommand{\st}[1]{{\color{orange} #1}}
+
+%---------------------------------------------------
+%                 Placing Figures
+\renewcommand{\topfraction}{0.99}	% max fraction of floats at top
+\renewcommand{\bottomfraction}{0.8}	% max fraction of floats at bottom
+\renewcommand{\textfraction}{0.05}	% allow minimal text w. figs
+
+%---------------------------------------------------
+% Define new environment
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{algorithm}[theorem]{Algorithm}
+%---------------------------------------------------
+
+%\pdfminorversion=4
+% NOTE: To produce blinded version, replace "0" with "1" below.
+\newcommand{\blind}{0}
+
+% DON'T change margins - should be 1 inch all around.
+\addtolength{\oddsidemargin}{-.5in}%
+\addtolength{\evensidemargin}{-.5in}%
+\addtolength{\textwidth}{1in}%
+\addtolength{\textheight}{1.3in}%
+\addtolength{\topmargin}{-.8in}%
+
+\def\spacingset#1{\renewcommand{\baselinestretch}%
+{#1}\small\normalsize} \spacingset{1}
+
+\externaldocument{paper}
+
+\begin{document}
+
+\title{\bf Supplementary Materials: Visual Inference for a Social Network Model}
+  \author{Samantha Tyner\thanks{
+    Department of Statistics and Statistical Laboratory, Iowa State University\\
+    and \\
+    Heike Hofmann\\
+    Department of Statistics and Statistical Laboratory, Iowa State University}
+  \maketitle
+  }
+  
+   \bigskip
+  \bigskip
+  \bigskip
+  \begin{center}
+    {\LARGE\bf Supplementary Materials: Visual Inference for a Social Network Model}
+\end{center}
+ 
+\spacingset{1.45} % DON'T change the spacing!
+<<setup-ch-2, echo = FALSE, message = FALSE, warning = FALSE>>=
+options(replace.assign=TRUE,width=70, digits=3)
+require(knitr)
+opts_chunk$set(fig.path='sm-figure/', cache.path='sm-cache/', fig.align='center', fig.pos='h', out.width='.99\\textwidth', par=TRUE, cache=FALSE, concordance=TRUE, autodep=TRUE, message=F, warning=F, echo = FALSE, dev="cairo_pdf", fig.width = 6, fig.height = 6)#, root.dir = "~/Desktop/Dissertation/SAOM-removing-blindfold/")
+@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% intro: talk about the sections of the appendix
+Blah 
+
+\appendix % to get sections with letters instead of numbers
+\section{Model Details}\label{sec:sm-model}
+
+The continuous-time Markov chain (CTMC) family of models we use were first introduced in \citet{saompaper}. We describe their basic structure here, and full detail can be found in \citet{saompaper, snijders:2010}. 
+
+\noindent \textbf{Rate Function:}  The rate function dictates when network changes are made and which actor can make them. An actor, $i$, is chosen make a change in its ties one of the other nodes $j$. In general, the rate function can include structural and node covariate parameters into account so that each actor has a different rate of change. However, we choose a simple rate function that is constant over all nodes in a given time period, because we focus on interpreting the parameters of the objective function which directly impact the overall network structure. We denote the rate from $t_{m}$ to $t_{m+1}$ as $\alpha_m$ for $m = 1, \dots, M-1$, where $M$ is the number of time points at which the network was observed. Using this notation, the \textit{waiting time} to the next chance for actor $i$ to make a change is exponentially distributed with expected value $\alpha_m^{-1}$. Since the rate is the same for all actors, the waiting time for \textit{any} actor to get the opportunity to change its set of ties is also exponentially distributed with expected value $(n\alpha_m)^{-1}$.
+
+\noindent \textbf{Objective Function:} After actor $i$ is selected to make a change, it randomly picks one of its current ties, $x_{ij}$, to change. %The probability that actor $i$ changes its current tie to actor $j$ is determined by the \textit{objective function} of the model and a random error term $U$ with log-Weibull distribution \citep{modelsSnijders}.  %\hh{XXX can you paraphrase the purpose of U in half a sentence?}
+%The random component is assumed to have log-Weibull distribution with location parameter $\mu = 0$ and scale parameter $\sigma = 0$ (see \citet{modelsSnijders}), so the probability density function of $U$ is
+%\begin{equation}\label{eq:logweibull}
+%g(u) = \exp\{-(u + \exp\{-u\})\}.
+%\end{equation}
+%The objective function, $f_i$, is the driving force of a SAOM. 
+Actor $i$ aims to maximize the objective function $f_i$ given the current state of the network, $x$ and the node-level covariates, $\mathbf{Z}$. This function is defined as:% which has the form
+\begin{equation}\label{eq:objective}
+f_i(x, \boldsymbol{\beta}, \mathbf{Z}) = \sum_{k = 1}^K \beta_k s_{ik}(x, \mathbf{Z}),
+\end{equation}
+where $\boldsymbol{\beta} = (\beta_1, \dots, \beta_K)$ are additional model parameters, each associated with some statistics, $s_{i1}(x, \mathbf{Z}), \dots, s_{iK}(x, \mathbf{Z})$, calculated for actor $i$ at the current network state $x$. %The statistics can be very simple, like outdegree of the node, $s_{i1}(x) = \sum_{i\neq j} x_{ij}$, or more complicated, like the {\it transitive triplets jumping to different covariate} statistic, $s_i(x, \mathbf{Z}) = \sum_{i \neq j \neq h} x_{ij}x_{ih}x_{hj} \cdot \mathbb{I}(z_i = z_h \neq z_j)$. 
+At least two parameters must be included in the objective function: density and reciprocity \citep{RSienamanual}. We denote the density, or out-degree, parameter by $\beta_1$ and the associated statistic as $s_{i1}(x)=\sum_{j} x_{ij}$ and we denote the reciprocity parameter by $\beta_2$ and the associated statistic as $s_{i2}(x) = \sum_{j} x_{ij}x_{ji}$. We will refer to the very simple model with only these two parameters in the objective function as model M1. We define additional parameters and models of interest in Section~\ref{sec:models}  %, plus many more. At last count, in the software we use to fit these models to network data, 
+Version 1.2-3 of \texttt{RSiena} \citep{RSiena}, the software we use to fit CTMC models to data, provides over 80 possible effects that can be included in the objective function. %We discuss these and other statistics in more detail in Section~\ref{sec:models}. 
+
+The objective function $f_{i}(x, \boldsymbol{\beta}, \mathbf{Z})$ dictates the \textit{transition probability}, $p_{ij}$ of the network changing from its current state $x$ to the state $x(i\leadsto j)$, which is identical to $x$ except for $x_{ij}$: $x_{ij}(i \leadsto j) = 1 - x_{ij}$. The transition probability is
+\begin{equation}\label{eq:transprob}
+p_{ij} = \dfrac{\exp\{f_i(x(i \leadsto j), \boldsymbol{\beta}, \mathbf{Z})\}}{\sum_{h} \exp\{f_i(x(i \leadsto h), \boldsymbol{\beta}, \mathbf{Z})\}},
+\end{equation}
+dictating which edge node $i$ changes. Thus, the actor is more likely to make changes that increase the value of their objective function, and no change is most likely when any change decreases the value of the objective function.
+
+\subsection{Goodness-of-Fit Testing}
+
+The software \texttt{RSiena} contains methods for performing goodness-of-fit tests for the CTMC models. The \texttt{sienaGOF()} function performs goodness-of-fit testing as follows:
+\begin{enumerate}
+\item Auxiliary statistics, such as the cumulative outdegree distribution on the nodes, are computed on the observed data ($\mathbf{u}_d$) and on $N$ observations simulated from the model ($\mathbf{u}_1 \dots \mathbf{u}_N$). 
+\item The mean $\overline{\mathbf{u}}$ and covariance matrix $\mathbf{S}$ are computed from the $N$ simulations, and the Mahalanobis distance, $d_M(\mathbf{u}_d)$ from the observed statistics to the distribution of the simulated statistics is computed:
+\begin{equation}\label{eq:mahal}
+d_M(\mathbf{u}_d) = \sqrt{(\mathbf{u}_d - \overline{\mathbf{u}})' \mathbf{S}^{-1} (\mathbf{u}_d - \overline{\mathbf{u}})}
+\end{equation}
+\item The Mahalanobis distance for each of the $N$ simulations is calculated and $d_M(\mathbf{u}_d)$ is compared to this distribution of distances.
+\item An empirical $p$-value is found by computing the proportion of simulated distances found in step 4 that are as large or larger than $d_M(\mathbf{u}_d)$.% A model is thus considered a good fit to the data if $p$ is large.
+\end{enumerate}
+<<gofsiena, fig.height=2.5, fig.cap="An example of what a goodness-of-fit plot from \\texttt{RSiena} looks like. The overlaid boxplots and violin plots show the distribution of each of the outdegree count values on the simulated networks, and the red points and lines are the observed data values.", echo=FALSE>>=
+library(RSiena)
+library(tidyverse)
+load("data/ansnullpaper.rda")
+library(lattice)
+#gof1 <- sienaGOF(ansnull, OutdegreeDistribution, varName ="friendship", join = FALSE)
+gof1 <- readr::read_rds("data/gof-data.rds")
+sims1 <- data.frame(gof1$`Period 1`$Simulations)
+dat1 <- gof1$`Period 1`$Observations
+dat1 %>% data.frame() %>% gather(outdegree, val) %>%
+  mutate(outdegree = parse_number(outdegree)-1) -> dat1
+p1 <- sims1 %>%
+  mutate(sim = row_number()) %>%
+  gather(outdegree, val, X1:X9) %>%
+  mutate(outdegree = parse_number(outdegree) - 1) %>%
+  filter(outdegree <= 6) %>%
+  ggplot(aes(x = outdegree, y = val)) + 
+  geom_boxplot(aes(group = outdegree), size = .5) + 
+  geom_violin(aes(group = outdegree), bw = 2, fill = NA) + 
+  geom_point(data = dat1, color = 'red', alpha = .5) + 
+  geom_line(data= dat1, color = 'red', alpha=.5) + 
+  geom_text(data = dat1, aes(label = val), hjust = -.5) + 
+  labs(x = "Outdegree (p = 0.154)", y = "Statistic", 
+       title = "Goodness-of-Fit: Outdegree distribution period 1") 
+p1
+@
+
+\section{Data}\label{sec:sm-data}
+
+ Details of how this data can be downloaded are provided by François Briatte at \url{github.com/briatte/congress}. In the US Senate, senators often show support for a piece of legislation by co-sponsoring a bill authored by one of their colleagues. In a co-sponsorship network, ties are directed from senator $i$ to senator $j$ when senator $i$ signs on as a co-sponsor to the bill that senator $j$ authored. There are many hundreds of ties between senators when they are connected in this way, so we simplify the network by computing a single value for each senator-senator collaboration called the \textit{weighted propensity to co-sponsor} (WPC). This value is defined in \citet{senate} as 
+
+\begin{equation}\label{eq:sen1}
+    WPC_{ij} = \sum\limits_{b=1}^{B_j} \frac{Y_{ij(b)}}{c_{j(b)}}\left(\sum\limits_{b=1}^{B_j} \frac{1}{c_{j(b)}}\right)^{-1}
+\end{equation}
+where $B_j$ is the number of bills in a congressional session authored by senator $j$, $c_{j(b)}$ is the number of co-sponsors on senator $j$'s $b^{th}$ bill, where $b \in \{1,\dots, B_j\}$, and $Y_{ij(b)}$ is an indicator variable that senator $i$ co-sponsored senator $j$'s $b^{th}$ bill. This measure ranges in value from 0 to 1, where $WPC_{ij} = 1$ if senator $i$ is a co-sponsor on every one of senator $j$'s bills and $WPC_{ij} = 0$ if senator $i$ is never a co-sponsor any of senator $j$'s bills. To simplify the problem, we construct a network with binary edges as follows: 
+ \begin{equation}\label{eq:edgewpc}
+  x_{ij} =
+\begin{cases}
+                                   1 & WPC_{ij} > 0.25 \\
+                                   0 & WPC_{ij} \leq 0.25
+\end{cases}
+\end{equation}
+so that only strong ties between senators are in the network.
+
+\section{Results}
+
+
+
+\subsection{Visual Power}\label{sec:sm-res-vp}
+
+<<glmmres>>=
+load("data/finalglmm31-2.RDA")
+mod <- model2randomscalesize
+res <- summary(mod)[[10]]
+ests <- as.numeric(round(res[,1], 4))
+oddsidx <- which(exp(ests) < .0001)
+oddsidx2 <- which(exp(ests) > 10000)
+odds <- round(exp(ests), 4)
+odds[oddsidx] <- "$<10^{-4}$"
+odds[oddsidx2] <- "$>10^4$"
+se <- as.numeric(round(res[,2], 4))
+pvalidx <- which(res[,4] < .0001)
+pval <- sprintf("%.4f",round(res[,4],4))
+pval[pvalidx] <- "$<$0.0001"
+sigma_epsilon <- summary(model2randomscalesize)[[13]]$nick_name[[1]]
+sigma_delta <- summary(model2randomscalesize)[[13]]$pic_id[[1]]
+@
+
+
+\npdecimalsign{.}
+%\nprounddigits{3}
+
+\begin{table}
+\centering
+\begin{tabular}{cn{5}{2}n{5}{3}rr}\hline
+Parameter & \multicolumn{1}{r}{Estimate} & \multicolumn{1}{r}{Std Error} & $p$-value & Odds Multiplier \\ \hline\hline
+$\eta_{1+}$ & \Sexpr{ests[7]} & \Sexpr{se[7]} & \Sexpr{pval[7]}$^{\ddagger}$ & \Sexpr{odds[7]} \\
+$\eta_{1-}$ & \Sexpr{ests[1]} & \Sexpr{se[1]} & \Sexpr{pval[1]}$^{\dagger}$ & \Sexpr{odds[1]}\\
+$\gamma_{1+}$ & \Sexpr{ests[19]} & \Sexpr{se[19]} & \Sexpr{pval[19]}$^{\ddagger}$ & \Sexpr{odds[19]} \\
+$\gamma_{1-}$  & \Sexpr{ests[13]} & \Sexpr{se[13]} & \Sexpr{pval[13]}$^{\dagger}$ & \Sexpr{odds[13]} \\ \hline
+$\eta_{2+}$  & \Sexpr{ests[10]} & \Sexpr{se[10]} & \Sexpr{pval[10]} & \Sexpr{odds[10]} \\
+$\eta_{2-}$  & \Sexpr{ests[4]} & \Sexpr{se[4]} & \Sexpr{pval[4]}$^{\ddagger}$ & \Sexpr{odds[4]} \\
+$\gamma_{2+}$ & \Sexpr{ests[22]} & \Sexpr{se[22]} & \Sexpr{pval[22]}$^{*}$ & \Sexpr{odds[22]} \\
+$\gamma_{2-}$  & \Sexpr{ests[16]} & \Sexpr{se[16]} & \Sexpr{pval[16]}$^{\ddagger}$ & \Sexpr{odds[16]} \\ \hline
+$\eta_{3+}$  & \Sexpr{ests[8]} & \Sexpr{se[8]} & \Sexpr{pval[8]}$^{\dagger}$ & \Sexpr{odds[8]} \\ 
+$\eta_{3-}$ & \Sexpr{ests[2]} & \Sexpr{se[2]} & \Sexpr{pval[2]}$^{\dagger}$ & \Sexpr{odds[2]} \\
+$\gamma_{3+}$ & \Sexpr{ests[20]} & \Sexpr{se[20]} & \Sexpr{pval[20]}$^{\dagger}$ & \Sexpr{odds[20]}  \\
+$\gamma_{3-}$   & \Sexpr{ests[14]} & \Sexpr{se[14]} & \Sexpr{pval[14]}$^{*}$ & \Sexpr{odds[14]} \\ \hline
+$\eta_{4+}$ & \Sexpr{ests[9]} & \Sexpr{se[9]} & \Sexpr{pval[9]}$^{**}$ & \Sexpr{odds[9]} \\
+$\eta_{4-}$ & \Sexpr{ests[3]} & \Sexpr{se[3]} & \Sexpr{pval[3]}$^{**}$ & \Sexpr{odds[3]}  \\
+$\gamma_{4+}$ & \Sexpr{ests[21]} & \Sexpr{se[21]} & \Sexpr{pval[21]}$^{**}$ & \Sexpr{odds[21]} \\ 
+$\gamma_{4-}$  & \Sexpr{ests[15]} & \Sexpr{se[15]} & \Sexpr{pval[15]} & \Sexpr{odds[15]} \\ \hline
+$\eta_{5+}$  & \Sexpr{ests[12]} & \Sexpr{se[12]} & \Sexpr{pval[12]}$^{*}$ & \Sexpr{odds[12]} \\
+$\eta_{5-}$  & \Sexpr{ests[6]} & \Sexpr{se[6]} & \Sexpr{pval[6]}$^{\ddagger}$ & \Sexpr{odds[6]} \\
+$\gamma_{5+}$ & \Sexpr{ests[24]} & \Sexpr{se[24]} & \Sexpr{pval[24]}$^{*}$ & \Sexpr{odds[24]} \\ 
+$\gamma_{5-}$ & \Sexpr{ests[18]} & \Sexpr{se[18]} & \Sexpr{pval[18]}$^{\ddagger}$ & \Sexpr{odds[18]} \\ \hline
+$\eta_{6+}$  & \Sexpr{ests[11]} & \Sexpr{se[11]} & \Sexpr{pval[11]} & \Sexpr{odds[11]} \\
+$\eta_{6-}$ & \Sexpr{ests[5]} & \Sexpr{se[5]} & \Sexpr{pval[5]}$^{\ddagger}$ & \Sexpr{odds[5]}  \\
+$\gamma_{6+}$ & \Sexpr{ests[23]} & \Sexpr{se[23]} & \Sexpr{pval[23]} & \Sexpr{odds[23]} \\
+$\gamma_{6-}$ & \Sexpr{ests[17]} & \Sexpr{se[17]} & \Sexpr{pval[17]}$^{\ddagger}$ & \Sexpr{odds[17]} \\ \hline
+$\sigma^2_{\delta}$ & \Sexpr{round(sigma_delta, 4)} & \multicolumn{1}{r}{--} & -- & --\\
+$\sigma^2_{\epsilon}$ &  \Sexpr{round(sigma_epsilon, 4)}  & \multicolumn{1}{r}{--} & -- & --\\
+\hline 
+\end{tabular}
+\caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}. Significance levels: * - $< 0.10$; ** - $<0.05$; $\dagger$ - $<0.01$; $\ddagger$ - $<0.001$}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%% References %%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{asa}
+\bibliography{bibliography}
+
+\end{document}
