@@ -486,7 +486,7 @@ For CTMC models, significance tests of the parameters are available in \texttt{R
 % where $\hat{\Sigma}$ is the estimated covariance matrix of $\boldsymbol{\beta}$. 
 Both parameters we test for significance using the lineup protocol, $\beta_3$ and $\beta_4$, were determined to be statistically significant using Equation~\ref{eq:wald1} with $p$-values given in Table~\ref{tab:sigtesting}. For the visual significance test, if the number of participants who pick out the alternative plot results in a $p$-value less than 0.05, we reject the null hypothesis that the true value of the additional parameter, either $\beta_3$ or $\beta_4$, is equal to zero. If the null hypothesis is not rejected, then there is evidence that the additional parameter does not affect the overall structure of the network even though it was found to be sigificant with the Wald-type test. The $p$-values from the visual distribution for the significance tests of $\beta_3, \beta_4$ are given in Table~\ref{tab:sigtesting}. The results for each lineup, whether to reject or fail to reject the null hypothesis, vary, with one of three lineups from each parameter  group resulting in rejection of the null hypothesis.   %\hh{XXX how do we interpret these  visual results? Include the six lineups in an appendix and refer to them from here.} \st{XXX should be taken care of in next paragraph now.}
 
-<<sigtesting, results='asis'>>=
+<<sigtesting, results='asis', eval = FALSE>>=
 turk22_sig <- turk22 %>% 
   mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
          type2 = ifelse(type == "one", type2, -1)) %>% 
@@ -503,29 +503,7 @@ xtable::print.xtable(xtable::xtable(summ_sig, caption = "Experiment results for 
  %Using these $p$-values, all but one lineup results in a rejection of the null hypothesis at Type-I error rate of $\alpha = 0.05$. 
 
 
-<<lineup3132, fig.height=4, fig.cap="Lineup 3132, which led to rejection of the null hypothesis that $\\beta_3$ = 0. The network simulated from model M3 is found in panel $\\sqrt{16} - 1$, and the remaining panels show networks simulated from model M1.">>=
-dat <- read_csv("data/jttp_pos_hard_2.csv")
-ggplot(data = dat) + 
-        geom_net(aes(from_id = from, to_id = to), 
-                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
-                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
-                 color = 'black', arrowgap = .015, arrowsize = .3, size =1) + 
-        ThemeNet + 
-        theme(panel.background = element_rect(color = 'black')) +
-        facet_wrap(~ord)
-@
 
-<<lineup3133, fig.height=4, fig.cap="Lineup 3133, which resulted in failure to reject the null hypothesis that $\\beta_3$ = 0. The network simulated from model M3 is found in panel $\\sqrt{25} - 4$, and the remaining panels show networks simulated from model M1. 16 of 27 viewers picked plot two as most different.">>=
-dat <- read_csv("data/jttp_pos_hard_3.csv")
-ggplot(data = dat) + 
-        geom_net(aes(from_id = from, to_id = to), 
-                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
-                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
-                 color = 'black', arrowgap = .015, arrowsize = .3, size =1) + 
-        ThemeNet + 
-        theme(panel.background = element_rect(color = 'black')) +
-        facet_wrap(~ord)
-@
 
 The lineup for significance testing of $\beta_3$ which resulted in a very small $p$-value and rejection of the null hypothesis is shown in Figure~\ref{fig:lineup3132}. Another significance lineup for model M3, which resulted in failure to reject the null hypothesis, is shown in Figure~\ref{fig:lineup3133}. When viewing Figure~\ref{fig:lineup3132}, 26 of 31 viewers chose the alternative plot from M3, while only 2 of 27 chose the alternative plot from M3 when viewing Figure~\ref{fig:lineup3133}. The most common choice in the latter was panel two, which 16 of 27 viewers chose as the most different due to its large connected component that makes it seem more complex than the others. In viewing these two lineups, it is evident that there is a large amount of variability in networks simulated from CTMC models. The variability in significance test results is introduced through the null plots generated from M1. It is difficult to see that five of the six networks come from the same model when they all look very different.  In addition, the small number of null plots do not give the viewer as complete of a view of the null model as the usual 19 null plots would. In both lineups in Figures~\ref{fig:lineup3132} and ~\ref{fig:lineup3133}, most participants chose the plot with the largest connected component as the most different. 
 
@@ -546,7 +524,7 @@ Using the lineup protocol, we show each Amazon Mechanical Turk worker the data o
 % \end{description}
 If a lineup viewer picks out the data among the five simulations from the null model, it is evidence against the null hypothesis. On the contrary, if the lineup viewer picks one of the null plots, that is evidence in favor of the null hypothesis. Results from our MTurk goodness-of-fit plots are provided in Table~\ref{tab:gofstats}. 
 
-<<goftab, cache = TRUE, results='asis'>>=
+<<goftab, cache = TRUE, results='asis', eval = FALSE>>=
 turk22_gof <- read_csv("data/turk22-gof.csv")
 turk22_gof_stats <- turk22_gof %>% group_by(pic_id) %>% 
   summarize(npickdata = sum(datapick), total = n(), 
@@ -565,72 +543,18 @@ print(xtable::xtable(print_gof_stats, label = "tab:gofstats", caption = "An over
 
 The $p$-values were again computed using the \texttt{vinference} package by \citet{vinference}. In all lineups except replicate 2 of M4, the null hypothesis that the data were generated by the model is rejected. Thus, none of the models we have chosen are a good fit to the data. The lineup that resulted in a failure to reject the null hypothesis is shown in Figure~\ref{fig:failgof}. The null model in this lineup is M4, and the senate data is shown in panel number $3^2 - 7$. However, the panel most participants chose was number four, and the most common reasoning for that choice was that it had the most simple structure. Some of the other panels, such as three and six, in Figure~\ref{fig:failgof} have large connected components that are similar in size to the connected component of the data plot shown in panel two. Thus, model M4 is sometimes capable of capturing the network structure of the senate collaboration data.
 
-<<failgof, fig.height=4, fig.cap="The goodness-of-fit lineup which resulted in failure to reject the null hypothesis. The null model for this lineup is M4. Only 7 of 20 viewers of this lineup selected the data plot as the most different from the others. The most commonly chosen panel was number four, which has a relatively simple structure compared to the other panels.">>=
-load("data/se112adjmat.RDS")
-wave2 <- data.frame(se112adj)
-senators <- data.frame(id = colnames(wave2), number = 1:155)
-wave2$from <- colnames(wave2)
-wave2 <- wave2 %>% gather(to, val, Alan.Stuart.Franken:William.Cowan) %>% filter(val > 0)
-wave2 <- merge(wave2, senators, by.x = "from", by.y = "id", all = T)
-wave2$from <- senators$number[match(wave2$from, senators$id)]
-wave2$to <- senators$number[match(wave2$to, senators$id)]
-wave2$from <- paste0("V", wave2$from)
-wave2$to <- ifelse(is.na(wave2$to), NA, paste0("V", wave2$to))
-wave2 <- wave2 %>% mutate(sim = 1001, model = "data", wave = 1) %>% select(-c(val, number))
-dat <- read_csv(paste0("data/jtts_gof_9_2.csv"))
-datplot <- unique(dat$ord[dat$sim == 1001])
-dat <- dat %>% filter(sim != 1001) %>% 
-      bind_rows(wave2) %>% 
-      mutate(ord = ifelse(is.na(ord), datplot, ord))
-ggplot(data = dat) + 
-        geom_net(aes(from_id = from, to_id = to), 
-                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
-                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
-                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
-        ThemeNet + 
-        theme(panel.background = element_rect(color = 'black')) +
-        facet_wrap(~ord)
-@
+
 
 The smallest $p$-value for one of the goodness-of-fit lineups was for the third replicate of the null model M4. This result contrasts with our previous finding that the only lineup to fail to reject the null was also when the null model was M4. This lineup is shown in Figure~\ref{fig:mostsiggof}. In the remaining replicate of M4 as the null model, 13 of 16 viewers identified the data plot, corresponding to a $p$-values of less than $0.0001$, just like the third replicate. This variability in results is similar to the variability we found in Section~\ref{sec:sigtest}, and does not provide us with a clear cut result from the goodness-of-fit tests. For model M4, we can neither reject nor fail to reject the null hypothesis that the data come from model M4. This is evidence that the goodness-of-fit of network models cannot always be determined by one dimensional derived features.%, such as $p$-value shown on the $x$-axis in Figure~\ref{fig:gofsiena}.   %This leads us to believe that the high $p$-value observed in the second replicate is more of a fluke. %This demonstrates some of the problems inherent with network models, such as model degeneracy, as discussed in \citet{degeneracy}. Network models 
 %Furthermore, for the first lineup replicate with model M5 as the null model, only 9 of 21 participants were able to pick out the data, but the Visual distribution $p$-value is less than 0.05. %This is much higher than the corresponding Binomial probability of $Pr(X = 9|n = 21, p = \frac{1}{6}) = \binom{21}{9}(\frac{1}{6})^9(\frac{5}{6})^{21-9} \approx 0.003$, but we are not sure that having fewer than half of our participants identify the data plot is a truly significant result. We could move the threshold from $\alpha = 0.05$ to $\alpha = 0.01$ or $\alpha = 0.001$, but more work needs to be done to determine which, if any of these, is appropriate.  
 
-<<mostsiggof, fig.height = 4, fig.cap="The lineup resulting in the smallest $p$-value rejecting the null hypothesis. Surprisingly, this another repetition for M5 as the null model. The data are in panel 6.">>=
-dat <- read_csv(paste0("data/jtts_gof_9_3.csv"))
-datplot <- unique(dat$ord[dat$sim == 1001])
-dat <- dat %>% filter(sim != 1001) %>% 
-      bind_rows(wave2) %>% 
-      mutate(ord = ifelse(is.na(ord), datplot, ord))
-ggplot(data = dat) + 
-        geom_net(aes(from_id = from, to_id = to), 
-                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
-                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
-                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
-        ThemeNet + 
-        theme(panel.background = element_rect(color = 'black')) +
-        facet_wrap(~ord)
-@
+
 
 
 For the other models for which we tested goodness-of-fit, however, we \textit{do} have significant evidence from all three replicates to reject the null hypothesis that the null model generated the data. For models M3, M5, and M7, these goodness-of-fit tests have rejected the null hypotheses that the senate data come from these models. We hypothesized that the model with the most effects, M7, would be the best fit. However, as shown in Figure~\ref{fig:gofm71}, the model does not capture the overall structure very well at all. The rest of the goodness-of-fit lineups as shown to participants are provided in the appendix. 
 
 %\hh{XXX we need to go throught the logic of the argument below.}\st{ XXX I reformulated the discussion per our convo today.  }
 
-<<gofm71, fig.height=4, fig.cap="One repitition of a goodness-of-fit lineup testing model M7. The senate data are shown in panel two, and it is evident that none of the other five panels, which show data simulated from model M7, come close to creating the large connected component that is central to the structure of the senate data.">>=
-dat <- read_csv(paste0("data/bigmod_gof_9_1.csv"))
-datplot <- unique(dat$ord[dat$sim == 1001])
-dat <- dat %>% filter(sim != 1001) %>% 
-      bind_rows(wave2) %>% 
-      mutate(ord = ifelse(is.na(ord), datplot, ord))
-ggplot(data = dat) + 
-        geom_net(aes(from_id = from, to_id = to), 
-                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
-                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
-                 color = 'black', arrowgap = .015, arrowsize = .3, size =1) + 
-        ThemeNet + 
-        theme(panel.background = element_rect(color = 'black')) +
-        facet_wrap(~ord)
-@
 
 We believe this goodness-of-fit testing method holds promise for the future of network analysis. The participants in our experiments are very good overall at picking out the data when it is noticeably different from the null plots in the lineups. In addition, as in replicate three for null model M4, when the null plots contain similarly sized structures as the data plot, our participants have a hard time distinguishing the data. We believe that running these tests multiple times using several different sets of null models to adequately explore the possible structures generated by the models \st{results in} a more comprehensive goodness-of-fit test for network models. 
 
@@ -796,106 +720,9 @@ plotdata$param <- as.factor(plotdata$param)
 labdat <- data_frame(test_param = "jttp", param = 3, type2 = -1, x = -5, y = .9, label = "jttp_neg_hard_2")
 @
 
-<<recipzoom, fig.height=3, fig.cap='The top middle panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The square root of the parameter value is shown on the $x$-axis. For this parameter, as its value approaches zero, the probability of identifying the alternate data model decreases, then increases, which is noticeably different from the pattern exhibited by the others. Again, a horizontal line is drawn at 1/6, the chance of selecting the data plot at random.'>>=
-newdatabeta2 <- newdata %>% filter(test_param == "recip", category == "inside") %>% mutate(param2 = "beta[2]", size2 = sqrt(size)) %>% as.tibble()
-plotdatabeta2 <- plotdata %>% filter(test_param=="recip")%>% mutate(param2 = "beta[2]", size2 = sqrt(size)) %>% as.tibble()
-newdatabeta22 <-  newdata %>% filter(test_param == "recip", category == "outside")%>% mutate(param2 = "beta[2]", size2 = sqrt(size)) %>% as.tibble()
-newdatabeta23 <- newdata %>% filter(test_param == "recip", category == "outside2")%>% mutate(param2 = "beta[2]", size2 = sqrt(size)) %>% filter(!is.nan(size2)) %>% as.tibble()
-interceptlabel <- tibble(x = sqrt(4.893), y = .05, label = "hat(beta)[2]")
-ggplot() + 
-  geom_line(data = newdatabeta2, aes(x = size2, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
-  geom_point(data = plotdatabeta2, aes(x = size2, y = datapick, color = as.factor(type2)), size = 2) + 
-  geom_line(data =newdatabeta22, aes(x = size2, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
-  geom_line(data = newdatabeta23, aes(x = size2, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
-  #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
-  #geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
-  #          show.legend = F) + 
-  geom_vline(xintercept = sqrt(4.893),  linetype = "dotted", color = "grey60") + 
-  geom_text(data = interceptlabel, aes(x =x, y = y, label = label), parse = T, inherit.aes = F, hjust = -.2) + 
-  geom_hline(yintercept = 1/6, linetype='dotted') +
-  scale_color_brewer(palette = "Dark2", name = "Lineup Type", labels = c("-", "+")) +  
-  facet_wrap(~param2, labeller = label_parsed) + 
-  labs(x = "Square root of parameter value", y = "Expected probability of detection\nin a lineup of size 6", title = ) + 
-  ThemeNoNet + 
-  theme(legend.position = 'bottom')
-@
-
-<<beta5zoom, fig.height=3, fig.cap="The bottom middle panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The parameter value is shown on the $x$-axis. This parameter most closely follows our hypothesis shown in Figure~\\ref{fig:hypothesis}. However, the result is not symmetric. According to the model, people will detect the effect at lower values and with greater frequency as the value increases when it is positive instead of negative.">>=
-newdatabeta5 <- newdata %>% filter(test_param == "simttb", category == "inside") %>% mutate(param = "beta[5]")
-plotdatabeta5 <- plotdata %>% filter(test_param=="simttb")%>% mutate(param = "beta[5]")
-newdatabeta52 <- newdata %>% filter(test_param == "simttb", category == "outside") %>% mutate(param = "beta[5]")
-newdatabeta53 <- newdata %>% filter(test_param == "simttb", category == "outside2") %>% mutate(param = "beta[5]")
-interceptdata <- tibble(x = 10.090829, y= .05, label = "hat(beta)[5]")
-ggplot() + 
-  geom_line(data = newdatabeta5, aes(x = size, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
-  geom_point(data = plotdatabeta5, aes(x = size, y = datapick, color = as.factor(type2)), size = 2) + 
-  geom_line(data = newdatabeta52, aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
-  geom_line(data = newdatabeta53, aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60",  alpha = .7) +
-  #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
-  #geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
-  #          show.legend = F) + 
-  geom_vline(xintercept = 10.090829, linetype = "dotted", color = "grey60") + 
-  geom_text(data = interceptdata, aes(x=x,y=y,label=label), parse = T, hjust = -.2) + 
-  geom_hline(yintercept = 1/6, linetype='dotted') +
-  scale_color_brewer(palette = "Dark2", name = "Lineup Type", labels = c("-", "+")) +
-  facet_grid(~param, labeller = label_parsed) + 
-  labs(x = "Parameter value", y = "Expected probability of detection\nin a lineup of size 6") + 
-  ThemeNoNet + 
-  theme(legend.position = 'bottom', strip.text = element_text(size = 10), text = element_text(size = rel(3)), legend.text = element_text(size = rel(3)), legend.key.size = unit(.25, "inches"))
-@
-
-<<beta4zoom, fig.height=3, fig.cap='The bottom right panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The parameter value is shown on the $x$-axis. The ``reverse" lineup has a much flatter slope than the ``regular" lineup, which means the participants had a harder time detecting a more simple M1 structure among many more complex M4 structures. Reversing the lineup scenario was not symmetric as we hypothesized.'>>=
-newdatabeta6 <- newdata %>% filter(test_param == "jtts", category == "inside") %>% mutate(param = "beta[6]")
-plotdatabeta6 <- plotdata %>% filter(test_param=="jtts") %>% mutate(param = "beta[6]")
-newdatabeta62 <- newdata %>% filter(test_param == "jtts", category == "outside")%>% mutate(param = "beta[6]")
-newdatabeta63 <- newdata %>% filter(test_param == "jtts", category == "outside2") %>% mutate(param = "beta[6]")
-labellerdata <- tibble(x = 3.340302, y = .8, label = "hat(beta)[6]")
-ggplot() + 
-  geom_vline(xintercept = 3.340302, linetype = "dotted", color = "grey60") + 
-  geom_text(data = labellerdata, aes(x = x, y = y, label = label), parse =T, hjust = 1) + 
-  geom_line(data = newdatabeta6, aes(x = size, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
-  geom_point(data = plotdatabeta6, aes(x = size, y = datapick, color = as.factor(type2)), size = 2) + 
-  geom_line(data = newdatabeta62, aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
-  geom_line(data = newdatabeta63, aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
-  #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
-  #geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
-  #          show.legend = F) + 
-  geom_hline(yintercept = 1/6, linetype='dotted') +
-  scale_color_brewer(palette = "Dark2", name = "Lineup Condition", labels = c("reverse", "regular")) +
-  facet_grid(~param, labeller = label_parsed) + 
-  labs(x = "Parameter value", y = "Expected probability of detection\nin a lineup of size 6") + 
-  ThemeNoNet + 
-  theme(legend.position = 'bottom', strip.text = element_text(size = 10), text = element_text(size = rel(3)), legend.text = element_text(size = rel(3)), legend.key.size = unit(.25, "inches"))
-@
-
-We expand portions of Figure~\ref{fig:predictglmm} in Figures~\ref{fig:recipzoom}-\ref{fig:beta4zoom}. These figures show the same prediction regions as in Figure~\ref{fig:predictglmm}, plus some additional predictions outside of the data range shown in light gray. Again, the points represent the results from the experiment. In all three of these figures, the lack of symmetry is apparent. In the reverse lineup scenario shown in Figure~\ref{fig:beta4zoom}, the probability of prediction is consistently far less than the probability of prediction in the regular lineup scenario. This demonstrates that the visual signal of one plot from M4 among five plots from M1 is much stronger than that of one plot from M1 among five plots from M4. We posit that the latter is a more difficult task because it involves noticing a \textit{lack of structure} as opposed to the presence of \textit{more} structure. We can see a similar effect in Figure~\ref{fig:beta5zoom}. At a value of $\beta_5 = 20$, the model predicts a probability of about 0.60 that a new viewer of a new lineup will identify the alternative data plot. At a value of $\beta_5 = -20$, however, the model predicts this same probability to be about 0.40. This again demonstrates that the presence of structure is detected  more frequently and at smaller values than the absence of structure. 
 
 
-<<beta41, fig.height = 4, fig.cap='In our experiment, 52.8\\% of viewers of this plot selected the plot from the alternative model, M4. The ``reverse" of this lineup is given in Figure~\\ref{fig:beta4neg1}, where 41.4\\% of viewers selected the plot from the alternative model, M1. Here, the alternative plot is $\\sqrt{25} - 3$.'>>=
-dat <- read_csv("data/jtts_pos_easy_3.csv")
-# "answer" is 2
-ggplot(data = dat) + 
-        geom_net(aes(from_id = from, to_id = to), 
-                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
-                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
-                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
-        ThemeNet + 
-        theme(panel.background = element_rect(color = 'black')) +
-        facet_wrap(~ord)
-@
 
-<<beta4neg1,fig.height=4, fig.cap='In our experiment, 41.4\\% people viewing this lineup selected the plot from the alternative model, M1. Here, the alternative plot is $\\sqrt{25} - 1$. The other five plots were simulated from model M4.' >>=
-dat <- read_csv("data/jtts_neg_med_2.csv")
-# 'answer' is 4
-ggplot(data = dat) + 
-        geom_net(aes(from_id = from, to_id = to), 
-                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
-                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
-                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
-        ThemeNet + 
-        theme(panel.background = element_rect(color = 'black')) +
-        facet_wrap(~ord)
-@
 
 For $\beta_4$ and $\beta_6$, where one plot simulated from M1 was placed among five plots from the corresponding model, we see that the predictions for the reverse lineup type (-1), are less than the standard lineup type (1) for all values of the parameter that we have. This contradicts our hypothesis for this scenario, which was that these two lineup types would perform similarly. A lineup type 1 scenario is given in Figure~\ref{fig:beta41}, and a corresponding lineup for the lineup type -1 scenario is given in Figure~\ref{fig:beta4neg1}, where the parameter of interest is $\beta_4 = 6.681$. For identical values of the parameter, viewers had a harder time identifying the different plot when they were selecting the most ``simple" structure, detecting M1 in five plots from the more complicated model, than they did identifying the most ``complex" structure, the plot from the more complicated model, from the five plots from M1. This result is also similar to that of \citet{corrviz} because it emphasizes the difficulty of picking out the absence of an effect relative to picking out the presence of an effect. Overall, the visual power of an effect increases as the effect size increases in absolute value, but the power is not symmetric around zero because stong positive effects are noticeable sooner than strong negative effects. 
 

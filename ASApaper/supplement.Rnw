@@ -87,6 +87,91 @@ options(replace.assign=TRUE,width=70, digits=3)
 require(knitr)
 opts_chunk$set(fig.path='sm-figure/', cache.path='sm-cache/', fig.align='center', fig.pos='h', out.width='.99\\textwidth', par=TRUE, cache=FALSE, concordance=TRUE, autodep=TRUE, message=F, warning=F, echo = FALSE, dev="cairo_pdf", fig.width = 6, fig.height = 6)#, root.dir = "~/Desktop/Dissertation/SAOM-removing-blindfold/")
 @
+
+<<pkgs-sm>>=
+library(tidyverse)
+library(RSiena)
+library(geomnet)
+library(vinference)
+turk22 <- read_csv("data/turk22-sig.csv")
+newdata <- read_csv("data/newdata_pred_glmm.csv")
+newdata$param <- newdata$test_param
+newdata$param <- as.factor(newdata$test_param)
+levels(newdata$param) <-  c(1,3,4,2,6,5) 
+newdata$param <- as.integer(as.character(newdata$param))
+plotdata <- turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
+                       type2 = ifelse(type == "one", type2, -1)) %>% 
+  group_by(pic_id, size, test_param, sign, type2,alt_model) %>% summarize(
+    datapick = mean(datapick)
+)
+plotdata$param <- plotdata$test_param
+plotdata$param <- as.factor(plotdata$param)
+levels(plotdata$param) <- c(1,3,4,2,6,5) 
+plotdata$param <- as.integer(as.character(plotdata$param))
+labdat <- data_frame(test_param = "jttp", param = 3, type2 = -1, x = -5, y = .9, label = "outlier")
+betahat <- tibble(param = 1:6, size = c(-4.903, 4.893, -3.45, 3.34, 10.091, 1.329))
+ThemeNoNet <- theme_bw() %+replace% 
+            theme(plot.title = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 0, 
+                                            family="Times New Roman"), 
+                  axis.title.x = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 0,
+                                            family="Times New Roman"),
+                  axis.title.y = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 90,
+                                            family="Times New Roman"),
+                  axis.text.x = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 0,
+                                            family="Times New Roman"), 
+                  # axis.text.x.top = element_text(size = 12,
+                  #                           face = 'plain', 
+                  #                           angle = 0,
+                  #                           family="Times New Roman"), 
+                  # axis.text.x.bottom = element_text(size = 12,
+                  #                           face = 'plain', 
+                  #                           angle = 0,
+                  #                           family="Times New Roman"), 
+                  axis.text.y = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 0,
+                                            family="Times New Roman"),
+                  # axis.text.y.left = element_text(size = 12,
+                  #                           face = 'plain', 
+                  #                           angle = 0,
+                  #                           family="Times New Roman"),
+                  # axis.text.y.right = element_text(size = 12,
+                  #                           face = 'plain', 
+                  #                           angle = 0,
+                  #                           family="Times New Roman"),
+                  strip.text.x = element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 0, 
+                                            family="Times New Roman",
+                                            margin = margin(t = 3, r = 0, b = 3, l = 0, unit = "pt")),
+                  strip.text.y =element_text(size = 12,
+                                            face = 'plain', 
+                                            angle = 90,
+                                            family="Times New Roman",
+                                            margin = margin(t = 3, r = 3, b = 3, l = 3, unit = "pt")),
+                  strip.background = element_rect(colour = "black", fill = "white")
+                    )
+ThemeNet <- theme_net() %+replace% 
+            theme(plot.title = element_text(size = 12,
+                                            face = 'plain', angle = 0, family = "Times New Roman"), 
+                  strip.text.x = element_text(size = 12,
+                                            face = 'plain', angle = 0, family = "Times New Roman", 
+                                            margin = margin(t = 3, r = 0, b = 3, l = 0, unit = "pt")),
+                  strip.text.y =element_text(size = 12,
+                                            face = 'plain', angle = 0, family = "Times New Roman",margin = margin(t = 3, r = 0, b = 3, l = 0, unit = "pt")),
+                  panel.border = element_rect(fill = NA, color = 'black'),
+                  strip.background = element_rect(colour = "black", fill = "white"))
+@
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -217,6 +302,117 @@ where $B_j$ is the number of bills in a congressional session authored by senato
 \end{equation}
 so that only strong ties between senators are in the network.
 
+\section{Lineups}
+
+<<lineup3132, fig.height=4, fig.cap="Lineup 3132, which led to rejection of the null hypothesis that $\\beta_3$ = 0. The network simulated from model M3 is found in panel $\\sqrt{16} - 1$, and the remaining panels show networks simulated from model M1.">>=
+dat <- read_csv("data/jttp_pos_hard_2.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size =1) + 
+        ThemeNet + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+@
+
+<<lineup3133, fig.height=4, fig.cap="Lineup 3133, which resulted in failure to reject the null hypothesis that $\\beta_3$ = 0. The network simulated from model M3 is found in panel $\\sqrt{25} - 4$, and the remaining panels show networks simulated from model M1. 16 of 27 viewers picked plot two as most different.">>=
+dat <- read_csv("data/jttp_pos_hard_3.csv")
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size =1) + 
+        ThemeNet + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+@
+
+<<failgof, fig.height=4, fig.cap="The goodness-of-fit lineup which resulted in failure to reject the null hypothesis. The null model for this lineup is M4. Only 7 of 20 viewers of this lineup selected the data plot as the most different from the others. The most commonly chosen panel was number four, which has a relatively simple structure compared to the other panels.">>=
+load("data/se112adjmat.RDS")
+wave2 <- data.frame(se112adj)
+senators <- data.frame(id = colnames(wave2), number = 1:155)
+wave2$from <- colnames(wave2)
+wave2 <- wave2 %>% gather(to, val, Alan.Stuart.Franken:William.Cowan) %>% filter(val > 0)
+wave2 <- merge(wave2, senators, by.x = "from", by.y = "id", all = T)
+wave2$from <- senators$number[match(wave2$from, senators$id)]
+wave2$to <- senators$number[match(wave2$to, senators$id)]
+wave2$from <- paste0("V", wave2$from)
+wave2$to <- ifelse(is.na(wave2$to), NA, paste0("V", wave2$to))
+wave2 <- wave2 %>% mutate(sim = 1001, model = "data", wave = 1) %>% select(-c(val, number))
+dat <- read_csv(paste0("data/jtts_gof_9_2.csv"))
+datplot <- unique(dat$ord[dat$sim == 1001])
+dat <- dat %>% filter(sim != 1001) %>% 
+      bind_rows(wave2) %>% 
+      mutate(ord = ifelse(is.na(ord), datplot, ord))
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        ThemeNet + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+@
+
+<<mostsiggof, fig.height = 4, fig.cap="The lineup resulting in the smallest $p$-value rejecting the null hypothesis. Surprisingly, this another repetition for M5 as the null model. The data are in panel 6.">>=
+dat <- read_csv(paste0("data/jtts_gof_9_3.csv"))
+datplot <- unique(dat$ord[dat$sim == 1001])
+dat <- dat %>% filter(sim != 1001) %>% 
+      bind_rows(wave2) %>% 
+      mutate(ord = ifelse(is.na(ord), datplot, ord))
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        ThemeNet + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+@
+
+<<gofm71, fig.height=4, fig.cap="One repitition of a goodness-of-fit lineup testing model M7. The senate data are shown in panel two, and it is evident that none of the other five panels, which show data simulated from model M7, come close to creating the large connected component that is central to the structure of the senate data.">>=
+dat <- read_csv(paste0("data/bigmod_gof_9_1.csv"))
+datplot <- unique(dat$ord[dat$sim == 1001])
+dat <- dat %>% filter(sim != 1001) %>% 
+      bind_rows(wave2) %>% 
+      mutate(ord = ifelse(is.na(ord), datplot, ord))
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size =1) + 
+        ThemeNet + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+@
+
+<<beta41, fig.height = 4, fig.cap='In our experiment, 52.8\\% of viewers of this plot selected the plot from the alternative model, M4. The ``reverse" of this lineup is given in Figure~\\ref{fig:beta4neg1}, where 41.4\\% of viewers selected the plot from the alternative model, M1. Here, the alternative plot is $\\sqrt{25} - 3$.'>>=
+dat <- read_csv("data/jtts_pos_easy_3.csv")
+# "answer" is 2
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        ThemeNet + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+@
+
+<<beta4neg1,fig.height=4, fig.cap='In our experiment, 41.4\\% people viewing this lineup selected the plot from the alternative model, M1. Here, the alternative plot is $\\sqrt{25} - 1$. The other five plots were simulated from model M4.' >>=
+dat <- read_csv("data/jtts_neg_med_2.csv")
+# 'answer' is 4
+ggplot(data = dat) + 
+        geom_net(aes(from_id = from, to_id = to), 
+                 arrow = arrow(type = 'open', length = unit(2, "points") ), 
+                 linewidth = .25, singletons = T, fiteach = T, directed = T, 
+                 color = 'black', arrowgap = .015, arrowsize = .3, size = .5) + 
+        ThemeNet + 
+        theme(panel.background = element_rect(color = 'black')) +
+        facet_wrap(~ord)
+@
+
 \section{Results}
 
 \subsection{Lineup Summaries}
@@ -319,10 +515,60 @@ turk22 %>% group_by(pic_id, choice_reason) %>%
   
 @
 
+\subsection{Significance Testing}
+
+<<sigtesting, results='asis'>>=
+turk22_sig <- turk22 %>% 
+  mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
+         type2 = ifelse(type == "one", type2, -1)) %>% 
+  filter(param_value == 1)
+summ_sig <- turk22_sig %>% group_by(pic_id, test_param) %>% 
+  summarize(npick = sum(datapick), n = n(), 
+            pv = map2_dbl(npick, n, pV, m=6, scenario=3))
+names(summ_sig) <- c("Lineup ID", "parameter", "\\# ID", "Total Views", "p-value")
+summ_sig$parameter <- as.factor(summ_sig$parameter)
+levels(summ_sig$parameter) <- c("$ \\beta_3 $", "$ \\beta_4$ ")
+xtable::print.xtable(xtable::xtable(summ_sig, caption = "Experiment results for the two parameters for which we performed significance tests. \\# ID indicates the number of participants who identified the alternative data plot. There were three lineups for each parameter, so there are three results for each plot.", label = "tab:sigtesting", digits = c(0,0,0,0,0,5)), include.rownames = FALSE, sanitize.text.function=function(x){x})
+@
+
+\subsection{GoF}
+
+<<goftab, cache = FALSE, results='asis'>>=
+turk22_gof <- read_csv("data/turk22-gof.csv")
+turk22_gof_stats <- turk22_gof %>% group_by(pic_id) %>% 
+  summarize(npickdata = sum(datapick), total = n(), 
+          pvinf = map2_dbl(npickdata, total, pV, m = 6, scenario = 3))
+turk22_gof_stats %>% separate(pic_id, into = c("discard", "model", "rep"), sep = c(2,3)) -> print_gof_stats
+print_gof_stats %>% select(-discard) %>% mutate(model = paste0("M", (as.integer(model))))-> print_gof_stats
+names(print_gof_stats) <- c("Model", "Replicate", "Data Picks", "Total Viewers", "p-value")
+print_gof_stats$Model[c(2:3,5:6,8:9,11:12)] <- ""
+#print_gof_stats$Model[2] <- "jtt party"
+#print_gof_stats$Model[5] <- "jtt sex"
+#print_gof_stats$Model[8] <- "stt party"
+print_gof_stats$`p-value` <- ifelse(print_gof_stats$`p-value` < .0001, "< 0.0001", sprintf("%.4f", print_gof_stats$`p-value`))
+print(xtable::xtable(print_gof_stats, label = "tab:gofstats", caption = "An overview of the results from the 12 goodness-of-fit lineup tests.", digits = 4,
+                      align="rlrrrr"), caption.placement = "bottom", include.rownames = FALSE, hline.after = c(-1,0,0,3,6,9,nrow(print_gof_stats)))
+@
 
 \subsection{Visual Power}\label{sec:sm-res-vp}
 
 <<glmmres>>=
+newdata <- read_csv("data/newdata_pred_glmm.csv")
+newdata$param <- newdata$test_param
+newdata$param <- as.factor(newdata$test_param)
+levels(newdata$param) <-  c(1,3,4,2,6,5) 
+newdata$param <- as.integer(as.character(newdata$param))
+plotdata <- turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
+                       type2 = ifelse(type == "one", type2, -1)) %>% 
+  group_by(pic_id, size, test_param, sign, type2,alt_model) %>% summarize(
+    datapick = mean(datapick)
+)
+plotdata$param <- plotdata$test_param
+plotdata$param <- as.factor(plotdata$param)
+levels(plotdata$param) <- c(1,3,4,2,6,5) 
+plotdata$param <- as.integer(as.character(plotdata$param))
+labdat <- data_frame(test_param = "jttp", param = 3, type2 = -1, x = -5, y = .9, label = "outlier")
+betahat <- tibble(param = 1:6, size = c(-4.903, 4.893, -3.45, 3.34, 10.091, 1.329))
 load("data/finalglmm31-2.RDA")
 mod <- model2randomscalesize
 res <- summary(mod)[[10]]
@@ -387,6 +633,108 @@ $\sigma^2_{\epsilon}$ &  \Sexpr{round(sigma_epsilon, 4)}  & \multicolumn{1}{r}{-
 \end{tabular}
 \caption{\label{tab:glmmests}Summary of the results from fitting the model given in Equation~\ref{eq:glmm}. Significance levels: * - $< 0.10$; ** - $<0.05$; $\dagger$ - $<0.01$; $\ddagger$ - $<0.001$}
 \end{table}
+
+<<morepredicts>>=
+alphas <- (coef(mod)[[1]][,-1] %>% unique())[1:12] 
+betas <- (coef(mod)[[1]][,-1] %>% unique())[13:24] 
+names(betas) <- str_replace(str_replace(names(betas), "lps_param", ""), ":centersize", "")
+names(betas) <- str_replace(names(betas), ".-1", "neg")
+names(betas) <- str_replace(names(betas), ".1", "pos")
+names(alphas) <- str_replace(names(alphas), "lps_param", "")
+names(alphas) <- str_replace(names(alphas), ".-1", "neg")
+names(alphas) <- str_replace(names(alphas), ".1", "pos")
+source("code/newpredictions.R")
+newdata <- newdata3
+newdata$param <- newdata$test_param
+newdata$param <- as.factor(newdata$test_param)
+#levels(newdata$param) <-  c(1,3,4,2,6,5) 
+#newdata$param <- as.integer(as.character(newdata$param))
+plotdata <- turk22 %>% mutate(type2 = ifelse(sign == 0, sign(initialEst), sign),
+                       type2 = ifelse(type == "one", type2, -1)) %>% 
+  group_by(pic_id, size, test_param, sign, type2,alt_model) %>% summarize(
+    datapick = mean(datapick)
+)
+plotdata$param <- plotdata$test_param
+plotdata$param <- as.factor(plotdata$param)
+#levels(plotdata$param) <- c(1,3,4,2,6,5) 
+#plotdata$param <- as.integer(as.character(plotdata$param))
+labdat <- data_frame(test_param = "jttp", param = 3, type2 = -1, x = -5, y = .9, label = "jttp_neg_hard_2")
+@
+
+<<recipzoom, fig.height=3, fig.cap='The top middle panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The square root of the parameter value is shown on the $x$-axis. For this parameter, as its value approaches zero, the probability of identifying the alternate data model decreases, then increases, which is noticeably different from the pattern exhibited by the others. Again, a horizontal line is drawn at 1/6, the chance of selecting the data plot at random.'>>=
+library(dplyr)
+newdatabeta2 <- newdata %>% filter(test_param == "recip", category == "inside") %>% mutate(param2 = "beta[2]", size2 = sqrt(size)) %>% as.tibble()
+plotdatabeta2 <- plotdata %>% filter(test_param=="recip")%>% mutate(param2 = "beta[2]", size2 = sqrt(size)) %>% as.tibble()
+newdatabeta22 <-  newdata %>% filter(test_param == "recip", category == "outside")%>% mutate(param2 = "beta[2]", size2 = sqrt(size)) %>% as.tibble()
+newdatabeta23 <- newdata %>% filter(test_param == "recip", category == "outside2")%>% mutate(param2 = "beta[2]", size2 = sqrt(size)) %>% filter(!is.nan(size2)) %>% as.tibble()
+interceptlabel <- tibble(x = sqrt(4.893), y = .05, label = "hat(beta)[2]")
+ggplot() + 
+  geom_line(data = newdatabeta2, aes(x = size2, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
+  geom_point(data = plotdatabeta2, aes(x = size2, y = datapick, color = as.factor(type2)), size = 2) + 
+  geom_line(data =newdatabeta22, aes(x = size2, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  geom_line(data = newdatabeta23, aes(x = size2, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
+  #geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
+  #          show.legend = F) + 
+  geom_vline(xintercept = sqrt(4.893),  linetype = "dotted", color = "grey60") + 
+  geom_text(data = interceptlabel, aes(x =x, y = y, label = label), parse = T, inherit.aes = F, hjust = -.2) + 
+  geom_hline(yintercept = 1/6, linetype='dotted') +
+  scale_color_brewer(palette = "Dark2", name = "Lineup Type", labels = c("-", "+")) +  
+  facet_wrap(~param2, labeller = label_parsed) + 
+  labs(x = "Square root of parameter value", y = "Expected probability of detection\nin a lineup of size 6", title = ) + 
+  ThemeNoNet + 
+  theme(legend.position = 'bottom')
+@
+
+<<beta5zoom, fig.height=3, fig.cap="The bottom middle panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The parameter value is shown on the $x$-axis. This parameter most closely follows our hypothesis shown in Figure~\\ref{fig:hypothesis}. However, the result is not symmetric. According to the model, people will detect the effect at lower values and with greater frequency as the value increases when it is positive instead of negative.">>=
+newdatabeta5 <- newdata %>% filter(test_param == "simttb", category == "inside") %>% mutate(param = "beta[5]")
+plotdatabeta5 <- plotdata %>% filter(test_param=="simttb")%>% mutate(param = "beta[5]")
+newdatabeta52 <- newdata %>% filter(test_param == "simttb", category == "outside") %>% mutate(param = "beta[5]")
+newdatabeta53 <- newdata %>% filter(test_param == "simttb", category == "outside2") %>% mutate(param = "beta[5]")
+interceptdata <- tibble(x = 10.090829, y= .05, label = "hat(beta)[5]")
+ggplot() + 
+  geom_line(data = newdatabeta5, aes(x = size, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
+  geom_point(data = plotdatabeta5, aes(x = size, y = datapick, color = as.factor(type2)), size = 2) + 
+  geom_line(data = newdatabeta52, aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  geom_line(data = newdatabeta53, aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60",  alpha = .7) +
+  #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
+  #geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
+  #          show.legend = F) + 
+  geom_vline(xintercept = 10.090829, linetype = "dotted", color = "grey60") + 
+  geom_text(data = interceptdata, aes(x=x,y=y,label=label), parse = T, hjust = -.2) + 
+  geom_hline(yintercept = 1/6, linetype='dotted') +
+  scale_color_brewer(palette = "Dark2", name = "Lineup Type", labels = c("-", "+")) +
+  facet_grid(~param, labeller = label_parsed) + 
+  labs(x = "Parameter value", y = "Expected probability of detection\nin a lineup of size 6") + 
+  ThemeNoNet + 
+  theme(legend.position = 'bottom', strip.text = element_text(size = 10), text = element_text(size = rel(3)), legend.text = element_text(size = rel(3)), legend.key.size = unit(.25, "inches"))
+@
+
+<<beta4zoom, fig.height=3, fig.cap='The bottom right panel of Figure~\\ref{fig:predictglmm} expanded to show greater detail. The parameter value is shown on the $x$-axis. The ``reverse" lineup has a much flatter slope than the ``regular" lineup, which means the participants had a harder time detecting a more simple M1 structure among many more complex M4 structures. Reversing the lineup scenario was not symmetric as we hypothesized.'>>=
+newdatabeta6 <- newdata %>% filter(test_param == "jtts", category == "inside") %>% mutate(param = "beta[6]")
+plotdatabeta6 <- plotdata %>% filter(test_param=="jtts") %>% mutate(param = "beta[6]")
+newdatabeta62 <- newdata %>% filter(test_param == "jtts", category == "outside")%>% mutate(param = "beta[6]")
+newdatabeta63 <- newdata %>% filter(test_param == "jtts", category == "outside2") %>% mutate(param = "beta[6]")
+labellerdata <- tibble(x = 3.340302, y = .8, label = "hat(beta)[6]")
+ggplot() + 
+  geom_vline(xintercept = 3.340302, linetype = "dotted", color = "grey60") + 
+  geom_text(data = labellerdata, aes(x = x, y = y, label = label), parse =T, hjust = 1) + 
+  geom_line(data = newdatabeta6, aes(x = size, y = predictfinal, color = as.factor(type2)), size = 1.25) + 
+  geom_point(data = plotdatabeta6, aes(x = size, y = datapick, color = as.factor(type2)), size = 2) + 
+  geom_line(data = newdatabeta62, aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  geom_line(data = newdatabeta63, aes(x = size, y = predictfinal, group = as.factor(type2)), color = "gray60", alpha = .7) +
+  #geom_text(data = plotdata, aes(x = size, y = datapick, color = as.factor(type2), label = pic_id)) +
+  #geom_text(data = labdat, aes(x = x, y=y, label = label, color = as.factor(type2)),
+  #          show.legend = F) + 
+  geom_hline(yintercept = 1/6, linetype='dotted') +
+  scale_color_brewer(palette = "Dark2", name = "Lineup Condition", labels = c("reverse", "regular")) +
+  facet_grid(~param, labeller = label_parsed) + 
+  labs(x = "Parameter value", y = "Expected probability of detection\nin a lineup of size 6") + 
+  ThemeNoNet + 
+  theme(legend.position = 'bottom', strip.text = element_text(size = 10), text = element_text(size = rel(3)), legend.text = element_text(size = rel(3)), legend.key.size = unit(.25, "inches"))
+@
+
+We expand portions of Figure~\ref{fig:predictglmm} in Figures~\ref{fig:recipzoom}-\ref{fig:beta4zoom}. These figures show the same prediction regions as in Figure~\ref{fig:predictglmm}, plus some additional predictions outside of the data range shown in light gray. Again, the points represent the results from the experiment. In all three of these figures, the lack of symmetry is apparent. In the reverse lineup scenario shown in Figure~\ref{fig:beta4zoom}, the probability of prediction is consistently far less than the probability of prediction in the regular lineup scenario. This demonstrates that the visual signal of one plot from M4 among five plots from M1 is much stronger than that of one plot from M1 among five plots from M4. We posit that the latter is a more difficult task because it involves noticing a \textit{lack of structure} as opposed to the presence of \textit{more} structure. We can see a similar effect in Figure~\ref{fig:beta5zoom}. At a value of $\beta_5 = 20$, the model predicts a probability of about 0.60 that a new viewer of a new lineup will identify the alternative data plot. At a value of $\beta_5 = -20$, however, the model predicts this same probability to be about 0.40. This again demonstrates that the presence of structure is detected  more frequently and at smaller values than the absence of structure. 
 
 %%%%%%%%%%%%%%%%%%%%%% References %%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{asa}
