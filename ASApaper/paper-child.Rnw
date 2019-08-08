@@ -294,23 +294,6 @@ M6 <- c(2.4405048,2.4594403,2.2098176,-4.9232775,4.8916183,2.3743720,0.2047038,6
 @
 
 
-\begin{table}
-\centering
-\begin{tabular}{|lccccccccc|}
-\toprule
-Model & $\hat{\alpha}_1$ & $\hat{\alpha}_2$ & $\hat{\alpha}_3$ & $\hat{\beta}_1$ & $\hat{\beta}_2$ & $\hat{\beta}_3$ & $\hat{\beta}_4$ & $\hat{\beta}_5$ & $\hat{\beta}_6$ \\
-\midrule
-M1 & \Sexpr{round(modelmeans$alpha1[1], 3)} & \Sexpr{round(modelmeans$alpha2[1], 3)} & \Sexpr{round(modelmeans$alpha3[1], 3)} & \Sexpr{round(modelmeans$beta1[1], 3)} & \Sexpr{round(modelmeans$beta2[1], 3)} & -- & -- & -- & --\\
-M3 & \Sexpr{round(modelmeans$alpha1[2], 3)} & \Sexpr{round(modelmeans$alpha2[2], 3)} & \Sexpr{round(modelmeans$alpha3[2], 3)} & \Sexpr{round(modelmeans$beta1[2], 3)} & \Sexpr{round(modelmeans$beta2[2], 3)} & \Sexpr{round(modelmeans$beta3[2], 3)} & -- & -- & --\\ 
-M4 & \Sexpr{round(modelmeans$alpha1[3], 3)} & \Sexpr{round(modelmeans$alpha2[3], 3)} & \Sexpr{round(modelmeans$alpha3[3], 3)} & \Sexpr{round(modelmeans$beta1[3], 3)} & \Sexpr{round(modelmeans$beta2[3], 3)} & -- & \Sexpr{round(modelmeans$beta4[3], 3)} & -- & --\\
-M5 & \Sexpr{round(modelmeans$alpha1[5], 3)} & \Sexpr{round(modelmeans$alpha2[5], 3)} & \Sexpr{round(modelmeans$alpha3[5], 3)} & \Sexpr{round(modelmeans$beta1[5], 3)}& \Sexpr{round(modelmeans$beta2[5], 3)} & -- & -- & \Sexpr{round(modelmeans$beta5[5], 3)} & -- \\
-M6 & \Sexpr{round(modelmeans$alpha1[4], 3)} & \Sexpr{round(modelmeans$alpha2[4], 3)} & \Sexpr{round(modelmeans$alpha3[4], 3)} & \Sexpr{round(modelmeans$beta1[4], 3)} & \Sexpr{round(modelmeans$beta2[4], 3)} & -- & -- & -- & \Sexpr{round(modelmeans$beta6[4], 3)}\\
-M7 & \Sexpr{round(M6[1], 3)} & \Sexpr{round(M6[2], 3)} & \Sexpr{round(M6[3], 3)} & \Sexpr{round(M6[4], 3)} & \Sexpr{round(M6[5], 3)} & -- & \Sexpr{round(M6[6], 3)} & \Sexpr{round(M6[8], 3)} & \Sexpr{round(M6[7], 3)} \\
-\bottomrule
-\end{tabular}
-\caption{\label{tab:fittedvalues} The mean estimates from repeated fits of our models of interest. When simulating from these models, these are the estimates that we will use unless otherwise stated.}
-\end{table}
-
 We fit all six of our models in \texttt{RSiena} using Markov Chain Monte Carlo (MCMC) methods to approximate the method of moments estimates of the parameters. Because the estimation is done through MCMC simulation, we fit each model to the data 1,000 times. From the simulations that converged, which made up over 90\% of the fits for each model, we computed the mean of the estimates of each parameter to get final estimates of $\hat{\boldsymbol{\beta}}$ for each model, which are shown in Table~\ref{tab:fittedvalues}. 
 
 
