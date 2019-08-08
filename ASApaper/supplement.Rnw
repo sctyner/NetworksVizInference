@@ -19,6 +19,7 @@
 \usepackage{hyperref}
 \usepackage{numprint}
 \usepackage{booktabs}
+\usepackage{longtable}
 
 %\usepackage{appendix}
 
@@ -177,6 +178,105 @@ so that only strong ties between senators are in the network.
 
 \section{Results}
 
+\subsection{Lineup Summaries}
+
+<<res-table-lus, results = "asis">>=
+# wrap_pvsim <- function(x, k, m = 6){
+#   res <- vinference::pVsim(x = x, K = k, m = m, scenario = 3, target = 1)
+#   res[2]
+# }
+
+# turk22 <- read_csv("data/turk22.csv")
+# res_sim_pvals <- turk22 %>% group_by(pic_id) %>% summarise(n_datapick = sum(datapick), n_views = n()) %>% 
+#   separate(pic_id, into = c("difficulty", "lu_type", "param", "rep"), sep = 1:3) %>% 
+#   group_by(difficulty, lu_type, param) %>% 
+#   mutate(n_datapick_c = sum(n_datapick), n_views_c = sum(n_views)) %>% 
+#   mutate(single_pv =  map2_dbl(n_datapick, n_views, wrap_pvsim))
+# res_sim_pvals2 <- res_sim_pvals %>% 
+#   mutate(combined_pv =  map2_dbl(n_datapick_c, n_views_c, wrap_pvsim))
+
+sig_marks <- function(p){
+  if(p < .1 & p >= .05){
+    return("^{*}$")
+  }
+   if(p < .05 & p >= .01){
+    return("^{**}$")
+   }
+   if(p < .01 & p >= .001){
+    return("^{\\dagger}$")
+   }
+   if(p < .001){
+    return("^{\\ddagger}$")
+   } else{
+    return("$")
+  }
+}
+
+lineup_pvals <- read_csv("data/vinf_pvals_res.csv")
+pvals_table <- lineup_pvals %>% 
+  mutate(sig_ind = map_chr(single_pv, sig_marks)) %>%
+  mutate(res = str_c("$",n_datapick,"/", n_views, sig_ind, collapse = NULL)) %>% 
+  group_by(difficulty, lu_type, param) %>% 
+  mutate(combined_pv = round(mean(combined_pv), 3)) %>%
+  select(difficulty:rep, combined_pv, res) %>% 
+  spread(rep, res) %>% select(1:3, 5:7, 4) %>% 
+  mutate(sig_ind_c = map_chr(combined_pv, sig_marks))
+pvals_table$combined_pv[which(pvals_table$combined_pv < 0.0001)] <- "$< 10^{-4}$"
+pvals_table$combined_pv <- paste0(pvals_table$combined_pv, "$", pvals_table$sig_ind_c)
+pvals_table$combined_pv[which(pvals_table$sig_ind_c == "$")] <- str_remove_all(pvals_table$combined_pv[which(pvals_table$sig_ind_c == "$")], "\\$")
+
+pvals_table %>% select(1:7) %>% 
+  arrange(param, lu_type, difficulty) %>% ungroup %>%  
+  mutate(lu_type = recode(lu_type, `1` = "1", `2` = "-1", `9` = "GoF"), 
+         difficulty = recode(difficulty, `1` = "Easy", `2` = "Med.", `3` = "Hard", `9` = "GoF"),
+         param = recode(param, `1`= "$\\beta_1$", `2`="$\\beta_2$", `3`="$\\beta_3$", `4`="$\\beta_4$", `5`="$\\beta_5$", `6`="$\\beta_6$", `7` = "M7")) -> pretty_table 
+
+lus <- tibble(filename = list.files("img/lineup-pngs/"))
+
+lus %>% mutate(filename2 = filename) %>% separate(filename2, into = c("pic", "id", "altplot", "png")) %>% 
+  select(filename, id, altplot) %>% separate(altplot, into = c("plot", "alt_id"), sep = 4) %>% 
+  select(filename, id, alt_id) %>% 
+  separate(id, into = c("difficulty", "lu_type", "param", "rep"), sep = 1:3) %>% 
+  arrange(param, lu_type, difficulty) -> lus
+
+pretty_table <- mutate(pretty_table, pic_file = str_remove(lus$filename, ".png"))
+
+insert_image <- pretty_table %>% glue::glue_data("\\includegraphics[width=3cm]{{img/lineup-pngs/{pic_file}}}")
+
+pretty_table %>% mutate(pic_insert = insert_image) %>% select(9, 1:7) %>%
+  knitr::kable(format = "latex", escape = F, col.names = c("Lineup", "Difficulty", "Type", "Param.", "Rep 1", "Rep 2", "Rep 3", "Global p-val."), longtable=T, caption = "Here is a caption. Put stuff here later", booktabs=T)
+
+
+#pic_files <- turk22 %>% select(pic_id, pic_name) %>% distinct()
+
+#magick::image_read_svg(path = paste0("/Users/sctyner/Desktop/Dissertation/lineups/experiments/turk22/plots/", pic_files$pic_name[1]))
+
+@
+
+
+<<res-table-lus-reas, results = "asis", eval = FALSE>>=
+# ok, Heike was right. delving into the reasons is NOT worth the effort. 
+turk22 <- read_csv("data/turk22.csv")
+turk22 %>% group_by(pic_id, choice_reason) %>% 
+  mutate(choice_reason2 = str_detect(choice_reason, "Other")) %>% 
+  mutate(choice_reason3 = ifelse(choice_reason2, "Other", choice_reason)) %>% 
+  group_by(pic_id, choice_reason3) %>% count()
+mydates <- turk22$start_time
+class(mydates) <- c('POSIXt','POSIXct')
+turk22 %>%  mutate(time2 = mydates) %>% #why are there two???????
+  filter(choice_reason == "Most complex overall structure" | choice_reason == "Most complicated overall structure" ) %>%
+  ggplot() + 
+  geom_histogram(aes(x = as.Date(time2), fill = choice_reason))
+
+turk22 %>% group_by(pic_id, choice_reason) %>% 
+  mutate(choice_reason2 = str_detect(choice_reason, "Other")) %>% 
+  mutate(choice_reason3 = ifelse(choice_reason2, "Other", choice_reason)) %>% 
+  ggplot(aes(x = start_time, y = end_time, color = choice_reason3)) + 
+  geom_point() + 
+  geom_abline() + 
+  facet_wrap(~choice_reason3)
+  
+@
 
 
 \subsection{Visual Power}\label{sec:sm-res-vp}
@@ -185,19 +285,28 @@ so that only strong ties between senators are in the network.
 load("data/finalglmm31-2.RDA")
 mod <- model2randomscalesize
 res <- summary(mod)[[10]]
-ests <- as.numeric(round(res[,1], 4))
+ests <- as.numeric(round(res[,1], 2))
 oddsidx <- which(exp(ests) < .0001)
 oddsidx2 <- which(exp(ests) > 10000)
-odds <- round(exp(ests), 4)
+odds <- ifelse(exp(ests) > 1, round(exp(ests), 2), round(exp(ests), 3))
 odds[oddsidx] <- "$<10^{-4}$"
 odds[oddsidx2] <- "$>10^4$"
-se <- as.numeric(round(res[,2], 4))
+se <- as.numeric(round(res[,2],2))
 pvalidx <- which(res[,4] < .0001)
-pval <- sprintf("%.4f",round(res[,4],4))
-pval[pvalidx] <- "$<$0.0001"
+pval <- sprintf("%.4f",round(res[,4],3))
+pval[pvalidx] <- "$<10^{-4}$"
 sigma_epsilon <- summary(model2randomscalesize)[[13]]$nick_name[[1]]
 sigma_delta <- summary(model2randomscalesize)[[13]]$pic_id[[1]]
 @
+
+
+<<glmres_predict, eval = FALSE>>=
+predict(model2randomscalesize, type = "link")
+predict(model2randomscalesize, type = "response")
+
+str(model2randomscalesize)
+
+ @
 
 
 \npdecimalsign{.}
